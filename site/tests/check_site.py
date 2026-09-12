@@ -1,0 +1,167 @@
+#!/usr/bin/env python3
+"""紹介HP v1 の受入テスト（stdlib のみ）。リポジトリルートで `python3 site/tests/check_site.py` を実行する。
+生成物（index.html / works/**）が content.json と整合し、方針上の禁止語・壊れリンクが無いことを機械的に確認する。"""
+import json, os, re, subprocess, sys
+from html.parser import HTMLParser
+
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+os.chdir(ROOT)
+FAILS = []
+def fail(msg): FAILS.append(msg); print("FAIL:", msg)
+def ok(msg): print("ok:", msg)
+
+content = json.load(open("site/content.json", encoding="utf-8"))
+works = content["works"]; cats = content["categories"]
+slugs = [w["slug"] for w in works]
+
+# 0. ビルドが冪等（--check が 0 で終わる）
+r = subprocess.run([sys.executable, "site/build.py", "--check"], capture_output=True, text=True)
+if r.returncode != 0: fail(f"build.py --check rc={r.returncode}: {r.stdout[-400:]} {r.stderr[-400:]}")
+else: ok("build.py --check")
+
+class P(HTMLParser):
+    def __init__(self):
+        super().__init__(); self.links=[]; self.imgs=[]; self.text=[]; self.h1=0; self.title=""; self.meta_desc=""; self.lang=""
+        self._in_title=False; self._skip=0; self.scripts=[]; self.stylesheets=[]; self.forms=0; self.ids=[]; self.tags={}
+    def handle_starttag(self, tag, attrs):
+        a=dict(attrs); self.tags[tag]=self.tags.get(tag,0)+1
+        if tag=="html": self.lang=a.get("lang","")
+        if tag=="a" and a.get("href"): self.links.append((a["href"], a))
+        if tag=="img": self.imgs.append(a)
+        if tag=="h1": self.h1+=1
+        if tag=="title": self._in_title=True
+        if tag=="meta" and a.get("name")=="description": self.meta_desc=a.get("content","")
+        if tag=="script": self._skip+=1; self.scripts.append(a.get("src"))
+        if tag=="style": self._skip+=1
+        if tag=="link" and a.get("rel")=="stylesheet": self.stylesheets.append(a.get("href",""))
+        if tag=="form": self.forms+=1
+        if a.get("id"): self.ids.append(a["id"])
+    def handle_endtag(self, tag):
+        if tag=="title": self._in_title=False
+        if tag in ("script","style"): self._skip=max(0,self._skip-1)
+    def handle_data(self, data):
+        if self._in_title: self.title+=data
+        elif not self._skip: self.text.append(data)
+
+def parse(path):
+    p=P(); p.feed(open(path,encoding="utf-8").read()); return p
+
+pages = ["index.html", "works/index.html"] + [f"works/{s}/index.html" for s in slugs]
+for pg in pages:
+    if not os.path.exists(pg): fail(f"missing page {pg}")
+pages = [p for p in pages if os.path.exists(p)]
+ok(f"{len(pages)} pages exist")
+
+FORBIDDEN = ["副業", "会社員", "想定案件", "モック", "準備中", "Lorem", "TODO", "{{", "}}"]
+ALLOWED_EXTERNAL = ("https://fonts.googleapis.com", "https://fonts.gstatic.com")
+
+def resolve(href, frm):
+    href = href.split("#")[0].split("?")[0]
+    if not href: return None
+    if href.startswith("/"): path = href.lstrip("/")
+    else: path = os.path.normpath(os.path.join(os.path.dirname(frm), href))
+    if path in ("", "."): path = "index.html"
+    if os.path.isdir(path): path = os.path.join(path, "index.html")
+    return path
+
+all_text = {}
+for pg in pages:
+    p = parse(pg)
+    all_text[pg] = "".join(p.text)
+    if p.lang != "ja": fail(f"{pg}: <html lang> != ja")
+    if p.h1 != 1: fail(f"{pg}: h1 count {p.h1}")
+    if not p.title.strip(): fail(f"{pg}: empty <title>")
+    if not p.meta_desc.strip(): fail(f"{pg}: empty meta description")
+    if len(p.ids) != len(set(p.ids)): fail(f"{pg}: duplicate ids {[i for i in p.ids if p.ids.count(i)>1][:5]}")
+    for src in p.scripts:
+        if src and not src.startswith("/") and not src.startswith("assets") and not src.startswith("../"): fail(f"{pg}: external script {src}")
+    for href in p.stylesheets:
+        if href.startswith("http") and not href.startswith(ALLOWED_EXTERNAL): fail(f"{pg}: external stylesheet {href}")
+    for img in p.imgs:
+        if "alt" not in img: fail(f"{pg}: img without alt {img.get('src')}")
+        src = img.get("src","")
+        if src.startswith("http"): fail(f"{pg}: external image {src}")
+        elif src and not src.startswith("data:"):
+            path = resolve(src, pg)
+            if not os.path.exists(path): fail(f"{pg}: missing image {src}")
+    for href, a in p.links:
+        if href.startswith(("mailto:", "tel:", "javascript:")): fail(f"{pg}: unexpected scheme {href}")
+        elif href.startswith("http"):
+            if a.get("target") == "_blank" and "noopener" not in a.get("rel",""): fail(f"{pg}: _blank without noopener {href}")
+        elif href.startswith("#"):
+            if href != "#" and href[1:] not in p.ids: fail(f"{pg}: broken anchor {href}")
+        else:
+            frag = href.split("#")[1] if "#" in href else None
+            path = resolve(href, pg)
+            if path and not os.path.exists(path): fail(f"{pg}: broken link {href} -> {path}")
+            elif path and frag and not frag.startswith("cat="):
+                if frag not in parse(path).ids: fail(f"{pg}: broken fragment {href}")
+    txt = all_text[pg]
+    for w in FORBIDDEN:
+        if w in txt: fail(f"{pg}: forbidden word '{w}'")
+    raw = open(pg, encoding="utf-8").read()
+    for w in ("副業", "会社員"):
+        if w in raw: fail(f"{pg}: forbidden word in raw html '{w}'")
+    if os.path.getsize(pg) > 160_000: fail(f"{pg}: page > 160KB")
+ok("per-page checks done")
+
+# 1. トップ: 7 タイルが works/ に 1 クリックで到達
+idx = parse("index.html"); idx_hrefs = [h for h,_ in idx.links]
+for c in cats:
+    if not any(re.search(rf"works/?(index\.html)?#cat={c['id']}$", h) for h in idx_hrefs):
+        fail(f"index: no tile link to works/#cat={c['id']}")
+ok("category tiles link to works")
+for sec in ("services", "works", "about", "contact"):
+    if sec not in idx.ids: fail(f"index: missing section id #{sec}")
+if idx.forms < 1: fail("index: contact form missing")
+if "会社名" not in all_text["index.html"]: fail("index: form fields not rendered")
+
+# 2. 一覧: 全作品カード・data-cats
+wl_raw = open("works/index.html", encoding="utf-8").read()
+for w in works:
+    if not re.search(rf'href="(/works/{w["slug"]}/|{w["slug"]}/|\.\./works/{w["slug"]}/)"', wl_raw): fail(f"works index: no card link for {w['slug']}")
+for c in cats:
+    n = sum(1 for w in works if c["id"] in w["categories"])
+    if n == 0: fail(f"category {c['id']} has no works")
+    if f'data-cats' not in wl_raw: fail("works index: cards lack data-cats"); break
+    if len(re.findall(rf'data-cats="[^"]*\b{c["id"]}\b', wl_raw)) < n: fail(f"works index: fewer cards tagged {c['id']} than content ({n})")
+ok("works index cards")
+
+# 3. 詳細: ラベル・カテゴリ・リンク・ビジュアル
+labels = content["labels"]
+for w in works:
+    pg = f"works/{w['slug']}/index.html"
+    if pg not in all_text: continue
+    t = all_text[pg]; raw = open(pg, encoding="utf-8").read()
+    if labels[w["label"]] not in t: fail(f"{pg}: label '{labels[w['label']]}' missing")
+    if w["title"] not in t: fail(f"{pg}: title missing")
+    for pt in w["points"]:
+        if pt not in t: fail(f"{pg}: point missing: {pt[:20]}")
+    for l in w["links"]:
+        if l["url"] not in raw: fail(f"{pg}: link missing {l['url']}")
+    for v in w["visuals"]:
+        if v["type"] == "image" and v["src"] not in raw: fail(f"{pg}: visual missing {v['src']}")
+        if v["type"] == "mock" and v["title"] not in raw: fail(f"{pg}: mock '{v['title']}' not rendered")
+    if "#contact" not in raw: fail(f"{pg}: no CTA to contact")
+ok("detail pages")
+
+# 4. CSS/JS
+css = open("assets/site.css", encoding="utf-8").read() if os.path.exists("assets/site.css") else ""
+js = open("assets/site.js", encoding="utf-8").read() if os.path.exists("assets/site.js") else ""
+if not css: fail("assets/site.css missing")
+for need in ("prefers-reduced-motion", "prefers-color-scheme: dark", "focus-visible"):
+    if need not in css: fail(f"site.css lacks {need}")
+if len(css.encode()) > 60_000: fail("site.css > 60KB")
+if len(js.encode()) > 12_000: fail("site.js > 12KB")
+if re.search(r"https?://(?!fonts\.g)", css): fail("site.css references external URL")
+if not os.path.exists(".nojekyll"): fail(".nojekyll missing")
+if os.path.exists("style.css"): fail("old root style.css still present")
+ok("css/js checks")
+
+# 5. 既存サブページ不変（git 管理下のみ）
+r = subprocess.run(["git", "status", "--porcelain", "--", "blockwise", "apps", "mission-control", "baccarat", "app-ads.txt"], capture_output=True, text=True)
+if r.stdout.strip(): fail(f"protected paths modified: {r.stdout.strip()[:200]}")
+else: ok("protected paths untouched")
+
+print("\nRESULT:", "PASS" if not FAILS else f"FAIL ({len(FAILS)})")
+sys.exit(1 if FAILS else 0)

@@ -1,0 +1,1002 @@
+{
+  "site": {
+    "name": "Kenji Portfolio",
+    "title": "Kenji — iOS・Web・業務自動化の制作実績",
+    "description": "iOS アプリ・Web ツール・業務自動化を、企画から公開まで一人で制作。App Store 公開アプリ 3 本、公開 Web ツール、GitHub 公開デモなどの制作実績と、お問い合わせフォーム。",
+    "url": "https://kenji6836.github.io/",
+    "lang": "ja",
+    "brand_color": "#2457e6",
+    "nav": [
+      {
+        "label": "任せられること",
+        "href": "/#services"
+      },
+      {
+        "label": "制作実績",
+        "href": "/works/"
+      },
+      {
+        "label": "自己紹介",
+        "href": "/#about"
+      },
+      {
+        "label": "お問い合わせ",
+        "href": "/#contact"
+      }
+    ],
+    "footer_note": "掲載している制作物はすべて本人が企画・設計・実装・公開したものです。"
+  },
+  "hero": {
+    "headline": "アプリも、Web も、自動化も。\n企画から公開まで、まとめて任せられます。",
+    "sub": "App Store 公開アプリ 3 本・公開 Web ツール・業務自動化デモなど、実際に動いている制作物をご覧ください。",
+    "cta_primary": {
+      "label": "制作実績を見る",
+      "href": "/works/"
+    },
+    "cta_secondary": {
+      "label": "相談する（無料）",
+      "href": "/#contact"
+    },
+    "stats": [
+      {
+        "value": "3",
+        "unit": "本",
+        "label": "App Store 公開アプリ"
+      },
+      {
+        "value": "14",
+        "unit": "件",
+        "label": "掲載中の制作実績"
+      },
+      {
+        "value": "7",
+        "unit": "分野",
+        "label": "任せられる領域"
+      }
+    ],
+    "visual": [
+      {
+        "work": "sweepfield",
+        "visual": 0
+      },
+      {
+        "work": "reachlab",
+        "visual": 0
+      },
+      {
+        "work": "mission-control",
+        "visual": 0
+      }
+    ]
+  },
+  "categories": [
+    {
+      "id": "web",
+      "name": "Web制作",
+      "icon": "web",
+      "lead": "LP・サービスサイト・ブラウザで動くツール（PWA）"
+    },
+    {
+      "id": "app",
+      "name": "アプリ・システム開発",
+      "icon": "app",
+      "lead": "iOS アプリの企画から App Store 公開まで・業務ツール"
+    },
+    {
+      "id": "automation",
+      "name": "AI活用・自動化",
+      "icon": "automation",
+      "lead": "問い合わせ対応・データ収集・定型作業の自動化"
+    },
+    {
+      "id": "design",
+      "name": "デザイン制作",
+      "icon": "design",
+      "lead": "アプリアイコン・ストア画像・画面デザイン"
+    },
+    {
+      "id": "marketing",
+      "name": "マーケティング",
+      "icon": "marketing",
+      "lead": "App Store 掲載最適化（ASO）・流入施策の設計"
+    },
+    {
+      "id": "data",
+      "name": "データ分析・見える化",
+      "icon": "data",
+      "lead": "ダッシュボード・予測モデル・自動レポート"
+    },
+    {
+      "id": "planning",
+      "name": "企画・業務改善",
+      "icon": "planning",
+      "lead": "業務フローの設計・判断基準づくり・自律運用の仕組み化"
+    }
+  ],
+  "labels": {
+    "public": "公開中",
+    "self": "自主制作"
+  },
+  "featured": [
+    "sweepfield",
+    "reachlab",
+    "inquiry-reply-assistant",
+    "mission-control",
+    "autopilot",
+    "blockwise"
+  ],
+  "works": [
+    {
+      "slug": "sweepfield",
+      "title": "Sweepfield",
+      "kicker": "iOS ゲームアプリ",
+      "categories": [
+        "app",
+        "design"
+      ],
+      "label": "public",
+      "year": "2025",
+      "summary": "毎日、世界中で同じ盤面が出題されるマインスイーパー。全盤面が論理だけで解けることを保証し、VoiceOver に完全対応。",
+      "role": "企画・設計・実装・ストア画像・審査対応・公開",
+      "points": [
+        "デイリー盤面は端末内で生成し、世界中で同一の問題になる仕組み",
+        "推測なしで解ける盤面だけを出題する生成アルゴリズム",
+        "VoiceOver・Dynamic Type・多言語対応を最初から組み込み",
+        "広告と買い切り（広告非表示）を組み合わせた収益設計"
+      ],
+      "stack": [
+        "Swift",
+        "SwiftUI",
+        "AdMob",
+        "StoreKit"
+      ],
+      "links": [
+        {
+          "label": "App Store で見る",
+          "url": "https://apps.apple.com/jp/app/id6799108644"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/sweepfield-1.jpg",
+          "alt": "Sweepfield のプレイ画面（デイリー盤面）",
+          "frame": "phone"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/sweepfield-2.jpg",
+          "alt": "Sweepfield のクリア画面",
+          "frame": "phone"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/sweepfield-3.jpg",
+          "alt": "Sweepfield の上級盤面",
+          "frame": "phone"
+        }
+      ]
+    },
+    {
+      "slug": "blockwise",
+      "title": "Blockwise – ブロックパズル",
+      "kicker": "iOS ゲームアプリ",
+      "categories": [
+        "app",
+        "design"
+      ],
+      "label": "public",
+      "year": "2025",
+      "summary": "8×8 のブロックパズル。各ピースの置ける場所を常時カウントする「Foresight」で、詰みを事前に警告。タイマーなしでじっくり遊べます。",
+      "role": "企画・設計・実装・ストア画像・審査対応・公開",
+      "points": [
+        "全ピースの配置可能数をリアルタイム計算し、詰みの前に知らせる",
+        "タイマーなし・広告は区切りにだけ表示する設計",
+        "多言語対応・アクセシビリティ対応"
+      ],
+      "stack": [
+        "Swift",
+        "SwiftUI",
+        "AdMob",
+        "StoreKit"
+      ],
+      "links": [
+        {
+          "label": "App Store で見る",
+          "url": "https://apps.apple.com/jp/app/id6790126268"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/blockwise-1.jpg",
+          "alt": "Blockwise のプレイ画面",
+          "frame": "phone"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/blockwise-2.jpg",
+          "alt": "Blockwise の新規ゲーム画面",
+          "frame": "phone"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/blockwise-3.jpg",
+          "alt": "Blockwise のゲームオーバー画面",
+          "frame": "phone"
+        }
+      ]
+    },
+    {
+      "slug": "reversi",
+      "title": "Simple Reversi Board",
+      "kicker": "iOS ゲームアプリ",
+      "categories": [
+        "app"
+      ],
+      "label": "public",
+      "year": "2025",
+      "summary": "5 段階の AI と対戦できるリバーシ。1 台での 2 人対戦、ヒント機能、VoiceOver 対応。",
+      "role": "企画・設計・実装・審査対応・公開・継続アップデート",
+      "points": [
+        "強さの異なる 5 段階の対戦 AI",
+        "1 台を回して遊べる 2 人対戦とヒント機能",
+        "公開後もアップデートを継続"
+      ],
+      "stack": [
+        "Swift",
+        "SwiftUI",
+        "AdMob"
+      ],
+      "links": [
+        {
+          "label": "App Store で見る",
+          "url": "https://apps.apple.com/jp/app/id6761284474"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/reversi-1.jpg",
+          "alt": "Simple Reversi Board の対局画面",
+          "frame": "phone"
+        }
+      ]
+    },
+    {
+      "slug": "reachlab",
+      "title": "リーチラボ",
+      "kicker": "Web アプリ（PWA）",
+      "categories": [
+        "web"
+      ],
+      "label": "public",
+      "year": "2025",
+      "summary": "インストール不要・ブラウザで遊べるパチンコ演出シミュレーター。確率や演出の振り分けを公開し、その場で実測検証できます。",
+      "role": "企画・設計・実装・デザイン・公開（Cloudflare Pages）",
+      "points": [
+        "ブラウザだけで動き、ホーム画面に追加すればアプリのように使える PWA",
+        "演出の確率表を公開し、実際の試行結果と比較できる",
+        "スマホ・PC の両方でレイアウトが崩れない設計"
+      ],
+      "stack": [
+        "HTML / CSS / JavaScript",
+        "PWA",
+        "Cloudflare Pages"
+      ],
+      "links": [
+        {
+          "label": "サイトを開く",
+          "url": "https://reachlab.pages.dev/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/reachlab-1.jpg",
+          "alt": "リーチラボの PC 画面",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/reachlab-2.jpg",
+          "alt": "リーチラボのスマホ画面",
+          "frame": "phone"
+        }
+      ]
+    },
+    {
+      "slug": "kyotei",
+      "title": "KyoteiAI（競艇予測アプリ）",
+      "kicker": "iOS アプリ × 機械学習",
+      "categories": [
+        "app",
+        "data"
+      ],
+      "label": "self",
+      "year": "2025",
+      "summary": "競艇の着順確率を LightGBM で学習し、iOS 端末内で推論するアプリ。Python の学習パイプラインと Swift の推論が同じ結果を返すことをテストで保証。",
+      "role": "データ収集・特徴量設計・学習・iOS 実装・評価",
+      "points": [
+        "Python で学習したモデルを JSON に書き出し、Swift 側で同一結果（パリティテスト）",
+        "期待値とバックテストを画面で確認できる",
+        "全期間の再学習とデータリークの修正を評価レポートにまとめた"
+      ],
+      "stack": [
+        "Python",
+        "LightGBM",
+        "Swift",
+        "SwiftUI"
+      ],
+      "links": [],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/kyotei-1.jpg",
+          "alt": "KyoteiAI の全期間評価レポート（的中率と件数）",
+          "frame": "browser"
+        },
+        {
+          "type": "mock",
+          "kind": "pipeline",
+          "title": "学習から端末内推論まで",
+          "steps": [
+            {
+              "icon": "data",
+              "label": "レース結果データ",
+              "sub": "公開データを収集・整形"
+            },
+            {
+              "icon": "model",
+              "label": "LightGBM で学習",
+              "sub": "Python パイプライン"
+            },
+            {
+              "icon": "file",
+              "label": "model.json に書き出し",
+              "sub": "特徴量の順序も同梱"
+            },
+            {
+              "icon": "phone",
+              "label": "Swift で端末内推論",
+              "sub": "通信なしで即表示"
+            },
+            {
+              "icon": "check",
+              "label": "パリティテスト",
+              "sub": "Python と Swift の結果が一致"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "gas-sales-report",
+      "title": "売上レポート自動化（GAS）",
+      "kicker": "業務自動化デモ",
+      "categories": [
+        "automation"
+      ],
+      "label": "public",
+      "year": "2025",
+      "summary": "売上 CSV をスプレッドシートで月次集計し、メール / Slack に自動通知する Google Apps Script。コード・テスト付きで GitHub に公開。",
+      "role": "設計・実装・テスト・ドキュメント",
+      "points": [
+        "CSV を置くだけで月次集計と通知まで自動",
+        "スプレッドシートだけで完結し、追加費用なし",
+        "売上・経費・勤怠などに応用できる構成"
+      ],
+      "stack": [
+        "Google Apps Script",
+        "Google スプレッドシート",
+        "Slack"
+      ],
+      "links": [
+        {
+          "label": "GitHub で見る",
+          "url": "https://github.com/kenji6836/automation-demos/tree/main/gas-sales-report"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "mock",
+          "kind": "pipeline",
+          "title": "CSV を置くだけで通知まで",
+          "steps": [
+            {
+              "icon": "file",
+              "label": "売上 CSV",
+              "sub": "Drive に置く"
+            },
+            {
+              "icon": "sheet",
+              "label": "スプレッドシート",
+              "sub": "月次で自動集計"
+            },
+            {
+              "icon": "mail",
+              "label": "メール / Slack",
+              "sub": "集計結果を自動通知"
+            }
+          ],
+          "detail": {
+            "kind": "table",
+            "head": [
+              "月",
+              "売上",
+              "前月比"
+            ],
+            "rows": [
+              [
+                "4 月",
+                "1,240,000",
+                "+8%"
+              ],
+              [
+                "5 月",
+                "1,318,000",
+                "+6%"
+              ],
+              [
+                "6 月",
+                "1,402,000",
+                "+6%"
+              ]
+            ],
+            "caption": "サンプルデータ"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "estat-to-sheet",
+      "title": "政府統計の自動取り込み",
+      "kicker": "データ収集デモ",
+      "categories": [
+        "automation",
+        "data"
+      ],
+      "label": "public",
+      "year": "2025",
+      "summary": "e-Stat（政府統計）の公式 API からデータを取得し、スプレッドシートを自動更新。定期実行で常に最新の統計を手元に。",
+      "role": "設計・実装・テスト・ドキュメント",
+      "points": [
+        "公式 API を利用し、利用規約に沿った取得",
+        "取得項目・期間は設定ファイルで変更可能",
+        "業界統計・人口・物価などの定点観測に応用"
+      ],
+      "stack": [
+        "Python",
+        "e-Stat API",
+        "Google スプレッドシート"
+      ],
+      "links": [
+        {
+          "label": "GitHub で見る",
+          "url": "https://github.com/kenji6836/automation-demos/tree/main/estat-to-sheet"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "mock",
+          "kind": "pipeline",
+          "title": "公式 API から定期取得",
+          "steps": [
+            {
+              "icon": "cloud",
+              "label": "e-Stat 公式 API",
+              "sub": "政府統計"
+            },
+            {
+              "icon": "code",
+              "label": "取得・整形",
+              "sub": "Python・設定ファイルで項目指定"
+            },
+            {
+              "icon": "sheet",
+              "label": "スプレッドシート",
+              "sub": "定期実行で自動更新"
+            }
+          ],
+          "detail": {
+            "kind": "bars",
+            "label": "取得した系列の例（サンプル）",
+            "values": [
+              42,
+              48,
+              45,
+              53,
+              58,
+              61
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "slug": "inquiry-reply-assistant",
+      "title": "問い合わせ返信アシスタント",
+      "kicker": "AI 活用デモ",
+      "categories": [
+        "automation"
+      ],
+      "label": "public",
+      "year": "2025",
+      "summary": "問い合わせメールを要約・分類し、返信の下書きを AI で作成する支援ツール。建設業向けの分類プロファイル（見積依頼／施工中の連絡／その他）付き。",
+      "role": "設計・実装・テスト・業種プロファイル作成",
+      "points": [
+        "受信メールを「見積依頼」「施工中の連絡」などに自動分類",
+        "返信の下書きは人が確認してから送る前提の設計",
+        "分類カテゴリは設定ファイルで業種ごとに差し替え可能"
+      ],
+      "stack": [
+        "Python",
+        "Claude API"
+      ],
+      "links": [
+        {
+          "label": "GitHub で見る",
+          "url": "https://github.com/kenji6836/automation-demos/tree/main/inquiry-reply-assistant"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "mock",
+          "kind": "email",
+          "title": "問い合わせ → 分類 → 返信下書き",
+          "inbox": {
+            "subject": "キッチンのリフォーム見積について",
+            "from": "お客様",
+            "preview": "築 20 年の戸建てで、キッチンの交換を検討しています。概算の費用と工期を教えてください。"
+          },
+          "classes": [
+            "見積依頼",
+            "施工中の連絡",
+            "その他"
+          ],
+          "selected": "見積依頼",
+          "draft": [
+            "お問い合わせありがとうございます。",
+            "キッチン交換の概算は、現地確認のうえ 2 営業日以内にお送りします。",
+            "ご都合のよい日時を 2〜3 候補いただけますでしょうか。"
+          ],
+          "badge": "人が確認してから送信"
+        }
+      ]
+    },
+    {
+      "slug": "mission-control",
+      "title": "Mission Control（運用ダッシュボード）",
+      "kicker": "データ見える化",
+      "categories": [
+        "data",
+        "planning"
+      ],
+      "label": "self",
+      "year": "2025",
+      "summary": "複数プロジェクトの進捗・目標・収益を 1 画面で見る運用ダッシュボード。収集スクリプトが 30 分ごとに自動更新し、週次の監査レポートも自動生成。",
+      "role": "要件定義・設計・実装・運用",
+      "points": [
+        "KPI・メーター・タイムラインで状態が一目で分かる構成",
+        "launchd による定期実行で人手ゼロの更新",
+        "収益の自動記入・週次監査など運用の判断材料を集約"
+      ],
+      "stack": [
+        "Python",
+        "launchd",
+        "HTML / SVG"
+      ],
+      "links": [],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/mission-control-1.jpg",
+          "alt": "Mission Control の今週のアクティビティ（リングと指標）",
+          "frame": "browser"
+        }
+      ]
+    },
+    {
+      "slug": "autopilot",
+      "title": "autopilot（夜間の自律開発ランナー）",
+      "kicker": "自律運用の仕組み化",
+      "categories": [
+        "automation",
+        "planning"
+      ],
+      "label": "self",
+      "year": "2025",
+      "summary": "承認済みの作業チケットを、夜間や日中の空き時間に無人で実行する仕組み。作業ごとに隔離された環境で実装・自動検証し、朝に 1 通の報告で承認できます。",
+      "role": "設計・実装・運用設計",
+      "points": [
+        "チケットに目的・範囲・検証方法・予算を必須にし、曖昧な作業は着手させない",
+        "作業ごとに独立した環境で実行し、検証に通ったものだけ取り込む",
+        "失敗は自動で再試行し、朝の報告にまとめる"
+      ],
+      "stack": [
+        "Python",
+        "launchd",
+        "Git worktree",
+        "Claude Code"
+      ],
+      "links": [],
+      "visuals": [
+        {
+          "type": "mock",
+          "kind": "flow",
+          "title": "夜のあいだに進み、朝 1 通で承認",
+          "steps": [
+            {
+              "icon": "ticket",
+              "label": "承認済みチケット",
+              "sub": "目的・範囲・検証・予算が必須"
+            },
+            {
+              "icon": "moon",
+              "label": "空き枠で自動実行",
+              "sub": "夜間 3 回・日中 4 回"
+            },
+            {
+              "icon": "box",
+              "label": "隔離環境で実装＋検証",
+              "sub": "作業ごとに独立"
+            },
+            {
+              "icon": "sun",
+              "label": "朝の報告 1 通",
+              "sub": "承認 / 差し戻し"
+            }
+          ],
+          "timeline": [
+            {
+              "t": "01:00",
+              "label": "夜間枠 1"
+            },
+            {
+              "t": "03:30",
+              "label": "夜間枠 2"
+            },
+            {
+              "t": "05:30",
+              "label": "夜間枠 3"
+            },
+            {
+              "t": "07:00",
+              "label": "朝刊"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "triage",
+      "title": "案件トリアージの日次自動化",
+      "kicker": "業務フローの自動化",
+      "categories": [
+        "automation",
+        "planning"
+      ],
+      "label": "self",
+      "year": "2025",
+      "summary": "クラウドソーシングの公開案件を毎朝自動取得し、キーワードと予算でレーン分けして承認キューに並べる仕組み。人は毎朝キューを見て判断するだけ。",
+      "role": "要件定義・設計・実装・テスト",
+      "points": [
+        "公開情報の取得 → 分類 → キュー化までを 1 コマンドで",
+        "業種キーワードや予算帯のルールは設定で調整可能",
+        "サイトのレイアウト変更に備えたテスト付き"
+      ],
+      "stack": [
+        "Python",
+        "launchd"
+      ],
+      "links": [],
+      "visuals": [
+        {
+          "type": "mock",
+          "kind": "queue",
+          "title": "毎朝、見るだけの状態にしておく",
+          "steps": [
+            {
+              "icon": "cloud",
+              "label": "公開案件を取得",
+              "sub": "毎朝 07:30"
+            },
+            {
+              "icon": "filter",
+              "label": "キーワード・予算で分類",
+              "sub": "業種ルールは設定で変更"
+            },
+            {
+              "icon": "list",
+              "label": "承認キュー",
+              "sub": "人はここだけ見る"
+            }
+          ],
+          "rows": [
+            {
+              "title": "見積書作成の自動化ツール",
+              "lane": "法人",
+              "budget": "20〜30 万円"
+            },
+            {
+              "title": "スプレッドシート集計の効率化",
+              "lane": "パッケージ",
+              "budget": "5 万円"
+            },
+            {
+              "title": "問い合わせメールの一次返信",
+              "lane": "法人",
+              "budget": "10〜20 万円"
+            }
+          ],
+          "caption": "表示はサンプル"
+        }
+      ]
+    },
+    {
+      "slug": "m0-gate",
+      "title": "新規事業の定量ゲート（M0）",
+      "kicker": "判断基準づくり",
+      "categories": [
+        "planning"
+      ],
+      "label": "self",
+      "year": "2025",
+      "summary": "新しいサービスに着手する前に「競合の実データ」「コスト構造」「無料手段で足りないか」の 3 点を数字で確認する判断フレーム。法人向け自動化サービスの立ち上げ判断に適用。",
+      "role": "フレーム設計・調査・判定書作成",
+      "points": [
+        "思いつきで作り始めないための着手前チェック",
+        "競合数・価格帯・工数を実データで計数",
+        "判定結果は 1 枚の HTML にまとめ、Go / 条件付き Go / 見送りを明示"
+      ],
+      "stack": [
+        "調査設計",
+        "HTML レポート"
+      ],
+      "links": [],
+      "visuals": [
+        {
+          "type": "mock",
+          "kind": "gate",
+          "title": "着手前に 3 点を数字で確認",
+          "criteria": [
+            {
+              "label": "競合の実データ計数",
+              "sub": "件数・価格帯・成立率",
+              "meter": 0.7,
+              "verdict": "有利"
+            },
+            {
+              "label": "コスト構造の非対称",
+              "sub": "自分だけ安く作れるか",
+              "meter": 0.5,
+              "verdict": "中立"
+            },
+            {
+              "label": "無料手段での充足",
+              "sub": "既存の無料ツールで足りないか",
+              "meter": 0.75,
+              "verdict": "未充足"
+            }
+          ],
+          "result": "条件付き GO",
+          "note": "数値はサンプル"
+        }
+      ]
+    },
+    {
+      "slug": "app-icons",
+      "title": "アプリアイコン・ストア画像",
+      "kicker": "デザイン制作",
+      "categories": [
+        "design"
+      ],
+      "label": "public",
+      "year": "2025",
+      "summary": "公開中の iOS アプリ 3 本のアイコンと App Store スクリーンショットを制作。小さくても判別できるアイコンと、機能が伝わるストア画像。",
+      "role": "アイコン設計・ストア画像設計・多言語対応",
+      "points": [
+        "ホーム画面で目立ち、内容が伝わるアイコン",
+        "1 枚目で「何ができるか」が分かるストア画像の構成",
+        "審査ガイドラインに沿った画像仕様"
+      ],
+      "stack": [
+        "SVG",
+        "App Store Connect"
+      ],
+      "links": [
+        {
+          "label": "Sweepfield",
+          "url": "https://apps.apple.com/jp/app/id6799108644"
+        },
+        {
+          "label": "Blockwise",
+          "url": "https://apps.apple.com/jp/app/id6790126268"
+        },
+        {
+          "label": "Simple Reversi Board",
+          "url": "https://apps.apple.com/jp/app/id6761284474"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/sweepfield-icon.png",
+          "alt": "Sweepfield のアプリアイコン",
+          "frame": "icon"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/blockwise-icon.png",
+          "alt": "Blockwise のアプリアイコン",
+          "frame": "icon"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/reversi-icon.png",
+          "alt": "Simple Reversi Board のアプリアイコン",
+          "frame": "icon"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/sweepfield-1.jpg",
+          "alt": "Sweepfield のストア画像",
+          "frame": "phone"
+        }
+      ]
+    },
+    {
+      "slug": "aso",
+      "title": "App Store 掲載最適化（ASO）",
+      "kicker": "マーケティング",
+      "categories": [
+        "marketing"
+      ],
+      "label": "public",
+      "year": "2025",
+      "summary": "公開中アプリ 3 本のタイトル・サブタイトル・説明文・スクリーンショットを設計し、審査対応まで一貫して実施。小額広告の実験は判断基準を先に決めてから行う設計。",
+      "role": "掲載文設計・多言語ローカライズ・審査対応・計測設計",
+      "points": [
+        "検索されるキーワードを含めたタイトル・サブタイトル設計",
+        "日英ほか多言語のストア文言",
+        "広告出稿は「効果を測れる条件」を満たしてから、と基準を明文化"
+      ],
+      "stack": [
+        "App Store Connect",
+        "AdMob",
+        "Apple Ads"
+      ],
+      "links": [
+        {
+          "label": "Sweepfield のストアページ",
+          "url": "https://apps.apple.com/jp/app/id6799108644"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/store-listing-1.jpg",
+          "alt": "Sweepfield の App Store 掲載ページ",
+          "frame": "browser"
+        }
+      ]
+    }
+  ],
+  "person": {
+    "name": "Kenji",
+    "name_is_placeholder": true,
+    "photo": null,
+    "initial": "K",
+    "tagline": "iOS・Web・自動化を、企画から公開まで一人で。",
+    "facts": [
+      "App Store 公開アプリ 3 本",
+      "公開 Web ツール 1 本",
+      "GitHub 公開デモ 3 本"
+    ],
+    "bio": [
+      "アプリ・Web・業務自動化を、企画、設計、実装、公開まで一人で担当しています。",
+      "制作には Claude Code などの AI コーディングエージェントを活用し、設計・検証・納品は自分の目で確認して行います。",
+      "「こんなことできますか？」の段階からお気軽にご相談ください。"
+    ],
+    "skills": [
+      "Swift / SwiftUI",
+      "Python",
+      "Google Apps Script",
+      "HTML / CSS / JavaScript",
+      "Claude Code"
+    ],
+    "links": [
+      {
+        "label": "GitHub",
+        "url": "https://github.com/kenji6836"
+      }
+    ]
+  },
+  "process": [
+    {
+      "step": "1",
+      "title": "ご相談",
+      "text": "フォームから概要を送るだけ。ヒアリングで要件を整理します。"
+    },
+    {
+      "step": "2",
+      "title": "ご提案・お見積り",
+      "text": "進め方・納期・費用を先にお伝えします。"
+    },
+    {
+      "step": "3",
+      "title": "制作・確認",
+      "text": "動くものを早めにお見せし、確認しながら仕上げます。"
+    },
+    {
+      "step": "4",
+      "title": "納品・公開",
+      "text": "公開作業や引き継ぎ資料まで対応します。"
+    }
+  ],
+  "contact": {
+    "heading": "まずは「こんなことできますか？」から",
+    "lead": "ご相談・お見積りは無料です。通常 2 日以内にご返信します。",
+    "form_action": "",
+    "form_fields": [
+      {
+        "name": "name",
+        "label": "お名前",
+        "type": "text",
+        "required": true,
+        "entry": ""
+      },
+      {
+        "name": "company",
+        "label": "会社名・屋号（任意）",
+        "type": "text",
+        "required": false,
+        "entry": ""
+      },
+      {
+        "name": "email",
+        "label": "メールアドレス",
+        "type": "email",
+        "required": true,
+        "entry": ""
+      },
+      {
+        "name": "topic",
+        "label": "ご相談の分野",
+        "type": "select",
+        "required": true,
+        "entry": "",
+        "options": [
+          "Web制作",
+          "アプリ・システム開発",
+          "AI活用・自動化",
+          "デザイン制作",
+          "マーケティング",
+          "データ分析・見える化",
+          "企画・業務改善",
+          "その他"
+        ]
+      },
+      {
+        "name": "message",
+        "label": "ご相談内容",
+        "type": "textarea",
+        "required": true,
+        "entry": ""
+      }
+    ],
+    "success_text": "送信しました。通常 2 日以内にご返信します。",
+    "error_text": "送信できませんでした。時間をおいて再度お試しください。",
+    "platforms": [
+      {
+        "label": "ココナラで相談する",
+        "url": ""
+      },
+      {
+        "label": "Lancers で相談する",
+        "url": ""
+      }
+    ],
+    "note": "ご入力いただいた情報はご返信以外には使用しません。"
+  }
+}
