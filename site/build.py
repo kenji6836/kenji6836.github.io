@@ -337,17 +337,21 @@ class Site:
             fields.append('<div class="form-field"><label for="{}">{}</label>{}</div>'.format(esc(field_id), esc(field["label"]), control))
         platforms = "".join(self.button(platform["label"], platform["url"], external=True)
                             for platform in contact["platforms"] if platform["url"])
+        action = contact["form_action"].strip()
         return (
             '<section id="contact" class="section section-alt"><div class="container contact-grid">'
             '<div class="contact-copy">{}<p>{}</p><p class="contact-note">{}</p>{}</div>'
-            '<div class="contact-card"><form data-action="{}" data-success="{}" data-error="{}" method="post">{}'
-            '<button class="button button-primary submit-button" type="submit" disabled>送信する{}</button>'
+            '<div class="contact-card"><form{} data-action="{}" data-success="{}" data-error="{}" method="post">{}'
+            '<button class="button button-primary submit-button" type="submit"{}>送信する{}</button>'
             '<p class="form-status" role="status" aria-live="polite" aria-atomic="true"></p>'
-            '<noscript><p class="form-status">{}</p></noscript></form></div></div></section>'
+            '{}</form></div></div></section>'
         ).format(self.section_heading("CONTACT", contact["heading"]), esc(contact["lead"]), esc(contact["note"]),
                  '<div class="button-row">{}</div>'.format(platforms) if platforms else "",
-                 esc(contact["form_action"]), esc(contact["success_text"]), esc(contact["error_text"]),
-                 "".join(fields), icon("arrow"), esc(contact["error_text"]))
+                 # 送信先があるときは action も付けて JS 無効でも通常 POST で送れるようにする（JS 有効時は fetch で横取り）
+                 ' action="{}"'.format(esc(action)) if action else "",
+                 esc(action), esc(contact["success_text"]), esc(contact["error_text"]),
+                 "".join(fields), "" if action else " disabled", icon("arrow"),
+                 "" if action else '<noscript><p class="form-status">{}</p></noscript>'.format(esc(contact["error_text"])))
 
     def home(self):
         return self.page("/", self.site["title"], self.site["description"],

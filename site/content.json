@@ -1,7 +1,7 @@
 {
   "site": {
-    "name": "Kenji Portfolio",
-    "title": "Kenji — iOS・Web・業務自動化の制作実績",
+    "name": "Kenji Ido Portfolio",
+    "title": "Kenji Ido — iOS・Web・業務自動化の制作実績",
     "description": "iOS アプリ・Web ツール・業務自動化を、企画から公開まで一人で制作。App Store 公開アプリ 3 本、公開 Web ツール、GitHub 公開デモなどの制作実績と、お問い合わせフォーム。",
     "url": "https://kenji6836.github.io/",
     "lang": "ja",
@@ -883,8 +883,8 @@
     }
   ],
   "person": {
-    "name": "Kenji",
-    "name_is_placeholder": true,
+    "name": "Kenji Ido",
+    "name_is_placeholder": false,
     "photo": null,
     "initial": "K",
     "tagline": "iOS・Web・自動化を、企画から公開まで一人で。",
@@ -937,35 +937,35 @@
   "contact": {
     "heading": "まずは\n「こんなことできますか？」から",
     "lead": "ご相談・お見積りは無料です。通常 2 日以内にご返信します。",
-    "form_action": "",
+    "form_action": "https://docs.google.com/forms/d/e/1FAIpQLSdEO4OlTFAzCBUlT5Z_Er_97bobn4GTpQhqchuxh-yCV1rnZg/formResponse",
     "form_fields": [
       {
         "name": "name",
         "label": "お名前",
         "type": "text",
         "required": true,
-        "entry": ""
+        "entry": "entry.1255183221"
       },
       {
         "name": "company",
         "label": "会社名・屋号（任意）",
         "type": "text",
         "required": false,
-        "entry": ""
+        "entry": "entry.887612675"
       },
       {
         "name": "email",
         "label": "メールアドレス",
         "type": "email",
         "required": true,
-        "entry": ""
+        "entry": "entry.1355365086"
       },
       {
         "name": "topic",
         "label": "ご相談の分野",
         "type": "select",
         "required": true,
-        "entry": "",
+        "entry": "entry.1401378533",
         "options": [
           "Web制作",
           "アプリ・システム開発",
@@ -982,7 +982,7 @@
         "label": "ご相談内容",
         "type": "textarea",
         "required": true,
-        "entry": ""
+        "entry": "entry.10442339"
       }
     ],
     "success_text": "送信しました。通常 2 日以内にご返信します。",
