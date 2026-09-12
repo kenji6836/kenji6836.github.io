@@ -27,7 +27,7 @@
     "footer_note": "掲載している制作物はすべて本人が企画・設計・実装・公開したものです。"
   },
   "hero": {
-    "headline": "アプリも、Web も、自動化も。\n企画から公開まで、まとめて任せられます。",
+    "headline": "アプリも、Web も、自動化も。\n企画から公開まで、\nまとめて任せられます。",
     "sub": "App Store 公開アプリ 3 本・公開 Web ツール・業務自動化デモなど、実際に動いている制作物をご覧ください。",
     "cta_primary": {
       "label": "制作実績を見る",
@@ -331,12 +331,6 @@
       "links": [],
       "visuals": [
         {
-          "type": "image",
-          "src": "/assets/works/kyotei-1.jpg",
-          "alt": "KyoteiAI の全期間評価レポート（的中率と件数）",
-          "frame": "browser"
-        },
-        {
           "type": "mock",
           "kind": "pipeline",
           "title": "学習から端末内推論まで",
@@ -367,6 +361,12 @@
               "sub": "Python と Swift の結果が一致"
             }
           ]
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/kyotei-1.jpg",
+          "alt": "KyoteiAI の全期間評価レポート（的中率と件数）",
+          "frame": "browser"
         }
       ]
     },
@@ -935,7 +935,7 @@
     }
   ],
   "contact": {
-    "heading": "まずは「こんなことできますか？」から",
+    "heading": "まずは\n「こんなことできますか？」から",
     "lead": "ご相談・お見積りは無料です。通常 2 日以内にご返信します。",
     "form_action": "",
     "form_fields": [

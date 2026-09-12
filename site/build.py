@@ -248,7 +248,8 @@ class Site:
                  esc(work["kicker"]), esc(work["title"]), self.category_chips(work), self.label(work), icon("arrow"))
 
     def section_heading(self, kicker, heading):
-        return '<div class="section-heading reveal"><span class="eyebrow">{}</span><h2>{}</h2></div>'.format(esc(kicker), esc(heading))
+        heading_html = "<br>".join(esc(line) for line in heading.split("\n"))
+        return '<div class="section-heading reveal"><span class="eyebrow">{}</span><h2>{}</h2></div>'.format(esc(kicker), heading_html)
 
     def hero(self):
         hero = self.content["hero"]
