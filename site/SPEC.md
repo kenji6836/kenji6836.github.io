@@ -23,7 +23,7 @@
 - 受入テストが green: `python3 site/tests/check_site.py`（`site/build.py --check` の冪等性・全ページの構文/リンク/画像/禁止語・タイル→一覧→詳細の到達・CSS/JS 条件・保護パス不変を確認する）
 - `python3 site/build.py` が 3 秒以内に完走し、上記の生成物を全て書き出す。`--check` は「再生成した結果が既存ファイルと一致すれば 0、違えば 1 と差分ファイル名」を返す
 - 生成 HTML に `{{` などのテンプレート残骸が無い
-- 手動確認項目（実装者も headless Chrome で確認して報告に含めること。Chrome: `"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --disable-gpu --hide-scrollbars --window-size=1280,900 --screenshot=out.png file:///.../index.html`）:
+- 手動確認項目（実装者も headless Chrome で確認して報告に含めること。**URL はルート絶対なので file:// では開かない**。リポジトリルートで `python3 -m http.server 8765` を起動し `http://127.0.0.1:8765/` を撮る。Chrome: `"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --disable-gpu --hide-scrollbars --window-size=1280,900 --screenshot=out.png http://127.0.0.1:8765/`）:
   1. 1280px ライト／`--force-dark-mode` ダーク／390px の 3 条件でトップ・一覧・詳細 1 件が崩れない（横スクロールなし・文字の重なりなし）
   2. reduced-motion で全アニメーション停止（CSS `@media (prefers-reduced-motion: reduce)`）
   3. JS 無効でも全コンテンツが読める（フィルタは全件表示・ナビは開いた状態か CSS のみで開閉）
@@ -33,7 +33,7 @@
 ### ビルド（site/build.py）
 - 入力 `site/content.json` → 出力は Allowed files の生成物。テンプレートは Python 側の関数でも `site/templates/*.html` の単純置換でもよいが、**出力は決定的**（辞書順・タイムスタンプを埋め込まない）
 - URL は全てルート絶対（`/works/<slug>/`・`/assets/...`）。`href` 末尾は `/`（GitHub Pages の index.html 解決に合わせる）
-- 各ページ: `<html lang="ja">`・`<title>`・`meta description`・`meta viewport`・`link canonical`（`site.url` 基準）・OGP（`og:title` `og:description` `og:type` `og:url`。`og:image` は作品詳細では最初の image ビジュアル、それ以外は `/assets/works/sweepfield-1.jpg`）・`meta name="color-scheme" content="light dark"`・`theme-color`
+- 各ページ: `<html lang="ja">`・`<title>`・`meta description`・`meta viewport`・`link canonical`（`site.url` 基準）・OGP（`og:title` `og:description` `og:type` `og:url`。`og:image` は作品詳細では最初の `type=="image"` ビジュアル（image が 1 つも無い作品＝mock のみの場合と、それ以外のページは `/assets/works/sweepfield-1.jpg`）。値は `site.url` を付けた絶対 URL）・`meta name="color-scheme" content="light dark"`・`theme-color`
 - `sitemap.xml` は全ページの `<loc>` のみ（lastmod 不要）
 - `--check` は一時ディレクトリに生成して既存と比較（バイト一致）
 
