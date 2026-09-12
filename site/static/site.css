@@ -195,6 +195,8 @@ main:focus { outline: none; }
 .form-field textarea { resize: vertical; }
 .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--brand); }
 .submit-button { width: 100%; }
+.form-fallback { margin: 14px 0 0; font-size: 12px; color: var(--text-3); text-align: center; }
+.form-fallback a { color: var(--brand); text-decoration: underline; text-underline-offset: 2px; }
 .form-status { margin-top: 16px; font-size: 14px; color: var(--text-2); }
 .form-status:empty { margin: 0; }
 .form-status[data-state="success"] { color: var(--ok); }

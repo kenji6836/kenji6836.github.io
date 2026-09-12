@@ -344,14 +344,16 @@ class Site:
             '<div class="contact-card"><form{} data-action="{}" data-success="{}" data-error="{}" method="post">{}'
             '<button class="button button-primary submit-button" type="submit"{}>送信する{}</button>'
             '<p class="form-status" role="status" aria-live="polite" aria-atomic="true"></p>'
-            '{}</form></div></div></section>'
+            '{}</form>{}</div></div></section>'
         ).format(self.section_heading("CONTACT", contact["heading"]), esc(contact["lead"]), esc(contact["note"]),
                  '<div class="button-row">{}</div>'.format(platforms) if platforms else "",
                  # 送信先があるときは action も付けて JS 無効でも通常 POST で送れるようにする（JS 有効時は fetch で横取り）
                  ' action="{}"'.format(esc(action)) if action else "",
                  esc(action), esc(contact["success_text"]), esc(contact["error_text"]),
                  "".join(fields), "" if action else " disabled", icon("arrow"),
-                 "" if action else '<noscript><p class="form-status">{}</p></noscript>'.format(esc(contact["error_text"])))
+                 "" if action else '<noscript><p class="form-status">{}</p></noscript>'.format(esc(contact["error_text"])),
+                 # 送信結果を取れない no-cors 経路の保険: Google フォーム本体への直接リンク（R2 指摘の回復手段）
+                 '<p class="form-fallback">送信できない場合は <a href="{}" target="_blank" rel="noopener noreferrer">Google フォームから直接</a>お送りください。</p>'.format(esc(action.replace("/formResponse", "/viewform"))) if action else "")
 
     def home(self):
         return self.page("/", self.site["title"], self.site["description"],
