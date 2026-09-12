@@ -78,13 +78,14 @@
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.06 });
+    }, { threshold: 0.06, rootMargin: "0px 0px 80px 0px" });
     document.querySelectorAll(".stagger-grid").forEach((grid) => {
       Array.from(grid.children).forEach((element, index) => {
-        element.style.setProperty("--reveal-delay", index * 60 + "ms");
+        element.style.setProperty("--reveal-delay", Math.min(index, 5) * 60 + "ms");
       });
     });
     reveals.forEach((element) => {
+      if (element.getBoundingClientRect().top < window.innerHeight * 1.5) return; // 初期表示付近は隠さない
       element.classList.add("reveal-pending");
       observer.observe(element);
     });

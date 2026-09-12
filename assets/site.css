@@ -147,6 +147,9 @@ main:focus { outline: none; }
 .card-visual > .device-browser img { object-position: left top; }
 .card-visual > .device-browser img { min-height: 220px; object-fit: cover; }
 .card-visual > .device-icon { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+.card-icon-row { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 6%; padding-inline: 8%; }
+.card-icon-row .device-icon { width: 24%; margin: 0; }
+.card-icon-row .device-icon:nth-child(2) { transform: translateY(-8%); }
 .card-body { display: flex; flex-direction: column; flex-grow: 1; padding: 24px; }
 .work-kicker { color: var(--text-3); font-size: 12px; line-height: 1.7; }
 .card h3 { margin-top: 8px; font-size: 20px; line-height: 1.5; }
@@ -428,4 +431,7 @@ main:focus { outline: none; }
   .hero-stats > div { padding-inline: 12px; }
   .hero-stats dt { font-size: 12px; word-break: keep-all; overflow-wrap: anywhere; }
   .hero-stats strong { font-size: 28px; }
+}
+@media print {
+  .reveal, .reveal-pending { opacity: 1; transform: none; }
 }

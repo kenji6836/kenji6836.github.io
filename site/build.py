@@ -244,8 +244,22 @@ class Site:
             '<div class="card-visual">{}</div><div class="card-body"><p class="work-kicker">{}</p>'
             '<h3>{}</h3><div class="card-categories">{}</div><div class="card-bottom">{}'
             '<span class="card-arrow">{}</span></div></div></a></article>'
-        ).format(esc(" ".join(work["categories"])), esc(work["slug"]), visual_markup(work["visuals"][0], True),
+        ).format(esc(" ".join(work["categories"])), esc(work["slug"]), self.card_visual(work),
                  esc(work["kicker"]), esc(work["title"]), self.category_chips(work), self.label(work), icon("arrow"))
+
+    def card_visual(self, work):
+        """カード用: 先頭が icon なら連続する icon（最大 3）を 1 行で見せる。それ以外は先頭ビジュアル 1 つ"""
+        visuals = work["visuals"]
+        first = visuals[0]
+        if first["type"] == "image" and first.get("frame") == "icon":
+            icons = []
+            for visual in visuals:
+                if visual["type"] == "image" and visual.get("frame") == "icon" and len(icons) < 3:
+                    icons.append(device(visual))
+                else:
+                    break
+            return '<div class="card-icon-row">{}</div>'.format("".join(icons))
+        return visual_markup(first, True)
 
     def section_heading(self, kicker, heading):
         heading_html = "<br>".join(esc(line) for line in heading.split("\n"))
