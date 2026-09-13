@@ -1363,7 +1363,7 @@
   "person": {
     "name": "Kenji Ido",
     "name_is_placeholder": false,
-    "photo": null,
+    "photo": "/assets/profile.jpg",
     "initial": "K",
     "tagline": "iOS・Web・自動化を、企画から公開まで一人で。",
     "facts": [
