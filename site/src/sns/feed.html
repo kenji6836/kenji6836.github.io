@@ -76,6 +76,28 @@ body{margin:0;padding:40px;background:#8c8c8c;display:flex;flex-direction:column
 .c .cill{display:flex;justify-content:center;margin-top:6px}
 .c .cill svg{width:250px;height:250px}
 
+
+/* ---- photo variants (ap = type A + photo, cp = type C + photo) ---- */
+.ph .photo{position:absolute;left:0;top:0;width:1080px;height:780px;object-fit:cover;object-position:center var(--pos,40%)}
+.ph .shade{position:absolute;left:0;right:0;top:0;height:280px;background:linear-gradient(rgba(58,35,24,.62),rgba(58,35,24,0))}
+.ph .hd{color:var(--cream)}
+.ph .brand{text-shadow:0 2px 14px rgba(0,0,0,.45)}
+.ap .band{position:absolute;left:0;right:0;bottom:0;height:340px;background:var(--cream);border-top:8px solid var(--terra);color:var(--brown)}
+.ap .band .tag{top:24px}
+.ap .band .name{top:64px;font-size:78px}
+.ap .band .price{top:156px}
+.ap .band .price .lat{font-size:58px}
+.ap .band .desc{top:232px;font-size:27px}
+.ap .band .ft{bottom:18px;font-size:20px}
+.ap .band .ft .lat{font-size:22px}
+.cp .photo{height:1080px;--pos:50%}
+.cp .overlay{position:absolute;inset:0;background:rgba(58,35,24,.62)}
+.cp .shade{display:none}
+.cp .frame,.cp .label,.cp .inner,.cp .ft{z-index:1}
+.cp .cill{display:none}
+.cp .inner{text-shadow:0 2px 10px rgba(30,15,8,.5)}
+.cp .inner{justify-content:center;gap:44px}
+
 /* avatar */
 #avatar{width:240px;height:240px;background:var(--cream);display:flex;align-items:center;justify-content:center}
 #avatar svg{width:200px;height:200px}
@@ -111,40 +133,17 @@ body{margin:0;padding:40px;background:#8c8c8c;display:flex;flex-direction:column
 </svg>
 
 <!-- ========== 1: A  秋限定 モンブランラテ ========== -->
-<section class="post a" id="post-1">
-  <div class="rays"></div>
+<section class="post a ap ph" id="post-1" style="--pos:36%">
+  <img class="photo" src="photos/latte.jpg" alt="">
+  <div class="shade"></div>
   <header class="hd"><div class="brand"><svg><use href="#mark"/></svg><span>ひだまり珈琲店</span></div><span class="pill">NEW MENU</span></header>
-  <div class="disc">
-    <svg viewBox="0 0 400 400">
-      <!-- steam -->
-      <path d="M150 118 c-12 -20 12 -32 0 -52 M200 108 c-12 -20 12 -32 0 -52 M250 118 c-12 -20 12 -32 0 -52" class="s-cr" stroke-width="10"/>
-      <!-- saucer -->
-      <ellipse cx="200" cy="336" rx="150" ry="22" class="br"/>
-      <ellipse cx="200" cy="330" rx="150" ry="22" class="cr"/>
-      <!-- cup -->
-      <path d="M84 182 h232 l-18 118 a34 34 0 0 1 -34 30 h-128 a34 34 0 0 1 -34 -30 z" class="br"/>
-      <path d="M316 200 h16 a44 44 0 0 1 0 88 h-28" class="s-br" stroke-width="22"/>
-      <!-- cup rim + cream -->
-      <ellipse cx="200" cy="182" rx="116" ry="20" class="cr"/>
-      <circle cx="148" cy="166" r="30" class="cr"/>
-      <circle cx="252" cy="166" r="30" class="cr"/>
-      <circle cx="176" cy="140" r="30" class="cr"/>
-      <circle cx="224" cy="140" r="30" class="cr"/>
-      <circle cx="200" cy="118" r="26" class="cr"/>
-      <!-- mont blanc swirls (drizzle lines) -->
-      <path d="M150 168 c14 -22 30 -22 42 0 c12 -22 30 -22 42 0 c12 -22 28 -22 40 0" class="s-br" stroke-width="7"/>
-      <path d="M176 140 c8 -14 20 -14 28 0 c8 -14 20 -14 28 0" class="s-br" stroke-width="7"/>
-      <!-- chestnut on top -->
-      <circle cx="200" cy="106" r="12" class="br"/>
-      <!-- cup band highlight -->
-      <rect x="112" y="236" width="176" height="14" rx="7" class="te"/>
-    </svg>
+  <div class="band">
+    <div class="tag"><span>秋 限 定</span></div>
+    <h1 class="name">モンブランラテ</h1>
+    <div class="price"><span class="lat">¥640</span><small>税込</small></div>
+    <p class="desc">和栗のペーストと自家焙煎エスプレッソ。栗の渋皮煮をのせて。</p>
+    <footer class="ft"><span class="lat">Hidamari Coffee Roastery</span></footer>
   </div>
-  <div class="tag"><span>秋 限 定</span></div>
-  <h1 class="name">モンブランラテ</h1>
-  <div class="price"><span class="lat">¥640</span><small>税込</small></div>
-  <p class="desc">和栗のペーストと自家焙煎エスプレッソ。栗の渋皮煮をのせて。</p>
-  <footer class="ft"><span class="lat">Hidamari Coffee Roastery</span></footer>
 </section>
 
 <!-- ========== 2: B  Vol.01 ハンドドリップ ========== -->
@@ -187,7 +186,9 @@ body{margin:0;padding:40px;background:#8c8c8c;display:flex;flex-direction:column
 </section>
 
 <!-- ========== 3: C  営業時間のご案内 ========== -->
-<section class="post c" id="post-3">
+<section class="post c cp ph" id="post-3">
+  <img class="photo" src="photos/interior.jpg" alt="">
+  <div class="overlay"></div>
   <header class="hd"><div class="brand"><svg><use href="#mark"/></svg><span>ひだまり珈琲店</span></div><span class="pill">INFO</span></header>
   <div class="frame"></div>
   <div class="label"><span>OPEN HOURS</span></div>
@@ -249,34 +250,17 @@ body{margin:0;padding:40px;background:#8c8c8c;display:flex;flex-direction:column
 </section>
 
 <!-- ========== 5: A  あんバタートースト ========== -->
-<section class="post a" id="post-5">
-  <div class="rays"></div>
+<section class="post a ap ph" id="post-5" style="--pos:46%">
+  <img class="photo" src="photos/toast.jpg" alt="">
+  <div class="shade"></div>
   <header class="hd"><div class="brand"><svg><use href="#mark"/></svg><span>ひだまり珈琲店</span></div><span class="pill">NEW MENU</span></header>
-  <div class="disc">
-    <svg viewBox="0 0 400 400">
-      <!-- plate -->
-      <ellipse cx="200" cy="318" rx="170" ry="30" class="br"/>
-      <ellipse cx="200" cy="312" rx="170" ry="30" class="cr"/>
-      <!-- toast crust (two-lobed top) -->
-      <path d="M52 170 C52 118 92 94 136 104 C160 78 240 78 264 104 C308 94 348 118 348 170 V300 a24 24 0 0 1 -24 24 H76 a24 24 0 0 1 -24 -24 Z" class="br"/>
-      <!-- toast inside -->
-      <path d="M76 178 C76 138 106 120 144 128 C164 106 236 106 256 128 C294 120 324 138 324 178 V296 a12 12 0 0 1 -12 12 H88 a12 12 0 0 1 -12 -12 Z" class="cr"/>
-      <!-- anko -->
-      <path d="M108 214 C126 176 186 178 206 194 C238 170 300 190 296 230 C300 266 250 290 200 286 C150 292 96 270 108 214 Z" class="br"/>
-      <!-- butter -->
-      <g transform="translate(172 160) rotate(-8)">
-        <path d="M0 0 h60 v38 h-60 z" class="cr"/>
-        <path d="M0 0 h60 v38 h-60 z" class="s-br" stroke-width="6"/>
-        <path d="M0 0 l14 -12 h60 l-14 12 z" class="te"/>
-        <path d="M60 0 l14 -12 v38 l-14 12 z" class="te"/>
-      </g>
-    </svg>
+  <div class="band">
+    <div class="tag"><span>モ ー ニ ン グ</span></div>
+    <h1 class="name">あんバタートースト</h1>
+    <div class="price"><span class="lat">¥520</span><small>税込</small></div>
+    <p class="desc">厚切りパンに粒あんと発酵バター。ドリンクセットは ¥150 引き。</p>
+    <footer class="ft"><span class="lat">Hidamari Coffee Roastery</span></footer>
   </div>
-  <div class="tag"><span>モ ー ニ ン グ</span></div>
-  <h1 class="name">あんバタートースト</h1>
-  <div class="price"><span class="lat">¥520</span><small>税込</small></div>
-  <p class="desc">厚切りパンに粒あんと発酵バター。ドリンクセットは ¥150 引き。</p>
-  <footer class="ft"><span class="lat">Hidamari Coffee Roastery</span></footer>
 </section>
 
 <!-- ========== 6: B  Vol.02 エチオピア ========== -->
@@ -395,7 +379,110 @@ body{margin:0;padding:40px;background:#8c8c8c;display:flex;flex-direction:column
 </section>
 
 <!-- ========== 9: A  季節のブレンド ========== -->
-<section class="post a" id="post-9">
+<section class="post a ap ph" id="post-9" style="--pos:40%">
+  <img class="photo" src="photos/beans.jpg" alt="">
+  <div class="shade"></div>
+  <header class="hd"><div class="brand"><svg><use href="#mark"/></svg><span>ひだまり珈琲店</span></div><span class="pill">NEW MENU</span></header>
+  <div class="band">
+    <div class="tag"><span>季 節 の ブ レ ン ド</span></div>
+    <h1 class="name">秋のたそがれ</h1>
+    <div class="price"><span class="lat">¥1,300</span><small>200g・税込</small></div>
+    <p class="desc">ブラジルとエチオピアの中深煎り。カラメルのような甘い余韻。</p>
+    <footer class="ft"><span class="lat">Hidamari Coffee Roastery</span></footer>
+  </div>
+</section>
+
+<!-- illustrated alternates (not exported) -->
+<section class="post a" id="post-1i">
+  <div class="rays"></div>
+  <header class="hd"><div class="brand"><svg><use href="#mark"/></svg><span>ひだまり珈琲店</span></div><span class="pill">NEW MENU</span></header>
+  <div class="disc">
+    <svg viewBox="0 0 400 400">
+      <!-- steam -->
+      <path d="M150 118 c-12 -20 12 -32 0 -52 M200 108 c-12 -20 12 -32 0 -52 M250 118 c-12 -20 12 -32 0 -52" class="s-cr" stroke-width="10"/>
+      <!-- saucer -->
+      <ellipse cx="200" cy="336" rx="150" ry="22" class="br"/>
+      <ellipse cx="200" cy="330" rx="150" ry="22" class="cr"/>
+      <!-- cup -->
+      <path d="M84 182 h232 l-18 118 a34 34 0 0 1 -34 30 h-128 a34 34 0 0 1 -34 -30 z" class="br"/>
+      <path d="M316 200 h16 a44 44 0 0 1 0 88 h-28" class="s-br" stroke-width="22"/>
+      <!-- cup rim + cream -->
+      <ellipse cx="200" cy="182" rx="116" ry="20" class="cr"/>
+      <circle cx="148" cy="166" r="30" class="cr"/>
+      <circle cx="252" cy="166" r="30" class="cr"/>
+      <circle cx="176" cy="140" r="30" class="cr"/>
+      <circle cx="224" cy="140" r="30" class="cr"/>
+      <circle cx="200" cy="118" r="26" class="cr"/>
+      <!-- mont blanc swirls (drizzle lines) -->
+      <path d="M150 168 c14 -22 30 -22 42 0 c12 -22 30 -22 42 0 c12 -22 28 -22 40 0" class="s-br" stroke-width="7"/>
+      <path d="M176 140 c8 -14 20 -14 28 0 c8 -14 20 -14 28 0" class="s-br" stroke-width="7"/>
+      <!-- chestnut on top -->
+      <circle cx="200" cy="106" r="12" class="br"/>
+      <!-- cup band highlight -->
+      <rect x="112" y="236" width="176" height="14" rx="7" class="te"/>
+    </svg>
+  </div>
+  <div class="tag"><span>秋 限 定</span></div>
+  <h1 class="name">モンブランラテ</h1>
+  <div class="price"><span class="lat">¥640</span><small>税込</small></div>
+  <p class="desc">和栗のペーストと自家焙煎エスプレッソ。栗の渋皮煮をのせて。</p>
+  <footer class="ft"><span class="lat">Hidamari Coffee Roastery</span></footer>
+</section>
+<section class="post c" id="post-3i">
+  <header class="hd"><div class="brand"><svg><use href="#mark"/></svg><span>ひだまり珈琲店</span></div><span class="pill">INFO</span></header>
+  <div class="frame"></div>
+  <div class="label"><span>OPEN HOURS</span></div>
+  <div class="inner"><h1 class="ttl">営業時間のご案内</h1>
+  <div class="body">
+    <div class="row"><b>平日</b><span>8:00 – 18:00</span></div>
+    <div class="row"><b>土日祝</b><span>9:00 – 19:00</span></div>
+    <div class="row"><b>定休日</b><span>毎週水曜日</span></div>
+    <div class="note">モーニングは 8:00 – 11:00</div>
+  </div>
+  <div class="cill">
+    <svg viewBox="0 0 400 400">
+      <circle cx="200" cy="200" r="150" class="s-cr" stroke-width="16"/>
+      <circle cx="200" cy="200" r="118" class="s-cr" stroke-width="3" stroke-dasharray="3 27.9" opacity=".8"/>
+      <path d="M200 200 v-92" class="s-cr" stroke-width="16"/>
+      <path d="M200 200 l68 40" class="s-cr" stroke-width="16"/>
+      <circle cx="200" cy="200" r="14" class="te"/>
+      <!-- hour markers -->
+      <path d="M200 66 v22 M200 312 v22 M66 200 h22 M312 200 h22" class="s-te" stroke-width="12"/>
+    </svg>
+  </div>
+  </div>
+  <footer class="ft"><span class="lat">Hidamari Coffee Roastery</span></footer>
+</section>
+<section class="post a" id="post-5i">
+  <div class="rays"></div>
+  <header class="hd"><div class="brand"><svg><use href="#mark"/></svg><span>ひだまり珈琲店</span></div><span class="pill">NEW MENU</span></header>
+  <div class="disc">
+    <svg viewBox="0 0 400 400">
+      <!-- plate -->
+      <ellipse cx="200" cy="318" rx="170" ry="30" class="br"/>
+      <ellipse cx="200" cy="312" rx="170" ry="30" class="cr"/>
+      <!-- toast crust (two-lobed top) -->
+      <path d="M52 170 C52 118 92 94 136 104 C160 78 240 78 264 104 C308 94 348 118 348 170 V300 a24 24 0 0 1 -24 24 H76 a24 24 0 0 1 -24 -24 Z" class="br"/>
+      <!-- toast inside -->
+      <path d="M76 178 C76 138 106 120 144 128 C164 106 236 106 256 128 C294 120 324 138 324 178 V296 a12 12 0 0 1 -12 12 H88 a12 12 0 0 1 -12 -12 Z" class="cr"/>
+      <!-- anko -->
+      <path d="M108 214 C126 176 186 178 206 194 C238 170 300 190 296 230 C300 266 250 290 200 286 C150 292 96 270 108 214 Z" class="br"/>
+      <!-- butter -->
+      <g transform="translate(172 160) rotate(-8)">
+        <path d="M0 0 h60 v38 h-60 z" class="cr"/>
+        <path d="M0 0 h60 v38 h-60 z" class="s-br" stroke-width="6"/>
+        <path d="M0 0 l14 -12 h60 l-14 12 z" class="te"/>
+        <path d="M60 0 l14 -12 v38 l-14 12 z" class="te"/>
+      </g>
+    </svg>
+  </div>
+  <div class="tag"><span>モ ー ニ ン グ</span></div>
+  <h1 class="name">あんバタートースト</h1>
+  <div class="price"><span class="lat">¥520</span><small>税込</small></div>
+  <p class="desc">厚切りパンに粒あんと発酵バター。ドリンクセットは ¥150 引き。</p>
+  <footer class="ft"><span class="lat">Hidamari Coffee Roastery</span></footer>
+</section>
+<section class="post a" id="post-9i">
   <div class="rays"></div>
   <header class="hd"><div class="brand"><svg><use href="#mark"/></svg><span>ひだまり珈琲店</span></div><span class="pill">NEW MENU</span></header>
   <div class="disc">

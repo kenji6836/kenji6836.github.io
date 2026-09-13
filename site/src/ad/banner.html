@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>ヒナタ塗装店 バナー広告セット（自主制作サンプル）</title>
-<!-- usage: banner.html?size=square|story|landscape|rect&v=a|b  → render with site/tools/cdp-render.mjs -->
+<!-- usage: banner.html?size=square|story|landscape|rect&v=a|b[&art=photo|illust][&photo=wall|house]  → render with site/tools/cdp-render.mjs (default art=photo; photo defaults to wall for A, house for B) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700;900&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
@@ -52,6 +52,16 @@ html,body{background:#222;font-family:"Noto Sans JP",system-ui,sans-serif;color:
 .house svg{width:100%;height:auto;display:block;overflow:visible}
 .sample{font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.12em;white-space:nowrap}
 
+/* photo panel (art=photo, default): cover crop + navy tint + edge fade into the page */
+.photo{overflow:hidden;display:none}
+.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 45%}
+.photo .tint{position:absolute;inset:0;background:rgba(20,30,60,.15)}
+.band{display:none;background:linear-gradient(180deg,rgba(19,36,71,0) 0,rgba(19,36,71,.8) 12%,rgba(19,36,71,.8) 88%,rgba(19,36,71,0) 100%)}
+.art-photo .photo{display:block}
+.art-photo .house{display:none}
+.art-photo .leaves .l4{display:none}
+.art-illust .photo{display:none}
+
 /* ---------- SQUARE 1080x1080 ---------- */
 .size-square .ad{width:1080px;height:1080px}
 .size-square .logo{left:72px;top:64px}
@@ -76,6 +86,10 @@ html,body{background:#222;font-family:"Noto Sans JP",system-ui,sans-serif;color:
 .size-square .house{right:-50px;bottom:44px;width:620px}
 .size-square .leaves{display:block;right:150px;top:190px;width:300px}
 .size-square .sample{right:72px;top:158px;font-size:18px}
+.size-square .photo{left:440px;top:300px;right:0;bottom:0;mask-image:linear-gradient(90deg,transparent 0,#000 36%),linear-gradient(180deg,transparent 0,#000 32%);mask-composite:intersect;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 36%),linear-gradient(180deg,transparent 0,#000 32%);-webkit-mask-composite:source-in}
+.size-square .photo img{object-position:72% 40%}
+.size-square .photo img.ph-house{object-position:60% 50%}
+.size-square.photo-house .photo{mask-image:linear-gradient(90deg,transparent 0,#000 46%),linear-gradient(180deg,transparent 0,#000 44%);-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 46%),linear-gradient(180deg,transparent 0,#000 44%)}
 
 /* ---------- STORY 1080x1920 (safe zone: keep text within y 270..1536) ---------- */
 .size-story .ad{width:1080px;height:1920px}
@@ -101,6 +115,9 @@ html,body{background:#222;font-family:"Noto Sans JP",system-ui,sans-serif;color:
 .size-story .leaves{display:block;right:110px;top:420px;width:360px}
 .size-story .house{right:-40px;bottom:-10px;width:700px}
 .size-story .sample{right:80px;top:322px;font-size:20px}
+.size-story .photo{left:0;right:0;top:940px;bottom:-500px;mask-image:linear-gradient(180deg,transparent 0,rgba(0,0,0,.35) 22%,#000 40%);-webkit-mask-image:linear-gradient(180deg,transparent 0,rgba(0,0,0,.35) 22%,#000 40%)}
+.size-story .photo img{object-position:50% 62%}
+.size-story .band{display:block;left:0;right:0;top:1280px;height:224px}
 
 /* ---------- LANDSCAPE 1200x628 ---------- */
 .size-landscape .ad{width:1200px;height:628px}
@@ -124,7 +141,9 @@ html,body{background:#222;font-family:"Noto Sans JP",system-ui,sans-serif;color:
 .size-landscape .cta .arr{width:.9em;height:.9em}
 .size-landscape .note{display:none}
 .size-landscape .house{right:8px;bottom:-4px;width:560px}
-.size-landscape .sample{right:44px;top:44px;font-size:15px}
+.size-landscape .sample{left:56px;top:592px;font-size:15px}
+.size-landscape .photo{left:640px;top:0;right:0;bottom:0;mask-image:linear-gradient(90deg,transparent 0,#000 42%);-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 42%)}
+.size-landscape .photo img{object-position:66% 45%}
 
 /* ---------- RECT 300x250 (rendered at scale 2 → 600x500) ---------- */
 .size-rect .ad{width:300px;height:250px}
@@ -146,6 +165,8 @@ html,body{background:#222;font-family:"Noto Sans JP",system-ui,sans-serif;color:
 .size-rect .cta .arr{width:.9em;height:.9em}
 .size-rect .house{right:-12px;bottom:-2px;width:158px}
 .size-rect .sample{display:none}
+.size-rect .photo{left:172px;top:0;right:0;bottom:0;mask-image:linear-gradient(90deg,transparent 0,#000 40%);-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 40%)}
+.size-rect .photo img{object-position:80% 45%}
 
 /* variant B tweaks (3-char unit needs a tighter number) */
 .size-square.v-b .head .num{font-size:290px}
@@ -161,6 +182,8 @@ html,body{background:#222;font-family:"Noto Sans JP",system-ui,sans-serif;color:
 <body>
 <div class="ad">
   <div class="dots"></div>
+  <div class="photo"><img src="photos/ad-wall.jpg" alt=""><div class="tint"></div></div>
+  <div class="band"></div>
 
   <div class="logo">
     <svg class="mark" viewBox="0 0 80 80" aria-hidden="true">
@@ -203,7 +226,7 @@ html,body{background:#222;font-family:"Noto Sans JP",system-ui,sans-serif;color:
       <g transform="translate(60 70) rotate(-25) scale(1.4)"><path d="M0 26C0 10 10 0 26 0c0 16-10 26-26 26Z" fill="#f4862a"/><path d="M0 26L26 0c0 16-10 26-26 26Z" fill="#d9711f"/></g>
       <g transform="translate(300 40) rotate(30) scale(1.1)"><path d="M0 26C0 10 10 0 26 0c0 16-10 26-26 26Z" fill="#ffc83d"/><path d="M0 26L26 0c0 16-10 26-26 26Z" fill="#f2a93b"/></g>
       <g transform="translate(340 210) rotate(140) scale(.9)" opacity=".7"><path d="M0 26C0 10 10 0 26 0c0 16-10 26-26 26Z" fill="#f4862a"/><path d="M0 26L26 0c0 16-10 26-26 26Z" fill="#d9711f"/></g>
-      <g transform="translate(150 250) rotate(70) scale(.8)" opacity=".6"><path d="M0 26C0 10 10 0 26 0c0 16-10 26-26 26Z" fill="#ffc83d"/><path d="M0 26L26 0c0 16-10 26-26 26Z" fill="#f2a93b"/></g>
+      <g class="l4" transform="translate(150 250) rotate(70) scale(.8)" opacity=".6"><path d="M0 26C0 10 10 0 26 0c0 16-10 26-26 26Z" fill="#ffc83d"/><path d="M0 26L26 0c0 16-10 26-26 26Z" fill="#f2a93b"/></g>
     </svg>
   </div>
   <div class="house">
@@ -305,7 +328,11 @@ html,body{background:#222;font-family:"Noto Sans JP",system-ui,sans-serif;color:
   const q = new URLSearchParams(location.search);
   const size = q.get('size') || 'square';
   const v = (q.get('v') || 'a').toLowerCase();
-  document.body.classList.add('size-' + size, 'v-' + v);
+  const art = (q.get('art') || 'photo').toLowerCase();
+  document.body.classList.add('size-' + size, 'v-' + v, 'art-' + art);
+  const photo = (q.get('photo') || (v === 'b' ? 'house' : 'wall')).toLowerCase();
+  const img = document.querySelector('.photo img');
+  img.src = 'photos/ad-' + photo + '.jpg'; img.classList.add('ph-' + photo); document.body.classList.add('photo-' + photo);
   const COPY = {
     a: {
       lead: '足場代',
