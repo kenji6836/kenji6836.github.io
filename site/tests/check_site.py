@@ -85,7 +85,7 @@ for pg in pages:
         if src.startswith("http"): fail(f"{pg}: external image {src}")
         elif src and not src.startswith("data:"):
             path = resolve(src, pg)
-            if not os.path.exists(path): fail(f"{pg}: missing image {src}")
+            if not os.path.exists(path.split("?")[0]): fail(f"{pg}: missing image {src}")
     for href, a in p.links:
         if href.startswith(("mailto:", "tel:", "javascript:")): fail(f"{pg}: unexpected scheme {href}")
         elif href.startswith("http"):
@@ -103,10 +103,14 @@ for pg in pages:
         if "autoplay" in v: fail(f"{pg}: video has autoplay attribute")
         for need in ("muted", "playsinline", "poster", "aria-label"):
             if need not in v: fail(f"{pg}: video lacks {need}")
-        if v.get("poster") and not os.path.exists(v["poster"].lstrip("/")): fail(f"{pg}: missing poster {v.get('poster')}")
+        if v.get("poster") and not os.path.exists(v["poster"].split("?")[0].lstrip("/")): fail(f"{pg}: missing poster {v.get('poster')}")
     for src in p.sources:
-        if not os.path.exists(src.get("src","").lstrip("/")): fail(f"{pg}: missing video source {src.get('src')}")
-        if os.path.exists(src.get("src","").lstrip("/")) and os.path.getsize(src["src"].lstrip("/")) > 3_000_000: fail(f"{pg}: video source > 3MB {src['src']}")
+        spath = src.get("src","").split("?")[0].lstrip("/")
+        if not os.path.exists(spath): fail(f"{pg}: missing video source {src.get('src')}")
+        if os.path.exists(spath) and os.path.getsize(spath) > 3_000_000: fail(f"{pg}: video source > 3MB {src['src']}")
+        if "?v=" not in src.get("src",""): fail(f"{pg}: video source without cache-busting query {src.get('src')}")
+    for img in p.imgs:  # 差し替え時にキャッシュが残らないよう、サイト内画像は ?v=<hash> 付き
+        if img.get("src","").startswith("/assets/") and "?v=" not in img["src"]: fail(f"{pg}: image without cache-busting query {img['src']}")
     for w in FORBIDDEN:
         if w in txt: fail(f"{pg}: forbidden word '{w}'")
     raw = open(pg, encoding="utf-8").read()

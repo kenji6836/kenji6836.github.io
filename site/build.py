@@ -2,6 +2,7 @@
 """Build the portfolio using only Python 3.9+ and its standard library."""
 
 import argparse
+import hashlib
 import html
 import json
 import struct
@@ -42,6 +43,13 @@ def icon(name, extra=""):
 
 
 @lru_cache(maxsize=None)
+def asset_url(src):
+    """同名で差し替えてもブラウザ/CDN のキャッシュを確実に破るため、内容ハッシュをクエリに付ける"""
+    digest = hashlib.sha1((ROOT / src.lstrip("/")).read_bytes()).hexdigest()[:8]
+    return "{}?v={}".format(src, digest)
+
+
+@lru_cache(maxsize=None)
 def image_size(src):
     """Read dimensions from the original PNG/JPEG, without decoding pixels."""
     data = (ROOT / src.lstrip("/")).read_bytes()
@@ -74,7 +82,7 @@ def image(visual, eager=False):
     return (
         '<img src="{src}" alt="{alt}" width="{width}" height="{height}" '
         'loading="{loading}" decoding="async"{priority}>'
-    ).format(src=esc(visual["src"]), alt=esc(visual["alt"]), width=width,
+    ).format(src=esc(asset_url(visual["src"])), alt=esc(visual["alt"]), width=width,
              height=height, loading="eager" if eager else "lazy",
              priority=' fetchpriority="high"' if eager else "")
 
@@ -99,14 +107,14 @@ def video(visual, eager=False):
         '<source src="{webm}" type="video/webm"><source src="{mp4}" type="video/mp4">{alt}</video>'
         '<button class="video-toggle" type="button" aria-pressed="false" hidden>'
         '<span class="video-toggle-play">再生</span><span class="video-toggle-pause">一時停止</span></button></div>'
-    ).format(preload="auto" if eager else "metadata", poster=esc(visual["poster"]), width=width, height=height,
-             alt=esc(visual["alt"]), webm=esc(visual["webm"]), mp4=esc(visual["mp4"]))
+    ).format(preload="auto" if eager else "metadata", poster=esc(asset_url(visual["poster"])), width=width, height=height,
+             alt=esc(visual["alt"]), webm=esc(asset_url(visual["webm"])), mp4=esc(asset_url(visual["mp4"])))
 
 
 def framed_image(src, alt, cls=""):
     width, height = image_size(src)
     return '<img class="{}" src="{}" alt="{}" width="{}" height="{}" loading="lazy" decoding="async">'.format(
-        esc(cls), esc(src), esc(alt), width, height)
+        esc(cls), esc(asset_url(src)), esc(alt), width, height)
 
 
 def pipeline(steps):

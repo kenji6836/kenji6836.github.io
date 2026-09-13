@@ -12,3 +12,4 @@ Python 3.9 以降の標準ライブラリのみを使用します。
 　`--window-size=390` の単純 headless 撮影は最小ウィンドウ幅の制約で幅が合わないため、上記の CDP エミュレーションを使う。
 問い合わせフォーム: Google フォーム（Apps Script `createContactForm` で作成・回答はスプレッドシート＋メール通知）。`content.json` の `contact.form_action` と各 `entry` が送信先。
 Phase 2（2026-09-13）: 動画・広告・SNS の自主制作サンプルの原本は `site/src/{video,ad,sns}/`（HTML/SVG）。実寸レンダは `node site/tools/cdp-render.mjs <url> <w> <h> <out> [--selector CSS] [--scale N]`、動画は `node site/tools/render-video.mjs`（フレーム撮影→ffmpeg）。`<video>` は autoplay 属性を付けず、`site.js` が動きを減らす設定でない場合に可視範囲でのみ再生する。
+キャッシュ対策（2026-09-13）: build.py が画像・動画の URL に内容ハッシュ `?v=<sha1 8 桁>` を自動付与する。同名で差し替えても URL が変わるので、公開後にブラウザ/CDN の古い画像が残らない（check_site.py が `?v=` の有無を検査）。
