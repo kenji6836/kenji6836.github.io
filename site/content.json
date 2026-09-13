@@ -44,12 +44,12 @@
         "label": "App Store 公開アプリ"
       },
       {
-        "value": "14",
+        "value": "17",
         "unit": "件",
         "label": "掲載中の制作実績"
       },
       {
-        "value": "7",
+        "value": "10",
         "unit": "分野",
         "label": "任せられる領域"
       }
@@ -93,6 +93,24 @@
       "name": "デザイン制作",
       "icon": "design",
       "lead": "アプリアイコン・ストア画像・画面デザイン"
+    },
+    {
+      "id": "video",
+      "name": "動画制作",
+      "icon": "video",
+      "lead": "アプリ・サービス紹介の縦型ショート動画・モーショングラフィックス"
+    },
+    {
+      "id": "ad",
+      "name": "広告制作",
+      "icon": "ad",
+      "lead": "SNS・ディスプレイ広告のバナー制作・サイズ展開・A/B 案"
+    },
+    {
+      "id": "sns",
+      "name": "SNS運用",
+      "icon": "sns",
+      "lead": "投稿テンプレート・月間カレンダー・レポート雛形の設計"
     },
     {
       "id": "marketing",
@@ -846,6 +864,466 @@
       ]
     },
     {
+      "slug": "promo-video",
+      "title": "アプリ紹介ショート動画（15 秒・縦型）",
+      "kicker": "動画制作",
+      "categories": [
+        "video",
+        "marketing"
+      ],
+      "label": "self",
+      "year": "2025",
+      "summary": "公開中の自作アプリ Sweepfield を題材に、SNS・ストア掲載向けの 15 秒縦型動画を企画から書き出しまで制作。画面収録に頼らず、実機スクリーンショットとモーショングラフィックスで構成。",
+      "role": "企画・絵コンテ・モーション制作・書き出し",
+      "points": [
+        "最初の 2 秒で「毎日、世界で同じ盤面」を伝えるフック構成",
+        "実機スクリーンショットをスマホ枠に載せ、機能を短いチップで提示",
+        "縦 9:16・15 秒・無音でも伝わる字幕設計（横 16:9 や正方形にも展開可）"
+      ],
+      "stack": [
+        "HTML / CSS アニメーション",
+        "ffmpeg",
+        "H.264 / VP9"
+      ],
+      "links": [],
+      "visuals": [
+        {
+          "type": "video",
+          "mp4": "/assets/works/video-sweepfield.mp4",
+          "webm": "/assets/works/video-sweepfield.webm",
+          "poster": "/assets/works/video-sweepfield-poster.jpg",
+          "alt": "Sweepfield 紹介動画（15 秒・縦型・無音）: 見出し『毎日、世界で同じ盤面。』から実機画面、エンドカードまで",
+          "frame": "phone"
+        },
+        {
+          "type": "mock",
+          "kind": "storyboard",
+          "title": "絵コンテ（6 カット・15 秒）",
+          "frames": [
+            {
+              "src": "/assets/works/video-sb-1.jpg",
+              "alt": "フック: 見出し『毎日、世界で同じ盤面。』とタイルが出現",
+              "time": "00:01",
+              "label": "フック",
+              "note": "見出しが下からマスク表示され、盤面タイルが波状にポップ→中央からめくれて数字が現れる"
+            },
+            {
+              "src": "/assets/works/video-sb-2.jpg",
+              "alt": "スマホがスライドインし『推測なし。論理だけで解ける。』",
+              "time": "00:04",
+              "label": "スマホIN",
+              "note": "実機スクショ入りのスマホが奥行きを持って下からスライドイン。「推測なし」を浮遊チップで補強"
+            },
+            {
+              "src": "/assets/works/video-sb-3.jpg",
+              "alt": "上級盤面と VoiceOver・Dynamic Type・多言語のチップ",
+              "time": "00:08",
+              "label": "機能チップ",
+              "note": "画面が上級盤面へ切替。VoiceOver／Dynamic Type／多言語の3チップが順にポップして揺れる"
+            },
+            {
+              "src": "/assets/works/video-sb-4.jpg",
+              "alt": "クリア画面に花びらが舞い『解けた！』",
+              "time": "00:11",
+              "label": "クリア",
+              "note": "スマホが正面に戻りクリア画面へ。花びらが舞い「解けた！」チップで問いに応える"
+            },
+            {
+              "src": "/assets/works/video-sb-5.jpg",
+              "alt": "深緑のサークルワイプでエンドカードへ転換",
+              "time": "00:12",
+              "label": "転換",
+              "note": "深緑の円が下端から広がるサークルワイプでエンドカードへ"
+            },
+            {
+              "src": "/assets/works/video-sb-6.jpg",
+              "alt": "エンドカード: アイコン・Sweepfield・App Store で公開中",
+              "time": "00:14",
+              "label": "エンドカード",
+              "note": "アイコンがバウンドで登場→ワードマーク→タグライン→「App Store で公開中」ピルの順に着地"
+            }
+          ],
+          "note": "自作アプリの紹介として制作したサンプル"
+        },
+        {
+          "type": "mock",
+          "kind": "pipeline",
+          "title": "企画から書き出しまで",
+          "steps": [
+            {
+              "icon": "file",
+              "label": "企画・構成",
+              "sub": "伝える 1 点と尺を決める"
+            },
+            {
+              "icon": "list",
+              "label": "絵コンテ",
+              "sub": "6 カットで流れを確認"
+            },
+            {
+              "icon": "code",
+              "label": "モーション制作",
+              "sub": "実機画面＋タイポ演出"
+            },
+            {
+              "icon": "box",
+              "label": "書き出し",
+              "sub": "mp4 / webm・縦横の展開"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "ad-banner-set",
+      "title": "バナー広告セット（架空の外壁塗装店）",
+      "kicker": "広告制作",
+      "categories": [
+        "ad",
+        "design"
+      ],
+      "label": "self",
+      "year": "2025",
+      "summary": "地域の塗装店を想定した架空ブランドで、Instagram・ストーリーズ・ディスプレイ広告の 4 サイズを同じ世界観で展開。価格訴求と安心訴求の 2 案を用意し、A/B テストにそのまま使える構成。",
+      "role": "コンセプト・コピー・ビジュアル制作・サイズ展開",
+      "points": [
+        "1 つのキービジュアルから 4 サイズ（1080×1080 / 1080×1920 / 1200×628 / 300×250）へ展開",
+        "訴求軸を「価格」「安心」の 2 案に分け、レイアウト骨格は共通にして比較しやすく",
+        "小サイズでも読める文字量に絞り、CTA を全サイズで同じ位置に"
+      ],
+      "stack": [
+        "HTML / CSS / SVG",
+        "Google Fonts",
+        "headless Chrome レンダリング"
+      ],
+      "links": [],
+      "visuals": [
+        {
+          "type": "mock",
+          "kind": "adset",
+          "title": "4 サイズ × 訴求 2 案",
+          "items": [
+            {
+              "src": "/assets/works/ad-square-a.jpg",
+              "alt": "足場代0円を大きく掲げた正方形バナー。紺地にオレンジ屋根の家のイラストと無料見積もりボタン",
+              "slot": "square-a",
+              "label": "Instagram フィード",
+              "size": "1080×1080",
+              "variant": "A 価格訴求"
+            },
+            {
+              "src": "/assets/works/ad-square-b.jpg",
+              "alt": "自社職人10年保証を掲げた正方形バナー（B 案）。同じレイアウトで無料点検を予約するボタン",
+              "slot": "square-b",
+              "label": "Instagram フィード",
+              "size": "1080×1080",
+              "variant": "B 安心訴求"
+            },
+            {
+              "src": "/assets/works/ad-story.jpg",
+              "alt": "縦長ストーリーズ用バナー。上部に足場代0円、下部に塗装中の家のイラスト",
+              "slot": "story",
+              "label": "ストーリーズ / リール",
+              "size": "1080×1920",
+              "variant": "A 価格訴求"
+            },
+            {
+              "src": "/assets/works/ad-landscape.jpg",
+              "alt": "横長リンク広告用バナー。左に足場代0円と無料見積もりボタン、右に家のイラスト",
+              "slot": "landscape",
+              "label": "Facebook リンク広告",
+              "size": "1200×628",
+              "variant": "A 価格訴求"
+            },
+            {
+              "src": "/assets/works/ad-rect.jpg",
+              "alt": "300×250 ディスプレイ広告用の小型バナー。足場代0円と無料見積もりボタン",
+              "slot": "rect",
+              "label": "Google ディスプレイ",
+              "size": "300×250",
+              "variant": "A 価格訴求"
+            }
+          ],
+          "note": "架空ブランド「ヒナタ塗装店」・キャンペーン条件はサンプル"
+        },
+        {
+          "type": "mock",
+          "kind": "insight",
+          "title": "A/B テストの見方",
+          "kpis": [
+            {
+              "label": "A 価格訴求 CTR",
+              "value": "1.8%",
+              "sub": "クリック率（サンプル）"
+            },
+            {
+              "label": "B 安心訴求 CTR",
+              "value": "1.2%",
+              "sub": "クリック率（サンプル）"
+            },
+            {
+              "label": "判定",
+              "value": "A 案",
+              "sub": "1 週間・同予算で比較して継続"
+            }
+          ],
+          "bars": {
+            "label": "サイズ別の配信比率（サンプル）",
+            "items": [
+              {
+                "label": "フィード",
+                "value": 45,
+                "display": "45%"
+              },
+              {
+                "label": "ストーリーズ",
+                "value": 30,
+                "display": "30%"
+              },
+              {
+                "label": "ディスプレイ",
+                "value": 25,
+                "display": "25%"
+              }
+            ]
+          },
+          "note": "数値はサンプル"
+        },
+        {
+          "type": "mock",
+          "kind": "pipeline",
+          "title": "ヒアリングから入稿まで",
+          "steps": [
+            {
+              "icon": "mail",
+              "label": "ヒアリング",
+              "sub": "強み・対象・予算"
+            },
+            {
+              "icon": "file",
+              "label": "訴求軸 2 案",
+              "sub": "コピーと骨格"
+            },
+            {
+              "icon": "box",
+              "label": "サイズ展開",
+              "sub": "媒体ごとの規定に合わせる"
+            },
+            {
+              "icon": "sheet",
+              "label": "入稿・計測",
+              "sub": "A/B の結果で改善"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "sns-feed-plan",
+      "title": "Instagram 運用テンプレート（架空のカフェ）",
+      "kicker": "SNS 運用",
+      "categories": [
+        "sns",
+        "marketing"
+      ],
+      "label": "self",
+      "year": "2025",
+      "summary": "自家焙煎カフェを想定した架空ブランドで、投稿テンプレート 3 型・9 投稿・月間カレンダー・月次レポートの雛形まで一式を制作。担当者が型に沿って回せる運用設計。",
+      "role": "運用設計・テンプレート設計・投稿制作・レポート雛形",
+      "points": [
+        "「商品」「豆知識」「お知らせ」の 3 型で、投稿の迷いをなくす",
+        "9 投稿を並べたときの配色バランスまで設計したフィード",
+        "月間カレンダーと月次レポートの雛形で、運用を引き継げる形に"
+      ],
+      "stack": [
+        "HTML / CSS / SVG",
+        "Google Fonts",
+        "スプレッドシート運用"
+      ],
+      "links": [],
+      "visuals": [
+        {
+          "type": "mock",
+          "kind": "feed",
+          "title": "投稿テンプレート 3 型 × 9 投稿",
+          "profile": {
+            "name": "ひだまり珈琲店",
+            "handle": "@hidamari_coffee（架空）",
+            "avatar": "/assets/works/sns-avatar.jpg",
+            "stats": [
+              {
+                "value": "36",
+                "label": "投稿"
+              },
+              {
+                "value": "1,280",
+                "label": "フォロワー"
+              },
+              {
+                "value": "210",
+                "label": "フォロー中"
+              }
+            ],
+            "bio": "自家焙煎の小さな珈琲店。豆のこと、淹れ方のこと、お店のこと。"
+          },
+          "posts": [
+            {
+              "src": "/assets/works/sns-post-1.jpg",
+              "alt": "ひだまり珈琲店の新メニュー投稿サンプル。クリーム地にテラコッタの円、栗をのせたラテのイラストと「モンブランラテ ¥640」の見出し",
+              "kind": "A"
+            },
+            {
+              "src": "/assets/works/sns-post-2.jpg",
+              "alt": "ひだまり珈琲店の豆知識投稿サンプル。テラコッタ地にドリッパーとケトルのイラスト、淹れ方のコツ3点をカードで紹介",
+              "kind": "B"
+            },
+            {
+              "src": "/assets/works/sns-post-3.jpg",
+              "alt": "ひだまり珈琲店のお知らせ投稿サンプル。ダークブラウン地の二重枠に平日・土日祝の営業時間と定休日、時計のイラスト",
+              "kind": "C"
+            },
+            {
+              "src": "/assets/works/sns-post-4.jpg",
+              "alt": "ひだまり珈琲店のイベント告知投稿サンプル。ダークブラウン地に開催日時と参加費、焙煎機のイラスト",
+              "kind": "C"
+            },
+            {
+              "src": "/assets/works/sns-post-5.jpg",
+              "alt": "ひだまり珈琲店の新メニュー投稿サンプル。クリーム地にあんことバターをのせたトーストのイラストと「あんバタートースト ¥520」の見出し",
+              "kind": "A"
+            },
+            {
+              "src": "/assets/works/sns-post-6.jpg",
+              "alt": "ひだまり珈琲店の豆知識投稿サンプル。テラコッタ地にコーヒー豆と花のイラスト、産地の特長3点をカードで紹介",
+              "kind": "B"
+            },
+            {
+              "src": "/assets/works/sns-post-7.jpg",
+              "alt": "ひだまり珈琲店の豆知識投稿サンプル。テラコッタ地に豆の入った保存瓶のイラスト、保存のコツ3点をカードで紹介",
+              "kind": "B"
+            },
+            {
+              "src": "/assets/works/sns-post-8.jpg",
+              "alt": "ひだまり珈琲店のお知らせ投稿サンプル。ダークブラウン地に「ドリンク10杯で1杯無料」の案内とスタンプカードのイラスト",
+              "kind": "C"
+            },
+            {
+              "src": "/assets/works/sns-post-9.jpg",
+              "alt": "ひだまり珈琲店の新メニュー投稿サンプル。クリーム地にコーヒー豆の袋のイラストと「秋のたそがれ ¥1,300」の見出し",
+              "kind": "A"
+            }
+          ],
+          "legend": {
+            "A": "商品・新メニュー",
+            "B": "豆知識・コラム",
+            "C": "お知らせ・イベント"
+          },
+          "note": "架空ブランド・数値はサンプル"
+        },
+        {
+          "type": "mock",
+          "kind": "calendar",
+          "title": "月間投稿カレンダー（週 3 投稿）",
+          "days": [
+            "月",
+            "火",
+            "水",
+            "木",
+            "金",
+            "土",
+            "日"
+          ],
+          "weeks": [
+            [
+              "",
+              "A",
+              "",
+              "B",
+              "",
+              "C",
+              ""
+            ],
+            [
+              "",
+              "B",
+              "",
+              "A",
+              "",
+              "C",
+              ""
+            ],
+            [
+              "",
+              "A",
+              "",
+              "B",
+              "",
+              "C",
+              ""
+            ],
+            [
+              "",
+              "C",
+              "",
+              "A",
+              "",
+              "B",
+              ""
+            ]
+          ],
+          "legend": {
+            "A": "商品",
+            "B": "豆知識",
+            "C": "お知らせ"
+          },
+          "note": "曜日と型の割り当てはサンプル"
+        },
+        {
+          "type": "mock",
+          "kind": "insight",
+          "title": "月次レポートの雛形",
+          "kpis": [
+            {
+              "label": "フォロワー",
+              "value": "+312",
+              "sub": "前月比（サンプル）"
+            },
+            {
+              "label": "保存数",
+              "value": "486",
+              "sub": "月合計（サンプル）"
+            },
+            {
+              "label": "プロフィール",
+              "value": "1,040",
+              "sub": "アクセス数（サンプル）"
+            }
+          ],
+          "bars": {
+            "label": "型別の保存率（サンプル）",
+            "items": [
+              {
+                "label": "豆知識",
+                "value": 6.2,
+                "display": "6.2%"
+              },
+              {
+                "label": "商品",
+                "value": 4.1,
+                "display": "4.1%"
+              },
+              {
+                "label": "お知らせ",
+                "value": 2.3,
+                "display": "2.3%"
+              }
+            ]
+          },
+          "note": "数値はサンプル"
+        }
+      ]
+    },
+    {
       "slug": "aso",
       "title": "App Store 掲載最適化（ASO）",
       "kicker": "マーケティング",
@@ -889,6 +1367,7 @@
     "initial": "K",
     "tagline": "iOS・Web・自動化を、企画から公開まで一人で。",
     "facts": [
+      "実務経験 3 年以上",
       "App Store 公開アプリ 3 本",
       "公開 Web ツール 1 本",
       "GitHub 公開デモ 3 本"

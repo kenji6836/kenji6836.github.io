@@ -1,0 +1,44 @@
+[
+  {
+    "src": "/assets/works/video-sb-1.jpg",
+    "time": "00:01",
+    "label": "フック",
+    "note": "見出しが下からマスク表示され、盤面タイルが波状にポップ→中央からめくれて数字が現れる",
+    "alt": "フック: 見出し『毎日、世界で同じ盤面。』とタイルが出現"
+  },
+  {
+    "src": "/assets/works/video-sb-2.jpg",
+    "time": "00:04",
+    "label": "スマホIN",
+    "note": "実機スクショ入りのスマホが奥行きを持って下からスライドイン。「推測なし」を浮遊チップで補強",
+    "alt": "スマホがスライドインし『推測なし。論理だけで解ける。』"
+  },
+  {
+    "src": "/assets/works/video-sb-3.jpg",
+    "time": "00:08",
+    "label": "機能チップ",
+    "note": "画面が上級盤面へ切替。VoiceOver／Dynamic Type／多言語の3チップが順にポップして揺れる",
+    "alt": "上級盤面と VoiceOver・Dynamic Type・多言語のチップ"
+  },
+  {
+    "src": "/assets/works/video-sb-4.jpg",
+    "time": "00:11",
+    "label": "クリア",
+    "note": "スマホが正面に戻りクリア画面へ。花びらが舞い「解けた！」チップで問いに応える",
+    "alt": "クリア画面に花びらが舞い『解けた！』"
+  },
+  {
+    "src": "/assets/works/video-sb-5.jpg",
+    "time": "00:12",
+    "label": "転換",
+    "note": "深緑の円が下端から広がるサークルワイプでエンドカードへ",
+    "alt": "深緑のサークルワイプでエンドカードへ転換"
+  },
+  {
+    "src": "/assets/works/video-sb-6.jpg",
+    "time": "00:14",
+    "label": "エンドカード",
+    "note": "アイコンがバウンドで登場→ワードマーク→タグライン→「App Store で公開中」ピルの順に着地",
+    "alt": "エンドカード: アイコン・Sweepfield・App Store で公開中"
+  }
+]

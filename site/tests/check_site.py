@@ -22,12 +22,14 @@ else: ok("build.py --check")
 class P(HTMLParser):
     def __init__(self):
         super().__init__(); self.links=[]; self.imgs=[]; self.text=[]; self.h1=0; self.title=""; self.meta_desc=""; self.lang=""
-        self._in_title=False; self._skip=0; self.scripts=[]; self.stylesheets=[]; self.forms=0; self.ids=[]; self.tags={}
+        self._in_title=False; self._skip=0; self.scripts=[]; self.stylesheets=[]; self.forms=0; self.ids=[]; self.tags={}; self.videos=[]; self.sources=[]
     def handle_starttag(self, tag, attrs):
         a=dict(attrs); self.tags[tag]=self.tags.get(tag,0)+1
         if tag=="html": self.lang=a.get("lang","")
         if tag=="a" and a.get("href"): self.links.append((a["href"], a))
         if tag=="img": self.imgs.append(a)
+        if tag=="video": self.videos.append(a)
+        if tag=="source": self.sources.append(a)
         if tag=="h1": self.h1+=1
         if tag=="title": self._in_title=True
         if tag=="meta" and a.get("name")=="description": self.meta_desc=a.get("content","")
@@ -97,6 +99,14 @@ for pg in pages:
             elif path and frag and not frag.startswith("cat="):
                 if frag not in parse(path).ids: fail(f"{pg}: broken fragment {href}")
     txt = all_text[pg]
+    for v in p.videos:  # 動画: autoplay 属性なし（再生は site.js が制御）・muted/playsinline/poster あり・poster 実在
+        if "autoplay" in v: fail(f"{pg}: video has autoplay attribute")
+        for need in ("muted", "playsinline", "poster", "aria-label"):
+            if need not in v: fail(f"{pg}: video lacks {need}")
+        if v.get("poster") and not os.path.exists(v["poster"].lstrip("/")): fail(f"{pg}: missing poster {v.get('poster')}")
+    for src in p.sources:
+        if not os.path.exists(src.get("src","").lstrip("/")): fail(f"{pg}: missing video source {src.get('src')}")
+        if os.path.exists(src.get("src","").lstrip("/")) and os.path.getsize(src["src"].lstrip("/")) > 3_000_000: fail(f"{pg}: video source > 3MB {src['src']}")
     for w in FORBIDDEN:
         if w in txt: fail(f"{pg}: forbidden word '{w}'")
     raw = open(pg, encoding="utf-8").read()
@@ -127,8 +137,9 @@ for c in cats:
     if len(re.findall(rf'data-cats="[^"]*\b{c["id"]}\b', wl_raw)) < n: fail(f"works index: fewer cards tagged {c['id']} than content ({n})")
 ok("works index cards")
 
-# 3. 詳細: ラベル・カテゴリ・リンク・ビジュアル
+# 3. 詳細: ラベル・カテゴリ・リンク・ビジュアル（架空ブランド/数値サンプルの開示を含む）
 labels = content["labels"]
+SAMPLE_KINDS = {"adset", "feed", "calendar", "insight", "storyboard"}
 for w in works:
     pg = f"works/{w['slug']}/index.html"
     if pg not in all_text: continue
@@ -142,6 +153,16 @@ for w in works:
     for v in w["visuals"]:
         if v["type"] == "image" and v["src"] not in raw: fail(f"{pg}: visual missing {v['src']}")
         if v["type"] == "mock" and v["title"] not in raw: fail(f"{pg}: mock '{v['title']}' not rendered")
+        if v["type"] == "video":
+            for key in ("mp4", "webm", "poster"):
+                if v[key] not in raw: fail(f"{pg}: video {key} missing {v[key]}")
+        if v["type"] == "mock" and v["kind"] in SAMPLE_KINDS:
+            for item in v.get("items", []) + v.get("posts", []) + v.get("frames", []):
+                if item["src"] not in raw: fail(f"{pg}: {v['kind']} image missing {item['src']}")
+    if any(v["type"] == "mock" and v["kind"] in SAMPLE_KINDS for v in w["visuals"]) and "サンプル" not in t:
+        fail(f"{pg}: sample visuals without 「サンプル」 disclosure")
+    if w["label"] == "self" and any(v["type"] == "mock" and v["kind"] in SAMPLE_KINDS for v in w["visuals"]) and "架空" not in t and "自作" not in t:
+        fail(f"{pg}: self-made sample without 「架空」/「自作」 disclosure")
     if "#contact" not in raw: fail(f"{pg}: no CTA to contact")
 ok("detail pages")
 
@@ -153,6 +174,11 @@ for need in ("prefers-reduced-motion", "prefers-color-scheme: dark", "focus-visi
     if need not in css: fail(f"site.css lacks {need}")
 if len(css.encode()) > 60_000: fail("site.css > 60KB")
 if len(js.encode()) > 12_000: fail("site.js > 12KB")
+for need in ("prefers-reduced-motion", ".device-video", "IntersectionObserver"):
+    if need not in js: fail(f"site.js lacks {need}")
+stats = {s["label"]: s["value"] for s in content["hero"]["stats"]}
+if stats.get("任せられる領域") != str(len(cats)): fail(f"hero stat 分野 {stats.get('任せられる領域')} != categories {len(cats)}")
+if stats.get("掲載中の制作実績") != str(len(works)): fail(f"hero stat 件 {stats.get('掲載中の制作実績')} != works {len(works)}")
 if re.search(r"https?://(?!fonts\.g)", css): fail("site.css references external URL")
 if not os.path.exists(".nojekyll"): fail(".nojekyll missing")
 if os.path.exists("style.css"): fail("old root style.css still present")

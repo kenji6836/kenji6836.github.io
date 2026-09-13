@@ -25,6 +25,9 @@ LEGACY = (
 )
 
 
+WIDE_KINDS = {"storyboard", "adset", "feed"}  # 詳細ページのギャラリーで 2 列に収めず全幅にする
+
+
 def esc(value):
     return html.escape(str(value), quote=True)
 
@@ -84,6 +87,26 @@ def device(visual, eager=False):
     )
     return '<div class="device-frame device-{}">{}{}</div>'.format(
         esc(frame), chrome, image(visual, eager))
+
+
+def video(visual, eager=False):
+    """縦型動画をスマホ枠で。autoplay は付けず site.js が非 reduced-motion かつ可視時のみ再生する"""
+    width, height = image_size(visual["poster"])
+    return (
+        '<div class="device-frame device-phone device-video">'
+        '<video class="promo-video" muted loop playsinline preload="{preload}" poster="{poster}" '
+        'width="{width}" height="{height}" aria-label="{alt}">'
+        '<source src="{webm}" type="video/webm"><source src="{mp4}" type="video/mp4">{alt}</video>'
+        '<button class="video-toggle" type="button" aria-pressed="false" hidden>'
+        '<span class="video-toggle-play">再生</span><span class="video-toggle-pause">一時停止</span></button></div>'
+    ).format(preload="auto" if eager else "metadata", poster=esc(visual["poster"]), width=width, height=height,
+             alt=esc(visual["alt"]), webm=esc(visual["webm"]), mp4=esc(visual["mp4"]))
+
+
+def framed_image(src, alt, cls=""):
+    width, height = image_size(src)
+    return '<img class="{}" src="{}" alt="{}" width="{}" height="{}" loading="lazy" decoding="async">'.format(
+        esc(cls), esc(src), esc(alt), width, height)
 
 
 def pipeline(steps):
@@ -153,6 +176,61 @@ def mock(visual, compact=False):
         )
         body = '<ul class="criteria">{}</ul><div class="gate-result"><span class="status-pill">{}</span></div><div class="visual-note">{}</div>'.format(
             criteria, esc(visual["result"]), esc(visual["note"]))
+    elif kind == "storyboard":
+        frames = "".join(
+            '<li class="sb-frame">{}<span class="sb-meta"><time>{}</time><strong>{}</strong></span>'
+            '<span class="step-sub">{}</span></li>'.format(
+                framed_image(item["src"], item["alt"]), esc(item["time"]), esc(item["label"]), esc(item["note"]))
+            for item in visual["frames"]
+        )
+        body = '<ol class="storyboard">{}</ol><div class="visual-note">{}</div>'.format(frames, esc(visual["note"]))
+    elif kind == "adset":
+        cells = "".join(
+            '<div class="ad-cell ad-{}">{}<span class="ad-meta"><strong>{}</strong><span>{} · {}</span></span></div>'.format(
+                esc(item["slot"]), framed_image(item["src"], item["alt"]), esc(item["label"]), esc(item["size"]), esc(item["variant"]))
+            for item in visual["items"]
+        )
+        body = '<div class="ad-board">{}</div><div class="visual-note">{}</div>'.format(cells, esc(visual["note"]))
+    elif kind == "feed":
+        profile = visual["profile"]
+        stats = "".join('<li><strong>{}</strong><span>{}</span></li>'.format(esc(item["value"]), esc(item["label"])) for item in profile["stats"])
+        posts = "".join(
+            '<li class="feed-post" data-kind="{}">{}</li>'.format(esc(item["kind"]), framed_image(item["src"], item["alt"]))
+            for item in visual["posts"]
+        )
+        legend = "".join('<li><span class="kind-dot kind-{}" aria-hidden="true"></span>{}</li>'.format(esc(key), esc(label)) for key, label in visual["legend"].items())
+        body = (
+            '<div class="feed-profile">{}<div class="feed-profile-text"><strong>{}</strong><span class="step-sub">{}</span>'
+            '<ul class="feed-stats">{}</ul><p>{}</p></div></div><ol class="feed-grid">{}</ol>'
+            '<ul class="feed-legend">{}</ul><div class="visual-note">{}</div>'
+        ).format(framed_image(profile["avatar"], profile["name"] + " のアイコン", "feed-avatar"), esc(profile["name"]),
+                 esc(profile["handle"]), stats, esc(profile["bio"]), posts, legend, esc(visual["note"]))
+    elif kind == "calendar":
+        head = "".join('<li class="cal-head">{}</li>'.format(esc(day)) for day in visual["days"])
+        cells = "".join(
+            '<li class="cal-cell{}">{}</li>'.format(
+                " has-post" if cell else "",
+                '<span class="kind-dot kind-{0}" aria-hidden="true"></span><span>{1}</span>'.format(esc(cell), esc(visual["legend"][cell])) if cell else "")
+            for week in visual["weeks"] for cell in week
+        )
+        legend = "".join('<li><span class="kind-dot kind-{}" aria-hidden="true"></span>{}</li>'.format(esc(key), esc(label)) for key, label in visual["legend"].items())
+        body = '<ol class="calendar">{}{}</ol><ul class="feed-legend">{}</ul><div class="visual-note">{}</div>'.format(
+            head, cells, legend, esc(visual["note"]))
+    elif kind == "insight":
+        kpis = "".join(
+            '<li class="kpi"><span class="step-sub">{}</span><strong>{}</strong><span class="kpi-sub">{}</span></li>'.format(
+                esc(item["label"]), esc(item["value"]), esc(item["sub"])) for item in visual["kpis"]
+        )
+        body = '<ul class="kpi-row">{}</ul>'.format(kpis)
+        if "bars" in visual:
+            bars = visual["bars"]
+            maximum = max(item["value"] for item in bars["items"]) or 1
+            rows = "".join(
+                '<li><span>{}</span><span class="hbar" aria-hidden="true"><span style="width:{:.4f}%"></span></span><strong>{}</strong></li>'.format(
+                    esc(item["label"]), item["value"] / maximum * 100, esc(item["display"])) for item in bars["items"]
+            )
+            body += '<div class="chart-label">{}</div><ol class="hbar-list">{}</ol>'.format(esc(bars["label"]), rows)
+        body += '<div class="visual-note">{}</div>'.format(esc(visual["note"]))
     elif kind != "pipeline":
         raise ValueError("Unknown visual kind: " + kind)
     return '<figure class="mock mock-{}"{} role="img" aria-label="{}"><div class="mock-ui">{}</div><figcaption>{}</figcaption></figure>'.format(
@@ -164,6 +242,10 @@ def visual_markup(visual, compact=False):
         return device(visual)
     if visual["type"] == "mock":
         return mock(visual, compact)
+    if visual["type"] == "video":
+        if compact:
+            return device({"src": visual["poster"], "alt": visual["alt"], "frame": "phone"})
+        return video(visual)
     raise ValueError("Unknown visual type: " + visual["type"])
 
 
@@ -393,7 +475,8 @@ class Site:
         metadata = '<div><dt>担当</dt><dd>{}</dd></div><div><dt>技術</dt><dd><ul class="skill-list">{}</ul></dd></div>'.format(esc(work["role"]), stack)
         if links:
             metadata += '<div><dt>リンク</dt><dd class="button-row">{}</dd></div>'.format(links)
-        gallery = "".join('<div class="visual-panel gallery-item reveal">{}</div>'.format(visual_markup(v)) for v in visuals[consumed:])
+        gallery = "".join('<div class="visual-panel gallery-item reveal{}">{}</div>'.format(
+            " is-wide" if v.get("kind") in WIDE_KINDS else "", visual_markup(v)) for v in visuals[consumed:])
         previous = '<span></span>'
         following = '<span></span>'
         if index > 0:
@@ -416,7 +499,7 @@ class Site:
                  points, " has-links" if links else "", metadata,
                  '<div class="gallery">{}</div>'.format(gallery) if gallery else "", previous, following,
                  self.button("相談する（無料）", "/#contact", True))
-        og_image = next((v["src"] for v in visuals if v["type"] == "image"), "/assets/works/sweepfield-1.jpg")
+        og_image = next((v["src"] if v["type"] == "image" else v["poster"] for v in visuals if v["type"] in ("image", "video")), "/assets/works/sweepfield-1.jpg")
         return self.page("/works/{}/".format(work["slug"]), work["title"] + " — " + self.site["name"],
                          work["summary"], body, og_image=og_image, detail=True)
 

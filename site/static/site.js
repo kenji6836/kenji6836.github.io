@@ -94,6 +94,36 @@
     if (event.matches) showAll();
   });
 
+  // 紹介動画: autoplay 属性は付けない。動きを減らす設定ではネイティブ操作に任せ、それ以外は可視時のみ再生する
+  document.querySelectorAll(".device-video").forEach((frame) => {
+    const media = frame.querySelector("video");
+    const toggle = frame.querySelector(".video-toggle");
+    if (!media || !toggle) return;
+    if (reducedMotion.matches || !("IntersectionObserver" in window)) {
+      media.controls = true;
+      return;
+    }
+    let userPaused = false;
+    const setState = () => {
+      toggle.setAttribute("aria-pressed", media.paused ? "false" : "true");
+      frame.classList.toggle("is-playing", !media.paused);
+    };
+    const play = () => { if (!userPaused) media.play().catch(() => { media.controls = true; }); };
+    toggle.hidden = false;
+    toggle.addEventListener("click", () => {
+      userPaused = !media.paused;
+      if (media.paused) media.play().catch(() => {}); else media.pause();
+    });
+    media.addEventListener("play", setState);
+    media.addEventListener("pause", setState);
+    new IntersectionObserver((entries) => {
+      entries.forEach((entry) => { if (entry.isIntersecting) play(); else media.pause(); });
+    }, { threshold: 0.35 }).observe(frame);
+    reducedMotion.addEventListener("change", (event) => {
+      if (event.matches) { userPaused = true; media.pause(); media.controls = true; toggle.hidden = true; }
+    });
+  });
+
   document.querySelectorAll("form[data-action]").forEach((form) => {
     const submit = form.querySelector('[type="submit"]');
     const status = form.querySelector('[role="status"]');
