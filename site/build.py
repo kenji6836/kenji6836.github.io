@@ -420,6 +420,8 @@ class Site:
                 control = '<textarea {} rows="6"></textarea>'.format(attrs)
             elif field["type"] == "select":
                 options = "".join('<option value="{}">{}</option>'.format(esc(value), esc(value)) for value in field["options"])
+                if not field["required"]:  # 任意の select は未選択を既定にする（先頭の選択肢が黙って送られないように）
+                    options = '<option value="">選択してください</option>' + options
                 control = '<select {}>{}</select>'.format(attrs, options)
             else:
                 control = '<input {} type="{}"{}>'.format(attrs, esc(field["type"]),

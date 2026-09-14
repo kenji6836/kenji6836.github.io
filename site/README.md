@@ -11,5 +11,9 @@ Python 3.9 以降の標準ライブラリのみを使用します。
 表示確認（Node 24+・Chrome）: `node site/tools/cdp-shot.mjs http://127.0.0.1:8765/ 390 out.png [dark] [rm] [fold]`／横はみ出し検査: `node site/tools/cdp-eval.mjs <url> 390 844`。
 　`--window-size=390` の単純 headless 撮影は最小ウィンドウ幅の制約で幅が合わないため、上記の CDP エミュレーションを使う。
 問い合わせフォーム: Google フォーム（Apps Script `createContactForm` で作成・回答はスプレッドシート＋メール通知）。`content.json` の `contact.form_action` と各 `entry` が送信先。
+　TODO（統合レーン I・2026-09-14）: 任意欄「ご予算感」「参考にしたいサイト・アプリ」は `entry` が空（Google フォーム側に項目が無い）。フォーム側の項目追加は統合時に Chrome で行い、発行された `entry.xxxx` を `content.json` に書いてから公開する。空のままでも送信は通るが、その 2 項目はフォームに記録されない。
 Phase 2（2026-09-13）: 動画・広告・SNS の自主制作サンプルの原本は `site/src/{video,ad,sns}/`（HTML/SVG）。実寸レンダは `node site/tools/cdp-render.mjs <url> <w> <h> <out> [--selector CSS] [--scale N]`、動画は `node site/tools/render-video.mjs`（フレーム撮影→ffmpeg）。`<video>` は autoplay 属性を付けず、`site.js` が動きを減らす設定でない場合に可視範囲でのみ再生する。
 キャッシュ対策（2026-09-13）: build.py が画像・動画の URL に内容ハッシュ `?v=<sha1 8 桁>` を自動付与する。同名で差し替えても URL が変わるので、公開後にブラウザ/CDN の古い画像が残らない（check_site.py が `?v=` の有無を検査）。
+レーン統合（2026-09-14・HP 底上げ計画）: 各レーンは `site/lanes/<x>/works.json`（works エントリ／categories の lead／featured／hero_stats）と素材だけを納品し、`content.json` は統合レーンだけが触る。
+　`python3 site/tools/merge_lanes.py --dry-run` で差分要約 → `--apply` で `content.json` へ冪等に反映（slug 一致は置換・無ければ追加・hero.stats は works の実数から再計算）→ `python3 site/build.py` → `python3 site/tests/check_site.py`。壊れたスニペットは理由つきで skip され exit 1。
+　単体テスト: `python3 site/tests/test_merge_lanes.py`。独立ページ（`/lp/ /app/ /viz/ /demos/ /dashboard/ /cases/` 配下の index.html）は check_site.py が存在するときだけ同じ検査を掛ける（lang・title・description・img alt・外部 script/css・内部リンク・_blank noopener・video muted/playsinline・禁止語）。

@@ -44,14 +44,14 @@
         "label": "App Store 公開アプリ"
       },
       {
-        "value": "17",
+        "value": "6",
         "unit": "件",
-        "label": "掲載中の制作実績"
+        "label": "公開ツール・デモ"
       },
       {
-        "value": "10",
-        "unit": "分野",
-        "label": "任せられる領域"
+        "value": "8",
+        "unit": "件",
+        "label": "自主制作サンプル"
       }
     ],
     "visual": [
@@ -136,18 +136,16 @@
     "self": "自主制作"
   },
   "featured": [
-    "sweepfield",
     "reachlab",
     "inquiry-reply-assistant",
     "mission-control",
-    "autopilot",
-    "blockwise"
+    "autopilot"
   ],
   "works": [
     {
       "slug": "sweepfield",
       "title": "Sweepfield",
-      "kicker": "iOS ゲームアプリ",
+      "kicker": "公開実績 · iOS ゲームアプリ",
       "categories": [
         "app",
         "design"
@@ -198,7 +196,7 @@
     {
       "slug": "blockwise",
       "title": "Blockwise – ブロックパズル",
-      "kicker": "iOS ゲームアプリ",
+      "kicker": "公開実績 · iOS ゲームアプリ",
       "categories": [
         "app",
         "design"
@@ -248,7 +246,7 @@
     {
       "slug": "reversi",
       "title": "Simple Reversi Board",
-      "kicker": "iOS ゲームアプリ",
+      "kicker": "公開実績 · iOS ゲームアプリ",
       "categories": [
         "app"
       ],
@@ -1367,7 +1365,6 @@
     "initial": "K",
     "tagline": "iOS・Web・自動化を、企画から公開まで一人で。",
     "facts": [
-      "実務経験 3 年以上",
       "実務経験 5 年（2021 年〜）",
       "App Store 公開アプリ 3 本",
       "公開 Web ツール 1 本",
@@ -1412,6 +1409,11 @@
       "step": "4",
       "title": "納品・公開",
       "text": "公開作業や引き継ぎ資料まで対応します。"
+    },
+    {
+      "step": "5",
+      "title": "納品後の責任範囲",
+      "text": "成果物の範囲・検収条件・修正の範囲・保守の有無・データの取扱いを、お見積り時に文書でお示しします。"
     }
   ],
   "contact": {
@@ -1459,6 +1461,26 @@
           "SNS運用",
           "その他"
         ]
+      },
+      {
+        "name": "budget",
+        "label": "ご予算感（任意）",
+        "type": "select",
+        "required": false,
+        "entry": "",
+        "options": [
+          "〜5 万円",
+          "5〜30 万円",
+          "30 万円〜",
+          "未定"
+        ]
+      },
+      {
+        "name": "reference",
+        "label": "参考にしたいサイト・アプリ（任意）",
+        "type": "text",
+        "required": false,
+        "entry": ""
       },
       {
         "name": "message",

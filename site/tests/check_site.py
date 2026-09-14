@@ -180,9 +180,13 @@ if len(css.encode()) > 60_000: fail("site.css > 60KB")
 if len(js.encode()) > 12_000: fail("site.js > 12KB")
 for need in ("prefers-reduced-motion", ".device-video", "IntersectionObserver"):
     if need not in js: fail(f"site.js lacks {need}")
+sys.path.insert(0, os.path.join(ROOT, "site", "tools"))
+from merge_lanes import hero_stat_counts, STAT_LABELS  # 3 区分の数え方は merge_lanes.py と共有（再計算と検査が同じ規則）
 stats = {s["label"]: s["value"] for s in content["hero"]["stats"]}
-if stats.get("任せられる領域") != str(len(cats)): fail(f"hero stat 分野 {stats.get('任せられる領域')} != categories {len(cats)}")
-if stats.get("掲載中の制作実績") != str(len(works)): fail(f"hero stat 件 {stats.get('掲載中の制作実績')} != works {len(works)}")
+counts = hero_stat_counts(works)
+for label in STAT_LABELS:
+    if stats.get(label) != str(counts[label]): fail(f"hero stat '{label}' {stats.get(label)} != works {counts[label]}")
+if sum(counts.values()) != len(works): fail(f"hero stats sum {sum(counts.values())} != works {len(works)} (label must be public/self)")
 if re.search(r"https?://(?!fonts\.g)", css): fail("site.css references external URL")
 if not os.path.exists(".nojekyll"): fail(".nojekyll missing")
 if os.path.exists("style.css"): fail("old root style.css still present")
@@ -192,6 +196,55 @@ ok("css/js checks")
 r = subprocess.run(["git", "status", "--porcelain", "--", "blockwise", "apps", "mission-control", "baccarat", "app-ads.txt"], capture_output=True, text=True)
 if r.stdout.strip(): fail(f"protected paths modified: {r.stdout.strip()[:200]}")
 else: ok("protected paths untouched")
+
+# 6. 独立ページ（各レーンが置く自己完結ページ）: 配下に index.html があれば同じ検査・無ければ skip
+EXTRA_DIRS = ("lp", "app", "viz", "demos", "dashboard", "cases")
+extra_pages = []
+for d in EXTRA_DIRS:
+    if os.path.isdir(d):
+        for dirpath, _dirs, files in os.walk(d):
+            if "index.html" in files: extra_pages.append(os.path.join(dirpath, "index.html"))
+extra_pages.sort()
+for pg in extra_pages:
+    p = parse(pg); raw = open(pg, encoding="utf-8").read(); txt = "".join(p.text)
+    if p.lang != "ja": fail(f"{pg}: <html lang> != ja")
+    if not p.title.strip(): fail(f"{pg}: empty <title>")
+    if not p.meta_desc.strip(): fail(f"{pg}: empty meta description")
+    for src in p.scripts:
+        if src and (src.startswith(("http://", "https://", "//"))): fail(f"{pg}: external script {src}")
+    if re.search(r"""(?:\bfrom|import\s*\()\s*["']https?://""", raw): fail(f"{pg}: external module import in inline script")
+    for href in p.stylesheets:
+        if href.startswith(("http", "//")) and not href.startswith(ALLOWED_EXTERNAL): fail(f"{pg}: external stylesheet {href}")
+    if re.search(r"""@import\s+(?:url\()?["']?https?://(?!fonts\.googleapis\.com)""", raw): fail(f"{pg}: external @import in style")
+    for img in p.imgs:
+        if "alt" not in img: fail(f"{pg}: img without alt {img.get('src')}")
+        src = img.get("src", "")
+        if src.startswith(("http", "//")): fail(f"{pg}: external image {src}")
+        elif src and not src.startswith("data:"):
+            path = resolve(src, pg)
+            if not os.path.exists(path): fail(f"{pg}: missing image {src}")
+    for href, a in p.links:
+        if href.startswith(("mailto:", "tel:", "javascript:")): fail(f"{pg}: unexpected scheme {href}")
+        elif href.startswith(("http", "//")):
+            if a.get("target") == "_blank" and "noopener" not in a.get("rel", ""): fail(f"{pg}: _blank without noopener {href}")
+        elif href.startswith("#"):
+            if href != "#" and href[1:] not in p.ids: fail(f"{pg}: broken anchor {href}")
+        else:
+            frag = href.split("#")[1] if "#" in href else None
+            path = resolve(href, pg)
+            if path and not os.path.exists(path): fail(f"{pg}: broken link {href} -> {path}")
+            elif path and frag and not frag.startswith("cat=") and path.endswith(".html"):
+                if frag not in parse(path).ids: fail(f"{pg}: broken fragment {href}")
+    for v in p.videos:
+        for need in ("muted", "playsinline"):
+            if need not in v: fail(f"{pg}: video lacks {need}")
+        if v.get("poster") and not os.path.exists(resolve(v["poster"], pg)): fail(f"{pg}: missing poster {v.get('poster')}")
+    for src in p.sources:
+        spath = resolve(src.get("src", ""), pg)
+        if spath and not os.path.exists(spath): fail(f"{pg}: missing video source {src.get('src')}")
+    for w in FORBIDDEN:
+        if w in txt: fail(f"{pg}: forbidden word '{w}'")
+ok(f"{len(extra_pages)} independent pages checked ({', '.join(d for d in EXTRA_DIRS if os.path.isdir(d)) or 'none present'})")
 
 print("\nRESULT:", "PASS" if not FAILS else f"FAIL ({len(FAILS)})")
 sys.exit(1 if FAILS else 0)

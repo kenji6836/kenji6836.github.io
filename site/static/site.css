@@ -167,7 +167,7 @@ main:focus { outline: none; }
 .card-arrow { display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 50%; color: var(--brand); }
 .card-arrow .icon { width: 16px; height: 16px; }
 .section-action { margin-top: 40px; text-align: center; }
-.process-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+.process-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 24px; }
 .process-step { position: relative; min-width: 0; }
 .process-step::after { content: ""; position: absolute; top: 20px; left: 56px; right: 0; height: 1px; background: var(--brand-line); }
 .process-step:last-child::after { display: none; }
@@ -367,7 +367,7 @@ main:focus { outline: none; }
 }
 @media (max-width: 799px) {
   .process-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 24px; }
-  .process-step:nth-child(2)::after { display: none; }
+  .process-step:nth-child(even)::after { display: none; }
   .points-grid { grid-template-columns: 1fr; }
   .gallery { grid-template-columns: 1fr; }
   .visual-panel { padding: 40px 24px; }
