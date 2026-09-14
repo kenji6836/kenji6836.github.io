@@ -128,7 +128,7 @@
     eng.moveTo(out, { dur: snap ? 160 : 500, stagger: snap ? 50 : 240, spawn: "stay" });
     tl.anno.innerHTML = "";
     if (i >= peakI + 5 || i === peakI) annotate(tl.anno, tl.x(peakI), tl.y(D.national_h[peakI]), "1973 年 " + fmt(D.national_h[peakI]) + " 戸", "ピーク", true);
-    if (i >= iH(2009) + 5 || i === iH(2009)) annotate(tl.anno, tl.x(iH(2009)), tl.y(D.national_h[iH(2009)]), "2009 年 " + fmt(D.national_h[iH(2009)]) + " 戸", "半世紀ぶりの水準", false, true);
+    if (i >= iH(2009) + 5 || i === iH(2009)) annotate(tl.anno, tl.x(iH(2009)), tl.y(D.national_h[iH(2009)]), "2009 年 " + fmt(D.national_h[iH(2009)]) + " 戸", "45 年ぶりの水準", false, true);
     if (i >= last) annotate(tl.anno, tl.x(last), tl.y(D.national_h[last]), YH[last] + " 年 " + fmt(D.national_h[last]) + " 戸", "1973 年の " + Math.round(D.national_h[last] / D.national_h[peakI] * 100) + "%", true);
   }
 
