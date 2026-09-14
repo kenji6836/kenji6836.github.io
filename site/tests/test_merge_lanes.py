@@ -121,6 +121,41 @@ class MergeLanesTest(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertIn("visuals[0] (image) cannot render", log)
 
+    def test_lane_metadata_and_categories_lead_are_accepted(self):
+        # レーン D/W/V の納品形: メタキー＋categories_lead＋サイト内リンク
+        os.makedirs(os.path.join(self.root, "viz"))
+        with open(os.path.join(self.root, "viz/index.html"), "w", encoding="utf-8") as handle:
+            handle.write("<html lang=\"ja\"></html>")
+        self.write_snippet("d", {
+            "lane": "d", "branch": "hp/d", "delivered_at": "2026-09-14", "note": "n", "self_checks": {"script": "x"},
+            "hero_stats_delta": {"self_delta": 1}, "featured_suggestion": "swap mission-control",
+            "categories_lead": {"web": "lead from lane"},
+            "works": [work("viz", label="self", cats=("web",), links=[{"label": "作品を見る", "url": "/viz/"}])],
+        })
+        code, merged, log = self.run_merge(apply=True)
+        self.assertEqual(code, 0, log)
+        saved = self.read_content()
+        self.assertEqual([w["slug"] for w in saved["works"]], ["one", "two", "viz"])
+        self.assertEqual(saved["categories"][1]["lead"], "lead from lane")
+        self.assertEqual(saved["featured"], ["one"])  # featured_suggestion は反映しない
+        self.assertIn("featured_suggestion: not applied", log)
+        self.assertIn("hero_stats_delta: not applied", log)
+        stats = {s["label"]: s["value"] for s in saved["hero"]["stats"]}
+        self.assertEqual(stats[merge_lanes.STAT_SELF], "2")
+        self.assertNotIn("categories_lead", saved)
+
+    def test_internal_link_must_exist_and_lead_conflict_is_reported(self):
+        self.write_snippet("w", {"works": [work("lp", cats=("web",), links=[{"label": "LP", "url": "/lp/missing/"}])]})
+        code, merged, log = self.run_merge(apply=True)
+        self.assertEqual(code, 1)
+        self.assertIn("internal url '/lp/missing/' does not exist", log)
+        self.assertNotIn("lp", [w["slug"] for w in self.read_content()["works"]])
+        self.write_snippet("w", {"categories": {"web": {"lead": "a"}}, "categories_lead": {"web": "b"}})
+        code, merged, log = self.run_merge(apply=True)
+        self.assertEqual(code, 1)
+        self.assertIn("categories_lead.web: also given in 'categories'", log)
+        self.assertEqual(self.read_content()["categories"][1]["lead"], "web lead")
+
 
 if __name__ == "__main__":
     unittest.main()

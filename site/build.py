@@ -481,7 +481,8 @@ class Site:
             main_visual = visual_markup(visuals[0])
         points = "".join('<li class="point-card reveal">{}<span>{}</span></li>'.format(icon("check"), esc(point)) for point in work["points"])
         stack = "".join('<li class="chip">{}</li>'.format(esc(item)) for item in work["stack"])
-        links = "".join(self.button(link["label"], link["url"], primary=i == 0, external=True) for i, link in enumerate(work["links"]))
+        links = "".join(self.button(link["label"], link["url"], primary=i == 0, external=not link["url"].startswith("/"))
+                        for i, link in enumerate(work["links"]))  # サイト内パス（/viz/ 等）は同タブ・矢印アイコン
         metadata = '<div><dt>担当</dt><dd>{}</dd></div><div><dt>技術</dt><dd><ul class="skill-list">{}</ul></dd></div>'.format(esc(work["role"]), stack)
         if links:
             metadata += '<div><dt>リンク</dt><dd class="button-row">{}</dd></div>'.format(links)

@@ -14,6 +14,12 @@
   }
   works エントリの並び指定（任意・書き込み時に除去）: "_after": "<slug>"（その直後へ）／"_position": <int>（0 始まり）
   置換のときは既存の位置を保つ（並び指定があればそこへ移動）。
+  納品実態に合わせた受理（2026-09-14・レーン D/W/V の形）:
+    "categories_lead": {"<id>": "..."}  は categories:{id:{lead}} と同じ扱い（両方で同じ id を指定したら error）
+    レーンのメタ情報（lane / branch / generated / delivered_at / note / notes / merge_rule / pages / assets /
+    independent_pages / kit / links_note / self_checks / hero_stats_delta / hero_stats_diff / featured_suggestion）は
+    検証・反映せず note として表示するだけ（featured と hero.stats は統合レーンが決める）
+    links[].url はサイト内パス（"/viz/" のように "/" 始まり）も可。リポジトリに実在しなければ error
 
 hero.stats は works の実数から常に再計算する（check_site.py と同じ規則 = hero_stat_counts）:
   App Store 公開アプリ = label public かつ categories に app かつ apps.apple.com へのリンクあり
@@ -54,6 +60,12 @@ REQUIRED_WORK_KEYS = {
 }
 DIRECTIVES = ("_after", "_position")
 FEATURED_MAX = 6  # 目安（超えても書き込むが注意を出す）
+SNIPPET_KEYS = {"works", "categories", "categories_lead", "featured", "hero_stats"}
+# レーンが添える説明用のキー。検証も反映もしない（note に出すだけ）
+META_KEYS = {"lane", "branch", "generated", "delivered_at", "note", "notes", "merge_rule", "pages", "assets",
+             "independent_pages", "kit", "links_note", "self_checks", "hero_stats_delta", "hero_stats_diff",
+             "featured_suggestion"}
+NOTED_META = ("featured_suggestion", "hero_stats_delta", "hero_stats_diff")
 
 
 def is_app_store_app(work):
@@ -108,6 +120,15 @@ def walk_strings(value, path=""):
                 yield found
 
 
+def internal_path_exists(root, url):
+    """サイト内パス（"/viz/"・"/cases/aso/"・"/x.pdf"）が公開ディレクトリに実在するか（check_site.py の resolve と同じ規則）。"""
+    path = url.split("#")[0].split("?")[0].lstrip("/")
+    target = os.path.join(root, path) if path else root
+    if os.path.isdir(target):
+        target = os.path.join(target, "index.html")
+    return os.path.isfile(target)
+
+
 def validate_work(work, content, root, seen_slugs):
     errors = []
     if not isinstance(work, dict):
@@ -139,8 +160,11 @@ def validate_work(work, content, root, seen_slugs):
     for index, link in enumerate(work["links"]):
         if not isinstance(link, dict) or not isinstance(link.get("label"), str) or not isinstance(link.get("url"), str):
             errors.append("{}: links[{}] needs string 'label' and 'url'".format(where, index))
+        elif link["url"].startswith("/"):
+            if not internal_path_exists(root, link["url"]):
+                errors.append("{}: links[{}] internal url '{}' does not exist in the repository".format(where, index, link["url"]))
         elif not link["url"].startswith(("https://", "http://")):
-            errors.append("{}: links[{}] url must be absolute http(s)".format(where, index))
+            errors.append("{}: links[{}] url must be absolute http(s) or a site path starting with '/'".format(where, index))
     if not work["visuals"]:
         errors.append("{}: visuals is empty (detail page needs at least one)".format(where))
     for key in work:
@@ -170,15 +194,37 @@ def validate_work(work, content, root, seen_slugs):
     return errors
 
 
+def normalize_categories(data):
+    """categories_lead:{id:"..."} を categories:{id:{lead}} へ寄せる（data を書き換える）。矛盾は理由のリストで返す。"""
+    errors = []
+    leads = data.get("categories_lead")
+    if leads is None:
+        return errors
+    if not isinstance(leads, dict) or not all(isinstance(v, str) for v in leads.values()):
+        return ["'categories_lead' must be an object of category id -> lead string"]
+    cats = data.get("categories")
+    if cats is None:
+        cats = data["categories"] = {}
+    if not isinstance(cats, dict):
+        return errors  # 形の誤りは validate_snippet 側が報告する
+    for cat_id, lead in leads.items():
+        if cat_id in cats:
+            errors.append("categories_lead.{}: also given in 'categories' (specify one)".format(cat_id))
+        else:
+            cats[cat_id] = {"lead": lead}
+    del data["categories_lead"]
+    return errors
+
+
 def validate_snippet(data, content, root):
     """壊れている理由のリストを返す（空なら合格）。"""
     errors = []
     if not isinstance(data, dict):
         return ["top level must be an object"]
-    allowed = {"works", "categories", "featured", "hero_stats"}
     for key in data:
-        if key not in allowed:
-            errors.append("unknown top-level key '{}' (allowed: {})".format(key, ", ".join(sorted(allowed))))
+        if key not in SNIPPET_KEYS and key not in META_KEYS:
+            errors.append("unknown top-level key '{}' (allowed: {})".format(key, ", ".join(sorted(SNIPPET_KEYS))))
+    errors.extend(normalize_categories(data))
     works = data.get("works", [])
     if not isinstance(works, list):
         errors.append("'works' must be a list")
@@ -246,6 +292,10 @@ def place_work(works, entry, notes):
 def merge_snippet(content, data):
     """検証済みスニペットを content（破壊的）へ反映し、要約を返す。"""
     summary = {"added": [], "replaced": [], "unchanged": [], "leads": [], "featured": [], "stats": [], "notes": []}
+    for key in NOTED_META:
+        if key in data:
+            summary["notes"].append("{}: not applied (integration lane decides): {}".format(
+                key, json.dumps(data[key], ensure_ascii=False)[:200]))
     for entry in data.get("works", []):
         replaced, changed = place_work(content["works"], entry, summary["notes"])
         if not replaced:

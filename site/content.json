@@ -49,7 +49,7 @@
         "label": "公開ツール・デモ"
       },
       {
-        "value": "8",
+        "value": "9",
         "unit": "件",
         "label": "自主制作サンプル"
       }
@@ -122,7 +122,7 @@
       "id": "data",
       "name": "データ分析・見える化",
       "icon": "data",
-      "lead": "ダッシュボード・予測モデル・自動レポート"
+      "lead": "公共データの可視化・ダッシュボード・予測モデル・自動レポート"
     },
     {
       "id": "planning",
@@ -136,10 +136,12 @@
     "self": "自主制作"
   },
   "featured": [
+    "viz-housing",
     "reachlab",
     "inquiry-reply-assistant",
     "mission-control",
-    "autopilot"
+    "autopilot",
+    "estat-to-sheet"
   ],
   "works": [
     {
@@ -1354,6 +1356,56 @@
           "src": "/assets/works/store-listing-1.jpg",
           "alt": "Sweepfield の App Store 掲載ページ",
           "frame": "browser"
+        }
+      ]
+    },
+    {
+      "slug": "viz-housing",
+      "title": "家は、どこに建っているのか。",
+      "kicker": "データストーリー（公共統計の可視化）",
+      "categories": [
+        "data",
+        "web"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "国土交通省の住宅着工統計 75 年と総務省の人口推計 25 年から、47 都道府県の「家が建つ場所」をたどる自主制作のスクロール連動ビジュアライゼーション。1 粒 ＝ 1,000 戸の粒子が段を跨いで並び替わり、触れる地図で自分の県を読める。",
+      "role": "題材選定・データ取得と整形（e-Stat／総務省の公開ファイル）・設計・実装（Canvas 2D と SVG を自前で描画）・検証",
+      "points": [
+        "依存ライブラリなし。粒子・地図・散布図・ドットプロットをすべて自前で描画し、スクロールに同期",
+        "ライト／ダーク・スマホ幅・動きを減らす設定・JavaScript 無効の 4 条件で内容が読める",
+        "出典と取得日を明記し、本文の数字はビルド時にデータから再計算（手書きしない）"
+      ],
+      "stack": [
+        "HTML / CSS / JavaScript",
+        "Canvas 2D",
+        "SVG",
+        "Python（データ整形・静的生成）"
+      ],
+      "links": [
+        {
+          "label": "作品を見る",
+          "url": "/viz/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/viz-1.jpg",
+          "alt": "「家は、どこに建っているのか。」の導入画面（75 年の棒グラフと 39%）",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/viz-2.jpg",
+          "alt": "人口 1,000 人あたりの新設住宅着工で塗り分けた都道府県地図",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/viz-3.jpg",
+          "alt": "スマホ幅での地図の場面",
+          "frame": "phone"
         }
       ]
     }
