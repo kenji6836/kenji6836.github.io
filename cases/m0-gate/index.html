@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>新規事業の定量ゲート（M0）｜事例 — Kenji Ido Portfolio</title>
+  <meta name="description" content="新しいサービスに着手する前に「競合の実データ」「コスト構造」「無料手段で足りないか」の 3 点を数字で確かめる判断フレーム。法人向け自動化サービスの立ち上げ判断に適用した実測値と、その場で試せる簡易計算ツールつき。">
+  <link rel="canonical" href="https://kenji6836.github.io/cases/m0-gate/">
+  <meta property="og:title" content="新規事業の定量ゲート（M0）｜事例 — Kenji Ido Portfolio">
+  <meta property="og:description" content="着手前に「競合の実データ」「コスト構造」「無料手段で足りないか」を数字で確かめる判断フレーム。実測値と簡易計算ツールつきの事例。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://kenji6836.github.io/cases/m0-gate/">
+  <meta property="og:image" content="https://kenji6836.github.io/assets/works/sweepfield-1.jpg">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#2457e6">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/cases/assets/cases.css?v=1">
+  <style>
+    .flow-h { display: none; }
+    .flow-v { display: block; max-width: 420px; margin-inline: auto; }
+    @media (min-width: 720px) { .flow-h { display: block; } .flow-v { display: none; } }
+    .fs-box { fill: var(--surface); stroke: var(--brand-line); stroke-width: 1.5; }
+    .fs-human { fill: var(--warn-soft); stroke: var(--warn); }
+    .fs-num { fill: var(--brand); }
+    .fs-numt { fill: var(--brand-ink); font-size: 13px; font-weight: 900; }
+    .fs-t { fill: var(--text); font-size: 14px; font-weight: 700; }
+    .fs-s { fill: var(--text-2); font-size: 13px; }
+    .fs-arrow { fill: none; stroke: var(--text-3); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .split { display: grid; gap: 16px; margin-top: 16px; }
+    @media (min-width: 720px) { .split { grid-template-columns: 1fr 1fr; } }
+    .legend { margin-top: 10px; font-size: 12px; color: var(--text-3); }
+    .tag { display: inline-block; padding: 0 8px; border-radius: 999px; font-size: 11px; font-weight: 700; background: var(--ok-soft); color: var(--ok); }
+    .tag-2nd { background: var(--warn-soft); color: var(--warn); }
+    .tag-est { background: var(--brand-soft); color: var(--brand); }
+    th.group, td.group { background: var(--bg-alt); font-weight: 700; }
+    .calc-grid { display: grid; gap: 16px; margin-top: 16px; }
+    @media (min-width: 900px) { .calc-grid { grid-template-columns: 3fr 2fr; align-items: start; } }
+    .presets { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 4px; }
+    .lamps li { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+    .lamps li:last-child { border-bottom: 0; }
+    .result-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 14px; }
+    .cta-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    @media (max-width: 720px) {
+      table, tbody, tr, td { display: block; } thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+      tr { border-bottom: 1px solid var(--line); padding: 10px 0; } tr:last-child { border-bottom: 0; } td { border: 0; padding: 3px 14px; overflow-wrap: anywhere; }
+      td[data-l]::before { content: attr(data-l); display: block; font-size: 11px; font-weight: 700; color: var(--text-3); }
+    }
+  </style>
+</head>
+<body>
+<a class="skip-link" href="#main">本文へスキップ</a>
+<header class="site-header"><div class="container"><a class="brand" href="/">Kenji Ido</a><nav class="site-nav" aria-label="メインナビゲーション"><a href="/works/">制作実績</a><a href="/#contact">お問い合わせ</a></nav></div></header>
+<main id="main" tabindex="-1">
+
+<section class="case-hero"><div class="container">
+  <span class="eyebrow">企画・業務改善 ／ 事例</span>
+  <h1>新規事業の定量ゲート（M0）</h1>
+  <p class="lead">新しいサービスに手を付ける前に、「競合の実データ」「コスト構造」「無料手段で足りないか」の 3 点を数字で確かめる判断フレームです。自分の事業（法人向け自動化サービス）の立ち上げ判断に使い、判定書 1 枚にまとめました。</p>
+  <ul class="badges">
+    <li class="badge badge-ok">自分の事業で運用中</li>
+    <li class="badge badge-brand">自主制作</li>
+    <li class="badge">数値は実測（一部は二次情報）</li>
+    <li class="badge badge-warn">ページ内に簡易計算ツール</li>
+  </ul>
+  <ul class="kpis">
+    <li class="kpi"><div class="kpi-value">3<small>点</small></div><div class="kpi-label">着手前に数字で確かめる項目</div><div class="kpi-src">client-work/M0-LEDGER.md・2026-09-14</div></li>
+    <li class="kpi"><div class="kpi-value">41〜1,086<small>件</small></div><div class="kpi-label">同一語の競合件数（6 業種の幅）</div><div class="kpi-src">client-work/M0-LEDGER.md・2026-09-14（AI 要約経由の推定）</div></li>
+    <li class="kpi"><div class="kpi-value">100,000<small>円</small></div><div class="kpi-label">受けられる法人案件 21 件の予算上限 中央値</div><div class="kpi-src">docs/ledgers/m0-automation-corporate-20260912.md・2026-09-14</div></li>
+    <li class="kpi"><div class="kpi-value">32.4<small>%</small></div><div class="kpi-label">中小企業の生成 AI 活用率（帝国データバンク 2026-05）</div><div class="kpi-src">docs/ledgers/m0-automation-corporate-20260912.md・2026-09-14</div></li>
+  </ul>
+</div></section>
+
+<section class="section"><div class="container">
+  <div class="section-heading"><span class="eyebrow">課題</span><h2>「良さそう」で始めると、やめ時も決められない</h2></div>
+  <ul class="cards">
+    <li class="card"><span class="num">1</span><h3>思いつきで作り始めてしまう</h3><p>作ってから「同じものが山ほどある」「誰も払わない」と気づくと、数週間が無駄になります。</p></li>
+    <li class="card"><span class="num">2</span><h3>競合の多さを感覚で語ってしまう</h3><p>「多そう」「少なそう」では判断が人によって変わり、後から検証できません。</p></li>
+    <li class="card"><span class="num">3</span><h3>やめ時を決めずに始める</h3><p>撤退基準がないと、うまくいっていない事業に時間を注ぎ続けます。</p></li>
+  </ul>
+</div></section>
+
+<section class="section section-alt"><div class="container">
+  <div class="section-heading"><span class="eyebrow">仕組み</span><h2>3 点を数えて、判定書 1 枚にして、期日で見直す</h2><p>調査と計数は機械、ラベル付けと総合判定と撤退基準は人が決めます。</p></div>
+  <div class="flow">
+    <svg class="flow-h" viewBox="0 0 778 150" role="img" aria-label="フロー図: 候補出し、3 点の計数、判定書、期日での見直しの 4 段階"><title>M0 ゲートの流れ（横並び）</title>
+      <g><rect class="fs-box" x="4" y="20" width="170" height="112" rx="14"/><circle class="fs-num" cx="26" cy="44" r="12"/><text class="fs-numt" x="26" y="44" text-anchor="middle" dominant-baseline="central">1</text><text class="fs-t" x="16" y="78">候補を出す</text><text class="fs-t" x="16" y="97">（業種×自動化）</text><text class="fs-s" x="16" y="119">まだ思いつきの段階</text></g>
+      <path class="fs-arrow" d="M178 76h22m-6-6 6 6-6 6"/>
+      <g><rect class="fs-box" x="204" y="20" width="170" height="112" rx="14"/><circle class="fs-num" cx="226" cy="44" r="12"/><text class="fs-numt" x="226" y="44" text-anchor="middle" dominant-baseline="central">2</text><text class="fs-t" x="216" y="78">3 点を数字で</text><text class="fs-t" x="216" y="97">計数する</text><text class="fs-s" x="216" y="119">競合・コスト・無料手段</text></g>
+      <path class="fs-arrow" d="M378 76h22m-6-6 6 6-6 6"/>
+      <g><rect class="fs-box fs-human" x="404" y="20" width="170" height="112" rx="14"/><circle class="fs-num" cx="426" cy="44" r="12"/><text class="fs-numt" x="426" y="44" text-anchor="middle" dominant-baseline="central">3</text><text class="fs-t" x="416" y="78">判定書 1 枚に</text><text class="fs-t" x="416" y="97">まとめる</text><text class="fs-s" x="416" y="119">GO／条件付き／見送り</text></g>
+      <path class="fs-arrow" d="M578 76h22m-6-6 6 6-6 6"/>
+      <g><rect class="fs-box fs-human" x="604" y="20" width="170" height="112" rx="14"/><circle class="fs-num" cx="626" cy="44" r="12"/><text class="fs-numt" x="626" y="44" text-anchor="middle" dominant-baseline="central">4</text><text class="fs-t" x="616" y="78">着手して</text><text class="fs-t" x="616" y="97">期日で見直す</text><text class="fs-s" x="616" y="119">撤退基準を先に決める</text></g>
+    </svg>
+    <svg class="flow-v" viewBox="0 0 340 392" role="img" aria-label="フロー図: 候補出し、3 点の計数、判定書、期日での見直しの 4 段階"><title>M0 ゲートの流れ（縦並び）</title>
+      <g><rect class="fs-box" x="10" y="4" width="320" height="76" rx="14"/><circle class="fs-num" cx="34" cy="42" r="12"/><text class="fs-numt" x="34" y="42" text-anchor="middle" dominant-baseline="central">1</text><text class="fs-t" x="58" y="38">候補を出す（業種×自動化）</text><text class="fs-s" x="58" y="62">まだ思いつきの段階</text></g>
+      <path class="fs-arrow" d="M170 84v16m-6-6 6 6 6-6"/>
+      <g><rect class="fs-box" x="10" y="104" width="320" height="76" rx="14"/><circle class="fs-num" cx="34" cy="142" r="12"/><text class="fs-numt" x="34" y="142" text-anchor="middle" dominant-baseline="central">2</text><text class="fs-t" x="58" y="138">3 点を数字で計数する</text><text class="fs-s" x="58" y="162">競合・コスト・無料手段</text></g>
+      <path class="fs-arrow" d="M170 184v16m-6-6 6 6 6-6"/>
+      <g><rect class="fs-box fs-human" x="10" y="204" width="320" height="76" rx="14"/><circle class="fs-num" cx="34" cy="242" r="12"/><text class="fs-numt" x="34" y="242" text-anchor="middle" dominant-baseline="central">3</text><text class="fs-t" x="58" y="238">判定書 1 枚にまとめる</text><text class="fs-s" x="58" y="262">GO／条件付き GO／見送り</text></g>
+      <path class="fs-arrow" d="M170 284v16m-6-6 6 6 6-6"/>
+      <g><rect class="fs-box fs-human" x="10" y="304" width="320" height="76" rx="14"/><circle class="fs-num" cx="34" cy="342" r="12"/><text class="fs-numt" x="34" y="342" text-anchor="middle" dominant-baseline="central">4</text><text class="fs-t" x="58" y="338">着手して期日で見直す</text><text class="fs-s" x="58" y="362">撤退基準を先に決める</text></g>
+    </svg>
+    <p class="flow-caption">色付きの段階は人が決めます。2 の計数は取得・集計を機械に任せます。</p>
+  </div>
+  <div class="split">
+    <div class="card"><h3>機械がやること</h3><ul class="checklist">
+      <li>同一語検索の件数と上位の価格帯を取得して数える</li>
+      <li>公開案件を取得し、自分が受けられる案件を抽出して予算の中央値を出す（58 件→21 件）</li>
+      <li>手数料込みの手取りを計算する（30 万円×手数料 16.5% → 約 25 万円）</li>
+      <li>判定書を HTML 1 枚に出力する</li>
+    </ul></div>
+    <div class="card"><h3>人がやること</h3><ul class="checklist">
+      <li>3 点それぞれに「有利／中立／未判定」のラベルを付け、総合判定する</li>
+      <li>撤退基準（期日と数値）を着手前に決めて判定書に書く</li>
+      <li>二次情報の数字は「推定」と明記して扱う</li>
+      <li>期日が来たら判定書を開き、続けるか縮小するかを決める</li>
+    </ul></div>
+  </div>
+  <details style="margin-top:16px"><summary>M0 の 3 点の定義（台帳の原文）</summary>
+    <ul class="checklist">
+      <li>「①市場の実案件数・単価の実データ計数」</li>
+      <li>「②コスト構造の非対称性（Claude Code活用で速く/安く納品できる案件タイプか・手数料/税務コスト込みで割に合うか）」</li>
+      <li>「③無料手段での充足（実績ゼロでも取れる経路があるか）」</li>
+      <li class="src">出典: client-work/M0-LEDGER.md 冒頭・2026-09-14</li>
+    </ul>
+  </details>
+</div></section>
+
+<section class="section"><div class="container">
+  <div class="section-heading"><span class="eyebrow">実数</span><h2>2 回の判定で数えた値</h2><p>個人向けサービス（2026-08-23）と法人受託（2026-09-12）の 2 回分です。二次情報と AI 要約経由の値は区別して表示します。</p></div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>指標</th><th>値</th><th>出典</th><th>確認日</th></tr></thead>
+    <tbody>
+      <tr><td class="group" colspan="4">個人向けサービス（判定 2026-08-23）</td></tr>
+      <tr><td>国内の ChatGPT 関連案件</td><td>52 件（提案者は 1 人が大半）</td><td class="src">client-work/m0-report.html <span class="tag">実測</span></td><td>2026-09-14</td></tr>
+      <tr><td data-l="指標">ココナラの生成 AI 関連依頼</td><td data-l="値">673 件</td><td data-l="出典" class="src">client-work/m0-report.html <span class="tag">実測</span></td><td data-l="確認日">2026-09-14</td></tr>
+      <tr><td data-l="指標">手数料率の比較</td><td data-l="値">ココナラ 約 22%（税込）／Lancers 16.5%（税込）／CrowdWorks 20%（比較表では 5〜22%）</td><td data-l="出典" class="src">client-work/m0-report.html <span class="tag">実測</span></td><td data-l="確認日">2026-09-14</td></tr>
+      <tr><td data-l="指標">海外（Upwork）の AI 系案件</td><td data-l="値">月間 4,089 件（比較: Web 制作 37,000 件）</td><td data-l="出典" class="src">client-work/m0-report.html <span class="tag">実測</span></td><td data-l="確認日">2026-09-14</td></tr>
+      <tr><td data-l="指標">海外の提案成立率（一次報告）</td><td data-l="値">163 件応募 → 返信 7 → 成立 1（0.6%）</td><td data-l="出典" class="src">client-work/m0-report.html <span class="tag tag-2nd">二次</span></td><td data-l="確認日">2026-09-14</td></tr>
+      <tr><td data-l="指標">裏付けのある収益報告</td><td data-l="値">3 か月で 14 万円・54 時間・時給換算 2,600 円（記事 1 本のみ）</td><td data-l="出典" class="src">client-work/m0-report.html <span class="tag tag-2nd">二次</span></td><td data-l="確認日">2026-09-14</td></tr>
+      <tr><td data-l="指標">判定と撤退基準</td><td data-l="値">条件付き GO。撤退基準「4週で受注0 / 時給1,500円未満の継続」。09/08 に起算点を出品公開日へ修正（時給基準は据え置き）</td><td data-l="出典" class="src">client-work/m0-report.html・client-work/M0-LEDGER.md <span class="tag">実測</span></td><td data-l="確認日">2026-09-14</td></tr>
+      <tr><td class="group" colspan="4">法人受託（判定 2026-09-12）</td></tr>
+      <tr><td>公開案件の計数</td><td>58 件取得 → 受けられる案件 21 件・予算上限の中央値 100,000 円（30〜50 万円帯 7 件・50〜100 万円帯 10 件を含む）</td><td class="src">docs/ledgers/m0-automation-corporate-20260912.md <span class="tag">実測</span></td><td>2026-09-14</td></tr>
+      <tr><td data-l="指標">AI 研修講師の募集</td><td data-l="値">7 件・月額目安 25〜50 万円（個人向けの募集で、法人としての契約は対象外）</td><td data-l="出典" class="src">同上 <span class="tag">実測</span></td><td data-l="確認日">2026-09-14</td></tr>
+      <tr><td data-l="指標">SES／SIer の人月単価</td><td data-l="値">40〜150 万円</td><td data-l="出典" class="src">同上 <span class="tag tag-2nd">二次</span></td><td data-l="確認日">2026-09-14</td></tr>
+      <tr><td data-l="指標">中小企業の生成 AI 活用率</td><td data-l="値">32.4%（未活用 67.6%）・帝国データバンク 2026-05</td><td data-l="出典" class="src">同上 <span class="tag">実測</span></td><td data-l="確認日">2026-09-14</td></tr>
+      <tr><td data-l="指標">PoC の手取り</td><td data-l="値">30 万円 × 手数料 16.5%（税込）→ 約 25 万円</td><td data-l="出典" class="src">同上 <span class="tag">実測</span></td><td data-l="確認日">2026-09-14</td></tr>
+      <tr><td data-l="指標">業種別の同一語競合件数</td><td data-l="値">工務店 41／学習塾 65／不動産 458／税理士 751／EC 1,084／クリニック 1,086</td><td data-l="出典" class="src">client-work/M0-LEDGER.md・m0-automation-corporate-20260912.html <span class="tag tag-est">推定</span>（AI 要約経由・原文は未目視）</td><td data-l="確認日">2026-09-14</td></tr>
+      <tr><td data-l="指標">判定</td><td data-l="値">条件付き GO。PoC 30 万円税別・2 週間・成果物型。6 週見直し「問い合わせ0 or 商談0→週2hに縮小」（起算 09/12・期日 10/27）</td><td data-l="出典" class="src">同上 <span class="tag">実測</span></td><td data-l="確認日">2026-09-14</td></tr>
+      <tr><td data-l="指標">見送りにした業種</td><td data-l="値">クリニック: 同一語検索で最多の 1,086 件＋専業 SaaS が存在＋医療広告・個人情報の規制</td><td data-l="出典" class="src">同上 <span class="tag">実測</span></td><td data-l="確認日">2026-09-14</td></tr>
+      <tr><td data-l="指標">3 点の現在ラベル（業種特化）</td><td data-l="値">競合計数 = 有利寄り／コスト非対称 = 中立／無料充足 = 未判定（出品後 4 週の実績で判定）</td><td data-l="出典" class="src">同上 <span class="tag tag-est">推定</span></td><td data-l="確認日">2026-09-14</td></tr>
+    </tbody>
+  </table></div>
+  <p class="legend"><span class="tag">実測</span> = 台帳・判定書に記録した一次の計数　<span class="tag tag-2nd">二次</span> = 記事などの二次情報　<span class="tag tag-est">推定</span> = AI 要約経由や台帳の暫定ラベル</p>
+</div></section>
+
+<section class="section section-alt"><div class="container">
+  <div class="section-heading"><span class="eyebrow">判断基準</span><h2>着手前に守っているルール</h2></div>
+  <ol class="rules">
+    <li class="rule"><span class="num">1</span><div><h3>競合は「同一語検索の件数」で数える</h3><p>「多そう」では判断しない。件数と価格帯を記録し、最少と最多を並べます（今回は 41 件〜1,086 件）。</p></div></li>
+    <li class="rule"><span class="num">2</span><div><h3>コスト構造の非対称を確かめる</h3><p>自分だけ速く・安く納品できる案件タイプか。手数料と税務コスト込みで割に合うかを見ます。</p></div></li>
+    <li class="rule"><span class="num">3</span><div><h3>無料手段で足りないかを見る</h3><p>実績ゼロでも取れる経路があるか。データが無ければ「未判定」のまま残し、埋めたふりをしません。</p></div></li>
+    <li class="rule"><span class="num">4</span><div><h3>撤退基準は着手前に決める</h3><p>個人向け: 4 週で受注 0、または時給 1,500 円未満の継続なら縮小。法人受託: 6 週で問い合わせ 0 か商談 0 なら週 2 時間に縮小。</p></div></li>
+    <li class="rule"><span class="num">5</span><div><h3>起算点は「公開した日」</h3><p>準備の途中で期限が来ないよう、出品を公開した日から数えます（09/08 に修正）。</p></div></li>
+  </ol>
+</div></section>
+
+<section class="section" id="m0-calc"><div class="container">
+  <div class="section-heading"><span class="eyebrow">簡易計算ツール</span><h2>あなたの候補を 3 点で仮判定する</h2><p>判定式はこのツール用の簡易版です。実際の M0 では 3 点にラベルを付けて人が総合判定しており、数式は確立していません。</p></div>
+  <form id="m0-form" class="calc-grid" novalidate>
+    <div class="card">
+      <h3>入力</h3>
+      <div class="presets" aria-label="実例を入れる">
+        <button type="button" class="button button-secondary button-sm" data-preset="koumuten">工務店の例（既定）</button>
+        <button type="button" class="button button-secondary button-sm" data-preset="personal">個人向けの実測値（08/23）</button>
+        <button type="button" class="button button-secondary button-sm" data-preset="corporate">法人受託の実測値（09/12）</button>
+      </div>
+      <p class="muted">実例ボタンは競合件数・手数料・価格中央値（法人のみ）を台帳の値で埋めます。価格（個人）と工数は入力例です。</p>
+      <div class="fields" style="margin-top:14px">
+        <div class="field"><label for="f-comp">同一語での競合件数</label><input id="f-comp" type="number" min="0" step="1" value="41" inputmode="numeric"><small>例: 工務店 41 件（台帳）</small></div>
+        <div class="field"><label for="f-price">上位の価格 中央値（円）</label><input id="f-price" type="number" min="0" step="100" value="10000" inputmode="numeric"><small>入力例: 採点の価格帯 5,000〜30,000 円から</small></div>
+        <div class="field"><label for="f-fee">プラットフォーム手数料（%）</label><input id="f-fee" type="number" min="0" max="100" step="0.5" value="22" inputmode="decimal"><small>例: ココナラ 約 22%</small></div>
+        <div class="field"><label for="f-hours">1 件あたりの自分の工数（時間）</label><input id="f-hours" type="number" min="0.5" step="0.5" value="3" inputmode="decimal"><small>入力例</small></div>
+        <div class="field"><label for="f-min">時給の下限（円）</label><input id="f-min" type="number" min="0" step="100" value="1500" inputmode="numeric"><small>撤退基準の閾値（台帳: 1,500 円）</small></div>
+        <div class="field"><label for="f-free">無料ツールで代替できるか</label><select id="f-free"><option value="no">できない（未充足）</option><option value="partial" selected>一部できる</option><option value="yes">できる</option></select><small>未判定なら「一部できる」＝中立に</small></div>
+        <div class="field"><label for="f-asym">自分だけ安く作れる要素</label><select id="f-asym"><option value="yes" selected>ある</option><option value="no">ない</option></select><small>「ある」ならコスト判定を 1 段階上げる</small></div>
+      </div>
+    </div>
+    <div class="card" aria-live="polite">
+      <h3>仮判定</h3>
+      <ul class="kpis" style="margin-top:12px">
+        <li class="kpi"><div class="kpi-value" id="o-net" style="font-size:24px">—</div><div class="kpi-label">手取り＝価格×(1−手数料)</div></li>
+        <li class="kpi"><div class="kpi-value" id="o-rate" style="font-size:24px">—</div><div class="kpi-label">時給換算＝手取り÷工数</div></li>
+      </ul>
+      <ul class="lamps" style="margin-top:14px">
+        <li><span>① 競合（&lt;100 有利／100〜500 中立／&gt;500 不利）</span><span class="verdict" id="o-comp">—</span></li>
+        <li><span>② コスト非対称（時給換算が下限×1.5 以上 有利／下限以上 中立／未満 不利）</span><span class="verdict" id="o-cost">—</span></li>
+        <li><span>③ 無料手段（できない 有利／一部 中立／できる 不利）</span><span class="verdict" id="o-free">—</span></li>
+      </ul>
+      <div class="result-row"><strong>総合</strong><span class="verdict" id="o-total">—</span><span class="muted" id="o-note">JavaScript が有効なら自動で計算します</span></div>
+      <div class="meter" style="margin-top:12px" aria-hidden="true"><span id="o-meter" style="width:0%"></span></div>
+      <p class="muted" style="margin-top:10px">不利 0 = GO／不利 1 = 条件付き GO／不利 2 以上 = 見送り。簡易版のため、実際の判断では撤退基準と期日を必ず添えてください。</p>
+      <noscript><p class="muted">この計算には JavaScript が必要です。式は上記のとおりなので、手計算でも同じ判定ができます。</p></noscript>
+    </div>
+  </form>
+</div></section>
+
+<section class="section section-alt"><div class="container">
+  <div class="note"><strong>正直な注記:</strong> このフレームは自分の事業（法人向け自動化サービスと個人向けサービス）の着手判断のために作り、自分で運用しているものです。顧客への導入実績ではありません。数値は 2026-09-14 に手元の台帳と判定書から確認しました。業種別の競合件数は AI 要約を経由した値で、原文の画面は目視していません。計算ツールの判定式は台帳にある定性プロセスを簡略化した仮のものです。</div>
+</div></section>
+
+<section class="section"><div class="container">
+  <div class="cta"><div><h2>同じ仕組みを、あなたの業務に合わせて設計します</h2><p>新しいサービスや社内ツールの「作る前の判断」から一緒に組み立てます。</p></div>
+    <div class="cta-actions"><a class="button button-primary" href="/#contact">相談する（無料）</a><a class="button button-secondary" href="/works/#cat=planning">他の制作実績を見る</a></div></div>
+</div></section>
+
+</main>
+<footer class="site-footer"><div class="container"><small>© Kenji Ido</small><p>掲載している制作物はすべて本人が企画・設計・実装・公開したものです。</p></div></footer>
+<script>
+(function () {
+  // judge-start
+  function judge(i) {
+    var net = i.price * (1 - i.fee / 100);
+    var rate = i.hours > 0 ? net / i.hours : 0;
+    var comp = i.comp < 100 ? 2 : i.comp <= 500 ? 1 : 0;
+    var cost = rate >= i.minRate * 1.5 ? 2 : rate >= i.minRate ? 1 : 0;
+    if (i.asym === 'yes' && cost < 2) cost += 1;
+    var free = i.free === 'no' ? 2 : i.free === 'partial' ? 1 : 0;
+    var bad = [comp, cost, free].filter(function (v) { return v === 0; }).length;
+    return { net: net, rate: rate, comp: comp, cost: cost, free: free, bad: bad, total: bad === 0 ? 'go' : bad === 1 ? 'cond' : 'stop' };
+  }
+  // judge-end
+  var $ = function (id) { return document.getElementById(id); };
+  var form = $('m0-form');
+  if (!form) { return; }
+  var LABEL = ['不利', '中立', '有利'];
+  var CLS = ['verdict-bad', 'verdict-warn', 'verdict-ok'];
+  var TOTAL = { go: ['GO', 'verdict-ok'], cond: ['条件付き GO', 'verdict-warn'], stop: ['見送り', 'verdict-bad'] };
+  var PRESET = {
+    koumuten: { comp: 41, price: 10000, fee: 22, hours: 3, min: 1500, free: 'partial', asym: 'yes' },
+    personal: { comp: 673, price: 10000, fee: 22, hours: 3, min: 1500, free: 'partial', asym: 'yes' },
+    corporate: { comp: 58, price: 100000, fee: 16.5, hours: 40, min: 1500, free: 'partial', asym: 'yes' }
+  };
+  function num(id, lo, hi) { var v = parseFloat($(id).value); return (isFinite(v) && v >= lo && v <= hi) ? v : NaN; }
+  function read() {
+    return { comp: num('f-comp', 0, 1e7), price: num('f-price', 0, 1e9), fee: num('f-fee', 0, 100), hours: num('f-hours', 0.1, 1e4), minRate: num('f-min', 0, 1e7), free: $('f-free').value, asym: $('f-asym').value };
+  }
+  function invalid(d) { return [d.comp, d.price, d.fee, d.hours, d.minRate].some(function (v) { return !isFinite(v); }); }
+  function yen(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
+  function lamp(id, v) { var el = $(id); el.textContent = LABEL[v]; el.className = 'verdict ' + CLS[v]; }
+  function render() {
+    var d = read();
+    if (invalid(d)) {
+      $('o-net').textContent = '—'; $('o-rate').textContent = '—';
+      ['o-comp', 'o-cost', 'o-free'].forEach(function (id) { var el = $(id); el.textContent = '—'; el.className = 'verdict'; });
+      var tt = $('o-total'); tt.textContent = '入力を確認'; tt.className = 'verdict verdict-warn';
+      $('o-meter').style.width = '0%';
+      $('o-note').textContent = '空欄または範囲外の値があります（手数料 0〜100%・工数 0.1 時間以上・件数と金額は 0 以上）';
+      return;
+    }
+    var r = judge(d);
+    $('o-net').textContent = yen(r.net);
+    $('o-rate').textContent = yen(r.rate) + '／時間';
+    lamp('o-comp', r.comp); lamp('o-cost', r.cost); lamp('o-free', r.free);
+    var t = TOTAL[r.total]; var total = $('o-total'); total.textContent = t[0]; total.className = 'verdict ' + t[1];
+    $('o-meter').style.width = Math.round((r.comp + r.cost + r.free) / 6 * 100) + '%';
+    $('o-note').textContent = '不利 ' + r.bad + ' 件（有利 ' + [r.comp, r.cost, r.free].filter(function (v) { return v === 2; }).length + '・中立 ' + [r.comp, r.cost, r.free].filter(function (v) { return v === 1; }).length + '）';
+  }
+  function fill(p) { for (var k in p) { $('f-' + k).value = p[k]; } render(); }
+  form.addEventListener('input', render);
+  form.addEventListener('submit', function (e) { e.preventDefault(); render(); });
+  Array.prototype.forEach.call(form.querySelectorAll('[data-preset]'), function (b) {
+    b.addEventListener('click', function () { fill(PRESET[b.getAttribute('data-preset')]); });
+  });
+  render();
+})();
+</script>
+</body>
+</html>
