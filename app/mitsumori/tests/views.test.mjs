@@ -2,6 +2,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { parseBudget, niceMax, rangeBar } from "../src/views.js";
+import { receivedAt, repliedAt } from "../src/time.js";
 
 test("parseBudget: 要約の予算文から万円の数値を取り出す", () => {
   assert.equal(parseBudget("150万円以内"), 150);
@@ -28,4 +29,16 @@ test("rangeBar: 帯の両端ラベル・予算ピン（帯内/帯外）・aria-l
   assert.match(below, /class="pin out"/); assert.match(below, /帯より下/);
   const none = rangeBar({ min: 30, max: 150 }, null);
   assert.doesNotMatch(none, /class="pin/); assert.match(none, /予算は未記載/);
+});
+
+test("repliedAt: 手動の返信は受信からの経過で持ち、時間が経っても所要時間が変わらない（R2 指摘）", () => {
+  const item = { received_min_ago: 120 };
+  const t0 = 1_000_000_000_000, later = t0 + 6 * 3600_000;
+  const rep = { at: t0 };
+  const d0 = repliedAt(item, rep, receivedAt(item, t0), t0) - receivedAt(item, t0);
+  const d1 = repliedAt(item, rep, receivedAt(item, later), later) - receivedAt(item, later);
+  assert.equal(d0, 120 * 60_000); assert.equal(d1, d0);
+  const seeded = { minAgo: 30, seeded: true };
+  assert.equal(repliedAt(item, seeded, receivedAt(item, t0), t0) - receivedAt(item, t0), 90 * 60_000);
+  assert.equal(repliedAt(item, null, 0, t0), null);
 });

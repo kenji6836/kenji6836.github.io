@@ -2,7 +2,7 @@
 // 画面の HTML は src/views.js（純関数）、仕分けは src/classify.js、状態は src/store.js（localStorage）。
 import { classify, normalize } from "./src/classify.js";
 import { createStore } from "./src/store.js";
-import { receivedAt } from "./src/time.js";
+import { receivedAt, repliedAt } from "./src/time.js";
 import { $, $$, toast, copyText, icon } from "./src/ui.js";
 import * as V from "./src/views.js";
 
@@ -44,10 +44,10 @@ function effectiveRules(st) {
 function buildRows(q, selectedId, now = Date.now()) {
   const st = store.get(), rs = effectiveRules(st), qs = qsOf(q);
   return samples.items.map((item) => {
-    const rep = st.replied[item.id];
+    const receivedMs = receivedAt(item, now);
     return {
       item, cls: classify(rs, item, st.override[item.id] || {}), status: st.status[item.id] || "open", seen: !!st.seen[item.id],
-      receivedMs: receivedAt(item, now), repliedMs: rep ? (rep.at ?? (rep.minAgo != null ? now - rep.minAgo * 60_000 : null)) : null,
+      receivedMs, repliedMs: repliedAt(item, st.replied[item.id], receivedMs, now),
       now, selected: item.id === selectedId, qs, missingCount: (item.summary?.missing || []).length,
     };
   });
@@ -146,7 +146,7 @@ export function render() {
 }
 // 検索入力中: hash を replaceState で更新（hashchange を起こさない）してホームを描き直し、検索欄のフォーカスと caret を末尾に戻す
 function renderRows(q) {
-  if (!$("#rows")) return;
+  if (parseHash().route !== "inbox" || !$("#rows")) return; // 入力直後に別ページへ移った場合は何もしない（R2 指摘）
   history.replaceState(null, "", hrefInbox(q, parseHash().id));
   const now = Date.now(), all = buildRows(q, parseHash().id, now);
   const { rows, counts } = filterRows(all, q);
@@ -155,7 +155,7 @@ function renderRows(q) {
 }
 
 // ---------- イベント ----------
-const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+const debounce = (fn, ms) => { let t; const d = (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; d.cancel = () => clearTimeout(t); return d; };
 const onSearch = debounce((value) => { const { q } = parseHash(); q.q = value.trim(); renderRows(q); }, 150);
 const onDraft = debounce((id, value) => { store.setDraft(id, value); }, 250);
 const onNote = debounce((id, value) => { store.setNote(id, value); }, 250);
@@ -187,10 +187,10 @@ document.addEventListener("click", async (e) => {
       case "done": e.preventDefault(); doDone(); return;
       case "set-status": e.preventDefault(); if (it && a.dataset.value !== store.get().status[it.id]) { store.setStatus(it.id, a.dataset.value); toast(`${a.dataset.value === "done" ? "返信済みにしました" : a.dataset.value === "open" ? "未対応に戻しました" : a.dataset.value === "wip" ? "対応中にしました" : "保留にしました"}`); } return;
       case "reopen": e.preventDefault(); if (it) { store.setStatus(it.id, "open"); toast("未対応に戻しました"); } return;
-      case "reset-draft": e.preventDefault(); if (it) { store.setDraft(it.id, null); const ta = $("#draft"); if (ta) ta.value = it.reply; a.hidden = true; toast("返信案を元に戻しました"); } return;
+      case "reset-draft": e.preventDefault(); if (it) { onDraft.cancel(); store.setDraft(it.id, null); const ta = $("#draft"); if (ta) ta.value = it.reply; a.hidden = true; toast("返信案を元に戻しました"); } return;
       case "reset-type": e.preventDefault(); if (it) store.setOverride(it.id, { type: null }); return;
       case "reset-urgency": e.preventDefault(); if (it) store.setOverride(it.id, { urgency: null }); return;
-      case "reset-table": e.preventDefault(); store.setBandTable(null); toast("目安表を初期値に戻しました"); return;
+      case "reset-table": e.preventDefault(); onBand.cancel(); store.setBandTable(null); toast("目安表を初期値に戻しました"); return;
       case "install": e.preventDefault(); if (deferredInstall) { deferredInstall.prompt(); const { outcome } = await deferredInstall.userChoice; if (outcome === "accepted") { deferredInstall = null; env.canInstall = false; render(); } } return;
       case "reset-all": e.preventDefault();
         if (a.dataset.confirm !== "1") { a.dataset.confirm = "1"; a.innerHTML = `${icon("warn")}もう一度押すと初期状態に戻します`; setTimeout(() => { if (a.isConnected && a.dataset.confirm === "1") render(); }, 4000); return; }
@@ -304,7 +304,7 @@ async function boot() {
   $("#boot").remove();
   render();
   updateNet();
-  window.addEventListener("hashchange", render);
+  window.addEventListener("hashchange", () => { onSearch.cancel(); render(); });
   matchMedia("(max-width: 900px)").addEventListener("change", render);
   setInterval(() => { if (document.visibilityState === "visible" && !isTyping(document.activeElement)) render(); }, 60_000); // 相対時刻の更新
   registerSW();
