@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>受信箱 — 見積トリアージ（デモ）</title>
+  <meta name="description" content="建設・リフォーム会社向け 見積依頼の AI 仕分けと概算返信の下書き。架空のサンプル 30 件で動くデモ（自主制作）。">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#2457e6" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#161b23" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="見積トリアージ">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./app.css">
+  <script type="module" src="./app.js"></script>
+  <noscript><style>.app,.banner{display:none}</style></noscript>
+</head>
+<body>
+<a class="skip" href="#main" data-action="skip">本文へスキップ</a>
+<div class="banner" id="banner" role="note">
+  <svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 9v4m0 4h.01M10.3 3.9 2.5 17.5A2 2 0 0 0 4.2 20.5h15.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+  <span><b>デモモード</b>　架空のサンプル 30 件・仕分けは固定ルール・返信文は事前生成（AI 接続なし）</span>
+  <span class="net" id="net" hidden></span>
+  <a href="#/about">仕組みを見る</a>
+</div>
+<div class="app" id="app" data-route="inbox" data-open="false">
+  <nav class="side" id="nav" aria-label="メイン"></nav>
+  <main id="main">
+    <section class="home" id="list" aria-label="受信箱"></section>
+    <aside class="panel" id="detail" aria-label="依頼の詳細" hidden></aside>
+    <section class="page" id="page" hidden></section>
+    <div class="boot" id="boot" aria-live="polite"><span class="spin" aria-hidden="true"></span>読み込み中…</div>
+  </main>
+  <nav class="tabbar" id="tabbar" aria-label="メイン（モバイル）"></nav>
+</div>
+<div class="help" id="help" role="dialog" aria-modal="true" aria-label="キーボード操作" hidden></div>
+<noscript>
+  <div class="card" style="margin:40px auto;max-width:520px;padding:24px">
+    <b>このデモは JavaScript で動きます。</b>
+    <p class="small muted" style="margin:8px 0 0">見積トリアージ（デモ）— 建設・リフォーム会社向けの見積依頼の仕分けと概算返信の下書き。架空のサンプル 30 件を端末内だけで処理します。ブラウザの JavaScript を有効にしてから再読み込みしてください。</p>
+  </div>
+</noscript>
+</body>
+</html>
