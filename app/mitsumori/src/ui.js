@@ -31,7 +31,30 @@ const ICONS = {
   lock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
   external: '<path d="M14 4h6v6M20 4l-9 9M18 13v6H5V6h6"/>',
   note: '<path d="M6 3h9l5 5v13H6zM14 3v6h6M9 13h6M9 17h6"/>',
+  bolt: '<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>',
+  calendar: '<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/>',
+  yen: '<path d="M7 4l5 7 5-7M12 11v9M8 14h8M8 17h8"/>',
+  pin: '<path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2"/>',
+  user: '<circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/>',
+  help: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.7M12 17h.01"/>',
+  checkc: '<circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/>',
+  xc: '<circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/>',
+  question: '<path d="M4 4h16v11H8l-4 4z"/><path d="M10.5 8.5a1.6 1.6 0 1 1 2.2 1.5c-.5.2-.7.5-.7 1M12 13h.01"/>',
+  // 工種
+  roller: '<rect x="5" y="4" width="12" height="6" rx="1.5"/><path d="M17 7h2v4h-8v3"/><rect x="10" y="14" width="2" height="6" rx="1"/>',
+  roof: '<path d="M3 12 12 4l9 8"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/>',
+  pot: '<path d="M5 10h14v5a5 5 0 0 1-5 5h-4a5 5 0 0 1-5-5z"/><path d="M3 10h18M9 7a3 3 0 0 1 6 0"/>',
+  tub: '<path d="M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z"/><path d="M6 12V6a2 2 0 0 1 4 0M7 19l-1 2M17 19l1 2"/>',
+  toilet: '<path d="M8 4h5v6H8zM5 10h14a7 7 0 0 1-14 0zM10 17v3h4v-3"/>',
+  sofa: '<path d="M5 11V8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3"/><path d="M3 13a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5H3zM6 18v2M18 18v2"/>',
+  fence: '<path d="M5 20V7l2-3 2 3v13M12 20V7l2-3 2 3v13M3 11h18M3 17h18"/>',
+  hammer: '<path d="M14 5l5 5-2 2-5-5z"/><path d="M12 7 4 15l3 3 8-8"/><path d="M15 4l1-1 4 4-1 1"/>',
+  house: '<path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M12 12v6M9 15h6"/>',
+  shield: '<path d="M12 3l7 3v5c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6z"/><path d="m9 12 2 2 4-4"/>',
 };
+export const TYPE_ICON = { exterior_paint: "roller", roof: "roof", kitchen: "pot", bath: "tub", toilet: "toilet", interior: "sofa", exterior_works: "fence", extension: "hammer", new_build: "house", insulation: "shield", other: "help" };
+export const typeIcon = (id, cls = "i") => icon(TYPE_ICON[id] || "help", cls);
+export const URGENCY_ICON = { high: "bolt", normal: "clock", low: "calendar" };
 export function icon(name, cls = "i") {
   return `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${ICONS[name] || ""}</svg>`;
 }

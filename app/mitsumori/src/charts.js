@@ -34,7 +34,7 @@ export function vbar(items, { width = 420, height = 120, max } = {}) {
     return `<g tabindex="0" role="listitem" aria-label="${esc(it.label)} ${it.value} 件">
       <rect x="${x}" y="${padT}" width="${bw}" height="${plotH}" class="track" rx="3"/>
       ${bh ? `<rect x="${x}" y="${y}" width="${bw}" height="${bh}" rx="3" class="bar ${last ? "last" : ""}"><title>${esc(it.label)}: ${it.value} 件</title></rect>` : ""}
-      ${last || it.value === m ? `<text x="${x + bw / 2}" y="${y - 4}" text-anchor="middle" class="val">${it.value}</text>` : ""}
+      ${it.value > 0 ? `<text x="${x + bw / 2}" y="${y - 4}" text-anchor="middle" class="val ${last ? "" : "small"}">${it.value}</text>` : ""}
       ${i % 2 === 0 || last ? `<text x="${x + bw / 2}" y="${height - 4}" text-anchor="middle" class="lbl small">${esc(it.label)}</text>` : ""}
     </g>`;
   });

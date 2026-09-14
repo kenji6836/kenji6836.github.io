@@ -1,7 +1,7 @@
 // 端末内の状態（対応状況・手動上書き・メモ）。localStorage に保存。サーバなし。
 const KEY = "mitsumori.demo.v1";
 
-const defaultState = () => ({ status: {}, override: {}, notes: {}, replied: {}, seen: {}, bandTable: null, createdAt: Date.now() });
+const defaultState = () => ({ status: {}, override: {}, notes: {}, drafts: {}, replied: {}, seen: {}, bandTable: null, createdAt: Date.now() });
 
 export function createStore(samples) {
   let state = load();
@@ -39,9 +39,11 @@ export function createStore(samples) {
       if (Object.keys(next).length) state.override[id] = next; else delete state.override[id];
       save(state); emit();
     },
-    setNote(id, text) { if (text) state.notes[id] = text; else delete state.notes[id]; save(state); emit(); },
-    markSeen(id) { if (!state.seen[id]) { state.seen[id] = Date.now(); save(state); emit(); } },
-    setBandTable(table) { state.bandTable = table; save(state); emit(); },
+    // 入力中の保存（メモ・返信文の編集）は emit しない: 再描画でフォーカスと caret が飛ぶため。画面側が直接 DOM を更新する
+    setNote(id, text) { if (text) state.notes[id] = text; else delete state.notes[id]; save(state); },
+    setDraft(id, text) { if (text != null) state.drafts[id] = text; else delete state.drafts[id]; save(state); },
+    markSeen(id, { silent = false } = {}) { if (!state.seen[id]) { state.seen[id] = Date.now(); save(state); if (!silent) emit(); } },
+    setBandTable(table, { silent = false } = {}) { state.bandTable = table; save(state); if (!silent) emit(); },
     reset() { state = defaultState(); save(state); for (const it of samples.items) state.status[it.id] = it.initial_status || "open"; for (const it of samples.items) if (it.initial_status === "done" && it.replied_min_ago != null) state.replied[it.id] = { minAgo: it.replied_min_ago, seeded: true }; save(state); emit(); },
   };
 }
