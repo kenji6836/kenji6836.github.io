@@ -136,6 +136,11 @@
       <tr><td data-l="指標">結果の内訳</td><td data-l="値">実行 3／見送り 9／失敗 30</td><td data-l="出典" class="src">同上 <span class="tag">実測</span></td><td data-l="確認日">2026-09-14</td></tr>
       <tr><td data-l="指標">失敗 30 回の原因</td><td data-l="値">全件「ツールの版が確認済みと不一致」（確認済み 2.1.263・実行時 2.1.270）。ツールの自動更新が原因で、設計どおり安全側で停止。対処: 版の確認手順を修正済み</td><td data-l="出典" class="src">同上・mission-control/autopilot/config.json <span class="tag">実測</span>　修正の記録は運用メモ <span class="tag tag-memo">メモ</span></td><td data-l="確認日">2026-09-14</td></tr>
       <tr><td data-l="指標">見送り 9 回の理由</td><td data-l="値">人が端末で作業中 5／実行時間外 2／チケットなし 2</td><td data-l="出典" class="src">同 jsonl <span class="tag">実測</span></td><td data-l="確認日">2026-09-14</td></tr>
+    </tbody>
+  </table></div>
+  <details class="more-rows" style="margin-top:12px"><summary>すべての実数を見る（残り 6 件）</summary><div class="table-wrap" style="margin-top:8px"><table>
+    <thead><tr><th>指標</th><th>値</th><th>出典</th><th>確認日</th></tr></thead>
+    <tbody>
       <tr><td data-l="指標">実行したチケット 3 件の結果</td><td data-l="値">失敗 1・要確認 2。自動で取り込み完了は 0 件。検証を通らない作業は取り込まず朝の報告に回す設計のとおり</td><td data-l="出典" class="src">同 jsonl（tickets_run／results） <span class="tag">実測</span></td><td data-l="確認日">2026-09-14</td></tr>
       <tr><td data-l="指標">直近の状態（09/13 18:46）</td><td data-l="値">失敗（版の不一致）・費用 $0.0。直近で実行に到達した起動は 09/09 01:22</td><td data-l="出典" class="src">mission-control/data/autopilot-status.json <span class="tag">実測</span></td><td data-l="確認日">2026-09-14</td></tr>
       <tr><td data-l="指標">実行枠</td><td data-l="値">夜間 01:00〜06:30／日中 09:37・12:37・15:37・18:37（各 50 分・1 枠 1 枚）</td><td data-l="出典" class="src">mission-control/autopilot/config.json <span class="tag">実測</span></td><td data-l="確認日">2026-09-14</td></tr>
@@ -143,7 +148,7 @@
       <tr><td data-l="指標">監査ログ</td><td data-l="値">79 行（起動履歴）</td><td data-l="出典" class="src">mission-control/autopilot/audit.log <span class="tag">実測</span></td><td data-l="確認日">2026-09-14</td></tr>
       <tr><td data-l="指標">受入判定（09/14）</td><td data-l="値">不合格。原因は上記の版不一致で全起動が止まっていたこと。修正済みで、再判定は 09/22 の予定</td><td data-l="出典" class="src">運用メモ project_autonomy_charter.md <span class="tag tag-memo">メモ</span>　停止 30／42 回の事実は jsonl <span class="tag">実測</span></td><td data-l="確認日">2026-09-14</td></tr>
     </tbody>
-  </table></div>
+  </table></div></details>
   <p class="legend"><span class="tag">実測</span> = ログ・設定ファイルから直接数えた値　<span class="tag tag-memo">メモ</span> = 運用メモの記載（ログでの裏取りはしていません）</p>
 </div></section>
 
