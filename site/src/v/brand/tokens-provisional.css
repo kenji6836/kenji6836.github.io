@@ -1,0 +1,7 @@
+/* レーン V ブランドトークン（暫定・brand.css が置かれたらそちらが正） */
+:root{
+  --v-blue:#2457e6; --v-navy:#0b1430; --v-navy-2:#121c3d; --v-white:#ffffff; --v-soft:#e9efff; --v-line:#c5d3fb;
+  --v-amber:#f5a524; --v-ok:#1a7f4b; --v-ok-soft:#e3f5ea; --v-text-2:#c3cbd6;
+  --v-font:"Noto Sans JP",system-ui,-apple-system,"Hiragino Sans",sans-serif; --v-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --v-radius:16px; --v-radius-sm:12px; --v-pill:999px;
+}

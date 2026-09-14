@@ -1,0 +1,29 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SNS 開設キット（レーン V）</title>
+<style>:root{--bg:#fff;--fg:#14171f;--fg2:#4a5361;--line:#e5e9f0;--brand:#2457e6;--soft:#e9efff;--amber:#b7791f}@media(prefers-color-scheme:dark){:root{--bg:#0e1116;--fg:#e9edf2;--fg2:#c3cbd6;--line:#2a323d;--brand:#86a8ff;--soft:#1b2540;--amber:#f0c060}}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.7 "Noto Sans JP",system-ui,-apple-system,"Hiragino Sans",sans-serif;padding:32px 20px 60px}main{max-width:900px;margin:0 auto}h1{font-size:24px;margin:0 0 4px}h2{font-size:17px;margin:28px 0 8px;padding-top:16px;border-top:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--fg2);font-weight:600}code{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;background:var(--soft);padding:1px 5px;border-radius:5px}
+.chip{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;font-weight:700;background:var(--soft);color:var(--brand)}.note{color:var(--fg2);font-size:13px}.warn{color:var(--amber);font-weight:700}
+.tw{overflow-x:auto}li{margin:4px 0}</style></head><body><main>
+<h1>SNS 開設キット <span class="chip">レーン V・2026-09-14</span></h1>
+<p class="note">表示名 <b>Kenji Ido</b>／ハンドル <b>@idk0723ai</b>（4 SNS 共通）／タグライン「AIで作って、本番に出す。」／シリーズ名 MAKING。プロフィール文と投稿の下書きは S レーンの運用キットを参照。ブランドの使い方は <code>/design/channel-brand/</code>。</p>
+<h2>1. 開設時にアップロードする画像</h2>
+<div class="tw"><table><tr><th>SNS</th><th>アイコン</th><th>ヘッダー / バナー</th><th>備考</th></tr>
+<tr><td>X</td><td><code>brand/icon-photo-1024.png</code></td><td><code>brand/x-header-1500x500.png</code></td><td>左下にアバターが重なる前提で設計済み</td></tr>
+<tr><td>YouTube</td><td><code>brand/icon-photo-1024.png</code></td><td><code>brand/yt-banner-2560x1440.png</code></td><td>中央の安全域（1546×423）に主要素。端末別のクロップはアップロード画面で確認</td></tr>
+<tr><td>Instagram</td><td><code>brand/icon-photo-1024.png</code></td><td>—</td><td>丸クロップで右下のマークが収まる位置に配置済み</td></tr>
+<tr><td>TikTok</td><td><code>brand/icon-photo-1024.png</code></td><td>—</td><td>同上</td></tr></table></div>
+<p class="note">マーク版 <code>brand/icon-mark-1024.png</code> は顔写真を使いたくない場面の代替。400px 版は各 <code>*-400.png</code>。ロゴ原本 <code>brand/logo.svg</code>・トークン <code>brand/brand.css</code>。</p>
+<h2>2. 縦型ショート 3 本（YouTube Shorts / Reels / TikTok 共通・SNS 投稿用マスター）</h2>
+<div class="tw"><table><tr><th>#</th><th>題名（投稿タイトル案）</th><th>ファイル</th><th>尺</th></tr>
+<tr><td>01</td><td>MAKING #01 紹介 HP を Claude Code で作る</td><td><code>shorts/v-short-01-portfolio.mp4</code></td><td>26 秒</td></tr>
+<tr><td>02</td><td>MAKING #02 リーチラボ（Web アプリ）を Claude Code で作る</td><td><code>shorts/v-short-02-reachlab.mp4</code></td><td>26 秒</td></tr>
+<tr><td>03</td><td>MAKING #03 夜に自走する autopilot を Claude Code で作る</td><td><code>shorts/v-short-03-autopilot.mp4</code></td><td>26 秒</td></tr></table></div>
+<ul><li>1080×1920・30fps・H.264＋AAC・字幕焼き込み・BGM は自作合成（権利クリア）。HP 掲載用の軽量版は <code>/assets/works/v-short-*.mp4|webm</code></li>
+<li>サムネイル候補 = 各 <code>shorts/v-short-*-poster.jpg</code>（t=3 秒）。イントロ/アウトロ単体 = <code>brand/intro.mp4</code>・<code>brand/outro.mp4</code></li>
+<li class="warn">投稿は人間が行う（S レーンの承認キューの順で）。初回投稿の URL と日付を統合レーンへ共有すると HP の表記が「運用中」になる</li></ul>
+<h2>3. 投稿テンプレ（画像投稿用）</h2>
+<ul><li>正方形 <code>brand/post-square-1080.png</code>（Instagram フィード）／縦型 <code>brand/post-vertical-1080x1920.png</code>（ストーリーズ・TikTok 静止画）／横長 <code>brand/post-x-1600x900.png</code>（X）。文言の差し替えは <code>site/src/v/brand/export.html</code> を編集して <code>cdp-render.mjs</code> で書き出す</li></ul>
+<h2>4. 広告セット（見積トリアージ・サンプル・未出稿）</h2>
+<ul><li><code>ads/</code> に 7 サイズ（A/B）。比較ページ <code>/ads/mitsumori/</code>。出稿する場合は媒体審査前に「自主制作のサンプル」注記を外し、リンク先 <code>/app/mitsumori/</code> の公開後に</li></ul>
+<p class="note">原本と作り方: <code>site/src/v/</code>（brand / shorts / ads / design）・写真原本 <code>site/src/photos/</code>。すべて自主制作。</p>
+</main></body></html>

@@ -1,0 +1,85 @@
+/* ============================================================
+   MAKING イントロ／アウトロ（1080×1920・紺地・D1 工房）
+   - DOM は intro-outro.html（<section class="v-intro"> / <section class="v-outro">）
+   - JS なし。CSS @keyframes ＋ animation-delay のみ（__seek で決定論的に再生できる）
+   - 開始時刻は CSS 変数で: --v-intro-start（既定 0s）／--v-outro-start（既定 0s・ショートは 23s）
+   - .v-intro は start+2.0s 以降 visibility:hidden／.v-outro は start より前 visibility:hidden
+   - 必要フォント（ショート側 head で読む）: Noto Sans JP 700/900・IBM Plex Mono 500
+   - 重要要素は上 220px・下 420px・右 120px を避けて配置（Shorts/Reels/TikTok の UI 帯）
+   ============================================================ */
+.v-intro,.v-outro{
+  --v-blue:#2457e6;--v-navy:#0b1430;--v-amber:#f5a524;--v-pale:#86a8ff;--v-white:#fff;
+  --v-font:"Noto Sans JP",system-ui,-apple-system,"Hiragino Sans",sans-serif;
+  --v-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  position:absolute;inset:0;width:1080px;height:1920px;overflow:hidden;
+  background:var(--v-navy);color:var(--v-white);font-family:var(--v-font);
+  font-feature-settings:"palt";-webkit-font-smoothing:antialiased;
+  box-sizing:border-box;margin:0;padding:0
+}
+.v-intro *,.v-outro *{box-sizing:border-box;margin:0;padding:0}
+.v-intro{z-index:20;animation:v-hide 1ms linear calc(var(--v-intro-start,0s) + 1.99s) both}
+.v-outro{z-index:30;animation:v-show 1ms linear calc(var(--v-outro-start,0s) - .01s) both}
+@keyframes v-hide{from{visibility:visible}to{visibility:hidden}}
+@keyframes v-show{from{visibility:hidden}to{visibility:visible}}
+
+/* ---- 共通の地: 設計図グリッド＋薄い MAKING＋琥珀の左端帯 ---- */
+.v-grid{position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(134,168,255,.13) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(134,168,255,.13) 1px,transparent 1px),
+    linear-gradient(rgba(134,168,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(134,168,255,.05) 1px,transparent 1px);
+  background-size:96px 96px,96px 96px,24px 24px,24px 24px;background-position:-1px -1px}
+.v-ghost{position:absolute;right:-24px;bottom:300px;font-size:300px;font-weight:900;line-height:1;letter-spacing:-.04em;color:rgba(255,255,255,.05);white-space:nowrap;pointer-events:none}
+.v-band{position:absolute;left:0;top:0;width:12px;height:1920px;background:var(--v-amber);transform-origin:50% 0;transform:scaleY(0)}
+.v-intro .v-band{animation:v-band .5s cubic-bezier(.2,.8,.2,1) calc(var(--v-intro-start,0s) + .1s) both}
+.v-outro .v-band{animation:v-band .45s cubic-bezier(.2,.8,.2,1) calc(var(--v-outro-start,0s) + .05s) both}
+@keyframes v-band{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+
+/* ---- マーク（インライン SVG。K は Noto Sans JP 900） ---- */
+.v-mark{position:absolute;left:50%;display:block}
+.v-mark svg{display:block;width:100%;height:100%;filter:drop-shadow(0 30px 60px rgba(0,0,0,.45))}
+
+/* ================= イントロ 2.0s ================= */
+.v-intro .v-stage{position:absolute;inset:0;animation:v-out .25s cubic-bezier(.6,0,.8,.4) calc(var(--v-intro-start,0s) + 1.75s) both}
+@keyframes v-out{from{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(1.06)}}
+.v-intro .v-mark{top:560px;width:340px;height:340px;margin-left:-170px;
+  animation:v-drop .85s linear calc(var(--v-intro-start,0s) + .1s) both}
+@keyframes v-drop{
+  0%{transform:translateY(-1000px) scale(.92);opacity:0;animation-timing-function:cubic-bezier(.5,0,.9,.5)}
+  48%{transform:translateY(0) scale(1.04,.94);opacity:1;animation-timing-function:cubic-bezier(.2,.6,.4,1)}
+  66%{transform:translateY(-110px) scale(.98,1.03);animation-timing-function:cubic-bezier(.5,0,.8,.6)}
+  84%{transform:translateY(0) scale(1.02,.97);animation-timing-function:cubic-bezier(.2,.6,.4,1)}
+  100%{transform:translateY(0) scale(1)}}
+.v-intro .v-title{position:absolute;left:0;right:0;top:960px;text-align:center;line-height:1.1;overflow:hidden;padding:0 40px}
+.v-intro .v-title .v-line{display:inline-flex;align-items:baseline;gap:20px;
+  animation:v-rise .45s cubic-bezier(.16,.9,.25,1) calc(var(--v-intro-start,0s) + .7s) both}
+@keyframes v-rise{from{transform:translateY(110%);opacity:0}to{transform:translateY(0);opacity:1}}
+.v-intro .v-word{font-size:144px;font-weight:900;letter-spacing:-.02em}
+.v-intro .v-no{font-family:var(--v-mono);font-weight:500;font-size:96px;color:var(--v-pale);letter-spacing:-.02em}
+.v-intro .v-cur{display:inline-block;width:44px;height:90px;border-radius:7px;background:var(--v-amber);vertical-align:-6px;
+  animation:v-blink 1s steps(1,end) calc(var(--v-intro-start,0s) + 1.15s) infinite both}
+@keyframes v-blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+.v-intro .v-tag{position:absolute;left:0;right:0;top:1170px;text-align:center;font-size:44px;font-weight:700;color:rgba(255,255,255,.72);letter-spacing:.02em;
+  animation:v-fade .35s ease-out calc(var(--v-intro-start,0s) + 1.05s) both}
+@keyframes v-fade{from{opacity:0}to{opacity:1}}
+
+/* ================= アウトロ 3.0s ================= */
+.v-outro .v-mark{top:540px;width:220px;height:220px;margin-left:-110px;
+  animation:v-pop .5s cubic-bezier(.34,1.56,.64,1) calc(var(--v-outro-start,0s) + .05s) both}
+@keyframes v-pop{from{transform:translateY(60px) scale(.5);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+.v-outro .v-row{position:absolute;left:0;right:0;text-align:center;overflow:hidden;padding:0 40px}
+.v-outro .v-row > span{display:inline-block;animation:v-rise .45s cubic-bezier(.16,.9,.25,1) var(--d) both}
+.v-outro .v-name{top:810px;font-size:84px;font-weight:700;line-height:1.2;letter-spacing:-.01em}
+.v-outro .v-name > span{--d:calc(var(--v-outro-start,0s) + .35s)}
+.v-outro .v-handle{top:922px;font-family:var(--v-mono);font-weight:500;font-size:52px;line-height:1.3;color:var(--v-pale)}
+.v-outro .v-handle > span{--d:calc(var(--v-outro-start,0s) + .5s)}
+.v-outro .v-msg{top:1076px;font-size:76px;font-weight:900;line-height:1.25;letter-spacing:-.01em}
+.v-outro .v-msg > span{--d:calc(var(--v-outro-start,0s) + .9s)}
+.v-outro .v-url{position:absolute;left:50%;top:1204px;transform:translateX(-50%);display:inline-flex;align-items:center;gap:14px;
+  padding:22px 44px;border-radius:20px;background:var(--v-blue);font-family:var(--v-mono);font-weight:500;font-size:54px;line-height:1.2;color:#fff;white-space:nowrap;
+  box-shadow:0 20px 50px rgba(0,0,0,.35);
+  animation:v-popx .5s cubic-bezier(.34,1.56,.64,1) calc(var(--v-outro-start,0s) + 1.25s) both}
+@keyframes v-popx{from{transform:translateX(-50%) translateY(50px) scale(.7);opacity:0}to{transform:translateX(-50%) translateY(0) scale(1);opacity:1}}
+.v-outro .v-url .v-cur{display:inline-block;width:26px;height:56px;border-radius:5px;background:var(--v-amber);
+  animation:v-blink 1s steps(1,end) calc(var(--v-outro-start,0s) + 1.8s) infinite both}

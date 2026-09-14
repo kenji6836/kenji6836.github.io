@@ -1,0 +1,428 @@
+{
+ "lane": "v",
+ "generated": "2026-09-14",
+ "note": "レーン V 納品。works は content.json の works 配列へ追記（順序は統合レーン判断・推奨は making-shorts → mitsumori-ads → channel-brand → mitsumori-design-system）。素材は assets/works/v-*。独立ページは /design/channel-brand/ /design/mitsumori/ /ads/mitsumori/。既存 promo-video / ad-banner-set は残してよい（本レーンは差し替えを要求しない）",
+ "categories_lead": {
+  "video": "アプリ・サービスの縦型ショート動画・チャンネル素材・モーショングラフィックス",
+  "design": "デザインシステム・チャンネルブランディング・アプリアイコン・画面デザイン",
+  "ad": "SNS・ディスプレイ広告のバナー制作・サイズ展開・A/B 案（実写風写真を含む）"
+ },
+ "hero_stats_diff": {
+  "note": "「掲載中の制作実績」の件数 +4（本レーン分）。統合レーンで works 総数から再計算"
+ },
+ "featured_suggestion": [
+  "making-shorts"
+ ],
+ "works": [
+  {
+   "slug": "making-shorts",
+   "title": "縦型ショート動画シリーズ「MAKING」（3 本）",
+   "kicker": "動画制作",
+   "categories": [
+    "video",
+    "sns",
+    "marketing"
+   ],
+   "label": "self",
+   "year": "2025",
+   "summary": "Claude Code で作った実物（紹介 HP・Web アプリ・夜間の自律ランナー）の制作過程を、各 26 秒の縦型ショートに。YouTube Shorts・Reels・TikTok に同じ素材で投稿できる字幕焼き込み・無音でも伝わる構成。BGM は自作合成。",
+   "role": "企画・構成・モーション制作・字幕設計・BGM 合成・書き出し",
+   "points": [
+    "「実物 → 日本語で頼む → 生成 → 確認 → 公開」の 5 ビートを 3 本で共通化し、シリーズとして続けられる型に",
+    "数字は実物の台帳から引いた実数のみ（19 ページ生成・自動テスト 235 項目・1 日 7 回の実行枠 など）",
+    "共通のイントロ 2 秒／アウトロ 3 秒をブランド素材として分離し、次回以降は本編だけ作れば済む"
+   ],
+   "stack": [
+    "HTML / CSS アニメーション",
+    "headless Chrome フレーム書き出し",
+    "ffmpeg（H.264 / VP9・AAC / Opus）",
+    "Python（BGM 合成）"
+   ],
+   "links": [],
+   "visuals": [
+    {
+     "type": "video",
+     "mp4": "/assets/works/v-short-01-portfolio.mp4",
+     "webm": "/assets/works/v-short-01-portfolio.webm",
+     "poster": "/assets/works/v-short-01-portfolio-poster.jpg",
+     "alt": "MAKING #01 紹介 HP を Claude Code で作る（26 秒・縦型・無音でも伝わる字幕つき）",
+     "frame": "phone"
+    },
+    {
+     "type": "video",
+     "mp4": "/assets/works/v-short-02-reachlab.mp4",
+     "webm": "/assets/works/v-short-02-reachlab.webm",
+     "poster": "/assets/works/v-short-02-reachlab-poster.jpg",
+     "alt": "MAKING #02 ブラウザで動く演出シミュレーターを Claude Code で作る（26 秒・縦型）",
+     "frame": "phone"
+    },
+    {
+     "type": "video",
+     "mp4": "/assets/works/v-short-03-autopilot.mp4",
+     "webm": "/assets/works/v-short-03-autopilot.webm",
+     "poster": "/assets/works/v-short-03-autopilot-poster.jpg",
+     "alt": "MAKING #03 夜に自走する autopilot を Claude Code で作る（26 秒・縦型・画面はサンプル表示の UI 図）",
+     "frame": "phone"
+    },
+    {
+     "type": "mock",
+     "kind": "storyboard",
+     "title": "絵コンテ（#01 紹介 HP・6 カット・26 秒）",
+     "frames": [
+      {
+       "src": "/assets/works/v-short-01-sb-1.jpg",
+       "time": "00:03",
+       "label": "フック（実物）",
+       "note": "公開中の紹介 HP の実画面（PC ブラウザ枠＋スマホ枠）が下と右からスライドインし、等速で軽くスクロール。字幕『紹介 HP を、Claude Code で作った。』",
+       "alt": "フック: 紹介 HP の実画面がブラウザ枠とスマホ枠で表示され『紹介 HP を、Claude Code で作った。』"
+      },
+      {
+       "src": "/assets/works/v-short-01-sb-2.jpg",
+       "time": "00:08",
+       "label": "指示（日本語）",
+       "note": "端末風パネルに日本語の指示が 1 文字ずつ打たれる（琥珀のカーソル）。打ち終わると Enter →『Claude Code が作業中…』。字幕『まず、日本語で頼む』",
+       "alt": "端末に日本語の指示『自己紹介サイトを作り直したい…』が打ち込まれ『まず、日本語で頼む』"
+      },
+      {
+       "src": "/assets/works/v-short-01-sb-3.jpg",
+       "time": "00:13",
+       "label": "生成（JSON→19 ページ）",
+       "note": "content.json のカードから build 矢印を経て、ページのミニカードが 19 枚ポップして並ぶ。最後に琥珀チップ『19 ページ』。字幕『文言は JSON 1 つ。19 ページを自動生成』",
+       "alt": "content.json 1 つから 19 枚のページカードが生成される図と『文言は JSON 1 つ。19 ページを自動生成』"
+      },
+      {
+       "src": "/assets/works/v-short-01-sb-4.jpg",
+       "time": "00:17",
+       "label": "確認（テスト＋別 AI）",
+       "note": "受入テスト（禁止語・リンク切れ・画像・到達性）が順に緑のチェックへ。別系統 AI（GPT）の視覚レビュー 1 回も通過 →『公開へ』チップ。字幕『テストと別 AI のレビューで確認』",
+       "alt": "受入テスト 4 項目が OK になり、別系統 AI の視覚レビューも通過『テストと別 AI のレビューで確認』"
+      },
+      {
+       "src": "/assets/works/v-short-01-sb-5.jpg",
+       "time": "00:22",
+       "label": "公開＋結果",
+       "note": "URL ピル kenji6836.github.io の下でスマホ枠が実画面を等速で縦スクロール。実数チップ『10 分野・17 作品』『19 ページ』『決定 → 公開 約 2 時間 15 分』。字幕『決定から約 2 時間で公開』",
+       "alt": "スマホ枠で紹介 HP をスクロールし『10 分野・17 作品』『19 ページ』『約 2 時間 15 分』のチップ"
+      },
+      {
+       "src": "/assets/works/v-short-01-sb-6.jpg",
+       "time": "00:25",
+       "label": "アウトロ",
+       "note": "青のサークルワイプで転換し、ブランド共通アウトロ（マーク・Kenji Ido・@idk0723ai・『作った実物は HP で』・URL）",
+       "alt": "アウトロ: マークと Kenji Ido @idk0723ai『作った実物は HP で』kenji6836.github.io"
+      }
+     ],
+     "note": "3 本とも同じ 5 ビート構成。#02 #03 の絵コンテも同様に制作"
+    },
+    {
+     "type": "mock",
+     "kind": "pipeline",
+     "title": "1 本あたりの流れ",
+     "steps": [
+      {
+       "icon": "file",
+       "label": "事実シート",
+       "sub": "出せる実数と出典を先に固める"
+      },
+      {
+       "icon": "list",
+       "label": "5 ビート構成",
+       "sub": "実物→指示→生成→確認→公開"
+      },
+      {
+       "icon": "code",
+       "label": "モーション制作",
+       "sub": "実画面＋UI 図＋字幕"
+      },
+      {
+       "icon": "box",
+       "label": "書き出し",
+       "sub": "mp4 / webm・BGM・絵コンテ"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "slug": "mitsumori-ads",
+   "title": "広告セット（見積トリアージ・訴求 2 案 × 7 サイズ）",
+   "kicker": "広告制作",
+   "categories": [
+    "ad",
+    "design",
+    "marketing"
+   ],
+   "label": "self",
+   "year": "2025",
+   "summary": "自作の建設向け Web アプリ「見積トリアージ」を題材に、SNS・ディスプレイ広告の 7 サイズを同じ世界観で展開。時間訴求と安心訴求の 2 案、実写風写真と製品の実画面を組み合わせ、A/B テストにそのまま使える構成。",
+   "role": "コンセプト・コピー・写真ディレクション・ビジュアル制作・サイズ展開",
+   "points": [
+    "1 つのキービジュアルから 7 サイズ（1080×1080 / 1080×1920 / 1200×628 / 1600×900 / 300×250 / 728×90）へ展開",
+    "訴求軸を「時間」「安心」の 2 案に分け、レイアウト骨格は共通にして比較しやすく",
+    "実写風写真をブランド色の面に溶かし、製品の実画面をスマホ枠で載せて「動く実物がある」ことを伝える"
+   ],
+   "stack": [
+    "HTML / CSS / SVG",
+    "Google Fonts",
+    "headless Chrome レンダリング",
+    "実写風写真（自作生成）"
+   ],
+   "links": [
+    {
+     "label": "7 サイズと A/B の比較ページ",
+     "url": "https://kenji6836.github.io/ads/mitsumori/"
+    },
+    {
+     "label": "題材のアプリ（見積トリアージ）",
+     "url": "https://kenji6836.github.io/app/mitsumori/"
+    }
+   ],
+   "visuals": [
+    {
+     "type": "mock",
+     "kind": "adset",
+     "title": "7 サイズ × 訴求 2 案（抜粋 5 点）",
+     "items": [
+      {
+       "src": "/assets/works/v-ad-square-a.jpg",
+       "alt": "「見積依頼の仕分け、60 秒。」を掲げた正方形バナー（A 時間訴求）。青地に現場監督の写真と受信箱画面のスマホ",
+       "slot": "square-a",
+       "label": "Instagram フィード",
+       "size": "1080×1080",
+       "variant": "A 時間訴求"
+      },
+      {
+       "src": "/assets/works/v-ad-square-b.jpg",
+       "alt": "「急ぎの依頼、埋もれない。」を掲げた正方形バナー（B 安心訴求）。事務所で依頼を確認する事務員の写真",
+       "slot": "square-b",
+       "label": "Instagram フィード",
+       "size": "1080×1080",
+       "variant": "B 安心訴求"
+      },
+      {
+       "src": "/assets/works/v-ad-story.jpg",
+       "alt": "縦長ストーリーズ用バナー。職人のポートレートと見出し、下部に受信箱画面のスマホ",
+       "slot": "story",
+       "label": "ストーリーズ / リール",
+       "size": "1080×1920",
+       "variant": "A 時間訴求"
+      },
+      {
+       "src": "/assets/works/v-ad-landscape.jpg",
+       "alt": "横長リンク広告用バナー。左に見出しと CTA、右に写真とスマホ",
+       "slot": "landscape",
+       "label": "Facebook リンク広告",
+       "size": "1200×628",
+       "variant": "A 時間訴求"
+      },
+      {
+       "src": "/assets/works/v-ad-rect.jpg",
+       "alt": "300×250 ディスプレイ広告用の小型バナー。見出しと CTA だけに絞った構成",
+       "slot": "rect",
+       "label": "Google ディスプレイ",
+       "size": "300×250",
+       "variant": "A 時間訴求"
+      }
+     ],
+     "note": "題材は自作アプリ・広告は自主制作のサンプル（未出稿）。「60 秒」は設計上の目安"
+    },
+    {
+     "type": "mock",
+     "kind": "insight",
+     "title": "A/B テストの見方",
+     "kpis": [
+      {
+       "label": "A 時間訴求 CTR",
+       "value": "—",
+       "sub": "未出稿（出稿後に実測）"
+      },
+      {
+       "label": "B 安心訴求 CTR",
+       "value": "—",
+       "sub": "未出稿（出稿後に実測）"
+      },
+      {
+       "label": "判定",
+       "value": "1 週間",
+       "sub": "同予算で比較して継続案を決める"
+      }
+     ],
+     "bars": {
+      "label": "サイズ別の配信比率（サンプル）",
+      "items": [
+       {
+        "label": "フィード",
+        "value": 45,
+        "display": "45%"
+       },
+       {
+        "label": "ストーリーズ",
+        "value": 30,
+        "display": "30%"
+       },
+       {
+        "label": "ディスプレイ",
+        "value": 25,
+        "display": "25%"
+       }
+      ]
+     },
+     "note": "数値はサンプル"
+    },
+    {
+     "type": "mock",
+     "kind": "pipeline",
+     "title": "ヒアリングから入稿まで",
+     "steps": [
+      {
+       "icon": "mail",
+       "label": "ヒアリング",
+       "sub": "強み・対象・予算"
+      },
+      {
+       "icon": "file",
+       "label": "訴求軸 2 案",
+       "sub": "コピーと骨格"
+      },
+      {
+       "icon": "box",
+       "label": "写真＋サイズ展開",
+       "sub": "媒体の規定に合わせる"
+      },
+      {
+       "icon": "sheet",
+       "label": "入稿・計測",
+       "sub": "A/B の結果で改善"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "slug": "channel-brand",
+   "title": "チャンネルブランディング（X・YouTube・Instagram・TikTok 共通）",
+   "kicker": "デザイン制作",
+   "categories": [
+    "design",
+    "sns",
+    "video"
+   ],
+   "label": "self",
+   "year": "2025",
+   "summary": "4 つの SNS で同じ人物・同じ世界観と分かるブランド一式を制作。マーク・アイコン 2 種・X ヘッダー・YouTube バナー・投稿テンプレ 3 サイズ・動画のイントロ/アウトロ・字幕ルールを 1 ページのガイドにまとめ、各プラットフォームの画像規格も表にした。",
+   "role": "コンセプト・マーク設計・配色/書体・テンプレート制作・モーション制作・ガイド執筆",
+   "points": [
+    "紺地・ブランド青・琥珀のカーソル（端末の暗喩）で「AI で作って、本番に出す」を一目で",
+    "アイコンは 48px の丸クロップでも判読できる太さで設計し、顔写真版とマーク版を用意",
+    "イントロ 2 秒／アウトロ 3 秒を CSS だけで作り、ショート動画に共通部品として組み込める形に"
+   ],
+   "stack": [
+    "SVG / CSS",
+    "Google Fonts（Noto Sans JP・IBM Plex Mono）",
+    "headless Chrome レンダリング",
+    "ffmpeg"
+   ],
+   "links": [
+    {
+     "label": "ブランドガイド（1 ページ）",
+     "url": "https://kenji6836.github.io/design/channel-brand/"
+    }
+   ],
+   "visuals": [
+    {
+     "type": "image",
+     "src": "/assets/works/v-brand-x-header.jpg",
+     "alt": "X ヘッダー 1500×500: 紺地に「AIで作って、本番に出す。」と端末風のスニペット",
+     "frame": "browser"
+    },
+    {
+     "type": "image",
+     "src": "/assets/works/v-brand-icon.png",
+     "alt": "チャンネルアイコン（顔写真版・右下に青のマーク）",
+     "frame": "icon"
+    },
+    {
+     "type": "image",
+     "src": "/assets/works/v-brand-yt-banner.jpg",
+     "alt": "YouTube バナー: 夜の作業机の写真を薄く敷き、中央にマークと名前・タグライン",
+     "frame": "browser"
+    },
+    {
+     "type": "video",
+     "mp4": "/assets/works/v-brand-intro.mp4",
+     "webm": "/assets/works/v-brand-intro.webm",
+     "poster": "/assets/works/v-brand-intro-poster.jpg",
+     "alt": "動画イントロ 2 秒: マークが弾んで着地し MAKING と通番が出る",
+     "frame": "phone"
+    },
+    {
+     "type": "image",
+     "src": "/assets/works/v-brand-post-3.jpg",
+     "alt": "X 用の画像投稿テンプレ 1600×900: 青地に見出しと実物のスクショ枠",
+     "frame": "browser"
+    },
+    {
+     "type": "image",
+     "src": "/assets/works/v-brand-post-1.jpg",
+     "alt": "正方形の投稿テンプレ 1080×1080",
+     "frame": "browser"
+    }
+   ]
+  },
+  {
+   "slug": "mitsumori-design-system",
+   "title": "デザインシステム（見積トリアージ・業務 UI）",
+   "kicker": "デザイン制作",
+   "categories": [
+    "design",
+    "web",
+    "app"
+   ],
+   "label": "self",
+   "year": "2025",
+   "summary": "自作の建設向け Web アプリ「見積トリアージ」の色・書体・余白・部品・状態・アクセシビリティを 1 ページに。コントラスト比は実測値を載せ、部品はすべて CSS の実物で表示。ライト/ダーク・スマホ幅に対応。",
+   "role": "トークン設計・部品設計・アクセシビリティ基準・ドキュメント制作",
+   "points": [
+    "色はライト/ダークとも WCAG のコントラスト比を実測して表に（基準未満は隠さず表示）",
+    "緊急度・状態は色だけに頼らず形とアイコンで区別（至急＝赤＋アイコン）",
+    "3 ペインの業務画面をスマホでタブ切替にする型まで定義"
+   ],
+   "stack": [
+    "HTML / CSS",
+    "Google Fonts",
+    "WCAG 2.x コントラスト計算"
+   ],
+   "links": [
+    {
+     "label": "デザインシステム（1 ページ）",
+     "url": "https://kenji6836.github.io/design/mitsumori/"
+    },
+    {
+     "label": "対象のアプリ（見積トリアージ）",
+     "url": "https://kenji6836.github.io/app/mitsumori/"
+    }
+   ],
+   "visuals": [
+    {
+     "type": "image",
+     "src": "/assets/works/v-ds-1.jpg",
+     "alt": "デザインシステムのページ（ライト）: 色トークンとコントラスト比、部品の実物",
+     "frame": "browser"
+    },
+    {
+     "type": "image",
+     "src": "/assets/works/v-ds-2.jpg",
+     "alt": "デザインシステムのページ（ダーク）",
+     "frame": "browser"
+    }
+   ]
+  }
+ ],
+ "independent_pages": {
+  "design/channel-brand/": "チャンネルブランドガイド（自己完結・Google Fonts のみ）",
+  "design/mitsumori/": "見積トリアージ デザインシステム",
+  "ads/mitsumori/": "広告 7 サイズ × A/B 比較ページ"
+ },
+ "kit": "site/lanes/v/kit/（SNS 開設用の原本: アイコン・ヘッダー・バナー・投稿テンプレ PNG・広告 JPG・ロゴ SVG・brand.css。ショート mp4/webm は assets/works/v-short-*）",
+ "links_note": "mitsumori-ads と mitsumori-design-system の /app/mitsumori/ リンクは A レーン公開後に有効。A が 9/18 なら第 1 公開時はそのリンクを外す（統合レーン判断）"
+}
