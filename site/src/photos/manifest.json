@@ -1,0 +1,87 @@
+{
+ "generated": "2026-09-14",
+ "lane": "V",
+ "license": "自主制作素材。HP・LP・広告サンプル・SNS 投稿で利用可。顧客実績として提示しない",
+ "items": [
+  {
+   "file": "creator-desk.jpg",
+   "width": 1536,
+   "height": 1024,
+   "use": "チャンネルバナー背景（コードを書く机）",
+   "ratio": "3:2 wide landscape",
+   "source": "自作（ChatGPT 画像生成・プロンプトは prompts.json・degrain 後処理）",
+   "people": "架空（本人写真は不使用）",
+   "text_in_image": "なし（生成指示で禁止・目視確認済み）"
+  },
+  {
+   "file": "kensetsu-blueprint-desk.jpg",
+   "width": 1536,
+   "height": 1024,
+   "use": "W LP 背景 / A 広告（図面・電卓・スケール）",
+   "ratio": "3:2 wide landscape",
+   "source": "自作（ChatGPT 画像生成・プロンプトは prompts.json・degrain 後処理）",
+   "people": "架空（本人写真は不使用）",
+   "text_in_image": "なし（生成指示で禁止・目視確認済み）"
+  },
+  {
+   "file": "kensetsu-consult.jpg",
+   "width": 1536,
+   "height": 1024,
+   "use": "W LP 進め方 / A 広告（施主との打合せ）",
+   "ratio": "3:2 wide landscape",
+   "source": "自作（ChatGPT 画像生成・プロンプトは prompts.json・degrain 後処理）",
+   "people": "架空（本人写真は不使用）",
+   "text_in_image": "なし（生成指示で禁止・目視確認済み）"
+  },
+  {
+   "file": "kensetsu-exterior.jpg",
+   "width": 1536,
+   "height": 1024,
+   "use": "W LP 対象業種 / A 広告（工務店の外観）",
+   "ratio": "3:2 wide landscape",
+   "source": "自作（ChatGPT 画像生成・プロンプトは prompts.json・degrain 後処理）",
+   "people": "架空（本人写真は不使用）",
+   "text_in_image": "なし（生成指示で禁止・目視確認済み）"
+  },
+  {
+   "file": "kensetsu-office-desk.jpg",
+   "width": 1536,
+   "height": 1024,
+   "use": "W LP hero / A 広告（事務所で見積依頼を確認）",
+   "ratio": "3:2 wide landscape",
+   "source": "自作（ChatGPT 画像生成・プロンプトは prompts.json・degrain 後処理）",
+   "people": "架空（本人写真は不使用）",
+   "text_in_image": "なし（生成指示で禁止・目視確認済み）"
+  },
+  {
+   "file": "kensetsu-phone-inbox.jpg",
+   "width": 1536,
+   "height": 1024,
+   "use": "A 広告 / W LP（スマホで依頼メールを確認する手元）",
+   "ratio": "3:2 wide landscape",
+   "source": "自作（ChatGPT 画像生成・プロンプトは prompts.json・degrain 後処理）",
+   "people": "架空（本人写真は不使用）",
+   "text_in_image": "なし（生成指示で禁止・目視確認済み）"
+  },
+  {
+   "file": "kensetsu-site-tablet.jpg",
+   "width": 1536,
+   "height": 1024,
+   "use": "W LP 特徴 / A 広告（現場でタブレット確認）",
+   "ratio": "3:2 wide landscape",
+   "source": "自作（ChatGPT 画像生成・プロンプトは prompts.json・degrain 後処理）",
+   "people": "架空（本人写真は不使用）",
+   "text_in_image": "なし（生成指示で禁止・目視確認済み）"
+  },
+  {
+   "file": "kensetsu-worker-portrait.jpg",
+   "width": 1024,
+   "height": 1536,
+   "use": "A 広告 縦型 / SNS（職人のポートレート）",
+   "ratio": "2:3 portrait",
+   "source": "自作（ChatGPT 画像生成・プロンプトは prompts.json・degrain 後処理）",
+   "people": "架空（本人写真は不使用）",
+   "text_in_image": "なし（生成指示で禁止・目視確認済み）"
+  }
+ ]
+}
