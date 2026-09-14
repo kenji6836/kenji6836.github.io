@@ -1411,8 +1411,8 @@
     },
     {
       "slug": "mitsumori-triage",
-      "title": "見積トリアージ — 見積依頼の AI 仕分けと概算返信",
-      "kicker": "業務 Web アプリ（PWA）・自主制作",
+      "title": "見積トリアージ",
+      "kicker": "業務 Web アプリ（見積依頼の AI 仕分け）",
       "categories": [
         "app",
         "automation",

@@ -522,6 +522,11 @@ class Site:
         for index, work in enumerate(self.works):
             result["works/{}/index.html".format(work["slug"])] = self.detail(work, index)
             paths.append("/works/{}/".format(work["slug"]))
+        for work in self.works:  # 独立ページ（/viz/ /app/… 静的配信・build 対象外）も実在すればサイトマップに載せる
+            for link in work.get("links", []):
+                url = link.get("url", "")
+                if url.startswith("/") and url.endswith("/") and url not in paths and (ROOT / url.strip("/") / "index.html").exists():
+                    paths.append(url)
         for name in ("site.css", "site.js"):
             result["assets/" + name] = (SOURCE / "static" / name).read_bytes()
         sitemap = ET.Element("urlset", xmlns="http://www.sitemaps.org/schemas/sitemap/0.9")
