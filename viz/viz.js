@@ -76,7 +76,11 @@
   var heroC = $("#hero-canvas");
   if (heroC) {
     var hero = new Engine(heroC), heroN = Math.round(D.national_h[last] / UNIT);
-    var heroLayout = function () { var out = []; for (var i = 0; i < heroN; i++) out.push({ x: Math.random() * hero.w, y: Math.random() * hero.h, a: .34, r: 2.2 }); return out; };
+    var heroLayout = function () { // 見出し・本文・注釈の矩形（外周 12px）には粒を置かない（可読性）
+      var cr = heroC.getBoundingClientRect(), zones = $$(".hero-copy, .hero .eyebrow, .hero-bottom, .hero-ratio, .masthead-row").map(function (e) { var r = e.getBoundingClientRect(); return { x0: r.left - cr.left - 12, y0: r.top - cr.top - 12, x1: r.right - cr.left + 12, y1: r.bottom - cr.top + 12 }; });
+      var mob = window.innerWidth <= 700, out = [], tries = 0;
+      while (out.length < heroN && tries < heroN * 40) { tries++; var x = Math.random() * hero.w, y = Math.random() * hero.h, ok = true; for (var z = 0; z < zones.length; z++) { var q = zones[z]; if (x > q.x0 && x < q.x1 && y > q.y0 && y < q.y1) { ok = false; break; } } if (ok) out.push({ x: x, y: y, a: mob ? .26 : .34, r: mob ? 1.8 : 2.2 }); }
+      return out; };
     hero.moveTo(heroLayout(), { dur: 1500, stagger: 900 });
     if (!RM) { hero.loop = true; var drift = hero.ps.map(function () { return { vx: (Math.random() - .5) * .1, vy: .05 + Math.random() * .08 }; }); hero.onFrame = function () { for (var i = 0; i < hero.ps.length; i++) { var p = hero.ps[i]; if (p.a < .3) continue; p.x += drift[i].vx; p.y += drift[i].vy; p.tx = p.sx = p.x; p.ty = p.sy = p.y; if (p.y > hero.h + 4) { p.y = p.ty = p.sy = -4; } } }; hero.start(); }
     window.addEventListener("resize", function () { hero.resize(); hero.moveTo(heroLayout(), { dur: 0 }); });
@@ -111,7 +115,7 @@
     el("path", { "class": "stage-area", d: d + " L" + tl.x(last).toFixed(1) + "," + tl.y(0).toFixed(1) + " L" + tl.x(0).toFixed(1) + "," + tl.y(0).toFixed(1) + "Z" }, L.timeline);
     el("path", { "class": "stage-line national", d: d }, L.timeline);
     tl.cur = el("line", { "class": "cursor-line", x1: 0, x2: 0, y1: tl.y(0), y2: tl.y(0) }, L.timeline);
-    tl.yr = el("text", { "class": "cursor-year", x: G.x0 + 6, y: G.y0 + 26 }, L.timeline); tl.val = el("text", { "class": "cursor-val", x: G.x0 + 8, y: G.y0 + 46 }, L.timeline);
+    tl.yr = el("text", { "class": "cursor-year", x: G.x1, y: G.y0 + 26, "text-anchor": "end" }, L.timeline); tl.val = el("text", { "class": "cursor-val", x: G.x1, y: G.y0 + 46, "text-anchor": "end" }, L.timeline);
     tl.anno = el("g", {}, L.timeline);
   }
   function annotate(g, x, y, t1, t2, strong, below) { var right = x < G.x0 + G.w * .5, dx = right ? 14 : -14, dy = below ? 1 : -1; el("line", { "class": "leader", x1: x, y1: y, x2: x + dx * .6, y2: y + dy * 18 }, g); el("text", { "class": "stage-text" + (strong ? " strong" : " ink"), x: x + dx, y: y + dy * 22 + (below ? 10 : 0), "text-anchor": right ? "start" : "end" }, g, t1); el("text", { "class": "stage-text", x: x + dx, y: y + dy * 8 + (below ? 28 : 0), "text-anchor": right ? "start" : "end" }, g, t2); }
@@ -123,8 +127,8 @@
     for (var k = 0; k < n; k++) out.push({ x: x - w / 2 + s * (k % cols + .5), y: yBase - s * (Math.floor(k / cols) + .5), r: clamp(s * .36, 1.1, 2.6) });
     eng.moveTo(out, { dur: snap ? 160 : 500, stagger: snap ? 50 : 240, spawn: "stay" });
     tl.anno.innerHTML = "";
-    if (i >= peakI) annotate(tl.anno, tl.x(peakI), tl.y(D.national_h[peakI]), "1973 年 " + fmt(D.national_h[peakI]) + " 戸", "ピーク", true);
-    if (i >= iH(2009)) annotate(tl.anno, tl.x(iH(2009)), tl.y(D.national_h[iH(2009)]), "2009 年 " + fmt(D.national_h[iH(2009)]) + " 戸", "半世紀ぶりの水準", false, true);
+    if (i >= peakI + 5 || i === peakI) annotate(tl.anno, tl.x(peakI), tl.y(D.national_h[peakI]), "1973 年 " + fmt(D.national_h[peakI]) + " 戸", "ピーク", true);
+    if (i >= iH(2009) + 5 || i === iH(2009)) annotate(tl.anno, tl.x(iH(2009)), tl.y(D.national_h[iH(2009)]), "2009 年 " + fmt(D.national_h[iH(2009)]) + " 戸", "半世紀ぶりの水準", false, true);
     if (i >= last) annotate(tl.anno, tl.x(last), tl.y(D.national_h[last]), YH[last] + " 年 " + fmt(D.national_h[last]) + " 戸", "1973 年の " + Math.round(D.national_h[last] / D.national_h[peakI] * 100) + "%", true);
   }
 
@@ -169,7 +173,7 @@
   function drawMap() { mapG.setAttribute("transform", "translate(" + proj.ox + "," + proj.oy + ") scale(" + proj.s + ")"); }
   function fillMap(mode) { P.forEach(function (p) { prefEls[p.code].style.fill = mode === "rate" ? seqColor(p.rate2024, 3, 9) : "transparent"; }); // 粒の上に地図が乗るので、粒の場面は塗りを透明にする
     if (mode === "rate") { legend.innerHTML = '<div>2024 年・人口 1,000 人あたり（戸）</div><div class="ramp">' + seqRamp().map(function (c) { return '<i style="background:' + c + '"></i>'; }).join("") + '</div><div class="ends"><span>3</span><span>9</span></div>'; legend.classList.add("on"); } else legend.classList.remove("on"); }
-  function mapAnno() { L.anno.innerHTML = ""; [["13", "東京 " + fmt1(byCode["13"].rate2024)], ["43", "熊本 " + fmt1(byCode["43"].rate2024)], ["39", "高知 " + fmt1(byCode["39"].rate2024)], ["05", "秋田 " + fmt1(byCode["05"].rate2024)]].forEach(function (c) { var p = byCode[c[0]], x = proj.x(p.c[0]), y = proj.y(p.c[1]), right = x < eng.w * .55, dx = right ? 30 : -30; el("line", { "class": "leader", x1: x, y1: y, x2: x + dx, y2: y - 20 }, L.anno); el("text", { "class": "stage-text blue", x: x + dx + (right ? 4 : -4), y: y - 24, "text-anchor": right ? "start" : "end" }, L.anno, c[1]); }); }
+  function mapAnno() { L.anno.innerHTML = ""; var k = G.mob ? .7 : 1; [["13", 1, 1], ["43", -1, 1], ["39", 1, 1], ["05", -1, -1]].forEach(function (c) { var p = byCode[c[0]], x = proj.x(p.c[0]), y = proj.y(p.c[1]), dx = c[1] * 30 * k, dy = c[2] * 22 * k; el("line", { "class": "leader", x1: x, y1: y, x2: x + dx, y2: y + dy }, L.anno); el("text", { "class": "stage-text blue", x: x + dx + (c[1] > 0 ? 4 : -4), y: y + dy + (c[2] > 0 ? 12 : -4), "text-anchor": c[1] > 0 ? "start" : "end" }, L.anno, p.short + " " + fmt1(p.rate2024)); }); } // 海側へ出す（東京→右下・熊本→左下・高知→右下・秋田→左上）
 
   // --- 06 swarm
   var sw = {};
@@ -180,7 +184,7 @@
     for (var t = rmin; t <= rmax; t++) { el("line", { "class": "stage-rule", x1: sw.x(t), x2: sw.x(t), y1: G.y0 + 8, y2: G.y1 }, L.swarm); el("text", { "class": "stage-text", x: sw.x(t), y: G.y1 + 17, "text-anchor": "middle" }, L.swarm, t); }
     var dia = G.mob ? 9 : 12, gap = dia + 3, cy = G.y0 + G.h * .5, placed = []; sw.pos = {};
     P.slice().sort(function (a, b) { return a.rate2024 - b.rate2024; }).forEach(function (p) { var x = sw.x(p.rate2024), y = cy; for (var lv = 0; lv < 100; lv++) { y = cy + Math.ceil(lv / 2) * gap * (lv % 2 ? 1 : -1); if (placed.every(function (o) { return Math.hypot(o.x - x, o.y - y) >= gap; })) break; } placed.push({ x: x, y: y }); sw.pos[p.code] = { x: x, y: y, r: dia / 2 }; });
-    [["13", -1], ["43", 1], ["39", 1], ["05", -1]].forEach(function (c) { var p = byCode[c[0]], q = sw.pos[p.code], dy = c[1] * (G.mob ? 26 : 34); el("line", { "class": "leader", x1: q.x, y1: q.y, x2: q.x, y2: q.y + dy }, L.swarm); el("text", { "class": "stage-text " + (p.code === "39" || p.code === "05" ? "ink" : "blue"), x: q.x, y: q.y + dy + (c[1] > 0 ? 12 : -5), "text-anchor": "middle" }, L.swarm, p.short + " " + fmt1(p.rate2024)); });
+    [["13", -1, 1], ["43", 1, -1], ["39", 1, -1], ["05", -1, -1]].forEach(function (c) { var p = byCode[c[0]], q = sw.pos[p.code], dy = c[1] * (G.mob ? 26 : 34), dx = c[2] * (G.mob ? 14 : 18); el("line", { "class": "leader", x1: q.x, y1: q.y, x2: q.x + dx, y2: q.y + dy }, L.swarm); el("text", { "class": "stage-text " + (p.code === "39" || p.code === "05" ? "ink" : "blue"), x: q.x + dx + (c[2] > 0 ? 3 : -3), y: q.y + dy + (c[1] > 0 ? 12 : -5), "text-anchor": c[2] > 0 ? "start" : "end" }, L.swarm, p.short + " " + fmt1(p.rate2024)); });
   }
   function swarmLayout() { return P.map(function (p) { var q = sw.pos[p.code], acc = p.code === "13" || p.code === "43"; return { x: q.x, y: q.y, r: q.r, c: acc ? css("--blue") : css("--gray-mark"), ring: true }; }); }
 
@@ -250,8 +254,8 @@
   function renderDetail(announce) {
     var p = byCode[pinned], hy = p.h[iH(year)], py = iP(year) >= 0 ? p.p[iP(year)] : null;
     $("#detail-name").textContent = p.name; $("#detail-state").textContent = "選択中 / " + year; $("#detail-metric-label").textContent = METRIC[metric].title; $("#detail-rate").textContent = label(val(p, year)); $("#detail-unit").textContent = METRIC[metric].unit;
-    $("#national-comparison").textContent = "全国 " + label(natVal(year)) + " " + METRIC[metric].unit + (metric === "rate" ? "・全国 " + p.rankRate + " 位（2024）" : "");
-    setDD("#detail-h", fmt(hy), " 戸"); setDD("#detail-p", py == null ? "—" : fmt(py), " 人"); setDD("#detail-change", signed((hy / p.h[iH(2000)] - 1) * 100), " %");
+    $("#national-comparison").textContent = "全国 " + label(natVal(year)) + " " + METRIC[metric].unit + (metric === "rate" ? "・2024 年は全国 " + p.rankRate + " 位" : "");
+    setDD("#detail-h", fmt(hy), " 戸"); setDD("#detail-p", py == null ? "—" : fmt(py), " 人"); setDD("#detail-change", hy == null ? "—" : signed((hy / p.h[iH(2000)] - 1) * 100), " %");
     renderSpark(p); $$("tr[data-row]").forEach(function (r) { r.setAttribute("data-selected", r.getAttribute("data-row") === pinned ? "true" : "false"); });
     if (announce) $("#detail-live").textContent = p.name + "、" + year + " 年。" + METRIC[metric].title + " " + label(val(p, year)) + " " + METRIC[metric].unit + "。";
   }

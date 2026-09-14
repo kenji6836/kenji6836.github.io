@@ -107,7 +107,7 @@ def main():
         assert hp["code"] == pp["code"], (hp["code"], pp["code"])
         code = hp["code"]
         prefs.append({
-            "code": code, "name": hp["name"], "short": hp["name"].rstrip("県府都") if hp["name"] not in ("北海道",) else "北海道",
+            "code": code, "name": hp["name"], "short": hp["name"][:-1] if hp["name"] != "北海道" and hp["name"][-1] in "県府都" else hp["name"],  # 末尾 1 文字だけ（rstrip だと京都府→京）
             "en": next(f["properties"]["name_en"] for f in geo["features"] if f["properties"]["code"] == code),
             "region": CODE2REGION[code],
             "h": [None if v is None else int(v) for v in hp["values"]],
