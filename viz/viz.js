@@ -96,12 +96,12 @@
   var L = {}; ["timeline", "index", "scatter", "map", "swarm", "anno"].forEach(function (n) { L[n] = el("g", { "class": "layer", id: "l-" + n }, svg); });
   var mapG = el("g", {}, L.map), prefEls = {}; P.forEach(function (p) { prefEls[p.code] = el("path", { "class": "pref", d: p.path }, mapG); });
   var COPY = {
-    timeline: ["01", "75 年の山", "1951 → " + YH[last], "1 粒 ＝ 1,000 戸。スクロールで年が進む。"],
-    index: ["02", "家を建てる数の変化", "2000 → 2024", "2000 年の着工戸数を 100 とした推移。点は 2024 年。"],
-    scatter: ["03", "人口と着工、二つの変化", "2000 → 2024", "横軸は人口、縦軸は着工戸数の増減率。破線は増減なし。"],
-    dots: ["04", "同じ粒を、地図の上に置く", "2024", "1 粒 ＝ 1,000 戸。粒は県の形の中に散らしている。"],
+    timeline: ["01", "75 年の山", "1951 → " + YH[last], "スクロールで年が進む。1973 年の山と、2009 年・2025 年の谷。"],
+    index: ["02", "家を建てる数の変化", "2000 → 2024", "2000 年の着工戸数を 100 とした推移。点は 2024 年。橙＝熊本（唯一の増加）。"],
+    scatter: ["03", "人口と着工、二つの変化", "2000 → 2024", "横軸は人口、縦軸は着工戸数の増減率。破線は増減なし。青＝東京・橙＝熊本。"],
+    dots: ["04", "粒を、地図の上に置く", "2024", "1 粒 ＝ 1,000 戸。粒は県の形の中に散らしている。"],
     rate: ["05", "人口でそろえた日本地図", "2024", "色が濃いほど、人口 1,000 人あたりの着工戸数が多い。"],
-    swarm: ["06", "同じ物差しで、並べる", "2024", "人口 1,000 人あたりの着工戸数。上下の位置に数値の意味はない。"]
+    swarm: ["06", "同じ物差しで、並べる", "2024", "人口 1,000 人あたりの着工戸数。上下の位置に数値の意味はない。青＝東京・橙＝熊本。"]
   };
 
   // --- 01 timeline
@@ -120,12 +120,10 @@
   }
   function annotate(g, x, y, t1, t2, strong, below) { var right = x < G.x0 + G.w * .5, dx = right ? 14 : -14, dy = below ? 1 : -1; el("line", { "class": "leader", x1: x, y1: y, x2: x + dx * .6, y2: y + dy * 18 }, g); el("text", { "class": "stage-text" + (strong ? " strong" : " ink"), x: x + dx, y: y + dy * 22 + (below ? 10 : 0), "text-anchor": right ? "start" : "end" }, g, t1); el("text", { "class": "stage-text", x: x + dx, y: y + dy * 8 + (below ? 28 : 0), "text-anchor": right ? "start" : "end" }, g, t2); }
   function timelineAt(i, snap) {
-    var v = D.national_h[i], n = Math.round(v / UNIT), x = tl.x(i), yTop = tl.y(v), yBase = tl.y(0), w = G.mob ? 22 : 34;
+    var v = D.national_h[i], x = tl.x(i), yTop = tl.y(v);
     tl.cur.setAttribute("x1", x); tl.cur.setAttribute("x2", x); tl.cur.setAttribute("y2", yTop);
-    tl.yr.textContent = YH[i]; tl.val.textContent = fmt(v) + " 戸 ＝ " + fmt(n) + " 粒";
-    var h = Math.max(4, yBase - yTop), s = Math.sqrt(w * h / Math.max(1, n)), cols = Math.max(1, Math.round(w / s)); s = w / cols; var out = [];
-    for (var k = 0; k < n; k++) out.push({ x: x - w / 2 + s * (k % cols + .5), y: yBase - s * (Math.floor(k / cols) + .5), r: clamp(s * .36, 1.1, 2.6) });
-    eng.moveTo(out, { dur: snap ? 160 : 500, stagger: snap ? 50 : 240, spawn: "stay" });
+    tl.yr.textContent = YH[i]; tl.val.textContent = fmt(v) + " 戸";
+    if (!snap) eng.moveTo([], { dur: 500, stagger: 200 }); // 01 は面グラフだけ（粒の山は面と重複するため廃止・2026-09-14 ユーザー訂正）
     tl.anno.innerHTML = "";
     if (i >= peakI + 5 || i === peakI) annotate(tl.anno, tl.x(peakI), tl.y(D.national_h[peakI]), "1973 年 " + fmt(D.national_h[peakI]) + " 戸", "ピーク", true);
     if (i >= iH(2009) + 5 || i === iH(2009)) annotate(tl.anno, tl.x(iH(2009)), tl.y(D.national_h[iH(2009)]), "2009 年 " + fmt(D.national_h[iH(2009)]) + " 戸", "45 年ぶりの水準", false, true);
@@ -139,11 +137,12 @@
     ix.x = function (k) { return lerp(G.x0, G.x1 - (G.mob ? 30 : 40), k / lastP); }; ix.y = function (v) { return lerp(G.y1, G.y0 + 8, v / mx); };
     el("text", { "class": "stage-text", x: G.x0, y: G.y0 - 8 }, L.index, "着工戸数（2000 年 ＝ 100）");
     for (var t = 0; t <= mx; t += 50) { el("line", { "class": "stage-rule" + (t === 100 ? " zero" : ""), x1: G.x0, x2: ix.x(lastP) + 4, y1: ix.y(t), y2: ix.y(t) }, L.index); el("text", { "class": "stage-text", x: G.x0 - 8, y: ix.y(t) + 4, "text-anchor": "end" }, L.index, t); }
-    P.slice().sort(function (a, b) { return (a.code === "43") - (b.code === "43"); }).forEach(function (p) { el("path", { "class": "stage-line" + (p.code === "43" ? " accent" : ""), d: p.index.map(function (v, k) { return (k ? "L" : "M") + ix.x(k).toFixed(1) + "," + ix.y(v).toFixed(1); }).join(" ") }, L.index); });
+    P.slice().sort(function (a, b) { return (a.code === "43") - (b.code === "43"); }).forEach(function (p) { el("path", { "class": "stage-line" + (p.code === "43" ? " warm" : ""), d: p.index.map(function (v, k) { return (k ? "L" : "M") + ix.x(k).toFixed(1) + "," + ix.y(v).toFixed(1); }).join(" ") }, L.index); });
     el("text", { "class": "stage-text", x: G.x0, y: G.y1 + 18 }, L.index, "2000"); el("text", { "class": "stage-text", x: ix.x(lastP), y: G.y1 + 18, "text-anchor": "middle" }, L.index, "2024");
-    [["43", "blue"], ["39", "ink"]].forEach(function (c) { var p = byCode[c[0]]; el("text", { "class": "stage-text " + c[1], x: ix.x(lastP) + 9, y: ix.y(p.index[lastP]) + 4 }, L.index, p.short + " " + signed(p.hChg) + "%"); });
+    [["43", "warm"], ["39", "ink"]].forEach(function (c) { var p = byCode[c[0]]; el("text", { "class": "stage-text " + c[1], x: ix.x(lastP) + 9, y: ix.y(p.index[lastP]) + 4 }, L.index, p.short + " " + signed(p.hChg) + "%"); });
   }
-  function indexLayout() { return P.map(function (p) { return { x: ix.x(lastP), y: ix.y(p.index[lastP]), r: 3.5, c: p.code === "43" ? css("--blue") : css("--gray-mark"), ring: true }; }); }
+  function entityColor(p) { return p.code === "43" ? css("--warm") : p.code === "13" ? css("--blue") : css("--gray-mark"); } // 色は主体に固定: 熊本＝橙・東京＝青
+  function indexLayout() { return P.map(function (p) { return { x: ix.x(lastP), y: ix.y(p.index[lastP]), r: p.code === "43" ? 5 : 3.5, c: entityColor(p), ring: true }; }); }
 
   // --- 03 scatter
   var sc = {};
@@ -155,9 +154,9 @@
     for (var t = hmin; t <= hmax; t += 20) { el("line", { "class": "stage-rule" + (t === 0 ? " zero" : ""), x1: G.x0, x2: G.x1, y1: sc.y(t), y2: sc.y(t) }, L.scatter); el("text", { "class": "stage-text", x: G.x0 - 8, y: sc.y(t) + 4, "text-anchor": "end" }, L.scatter, t); }
     for (var u = Math.ceil(pmin / 10) * 10; u <= pmax; u += 10) { el("line", { "class": "stage-rule" + (u === 0 ? " zero" : ""), x1: sc.x(u), x2: sc.x(u), y1: G.y0 + 8, y2: G.y1 }, L.scatter); if (u % 20 === 0) el("text", { "class": "stage-text", x: sc.x(u), y: G.y1 + 17, "text-anchor": "middle" }, L.scatter, u); }
     el("text", { "class": "stage-text", x: G.x1, y: G.y1 + 32, "text-anchor": "end" }, L.scatter, "人口の増減（%）2000→2024");
-    [["43", 12, -12], ["13", -12, -14], ["05", 12, 20]].forEach(function (c) { var p = byCode[c[0]], x = sc.x(p.popChg), y = sc.y(p.hChg); el("line", { "class": "leader", x1: x, y1: y, x2: x + c[1] * .7, y2: y + c[2] * .7 }, L.scatter); el("text", { "class": "stage-text blue", x: x + c[1], y: y + c[2] + 4, "text-anchor": c[1] < 0 ? "end" : "start" }, L.scatter, p.short + " " + signed(p.hChg) + "%"); });
+    [["43", 12, -12, "warm"], ["13", -12, -14, "blue"], ["05", 12, 20, "ink"]].forEach(function (c) { var p = byCode[c[0]], x = sc.x(p.popChg), y = sc.y(p.hChg); el("line", { "class": "leader " + (c[3] === "warm" ? "warm" : ""), x1: x, y1: y, x2: x + c[1] * .7, y2: y + c[2] * .7 }, L.scatter); el("text", { "class": "stage-text " + c[3], x: x + c[1], y: y + c[2] + 4, "text-anchor": c[1] < 0 ? "end" : "start" }, L.scatter, p.short + " " + signed(p.hChg) + "%"); });
   }
-  function scatterLayout() { return P.map(function (p) { var acc = ["13", "43", "05"].indexOf(p.code) >= 0; return { x: sc.x(p.popChg), y: sc.y(p.hChg), r: acc ? 5.5 : 3.8, c: acc ? css("--blue") : css("--gray-mark"), ring: true }; }); }
+  function scatterLayout() { return P.map(function (p) { var acc = ["13", "43", "05"].indexOf(p.code) >= 0; return { x: sc.x(p.popChg), y: sc.y(p.hChg), r: acc ? 5.5 : 3.8, c: p.code === "05" ? css("--muted") : entityColor(p), ring: true }; }); }
 
   // --- 04/05 map
   function dotsLayout() { // 粒 i<47 は自県の 1 粒目、残りは多い順に埋める（同じ粒が県へ帰る）
@@ -173,7 +172,7 @@
   function drawMap() { mapG.setAttribute("transform", "translate(" + proj.ox + "," + proj.oy + ") scale(" + proj.s + ")"); }
   function fillMap(mode) { P.forEach(function (p) { prefEls[p.code].style.fill = mode === "rate" ? seqColor(p.rate2024, 3, 9) : "transparent"; }); // 粒の上に地図が乗るので、粒の場面は塗りを透明にする
     if (mode === "rate") { legend.innerHTML = '<div>2024 年・人口 1,000 人あたり（戸）</div><div class="ramp">' + seqRamp().map(function (c) { return '<i style="background:' + c + '"></i>'; }).join("") + '</div><div class="ends"><span>3</span><span>9</span></div>'; legend.classList.add("on"); } else legend.classList.remove("on"); }
-  function mapAnno() { L.anno.innerHTML = ""; var k = G.mob ? .7 : 1; [["13", 1, 1], ["43", -1, 1], ["39", 1, 1], ["05", -1, -1]].forEach(function (c) { var p = byCode[c[0]], x = proj.x(p.c[0]), y = proj.y(p.c[1]), dx = c[1] * 30 * k, dy = c[2] * 22 * k; el("line", { "class": "leader", x1: x, y1: y, x2: x + dx, y2: y + dy }, L.anno); el("text", { "class": "stage-text blue", x: x + dx + (c[1] > 0 ? 4 : -4), y: y + dy + (c[2] > 0 ? 12 : -4), "text-anchor": c[1] > 0 ? "start" : "end" }, L.anno, p.short + " " + fmt1(p.rate2024)); }); } // 海側へ出す（東京→右下・熊本→左下・高知→右下・秋田→左上）
+  function mapAnno() { L.anno.innerHTML = ""; var k = G.mob ? .7 : 1; [["13", 1, 1], ["43", -1, 1], ["39", 1, 1], ["05", -1, -1]].forEach(function (c) { var p = byCode[c[0]], x = proj.x(p.c[0]), y = proj.y(p.c[1]), dx = c[1] * 30 * k, dy = c[2] * 22 * k; el("line", { "class": "leader", x1: x, y1: y, x2: x + dx, y2: y + dy }, L.anno); el("text", { "class": "stage-text " + (p.code === "43" ? "warm" : p.code === "13" ? "blue" : "ink"), x: x + dx + (c[1] > 0 ? 4 : -4), y: y + dy + (c[2] > 0 ? 12 : -4), "text-anchor": c[1] > 0 ? "start" : "end" }, L.anno, p.short + " " + fmt1(p.rate2024)); }); } // 海側へ出す（東京→右下・熊本→左下・高知→右下・秋田→左上）
 
   // --- 06 swarm
   var sw = {};
@@ -184,9 +183,9 @@
     for (var t = rmin; t <= rmax; t++) { el("line", { "class": "stage-rule", x1: sw.x(t), x2: sw.x(t), y1: G.y0 + 8, y2: G.y1 }, L.swarm); el("text", { "class": "stage-text", x: sw.x(t), y: G.y1 + 17, "text-anchor": "middle" }, L.swarm, t); }
     var dia = G.mob ? 9 : 12, gap = dia + 3, cy = G.y0 + G.h * .5, placed = []; sw.pos = {};
     P.slice().sort(function (a, b) { return a.rate2024 - b.rate2024; }).forEach(function (p) { var x = sw.x(p.rate2024), y = cy; for (var lv = 0; lv < 100; lv++) { y = cy + Math.ceil(lv / 2) * gap * (lv % 2 ? 1 : -1); if (placed.every(function (o) { return Math.hypot(o.x - x, o.y - y) >= gap; })) break; } placed.push({ x: x, y: y }); sw.pos[p.code] = { x: x, y: y, r: dia / 2 }; });
-    [["13", -1, 1], ["43", 1, -1], ["39", 1, -1], ["05", -1, -1]].forEach(function (c) { var p = byCode[c[0]], q = sw.pos[p.code], dy = c[1] * (G.mob ? 26 : 34), dx = c[2] * (G.mob ? 14 : 18); el("line", { "class": "leader", x1: q.x, y1: q.y, x2: q.x + dx, y2: q.y + dy }, L.swarm); el("text", { "class": "stage-text " + (p.code === "39" || p.code === "05" ? "ink" : "blue"), x: q.x + dx + (c[2] > 0 ? 3 : -3), y: q.y + dy + (c[1] > 0 ? 12 : -5), "text-anchor": c[2] > 0 ? "start" : "end" }, L.swarm, p.short + " " + fmt1(p.rate2024)); });
+    [["13", -1, 1], ["43", 1, -1], ["39", 1, -1], ["05", -1, -1]].forEach(function (c) { var p = byCode[c[0]], q = sw.pos[p.code], dy = c[1] * (G.mob ? 26 : 34), dx = c[2] * (G.mob ? 14 : 18); el("line", { "class": "leader", x1: q.x, y1: q.y, x2: q.x + dx, y2: q.y + dy }, L.swarm); el("text", { "class": "stage-text " + (p.code === "43" ? "warm" : p.code === "13" ? "blue" : "ink"), x: q.x + dx + (c[2] > 0 ? 3 : -3), y: q.y + dy + (c[1] > 0 ? 12 : -5), "text-anchor": c[2] > 0 ? "start" : "end" }, L.swarm, p.short + " " + fmt1(p.rate2024)); });
   }
-  function swarmLayout() { return P.map(function (p) { var q = sw.pos[p.code], acc = p.code === "13" || p.code === "43"; return { x: q.x, y: q.y, r: q.r, c: acc ? css("--blue") : css("--gray-mark"), ring: true }; }); }
+  function swarmLayout() { return P.map(function (p) { var q = sw.pos[p.code]; return { x: q.x, y: q.y, r: q.r, c: entityColor(p), ring: true }; }); }
 
   /* ---------- scenes ---------- */
   var scene = null, scrubI = 0, steps = $$(".story-step"), progress = $$(".story-progress a");

@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800;900&family=Noto+Serif+JP:wght@600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/viz/viz.css?v=c299ceb2">
+<link rel="stylesheet" href="/viz/viz.css?v=11c48c24">
 </head>
 <body>
 <a class="skip-link" href="#story">本文へ</a>
@@ -31,7 +31,7 @@
     <div class="eyebrow"><span class="blue-square" aria-hidden="true"></span> 住宅着工 × 人口 <span class="year-range num">1951 — 2025</span></div>
     <div class="hero-copy">
       <h1 id="page-title">家は、どこに<br>建っているのか<span class="blue-period">。</span></h1>
-      <p class="hero-intro">毎年、新しい家が建つ。<br>けれど、その数も、場所も、<br>かつてと同じではない。<br><span>1 粒 ＝ 1,000 戸。同じ粒を並べ替えながら、47 都道府県をたどる。</span></p>
+      <p class="hero-intro">毎年、新しい家が建つ。<br>けれど、その数も、場所も、<br>かつてと同じではない。<br><span>同じ 47 の点を、違う物差しで並べ替えながらたどる。地図では 1 粒 ＝ 1,000 戸。</span></p>
     </div>
     <figure class="hero-figure">
       <figcaption>全国の新設住宅着工戸数 <span>棒の高さ ＝ その年に着工した戸数</span></figcaption>
@@ -47,16 +47,16 @@
       <figure class="story-stage js-only" id="stage" aria-labelledby="scene-title" aria-describedby="scene-desc">
         <div class="stage-heading"><span id="scene-number" class="num">01</span><h3 id="scene-title">75 年の山</h3><span id="scene-period" class="num">1951 → 2025</span></div>
         <div class="canvas-wrap"><canvas id="stage-canvas" role="img" aria-label="47 都道府県の住宅着工の変化。詳細は隣の本文とデータ表に記載。"></canvas><svg id="stage-svg" aria-hidden="true"></svg><div class="legend-seq" id="stage-legend"></div></div>
-        <figcaption id="scene-desc">1 粒 ＝ 1,000 戸。スクロールで年が進む。</figcaption>
+        <figcaption id="scene-desc">スクロールで年が進む。1973 年の山と、2009 年・2025 年の谷。</figcaption>
         <nav class="story-progress" aria-label="物語の章"><a href="#step-0" aria-current="step"><span></span></a><a href="#step-1"><span></span></a><a href="#step-2"><span></span></a><a href="#step-3"><span></span></a><a href="#step-4"><span></span></a><a href="#step-5"><span></span></a></nav>
       </figure>
       <div class="story-steps">
-        <article class="story-step tall" id="step-0" data-scene="timeline"><span class="step-number">01 — 75 年の山</span><h3>1973 年に 190 万戸。<br>そこから、ずっと下り坂。</h3><p>粒の山は 1973 年（1,905,112 戸）で頂点に達し、2009 年に 45 年ぶりの水準へ落ちた。2025 年は 740,667 戸——1963 年以来の少なさだ。</p><p class="step-stat"><strong class="num">39</strong><span>%<small>2025 年の着工戸数 ÷ 1973 年</small></span></p><p class="step-note">スクロールすると年が進み、粒の山が伸び縮みする。</p></article>
-        <article class="story-step" id="step-1" data-scene="index"><span class="step-number">02 — 着工の変化</span><h3>家を建てる数は、<br>ほぼ全国で減った。</h3><p>2000 年と 2024 年を比べると、着工戸数が減ったのは 47 都道府県のうち 46。規模の違う地域を同じ出発点（2000 年＝100）にそろえると、広がる減少が見えてくる。</p><p class="step-stat"><strong class="num">46</strong><span> / 47<small>着工戸数が減った都道府県</small></span></p><p class="step-note">高知は 67.9% 減。増えたのは熊本だけだった。</p></article>
-        <article class="story-step" id="step-2" data-scene="scatter"><span class="step-number">03 — 人口との比較</span><h3>人口も減った。<br>でも、同じではない。</h3><p>同じ期間に人口が減ったのは 39 都道府県。しかし、人口の増減と着工の増減は一様ではない。東京は人口が増えても着工が減り、熊本では逆の動きが見られる。</p><p class="step-stat"><strong class="num">+10.6</strong><span>%<small>熊本の着工戸数の変化（2000→2024）</small></span></p><p class="step-note">熊本の人口は 8.7% 減。原因の分析はしていない。</p></article>
-        <article class="story-step" id="step-3" data-scene="dots"><span class="step-number">04 — 地図に置く</span><h3>粒を、その県の形の中へ。</h3><p>1 粒 ＝ 1,000 戸のまま、2024 年の着工の「量」を地図に散らす。東京・神奈川・愛知・大阪・埼玉の 5 都府県で全体の 46%。粒は三大都市圏と太平洋側の帯に集まる。</p><p class="step-stat"><strong class="num">46</strong><span>%<small>上位 5 都府県の占める割合（2024 年）</small></span></p></article>
+        <article class="story-step tall" id="step-0" data-scene="timeline"><span class="step-number">01 — 75 年の山</span><h3>1973 年に 190 万戸。<br>そこから、ずっと下り坂。</h3><p>粒の山は 1973 年（1,905,112 戸）で頂点に達し、2009 年に 45 年ぶりの水準へ落ちた。2025 年は 740,667 戸——1963 年以来の少なさだ。</p><p class="step-stat"><strong class="num">39</strong><span>%<small>2025 年の着工戸数 ÷ 1973 年</small></span></p><p class="step-note">スクロールすると年が進み、注釈が現れる。</p></article>
+        <article class="story-step" id="step-1" data-scene="index"><span class="step-number">02 — 着工の変化</span><h3>家を建てる数は、<br>ほぼ全国で減った。</h3><p>2000 年と 2024 年を比べると、着工戸数が減ったのは 47 都道府県のうち 46。規模の違う地域を同じ出発点（2000 年＝100）にそろえると、広がる減少が見えてくる。</p><p class="step-stat"><strong class="num">46</strong><span> / 47<small>着工戸数が減った都道府県</small></span></p><p class="step-note">高知は 67.9% 減。増えたのは熊本（橙）だけだった。</p></article>
+        <article class="story-step" id="step-2" data-scene="scatter"><span class="step-number">03 — 人口との比較</span><h3>人口も減った。<br>でも、同じではない。</h3><p>同じ期間に人口が減ったのは 39 都道府県。しかし、人口の増減と着工の増減は一様ではない。東京は人口が増えても着工が減り、熊本では逆の動きが見られる。</p><p class="step-stat warm"><strong class="num">+10.6</strong><span>%<small>熊本の着工戸数の変化（2000→2024）</small></span></p><p class="step-note">橙が熊本、青が東京。熊本の人口は 8.7% 減。原因の分析はしていない。</p></article>
+        <article class="story-step" id="step-3" data-scene="dots"><span class="step-number">04 — 地図に置く</span><h3>粒を、その県の形の中へ。</h3><p>ここからは 1 粒 ＝ 1,000 戸。2024 年の着工の「量」を地図に散らす。東京・神奈川・愛知・大阪・埼玉の 5 都府県で全体の 46%。粒は三大都市圏と太平洋側の帯に集まる。</p><p class="step-stat"><strong class="num">46</strong><span>%<small>上位 5 都府県の占める割合（2024 年）</small></span></p></article>
         <article class="story-step" id="step-4" data-scene="rate"><span class="step-number">05 — 人口という物差し</span><h3>人口で割ると、<br>地図が変わる。</h3><p>人口が多い地域ほど、着工の総数も大きくなりやすい。そこで、人口 1,000 人あたり何戸が着工したかで塗り分ける。</p><p class="step-stat"><strong class="num">6.4</strong><span>戸<small>2024 年・全国の人口 1,000 人あたり</small></span></p><p class="step-note">2000 年の全国は 9.7 戸。色が濃いほど人口あたりの着工が多い。</p></article>
-        <article class="story-step" id="step-5" data-scene="swarm"><span class="step-number">06 — 地域の分布</span><h3>多いのは、<br>東京だけじゃない。</h3><p>人口 1,000 人あたりの着工戸数は、東京が 8.7 戸、熊本が 8.5 戸。総数だけでは目立たなかった地域が、すぐ隣に並ぶ。下位は高知 3.1・秋田 3.4・青森 3.7。</p><p class="comparison-stat"><span><small>東京</small><strong class="num">8.7</strong></span><span class="comparison-slash" aria-hidden="true">/</span><span><small>熊本</small><strong class="num">8.5</strong></span><span class="unit">戸</span></p><p class="step-note">一つの点は一つの都道府県。上下の位置は、点の重なりを避けるために調整している。</p><a class="text-link" href="#explore">自分の街を見てみる <span aria-hidden="true">↗</span></a></article>
+        <article class="story-step" id="step-5" data-scene="swarm"><span class="step-number">06 — 地域の分布</span><h3>多いのは、<br>東京だけじゃない。</h3><p>人口 1,000 人あたりの着工戸数は、東京が 8.7 戸、熊本が 8.5 戸。総数だけでは目立たなかった地域が、すぐ隣に並ぶ。下位は高知 3.1・秋田 3.4・青森 3.7。</p><p class="comparison-stat"><span><small>東京</small><strong class="num">8.7</strong></span><span class="comparison-slash" aria-hidden="true">/</span><span class="warm"><small>熊本</small><strong class="num">8.5</strong></span><span class="unit">戸</span></p><p class="step-note">一つの点は一つの都道府県。上下の位置は、点の重なりを避けるために調整している。</p><a class="text-link" href="#explore">自分の街を見てみる <span aria-hidden="true">↗</span></a></article>
       </div>
     </div>
     <noscript><figure class="static-figure"><svg viewBox="0 0 720 260" role="img" aria-label="全国の新設住宅着工戸数 1951–2025"><line x1="56" x2="704" y1="178.0" y2="178.0" stroke="#d9d6ce" stroke-width="1"/><text x="50" y="182.0" font-size="11" text-anchor="end" fill="#6b7480">50 万</text><line x1="56" x2="704" y1="124.0" y2="124.0" stroke="#d9d6ce" stroke-width="1"/><text x="50" y="128.0" font-size="11" text-anchor="end" fill="#6b7480">100 万</text><line x1="56" x2="704" y1="70.0" y2="70.0" stroke="#d9d6ce" stroke-width="1"/><text x="50" y="74.0" font-size="11" text-anchor="end" fill="#6b7480">150 万</text><line x1="56" x2="704" y1="16.0" y2="16.0" stroke="#d9d6ce" stroke-width="1"/><text x="50" y="20.0" font-size="11" text-anchor="end" fill="#6b7480">200 万</text><text x="56.0" y="252" font-size="11" text-anchor="middle" fill="#6b7480">1951</text><text x="248.6" y="252" font-size="11" text-anchor="middle" fill="#6b7480">1973</text><text x="397.5" y="252" font-size="11" text-anchor="middle" fill="#6b7480">1990</text><text x="563.9" y="252" font-size="11" text-anchor="middle" fill="#6b7480">2009</text><text x="704.0" y="252" font-size="11" text-anchor="middle" fill="#6b7480">2025</text><path d="M56.0,209.2 L64.8,205.8 L73.5,205.3 L82.3,205.0 L91.0,204.2 L99.8,198.7 L108.5,197.3 L117.3,195.5 L126.1,190.9 L134.8,186.2 L143.6,174.1 L152.3,168.7 L161.1,157.6 L169.8,150.8 L178.6,141.0 L187.4,139.5 L196.1,125.0 L204.9,102.2 L213.6,86.6 L222.4,71.7 L231.1,73.9 L239.9,36.8 L248.6,26.2 L257.4,89.9 L266.2,85.5 L274.9,67.4 L283.7,69.1 L292.4,64.7 L301.2,70.8 L309.9,95.0 L318.7,107.6 L327.5,108.2 L336.2,109.2 L345.0,103.8 L353.7,98.5 L362.5,84.6 L371.2,51.2 L380.0,50.1 L388.8,52.4 L397.5,47.6 L406.3,84.0 L415.0,80.5 L423.8,71.5 L432.5,62.4 L441.3,73.2 L450.1,54.5 L458.8,82.2 L467.6,102.6 L476.3,100.8 L485.1,99.2 L493.8,105.2 L502.6,107.7 L511.4,106.7 L520.1,103.6 L528.9,98.5 L537.6,92.6 L546.4,117.4 L555.1,113.9 L563.9,146.9 L572.6,144.2 L581.4,141.9 L590.2,136.7 L598.9,126.2 L607.7,135.6 L616.4,133.8 L625.2,127.5 L633.9,127.8 L642.7,130.2 L651.5,134.2 L660.2,143.9 L669.0,139.5 L677.7,139.2 L686.5,143.5 L695.2,146.4 L704.0,152.0" fill="none" stroke="#2457e6" stroke-width="2" stroke-linejoin="round"/></svg><figcaption>全国の新設住宅着工戸数（1951–2025・年計）。1973 年 1,905,112 戸 → 2025 年 740,667 戸。JavaScript が無効のため静的表示。都道府県別の値は末尾の表にあります。</figcaption></figure></noscript>
@@ -90,6 +90,6 @@
   <div class="footer-end"><span>KENJI IDO / DATA STORIES ・ 自主制作</span><span>家は、どこに建っているのか。</span></div>
 </footer>
 <script src="/viz/data/data.js?v=5092d541"></script>
-<script src="/viz/viz.js?v=09a8c6f6"></script>
+<script src="/viz/viz.js?v=761591e5"></script>
 </body>
 </html>
