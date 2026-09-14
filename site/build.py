@@ -14,6 +14,8 @@ from string import Template
 
 
 ROOT = Path(__file__).resolve().parent.parent
+# 狭い幅で語の途中（「自主制作サンプ／ル」）で折れないよう、意味の切れ目に <wbr> を置く（label 文字列そのものは merge_lanes/check_site の識別子なので変えない）
+STAT_LABEL_HTML = {"自主制作サンプル": "自主制作<wbr>サンプル"}
 SOURCE = ROOT / "site"
 LEGACY = (
     "style.css",
@@ -360,7 +362,7 @@ class Site:
         headline = "<br>".join(esc(line) for line in hero["headline"].split("\n"))
         headline = headline.replace("まとめて任せられます。", '<span class="accent">まとめて任せられます。</span>')
         stats = "".join('<div><dt>{}</dt><dd><strong>{}</strong><span>{}</span></dd></div>'.format(
-            esc(stat["label"]), esc(stat["value"]), esc(stat["unit"])) for stat in hero["stats"])
+            STAT_LABEL_HTML.get(stat["label"], esc(stat["label"])), esc(stat["value"]), esc(stat["unit"])) for stat in hero["stats"])
         devices = "".join('<div class="hero-device hero-device-{}">{}</div>'.format(
             i, device(self.work_by_slug[item["work"]]["visuals"][item["visual"]], eager=i == 0))
             for i, item in enumerate(hero["visual"]))

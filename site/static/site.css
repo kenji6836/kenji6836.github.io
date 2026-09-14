@@ -155,7 +155,7 @@ main:focus { outline: none; }
 .card-icon-row .device-icon:nth-child(2) { transform: translateY(-8%); }
 .card-body { display: flex; flex-direction: column; flex-grow: 1; padding: 24px; }
 .work-kicker { color: var(--text-3); font-size: 12px; line-height: 1.7; }
-.card h3 { margin-top: 8px; font-size: 20px; line-height: 1.5; }
+.card h3 { margin-top: 8px; font-size: 20px; line-height: 1.5; word-break: keep-all; } /* 「（運用ダッシュボード）」を語の途中で折らない。収まらない時は overflow-wrap: anywhere（h3 共通）が効く */
 .card-categories { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 16px; }
 .chip { display: inline-flex; align-items: center; justify-content: center; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; color: var(--text-2); background: transparent; font-size: 12px; font-weight: 500; line-height: 1.7; overflow-wrap: anywhere; }
 .chip.is-selected { color: var(--brand-ink); border-color: var(--brand); background: var(--brand); }
