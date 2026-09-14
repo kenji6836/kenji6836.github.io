@@ -228,7 +228,8 @@ for pg in extra_pages:
         elif href.startswith(("http", "//")):
             if a.get("target") == "_blank" and "noopener" not in a.get("rel", ""): fail(f"{pg}: _blank without noopener {href}")
         elif href.startswith("#"):
-            if href != "#" and href[1:] not in p.ids: fail(f"{pg}: broken anchor {href}")
+            # "#/..." はアプリ内の hash ルート（/app/ の SPA）— DOM の id ではないので対象外
+            if href != "#" and not href.startswith("#/") and href[1:] not in p.ids: fail(f"{pg}: broken anchor {href}")
         else:
             frag = href.split("#")[1] if "#" in href else None
             path = resolve(href, pg)
