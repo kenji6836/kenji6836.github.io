@@ -2,7 +2,7 @@
   "site": {
     "name": "Kenji Ido Portfolio",
     "title": "Kenji Ido — iOS・Web・業務自動化の制作実績",
-    "description": "iOS アプリ・Web ツール・業務自動化を、企画から公開まで一人で制作。App Store 公開アプリ 3 本、公開 Web ツール、GitHub 公開デモなどの制作実績と、お問い合わせフォーム。",
+    "description": "iOS アプリ・Web ツール・業務自動化を、企画から公開まで一人で制作。App Store 公開アプリ 4 本、公開 Web ツール、GitHub 公開デモなどの制作実績と、お問い合わせフォーム。",
     "url": "https://kenji6836.github.io/",
     "lang": "ja",
     "brand_color": "#2457e6",
@@ -28,7 +28,7 @@
   },
   "hero": {
     "headline": "アプリも、Web も、自動化も。\n企画から公開まで、\nまとめて任せられます。",
-    "sub": "App Store 公開アプリ 3 本・公開 Web ツール・業務自動化デモなど、実際に動いている制作物をご覧ください。",
+    "sub": "App Store 公開アプリ 4 本・公開 Web ツール・業務自動化デモなど、実際に動いている制作物をご覧ください。",
     "cta_primary": {
       "label": "制作実績を見る",
       "href": "/works/"
@@ -39,7 +39,7 @@
     },
     "stats": [
       {
-        "value": "3",
+        "value": "4",
         "unit": "本",
         "label": "App Store 公開アプリ"
       },
@@ -277,6 +277,58 @@
           "type": "image",
           "src": "/assets/works/reversi-1.jpg",
           "alt": "Simple Reversi Board の対局画面",
+          "frame": "phone"
+        }
+      ]
+    },
+    {
+      "slug": "shogi",
+      "title": "本格将棋道場",
+      "kicker": "公開実績 · iOS ゲームアプリ",
+      "categories": [
+        "app",
+        "design"
+      ],
+      "label": "public",
+      "year": "2026",
+      "summary": "道場の静けさをそのまま画面に運んだ、一人でじっくり指せる将棋アプリ。十五級から初段までの 8 段階 AI と段級位認定、完全オフライン対応。",
+      "role": "企画・設計・実装（ルールエンジン・対局 AI）・画面デザイン・ストア画像・審査対応・公開",
+      "points": [
+        "本榧の盤・書体駒・木の駒台を再現し、駒を打つ音と振動で手応えを表現",
+        "十五級から初段までの 8 段階 AI。同格以上に勝つと昇級する段級位認定",
+        "待った・ヒント・棋譜再生（敗着の確認）で、負けても一手戻して学べる",
+        "二歩・打ち歩詰め・千日手など正式ルールに準拠。会員登録不要・完全オフライン",
+        "広告と買い切り（広告除去）を組み合わせた収益設計。審査の指摘（ATT 表示）は実機録画を添えて解消"
+      ],
+      "stack": [
+        "Swift",
+        "SwiftUI",
+        "AdMob",
+        "StoreKit"
+      ],
+      "links": [
+        {
+          "label": "App Store で見る",
+          "url": "https://apps.apple.com/jp/app/id6794867048"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/shogi-1.jpg",
+          "alt": "本格将棋道場のホーム画面（級位の木札と相手の強さ選択）",
+          "frame": "phone"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/shogi-2.jpg",
+          "alt": "本格将棋道場の対局画面",
+          "frame": "phone"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/shogi-3.jpg",
+          "alt": "本格将棋道場の棋譜再生画面（敗着の確認）",
           "frame": "phone"
         }
       ]
@@ -832,7 +884,7 @@
       ],
       "label": "public",
       "year": "2026",
-      "summary": "公開中の iOS アプリ 3 本のアイコンと App Store スクリーンショットを制作。小さくても判別できるアイコンと、機能が伝わるストア画像。",
+      "summary": "公開中の iOS アプリ 4 本のアイコンと App Store スクリーンショットを制作。小さくても判別できるアイコンと、機能が伝わるストア画像。",
       "role": "アイコン設計・ストア画像設計・多言語対応",
       "points": [
         "ホーム画面で目立ち、内容が伝わるアイコン",
@@ -855,6 +907,10 @@
         {
           "label": "Simple Reversi Board",
           "url": "https://apps.apple.com/jp/app/id6761284474"
+        },
+        {
+          "label": "本格将棋道場",
+          "url": "https://apps.apple.com/jp/app/id6794867048"
         }
       ],
       "visuals": [
@@ -874,6 +930,12 @@
           "type": "image",
           "src": "/assets/works/reversi-icon.png",
           "alt": "Simple Reversi Board のアプリアイコン",
+          "frame": "icon"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/shogi-icon.png",
+          "alt": "本格将棋道場のアプリアイコン",
           "frame": "icon"
         },
         {
@@ -1960,7 +2022,7 @@
     "tagline": "iOS・Web・自動化を、企画から公開まで一人で。",
     "facts": [
       "実務経験 5 年（2021 年〜）",
-      "App Store 公開アプリ 3 本",
+      "App Store 公開アプリ 4 本",
       "公開 Web ツール 1 本",
       "GitHub 公開デモ 3 本"
     ],
