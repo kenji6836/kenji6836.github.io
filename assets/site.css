@@ -379,7 +379,10 @@ main:focus { outline: none; }
   .mock:not([data-compact]) .criteria { grid-template-columns: 1fr; }
 }
 @media (max-width: 639px) {
-  .services-grid, .works-grid { grid-template-columns: 1fr; }
+  .works-grid { grid-template-columns: 1fr; }
+  .services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .service-tile { padding: 16px 14px; }
+  .service-tile p { font-size: 12.5px; }
   .section-heading { margin-bottom: 28px; }
   .hero-lead { font-size: 16px; margin-top: 24px; }
   .hero-stats { margin-top: 32px; }

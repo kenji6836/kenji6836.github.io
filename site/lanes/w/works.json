@@ -1,381 +1,381 @@
 {
- "lane": "w",
- "generated": "2026-09-14",
- "branch": "hp/w",
- "works": [
-  {
-   "slug": "kensetsu-lp",
-   "title": "見積依頼 AI 仕分け — サービス紹介 LP（工務店・リフォーム会社向け）",
-   "kicker": "LP 制作",
-   "categories": [
-    "web",
-    "marketing"
-   ],
-   "label": "public",
-   "year": "2026",
-   "summary": "自分の受託サービス「見積依頼の AI 仕分け＋概算返信の下書き」の紹介ページ。参考 LP 3 本の構成を分析し、課題→仕組み→対応範囲→料金→進め方→FAQ の順で、問い合わせと実物デモへ 1 クリックで到達できる導線に設計。Lighthouse（制作時計測）はモバイル・デスクトップとも 4 項目 100。",
-   "role": "構成設計・コピー・実装・計測設計",
-   "points": [
-    "ヒーローに製品の入出力をそのまま見せ、「AI は金額を決めない」を先に明示",
-    "料金は最小構成・PoC・月額の 3 段。納品後の責任範囲（検収・修正・保守・データ）を表で公開",
-    "Lighthouse 100/100/100/100（モバイル・デスクトップ・制作時計測）・390px 対応・ダーク／reduced-motion 対応（自前検査 2026-09-14）"
-   ],
-   "stack": [
-    "HTML/CSS（自己完結）",
-    "SVG",
-    "Lighthouse",
-    "CDP 検査"
-   ],
-   "links": [
+  "lane": "w",
+  "generated": "2026-09-14",
+  "branch": "hp/w",
+  "works": [
     {
-     "label": "LP を見る",
-     "url": "/lp/kensetsu-mitsumori/"
-    }
-   ],
-   "visuals": [
-    {
-     "type": "image",
-     "src": "/assets/works/kensetsu-lp-1.jpg",
-     "alt": "見積依頼 AI 仕分けの LP の PC 表示",
-     "frame": "browser"
+      "slug": "kensetsu-lp",
+      "title": "見積依頼 AI 仕分け — サービス紹介 LP（工務店・リフォーム会社向け）",
+      "kicker": "LP 制作",
+      "categories": [
+        "web",
+        "marketing"
+      ],
+      "label": "public",
+      "year": "2026",
+      "summary": "自分の受託サービス「見積依頼の AI 仕分け＋概算返信の下書き」の紹介ページ。参考 LP 3 本の構成を分析し、課題→仕組み→対応範囲→料金→進め方→FAQ の順で、問い合わせと実物デモへ 1 クリックで到達できる導線に設計。Lighthouse（制作時計測）はモバイル・デスクトップとも 4 項目 100。",
+      "role": "構成設計・コピー・実装・計測設計",
+      "points": [
+        "ヒーローに製品の入出力をそのまま見せ、「AI は金額を決めない」を先に明示",
+        "料金は最小構成・PoC・月額の 3 段。納品後の責任範囲（検収・修正・保守・データ）を表で公開",
+        "Lighthouse 100/100/100/100（モバイル・デスクトップ・制作時計測）・390px 対応・ダーク／reduced-motion 対応（自前検査 2026-09-14）"
+      ],
+      "stack": [
+        "HTML/CSS（自己完結）",
+        "SVG",
+        "Lighthouse",
+        "CDP 検査"
+      ],
+      "links": [
+        {
+          "label": "LP を見る",
+          "url": "/lp/kensetsu-mitsumori/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/kensetsu-lp-1.jpg",
+          "alt": "見積依頼 AI 仕分けの LP の PC 表示",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/kensetsu-lp-2.jpg",
+          "alt": "同 LP のスマホ表示",
+          "frame": "phone"
+        }
+      ]
     },
     {
-     "type": "image",
-     "src": "/assets/works/kensetsu-lp-2.jpg",
-     "alt": "同 LP のスマホ表示",
-     "frame": "phone"
-    }
-   ]
-  },
-  {
-   "slug": "portfolio-site",
-   "title": "この紹介サイト（静的サイト生成・検査ツール自作）",
-   "kicker": "サービスサイト",
-   "categories": [
-    "web"
-   ],
-   "label": "public",
-   "year": "2026",
-   "summary": "いま見ているサイト自体も制作物です。文言・作品・フォーム定義を 1 つの JSON にまとめ、自作の生成スクリプトで全ページを出力。禁止語・リンク切れ・画像の alt・スマホ幅のはみ出しを機械検査してから公開しています。",
-   "role": "設計・実装・運用",
-   "points": [
-    "JSON 1 つが正典。作品追加は 1 エントリ＋画像＋再生成だけ",
-    "公開前に自動検査（リンク・alt・キャッシュ対策・禁止語・ページ容量）",
-    "スクリーンショットとはみ出し検査を headless ブラウザで自動化"
-   ],
-   "stack": [
-    "Python（標準ライブラリ）",
-    "HTML/CSS",
-    "GitHub Pages",
-    "CDP"
-   ],
-   "links": [
-    {
-     "label": "ソースコード（GitHub）",
-     "url": "https://github.com/kenji6836/kenji6836.github.io"
-    }
-   ],
-   "visuals": [
-    {
-     "type": "image",
-     "src": "/assets/works/portfolio-site-1.jpg",
-     "alt": "紹介サイトのトップページ",
-     "frame": "browser"
-    }
-   ]
-  },
-  {
-   "slug": "aso",
-   "title": "App Store 掲載最適化（ASO）",
-   "kicker": "マーケティング",
-   "categories": [
-    "marketing"
-   ],
-   "label": "public",
-   "year": "2026",
-   "summary": "自分の iOS アプリ 4 本のストア文言・スクリーンショット・審査対応を一貫して実施。公開後は App Store Connect API で週次ダウンロード・表示回数・製品ページ閲覧を自動取得し、広告を出す判断基準と流入実験の設計書を実数つきで公開しています。",
-   "role": "掲載文設計・多言語ローカライズ・審査対応・計測設計",
-   "points": [
-    "直近 7 週の初回ダウンロード 30 件・8/31 週の表示 603 回・製品ページ閲覧 13 回（API 取得・2026-09-14）を、小さくてもそのまま掲載",
-    "率には必ず分母を添える。広告は「効果を測れる 3 条件」を満たしてから（現時点は見送りと判定）",
-    "却下理由（更新内容の具体性・広告の申告）を次の版の基準に反映"
-   ],
-   "stack": [
-    "App Store Connect",
-    "AdMob",
-    "Apple Ads"
-   ],
-   "links": [
-    {
-     "label": "実数と判断基準を見る",
-     "url": "/cases/aso/"
+      "slug": "portfolio-site",
+      "title": "この紹介サイト（静的サイト生成・検査ツール自作）",
+      "kicker": "サービスサイト",
+      "categories": [
+        "web"
+      ],
+      "label": "public",
+      "year": "2026",
+      "summary": "いま見ているサイト自体も制作物です。文言・作品・フォーム定義を 1 つの JSON にまとめ、自作の生成スクリプトで全ページを出力。禁止語・リンク切れ・画像の alt・スマホ幅のはみ出しを機械検査してから公開しています。",
+      "role": "設計・実装・運用",
+      "points": [
+        "JSON 1 つが正典。作品追加は 1 エントリ＋画像＋再生成だけ",
+        "公開前に自動検査（リンク・alt・キャッシュ対策・禁止語・ページ容量）",
+        "スクリーンショットとはみ出し検査を headless ブラウザで自動化"
+      ],
+      "stack": [
+        "Python（標準ライブラリ）",
+        "HTML/CSS",
+        "GitHub Pages",
+        "CDP"
+      ],
+      "links": [
+        {
+          "label": "ソースコード（GitHub）",
+          "url": "https://github.com/kenji6836/kenji6836.github.io"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/portfolio-site-1.jpg",
+          "alt": "紹介サイトのトップページ",
+          "frame": "browser"
+        }
+      ]
     },
     {
-     "label": "Sweepfield のストアページ",
-     "url": "https://apps.apple.com/jp/app/id6799108644"
-    }
-   ],
-   "visuals": [
-    {
-     "type": "image",
-     "src": "/assets/works/aso-2.jpg",
-     "alt": "ASO 事例ページ（週次ダウンロードと表示回数の実数）",
-     "frame": "browser"
+      "slug": "aso",
+      "title": "App Store 掲載最適化（ASO）",
+      "kicker": "マーケティング",
+      "categories": [
+        "marketing"
+      ],
+      "label": "public",
+      "year": "2026",
+      "summary": "自分の iOS アプリ 4 本のストア文言・スクリーンショット・審査対応を一貫して実施。公開後は App Store Connect API で週次ダウンロード・表示回数・製品ページ閲覧を自動取得し、広告を出す判断基準と流入実験の設計書を実数つきで公開しています。",
+      "role": "掲載文設計・多言語ローカライズ・審査対応・計測設計",
+      "points": [
+        "直近 8 週の初回ダウンロード 44 件（4 本合計）・9/7〜9/13 週のストア表示 1,614 回（App Store Connect API 取得・2026-09-19）を、小さくてもそのまま掲載",
+        "率には必ず分母を添える。広告は「効果を測れる 3 条件」を満たしてから（現時点は見送りと判定）",
+        "却下理由（更新内容の具体性・広告の申告）を次の版の基準に反映"
+      ],
+      "stack": [
+        "App Store Connect",
+        "AdMob",
+        "Apple Ads"
+      ],
+      "links": [
+        {
+          "label": "実数と判断基準を見る",
+          "url": "/cases/aso/"
+        },
+        {
+          "label": "Sweepfield のストアページ",
+          "url": "https://apps.apple.com/jp/app/id6799108644"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/aso-2.jpg",
+          "alt": "ASO 事例ページ（週次ダウンロードと表示回数の実数）",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/store-listing-1.jpg",
+          "alt": "Sweepfield の App Store 掲載ページ",
+          "frame": "browser"
+        }
+      ]
     },
     {
-     "type": "image",
-     "src": "/assets/works/store-listing-1.jpg",
-     "alt": "Sweepfield の App Store 掲載ページ",
-     "frame": "browser"
-    }
-   ]
-  },
-  {
-   "slug": "triage",
-   "title": "案件トリアージの日次自動化",
-   "kicker": "業務フローの自動化",
-   "categories": [
-    "automation",
-    "planning"
-   ],
-   "label": "self",
-   "year": "2026",
-   "summary": "クラウドソーシングの公開案件を毎朝 07:30 に自動取得し、キーワードと予算でレーン分けして承認キューに並べ、上位案件は提案文の下書きまで作る仕組み。人は毎朝キューを見て、送るかどうかを決めるだけ。",
-   "role": "要件定義・設計・実装・テスト",
-   "points": [
-    "取得 → 分類 → 提案文の下書きまで 1 コマンド（9/13 実走: 92 件取得 → キュー 88 件・下書き 10 件）",
-    "取得先の規約に従う（クロール間隔 5 秒・最大 2 ページ・送信元を明示）",
-    "レイアウト変更に備えた自動テスト 118 件"
-   ],
-   "stack": [
-    "Python",
-    "launchd"
-   ],
-   "links": [
-    {
-     "label": "事例ページ（実数つき）",
-     "url": "/cases/triage/"
-    }
-   ],
-   "visuals": [
-    {
-     "type": "mock",
-     "kind": "queue",
-     "title": "毎朝、見るだけの状態にしておく",
-     "steps": [
-      {
-       "icon": "cloud",
-       "label": "公開案件を取得",
-       "sub": "毎朝 07:30"
-      },
-      {
-       "icon": "filter",
-       "label": "キーワード・予算で分類",
-       "sub": "業種ルールは設定で変更"
-      },
-      {
-       "icon": "list",
-       "label": "承認キュー",
-       "sub": "人はここだけ見る"
-      }
-     ],
-     "rows": [
-      {
-       "title": "見積書作成の自動化ツール",
-       "lane": "法人",
-       "budget": "20〜30 万円"
-      },
-      {
-       "title": "スプレッドシート集計の効率化",
-       "lane": "パッケージ",
-       "budget": "5 万円"
-      },
-      {
-       "title": "問い合わせメールの一次返信",
-       "lane": "法人",
-       "budget": "10〜20 万円"
-      }
-     ],
-     "caption": "表示はサンプル"
-    }
-   ]
-  },
-  {
-   "slug": "autopilot",
-   "title": "autopilot（夜間の自律開発ランナー）",
-   "kicker": "自律運用の仕組み化",
-   "categories": [
-    "automation",
-    "planning"
-   ],
-   "label": "self",
-   "year": "2026",
-   "summary": "承認済みの作業チケットを、夜間や日中の空き時間に無人で実行する仕組み。作業ごとに隔離した環境で実装・自動検証し、朝に 1 通の報告で承認できます。失敗も記録し、原因を直して再判定します。",
-   "role": "設計・実装・運用設計",
-   "points": [
-    "チケットに目的・範囲・検証方法・予算を必須にし、曖昧な作業は着手させない",
-    "作業ごとに独立した環境で実行し、検証に通ったものだけ取り込む",
-    "9/7〜9/13 の起動 42 回のうち成功 3・失敗 30（原因は版数確認の不一致 → 修正済み・再判定 9/22）を隠さず公開"
-   ],
-   "stack": [
-    "Python",
-    "launchd",
-    "Git worktree",
-    "Claude Code"
-   ],
-   "links": [
-    {
-     "label": "事例ページ（実数つき）",
-     "url": "/cases/autopilot/"
-    }
-   ],
-   "visuals": [
-    {
-     "type": "mock",
-     "kind": "flow",
-     "title": "夜のあいだに進み、朝 1 通で承認",
-     "steps": [
-      {
-       "icon": "ticket",
-       "label": "承認済みチケット",
-       "sub": "目的・範囲・検証・予算が必須"
-      },
-      {
-       "icon": "moon",
-       "label": "空き枠で自動実行",
-       "sub": "夜間 3 回・日中 4 回"
-      },
-      {
-       "icon": "box",
-       "label": "隔離環境で実装＋検証",
-       "sub": "作業ごとに独立"
-      },
-      {
-       "icon": "sun",
-       "label": "朝の報告 1 通",
-       "sub": "承認 / 差し戻し"
-      }
-     ],
-     "timeline": [
-      {
-       "t": "01:00",
-       "label": "夜間枠 1"
-      },
-      {
-       "t": "03:30",
-       "label": "夜間枠 2"
-      },
-      {
-       "t": "05:30",
-       "label": "夜間枠 3"
-      },
-      {
-       "t": "07:00",
-       "label": "朝刊"
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "slug": "m0-gate",
-   "title": "新規事業の定量ゲート（M0）",
-   "kicker": "判断基準づくり",
-   "categories": [
-    "planning"
-   ],
-   "label": "self",
-   "year": "2026",
-   "summary": "新しいサービスに着手する前に「競合の実データ」「コスト構造」「無料手段で足りないか」の 3 点を数字で確認する判断フレーム。個人向け・法人向けの 2 回の判定で使い、判定書は 1 枚の HTML に。簡易計算ツールも公開しています。",
-   "role": "フレーム設計・調査・判定書作成",
-   "points": [
-    "思いつきで作り始めないための着手前チェック（撤退基準も先に決める）",
-    "競合数・価格帯・手数料・工数を実データで計数（例: 同一語検索で競合 41〜1,086 件）",
-    "ブラウザで試せる簡易計算ツール付き（手取り・時給換算・3 点の判定）"
-   ],
-   "stack": [
-    "調査設計",
-    "HTML レポート"
-   ],
-   "links": [
-    {
-     "label": "事例ページ＋計算ツール",
-     "url": "/cases/m0-gate/"
-    }
-   ],
-   "visuals": [
-    {
-     "type": "image",
-     "src": "/assets/works/m0-gate-1.jpg",
-     "alt": "M0 定量ゲートの事例ページ",
-     "frame": "browser"
+      "slug": "triage",
+      "title": "案件トリアージの日次自動化",
+      "kicker": "業務フローの自動化",
+      "categories": [
+        "automation",
+        "planning"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "クラウドソーシングの公開案件を毎朝 07:30 に自動取得し、キーワードと予算でレーン分けして承認キューに並べ、上位案件は提案文の下書きまで作る仕組み。人は毎朝キューを見て、送るかどうかを決めるだけ。",
+      "role": "要件定義・設計・実装・テスト",
+      "points": [
+        "取得 → 分類 → 提案文の下書きまで 1 コマンド（9/13 実走: 92 件取得 → キュー 88 件・下書き 10 件）",
+        "取得先の規約に従う（クロール間隔 5 秒・最大 2 ページ・送信元を明示）",
+        "レイアウト変更に備えた自動テスト 118 件"
+      ],
+      "stack": [
+        "Python",
+        "launchd"
+      ],
+      "links": [
+        {
+          "label": "事例ページ（実数つき）",
+          "url": "/cases/triage/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "mock",
+          "kind": "queue",
+          "title": "毎朝、見るだけの状態にしておく",
+          "steps": [
+            {
+              "icon": "cloud",
+              "label": "公開案件を取得",
+              "sub": "毎朝 07:30"
+            },
+            {
+              "icon": "filter",
+              "label": "キーワード・予算で分類",
+              "sub": "業種ルールは設定で変更"
+            },
+            {
+              "icon": "list",
+              "label": "承認キュー",
+              "sub": "人はここだけ見る"
+            }
+          ],
+          "rows": [
+            {
+              "title": "見積書作成の自動化ツール",
+              "lane": "法人",
+              "budget": "20〜30 万円"
+            },
+            {
+              "title": "スプレッドシート集計の効率化",
+              "lane": "パッケージ",
+              "budget": "5 万円"
+            },
+            {
+              "title": "問い合わせメールの一次返信",
+              "lane": "法人",
+              "budget": "10〜20 万円"
+            }
+          ],
+          "caption": "表示はサンプル"
+        }
+      ]
     },
     {
-     "type": "mock",
-     "kind": "gate",
-     "title": "着手前に 3 点を数字で確認",
-     "criteria": [
-      {
-       "label": "競合の実データ計数",
-       "sub": "件数・価格帯・成立率",
-       "meter": 0.7,
-       "verdict": "有利"
-      },
-      {
-       "label": "コスト構造の非対称",
-       "sub": "自分だけ安く作れるか",
-       "meter": 0.5,
-       "verdict": "中立"
-      },
-      {
-       "label": "無料手段での充足",
-       "sub": "既存の無料ツールで足りないか",
-       "meter": 0.75,
-       "verdict": "未充足"
-      }
-     ],
-     "result": "条件付き GO",
-     "note": "数値はサンプル"
+      "slug": "autopilot",
+      "title": "autopilot（夜間の自律開発ランナー）",
+      "kicker": "自律運用の仕組み化",
+      "categories": [
+        "automation",
+        "planning"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "承認済みの作業チケットを、夜間や日中の空き時間に無人で実行する仕組み。作業ごとに隔離した環境で実装・自動検証し、朝に 1 通の報告で承認できます。失敗も記録し、原因を直して再判定します。",
+      "role": "設計・実装・運用設計",
+      "points": [
+        "チケットに目的・範囲・検証方法・予算を必須にし、曖昧な作業は着手させない",
+        "作業ごとに独立した環境で実行し、検証に通ったものだけ取り込む",
+        "9/7〜9/13 の起動 42 回のうち成功 3・失敗 30（原因は版数確認の不一致 → 修正済み・再判定 9/22）を隠さず公開"
+      ],
+      "stack": [
+        "Python",
+        "launchd",
+        "Git worktree",
+        "Claude Code"
+      ],
+      "links": [
+        {
+          "label": "事例ページ（実数つき）",
+          "url": "/cases/autopilot/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "mock",
+          "kind": "flow",
+          "title": "夜のあいだに進み、朝 1 通で承認",
+          "steps": [
+            {
+              "icon": "ticket",
+              "label": "承認済みチケット",
+              "sub": "目的・範囲・検証・予算が必須"
+            },
+            {
+              "icon": "moon",
+              "label": "空き枠で自動実行",
+              "sub": "夜間 3 回・日中 4 回"
+            },
+            {
+              "icon": "box",
+              "label": "隔離環境で実装＋検証",
+              "sub": "作業ごとに独立"
+            },
+            {
+              "icon": "sun",
+              "label": "朝の報告 1 通",
+              "sub": "承認 / 差し戻し"
+            }
+          ],
+          "timeline": [
+            {
+              "t": "01:00",
+              "label": "夜間枠 1"
+            },
+            {
+              "t": "03:30",
+              "label": "夜間枠 2"
+            },
+            {
+              "t": "05:30",
+              "label": "夜間枠 3"
+            },
+            {
+              "t": "07:00",
+              "label": "朝刊"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "m0-gate",
+      "title": "新規事業の定量ゲート（M0）",
+      "kicker": "判断基準づくり",
+      "categories": [
+        "planning"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "新しいサービスに着手する前に「競合の実データ」「コスト構造」「無料手段で足りないか」の 3 点を数字で確認する判断フレーム。個人向け・法人向けの 2 回の判定で使い、判定書は 1 枚の HTML に。簡易計算ツールも公開しています。",
+      "role": "フレーム設計・調査・判定書作成",
+      "points": [
+        "思いつきで作り始めないための着手前チェック（撤退基準も先に決める）",
+        "競合数・価格帯・手数料・工数を実データで計数（例: 同一語検索で競合 41〜1,086 件）",
+        "ブラウザで試せる簡易計算ツール付き（手取り・時給換算・3 点の判定）"
+      ],
+      "stack": [
+        "調査設計",
+        "HTML レポート"
+      ],
+      "links": [
+        {
+          "label": "事例ページ＋計算ツール",
+          "url": "/cases/m0-gate/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/m0-gate-1.jpg",
+          "alt": "M0 定量ゲートの事例ページ",
+          "frame": "browser"
+        },
+        {
+          "type": "mock",
+          "kind": "gate",
+          "title": "着手前に 3 点を数字で確認",
+          "criteria": [
+            {
+              "label": "競合の実データ計数",
+              "sub": "件数・価格帯・成立率",
+              "meter": 0.7,
+              "verdict": "有利"
+            },
+            {
+              "label": "コスト構造の非対称",
+              "sub": "自分だけ安く作れるか",
+              "meter": 0.5,
+              "verdict": "中立"
+            },
+            {
+              "label": "無料手段での充足",
+              "sub": "既存の無料ツールで足りないか",
+              "meter": 0.75,
+              "verdict": "未充足"
+            }
+          ],
+          "result": "条件付き GO",
+          "note": "数値はサンプル"
+        }
+      ]
     }
-   ]
-  }
- ],
- "merge_rule": "slug が既存と一致する 4 件（aso / triage / autopilot / m0-gate）は置換、kensetsu-lp / portfolio-site は追加",
- "featured_suggestion": [
-  "kensetsu-lp",
-  "aso",
-  "triage"
- ],
- "categories_lead": {
-  "web": "LP・サービスサイト・ブラウザで動くツール（PWA）",
-  "marketing": "App Store 掲載最適化（ASO）の実数と判断基準・流入実験の設計",
-  "planning": "業務フローの自動化・判断基準づくり・自律運用（実数つきの事例 3 本）"
- },
- "hero_stats_delta": {
-  "works": 2,
-  "note": "掲載件数 +2（kensetsu-lp・portfolio-site）。公開アプリ数は変えない"
- },
- "pages": [
-  "/lp/kensetsu-mitsumori/",
-  "/cases/aso/",
-  "/cases/triage/",
-  "/cases/autopilot/",
-  "/cases/m0-gate/",
-  "/cases/assets/cases.css"
- ],
- "assets": [
-  "assets/works/kensetsu-lp-1.jpg",
-  "assets/works/kensetsu-lp-2.jpg",
-  "assets/works/portfolio-site-1.jpg",
-  "assets/works/aso-2.jpg",
-  "assets/works/m0-gate-1.jpg",
-  "lp/kensetsu-mitsumori/assets/*"
- ],
- "notes": [
-  "LP の実物リンク先は /app/mitsumori/（A レーン納品後に有効）。LP 内の 2 箇所（ヒーロー・最終 CTA）",
-  "LP の写真は暫定（既存自作 site/src/ad/photos）。V の site/src/photos/ 納品後に lp/kensetsu-mitsumori/assets/photo-worker.jpg を差し替え",
-  "build.py の button は全リンクを target=_blank にする。内部リンク（/cases/… /lp/…）は同タブが望ましければ external=not url.startswith('/') に",
-  "year は制作年 2026 に更新（既存は 2025 表記だが台帳の日付は 2026-09）",
-  "ASO 実数は 9/15 以降に 9/13 週が取得可能（再取得コマンドは台帳）"
- ]
+  ],
+  "merge_rule": "slug が既存と一致する 4 件（aso / triage / autopilot / m0-gate）は置換、kensetsu-lp / portfolio-site は追加",
+  "featured_suggestion": [
+    "kensetsu-lp",
+    "aso",
+    "triage"
+  ],
+  "categories_lead": {
+    "web": "LP・サービスサイト・ブラウザで動くツール（PWA）",
+    "marketing": "App Store 掲載最適化（ASO）の実数と判断基準・流入実験の設計",
+    "planning": "業務フローの自動化・判断基準づくり・自律運用（実数つきの事例 3 本）"
+  },
+  "hero_stats_delta": {
+    "works": 2,
+    "note": "掲載件数 +2（kensetsu-lp・portfolio-site）。公開アプリ数は変えない"
+  },
+  "pages": [
+    "/lp/kensetsu-mitsumori/",
+    "/cases/aso/",
+    "/cases/triage/",
+    "/cases/autopilot/",
+    "/cases/m0-gate/",
+    "/cases/assets/cases.css"
+  ],
+  "assets": [
+    "assets/works/kensetsu-lp-1.jpg",
+    "assets/works/kensetsu-lp-2.jpg",
+    "assets/works/portfolio-site-1.jpg",
+    "assets/works/aso-2.jpg",
+    "assets/works/m0-gate-1.jpg",
+    "lp/kensetsu-mitsumori/assets/*"
+  ],
+  "notes": [
+    "LP の実物リンク先は /app/mitsumori/（A レーン納品後に有効）。LP 内の 2 箇所（ヒーロー・最終 CTA）",
+    "LP の写真は暫定（既存自作 site/src/ad/photos）。V の site/src/photos/ 納品後に lp/kensetsu-mitsumori/assets/photo-worker.jpg を差し替え",
+    "build.py の button は全リンクを target=_blank にする。内部リンク（/cases/… /lp/…）は同タブが望ましければ external=not url.startswith('/') に",
+    "year は制作年 2026 に更新（既存は 2025 表記だが台帳の日付は 2026-09）",
+    "ASO 実数は 9/15 以降に 9/13 週が取得可能（再取得コマンドは台帳）"
+  ]
 }

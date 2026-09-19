@@ -4,7 +4,9 @@
   "generated": "2026-09-14",
   "note": "レーン A（ショーケース主役: 見積トリアージ PWA）の納品。works は content.json の works 配列へ追記し、featured の先頭に置くことを推奨。アプリ本体 /app/mitsumori/（自己完結・CDN なし・API なし・SW でオフライン動作）と assets/works/mitsumori-{1,2,3}.jpg は本ブランチに含まれる。設定画面の「制作について」リンクは /works/mitsumori-triage/（works ページの slug）を指す。",
   "merge_rule": "works: append（slug 重複なし）／featured: 先頭に mitsumori-triage を挿入（6→7 件は統合レーン判断・上限なら末尾を落とす）／categories.lead: 下記 categories_lead を採用（任意）／hero.stats: 変更なし（作品数 +1 のみ）",
-  "featured_suggestion": ["mitsumori-triage"],
+  "featured_suggestion": [
+    "mitsumori-triage"
+  ],
   "categories_lead": {
     "app": "iOS アプリの企画から公開まで・業務 Web アプリ（PWA・オフライン対応）",
     "automation": "AI 仕分け・返信下書きなど、判断は人・作業は自動の業務フロー"
@@ -13,9 +15,13 @@
   "works": [
     {
       "slug": "mitsumori-triage",
-      "title": "見積トリアージ — 見積依頼の AI 仕分けと概算返信",
-      "kicker": "業務 Web アプリ（PWA）・自主制作",
-      "categories": ["app", "automation", "design"],
+      "title": "見積トリアージ",
+      "kicker": "業務 Web アプリ（見積依頼の AI 仕分け）",
+      "categories": [
+        "app",
+        "automation",
+        "design"
+      ],
       "label": "self",
       "year": "2026",
       "summary": "建設・リフォーム会社に届く見積依頼（フォーム・メール・電話メモ）を、工種・緊急度・概算帯に自動で仕分けし、返信の下書きまで用意する業務アプリ。開いた瞬間に「今日やること」が並び、金額は目安表の行を引用するだけで計算しない。架空のサンプル 30 件で動くデモ。",
@@ -27,19 +33,49 @@
         "オフラインでも動く PWA（ホーム画面に追加可）・キーボード操作（j/k/Enter/Esc/c/d）・ダークモード・スクリーンリーダー対応",
         "本番構成（Claude API はサーバ側で接続・キーは端末に置かない）を設定画面に明示。デモは固定ルールと事前生成文で動作"
       ],
-      "stack": ["HTML", "CSS", "JavaScript (ES Modules)", "PWA (Service Worker)", "Node.js test"],
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript (ES Modules)",
+        "PWA (Service Worker)",
+        "Node.js test"
+      ],
       "links": [
-        { "label": "デモを開く", "url": "/app/mitsumori/" }
+        {
+          "label": "デモを開く",
+          "url": "/app/mitsumori/"
+        }
       ],
       "visuals": [
-        { "type": "image", "src": "/assets/works/mitsumori-1.jpg", "alt": "見積トリアージのホーム画面（今日やること）と依頼の詳細パネル", "frame": "browser" },
-        { "type": "image", "src": "/assets/works/mitsumori-2.jpg", "alt": "見積トリアージの集計画面（日別件数・工種別の内訳）", "frame": "browser" },
-        { "type": "image", "src": "/assets/works/mitsumori-3.jpg", "alt": "見積トリアージのスマホ表示（依頼の詳細と返信案）", "frame": "phone" }
+        {
+          "type": "image",
+          "src": "/assets/works/mitsumori-1.jpg",
+          "alt": "見積トリアージのホーム画面（今日やること）と依頼の詳細パネル",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/mitsumori-2.jpg",
+          "alt": "見積トリアージの集計画面（日別件数・工種別の内訳）",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/mitsumori-3.jpg",
+          "alt": "見積トリアージのスマホ表示（依頼の詳細と返信案）",
+          "frame": "phone"
+        }
       ]
     }
   ],
-  "assets": ["assets/works/mitsumori-1.jpg", "assets/works/mitsumori-2.jpg", "assets/works/mitsumori-3.jpg"],
-  "pages": ["/app/mitsumori/"],
+  "assets": [
+    "assets/works/mitsumori-1.jpg",
+    "assets/works/mitsumori-2.jpg",
+    "assets/works/mitsumori-3.jpg"
+  ],
+  "pages": [
+    "/app/mitsumori/"
+  ],
   "notes": [
     "app/mitsumori/ は site/build.py の対象外（静的ファイルをそのまま配信）。sitemap への追加は統合レーン判断",
     "テスト: cd app/mitsumori && node --test tests/*.test.mjs（10 件）",

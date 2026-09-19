@@ -44,12 +44,12 @@
         "label": "App Store 公開アプリ"
       },
       {
-        "value": "6",
+        "value": "8",
         "unit": "件",
         "label": "公開ツール・デモ"
       },
       {
-        "value": "10",
+        "value": "14",
         "unit": "件",
         "label": "自主制作サンプル"
       }
@@ -92,31 +92,31 @@
       "id": "design",
       "name": "デザイン制作",
       "icon": "design",
-      "lead": "アプリアイコン・ストア画像・画面デザイン"
+      "lead": "デザインシステム・チャンネルブランディング・アプリアイコン・画面デザイン"
     },
     {
       "id": "video",
       "name": "動画制作",
       "icon": "video",
-      "lead": "アプリ・サービス紹介の縦型ショート動画・モーショングラフィックス"
+      "lead": "アプリ・サービスの縦型ショート動画・チャンネル素材・モーショングラフィックス"
     },
     {
       "id": "ad",
       "name": "広告制作",
       "icon": "ad",
-      "lead": "SNS・ディスプレイ広告のバナー制作・サイズ展開・A/B 案"
+      "lead": "SNS・ディスプレイ広告のバナー制作・サイズ展開・A/B 案（実写風写真を含む）"
     },
     {
       "id": "sns",
       "name": "SNS運用",
       "icon": "sns",
-      "lead": "投稿テンプレート・月間カレンダー・レポート雛形の設計"
+      "lead": "X・YouTube・Instagram・TikTok の運用設計、承認キュー、週次計測"
     },
     {
       "id": "marketing",
       "name": "マーケティング",
       "icon": "marketing",
-      "lead": "App Store 掲載最適化（ASO）・流入施策の設計"
+      "lead": "App Store 掲載最適化（ASO）の実数と判断基準・流入実験の設計"
     },
     {
       "id": "data",
@@ -128,7 +128,7 @@
       "id": "planning",
       "name": "企画・業務改善",
       "icon": "planning",
-      "lead": "業務フローの設計・判断基準づくり・自律運用の仕組み化"
+      "lead": "業務フローの自動化・判断基準づくり・自律運用（実数つきの事例 3 本）"
     }
   ],
   "labels": {
@@ -136,11 +136,11 @@
     "self": "自主制作"
   },
   "featured": [
+    "kensetsu-lp",
     "mitsumori-triage",
+    "making-shorts",
+    "aso",
     "viz-housing",
-    "reachlab",
-    "inquiry-reply-assistant",
-    "mission-control",
     "autopilot"
   ],
   "works": [
@@ -153,7 +153,7 @@
         "design"
       ],
       "label": "public",
-      "year": "2025",
+      "year": "2026",
       "summary": "毎日、世界中で同じ盤面が出題されるマインスイーパー。全盤面が論理だけで解けることを保証し、VoiceOver に完全対応。",
       "role": "企画・設計・実装・ストア画像・審査対応・公開",
       "points": [
@@ -204,7 +204,7 @@
         "design"
       ],
       "label": "public",
-      "year": "2025",
+      "year": "2026",
       "summary": "8×8 のブロックパズル。各ピースの置ける場所を常時カウントする「Foresight」で、詰みを事前に警告。タイマーなしでじっくり遊べます。",
       "role": "企画・設計・実装・ストア画像・審査対応・公開",
       "points": [
@@ -253,7 +253,7 @@
         "app"
       ],
       "label": "public",
-      "year": "2025",
+      "year": "2026",
       "summary": "5 段階の AI と対戦できるリバーシ。1 台での 2 人対戦、ヒント機能、VoiceOver 対応。",
       "role": "企画・設計・実装・審査対応・公開・継続アップデート",
       "points": [
@@ -289,7 +289,7 @@
         "web"
       ],
       "label": "public",
-      "year": "2025",
+      "year": "2026",
       "summary": "インストール不要・ブラウザで遊べるパチンコ演出シミュレーター。確率や演出の振り分けを公開し、その場で実測検証できます。",
       "role": "企画・設計・実装・デザイン・公開（Cloudflare Pages）",
       "points": [
@@ -332,7 +332,7 @@
         "data"
       ],
       "label": "self",
-      "year": "2025",
+      "year": "2026",
       "summary": "競艇の着順確率を LightGBM で学習し、iOS 端末内で推論するアプリ。Python の学習パイプラインと Swift の推論が同じ結果を返すことをテストで保証。",
       "role": "データ収集・特徴量設計・学習・iOS 実装・評価",
       "points": [
@@ -396,7 +396,7 @@
         "automation"
       ],
       "label": "public",
-      "year": "2025",
+      "year": "2026",
       "summary": "売上 CSV をスプレッドシートで月次集計し、メール / Slack に自動通知する Google Apps Script。コード・テスト付きで GitHub に公開。",
       "role": "設計・実装・テスト・ドキュメント",
       "points": [
@@ -475,7 +475,7 @@
         "data"
       ],
       "label": "public",
-      "year": "2025",
+      "year": "2026",
       "summary": "e-Stat（政府統計）の公式 API からデータを取得し、スプレッドシートを自動更新。定期実行で常に最新の統計を手元に。",
       "role": "設計・実装・テスト・ドキュメント",
       "points": [
@@ -539,7 +539,7 @@
         "automation"
       ],
       "label": "public",
-      "year": "2025",
+      "year": "2026",
       "summary": "問い合わせメールを要約・分類し、返信の下書きを AI で作成する支援ツール。建設業向けの分類プロファイル（見積依頼／施工中の連絡／その他）付き。",
       "role": "設計・実装・テスト・業種プロファイル作成",
       "points": [
@@ -591,7 +591,7 @@
         "planning"
       ],
       "label": "self",
-      "year": "2025",
+      "year": "2026",
       "summary": "複数プロジェクトの進捗・目標・収益を 1 画面で見る運用ダッシュボード。収集スクリプトが 30 分ごとに自動更新し、週次の監査レポートも自動生成。",
       "role": "要件定義・設計・実装・運用",
       "points": [
@@ -623,13 +623,13 @@
         "planning"
       ],
       "label": "self",
-      "year": "2025",
-      "summary": "承認済みの作業チケットを、夜間や日中の空き時間に無人で実行する仕組み。作業ごとに隔離された環境で実装・自動検証し、朝に 1 通の報告で承認できます。",
+      "year": "2026",
+      "summary": "承認済みの作業チケットを、夜間や日中の空き時間に無人で実行する仕組み。作業ごとに隔離した環境で実装・自動検証し、朝に 1 通の報告で承認できます。失敗も記録し、原因を直して再判定します。",
       "role": "設計・実装・運用設計",
       "points": [
         "チケットに目的・範囲・検証方法・予算を必須にし、曖昧な作業は着手させない",
         "作業ごとに独立した環境で実行し、検証に通ったものだけ取り込む",
-        "失敗は自動で再試行し、朝の報告にまとめる"
+        "9/7〜9/13 の起動 42 回のうち成功 3・失敗 30（原因は版数確認の不一致 → 修正済み・再判定 9/22）を隠さず公開"
       ],
       "stack": [
         "Python",
@@ -637,7 +637,12 @@
         "Git worktree",
         "Claude Code"
       ],
-      "links": [],
+      "links": [
+        {
+          "label": "事例ページ（実数つき）",
+          "url": "/cases/autopilot/"
+        }
+      ],
       "visuals": [
         {
           "type": "mock",
@@ -695,19 +700,24 @@
         "planning"
       ],
       "label": "self",
-      "year": "2025",
-      "summary": "クラウドソーシングの公開案件を毎朝自動取得し、キーワードと予算でレーン分けして承認キューに並べる仕組み。人は毎朝キューを見て判断するだけ。",
+      "year": "2026",
+      "summary": "クラウドソーシングの公開案件を毎朝 07:30 に自動取得し、キーワードと予算でレーン分けして承認キューに並べ、上位案件は提案文の下書きまで作る仕組み。人は毎朝キューを見て、送るかどうかを決めるだけ。",
       "role": "要件定義・設計・実装・テスト",
       "points": [
-        "公開情報の取得 → 分類 → キュー化までを 1 コマンドで",
-        "業種キーワードや予算帯のルールは設定で調整可能",
-        "サイトのレイアウト変更に備えたテスト付き"
+        "取得 → 分類 → 提案文の下書きまで 1 コマンド（9/13 実走: 92 件取得 → キュー 88 件・下書き 10 件）",
+        "取得先の規約に従う（クロール間隔 5 秒・最大 2 ページ・送信元を明示）",
+        "レイアウト変更に備えた自動テスト 118 件"
       ],
       "stack": [
         "Python",
         "launchd"
       ],
-      "links": [],
+      "links": [
+        {
+          "label": "事例ページ（実数つき）",
+          "url": "/cases/triage/"
+        }
+      ],
       "visuals": [
         {
           "type": "mock",
@@ -759,20 +769,31 @@
         "planning"
       ],
       "label": "self",
-      "year": "2025",
-      "summary": "新しいサービスに着手する前に「競合の実データ」「コスト構造」「無料手段で足りないか」の 3 点を数字で確認する判断フレーム。法人向け自動化サービスの立ち上げ判断に適用。",
+      "year": "2026",
+      "summary": "新しいサービスに着手する前に「競合の実データ」「コスト構造」「無料手段で足りないか」の 3 点を数字で確認する判断フレーム。個人向け・法人向けの 2 回の判定で使い、判定書は 1 枚の HTML に。簡易計算ツールも公開しています。",
       "role": "フレーム設計・調査・判定書作成",
       "points": [
-        "思いつきで作り始めないための着手前チェック",
-        "競合数・価格帯・工数を実データで計数",
-        "判定結果は 1 枚の HTML にまとめ、Go / 条件付き Go / 見送りを明示"
+        "思いつきで作り始めないための着手前チェック（撤退基準も先に決める）",
+        "競合数・価格帯・手数料・工数を実データで計数（例: 同一語検索で競合 41〜1,086 件）",
+        "ブラウザで試せる簡易計算ツール付き（手取り・時給換算・3 点の判定）"
       ],
       "stack": [
         "調査設計",
         "HTML レポート"
       ],
-      "links": [],
+      "links": [
+        {
+          "label": "事例ページ＋計算ツール",
+          "url": "/cases/m0-gate/"
+        }
+      ],
       "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/m0-gate-1.jpg",
+          "alt": "M0 定量ゲートの事例ページ",
+          "frame": "browser"
+        },
         {
           "type": "mock",
           "kind": "gate",
@@ -810,7 +831,7 @@
         "design"
       ],
       "label": "public",
-      "year": "2025",
+      "year": "2026",
       "summary": "公開中の iOS アプリ 3 本のアイコンと App Store スクリーンショットを制作。小さくても判別できるアイコンと、機能が伝わるストア画像。",
       "role": "アイコン設計・ストア画像設計・多言語対応",
       "points": [
@@ -872,7 +893,7 @@
         "marketing"
       ],
       "label": "self",
-      "year": "2025",
+      "year": "2026",
       "summary": "公開中の自作アプリ Sweepfield を題材に、SNS・ストア掲載向けの 15 秒縦型動画を企画から書き出しまで制作。画面収録に頼らず、実機スクリーンショットとモーショングラフィックスで構成。",
       "role": "企画・絵コンテ・モーション制作・書き出し",
       "points": [
@@ -983,7 +1004,7 @@
         "design"
       ],
       "label": "self",
-      "year": "2025",
+      "year": "2026",
       "summary": "地域の塗装店を想定した架空ブランドで、Instagram・ストーリーズ・ディスプレイ広告の 4 サイズを同じ世界観で展開。価格訴求と安心訴求の 2 案を用意し、A/B テストにそのまま使える構成。",
       "role": "コンセプト・コピー・ビジュアル制作・サイズ展開",
       "points": [
@@ -1119,111 +1140,84 @@
       ]
     },
     {
-      "slug": "sns-feed-plan",
-      "title": "Instagram 運用テンプレート（架空のカフェ）",
+      "slug": "sns-4-platform-kit",
+      "title": "4 SNS の運用設計と開始準備（X・YouTube・Instagram・TikTok）",
       "kicker": "SNS 運用",
       "categories": [
         "sns",
         "marketing"
       ],
       "label": "self",
-      "year": "2025",
-      "summary": "自家焙煎カフェを想定した架空ブランドで、投稿テンプレート 3 型・9 投稿・月間カレンダー・月次レポートの雛形まで一式を制作。担当者が型に沿って回せる運用設計。",
-      "role": "運用設計・テンプレート設計・投稿制作・レポート雛形",
+      "year": "2026",
+      "summary": "自分の 4 アカウントを「Claude Code で作った実物・制作過程・数字を出す」方針で設計した自作の運用キット。プラットフォーム別の型と 30 日カレンダー、下書きから承認・投稿・週次計測までを 1 つのループにまとめています。",
+      "role": "運用設計・カレンダー設計・投稿下書き・承認キュー・週次レポート雛形",
       "points": [
-        "「商品」「豆知識」「お知らせ」の 3 型で、投稿の迷いをなくす",
-        "9 投稿を並べたときの配色バランスまで設計したフィード",
-        "月間カレンダーと月次レポートの雛形で、運用を引き継げる形に"
+        "「実物・制作過程・数字」の 3 本柱で差別化。全投稿に、触れる実物のリンクを 1 つ",
+        "縦型 1 素材を Shorts・Reels・TikTok の 3 露出に。X は毎日 1 投稿、型は実録・数字・知見の 3 種",
+        "下書き → 承認 → 投稿 → URL 記録 → 週次計測 → 翌週の配分変更までを運用ループとして設計"
       ],
       "stack": [
+        "運用設計",
         "HTML / CSS / SVG",
-        "Google Fonts",
-        "スプレッドシート運用"
+        "JSON（承認キュー）",
+        "Claude Code"
       ],
-      "links": [],
+      "links": [
+        {
+          "label": "X @idk0723ai",
+          "url": "https://x.com/idk0723ai"
+        }
+      ],
       "visuals": [
         {
           "type": "mock",
-          "kind": "feed",
-          "title": "投稿テンプレート 3 型 × 9 投稿",
-          "profile": {
-            "name": "ひだまり珈琲店",
-            "handle": "@hidamari_coffee（架空）",
-            "avatar": "/assets/works/sns-avatar.jpg",
-            "stats": [
-              {
-                "value": "36",
-                "label": "投稿"
-              },
-              {
-                "value": "1,280",
-                "label": "フォロワー"
-              },
-              {
-                "value": "210",
-                "label": "フォロー中"
-              }
-            ],
-            "bio": "自家焙煎の小さな珈琲店。豆のこと、淹れ方のこと、お店のこと。"
-          },
-          "posts": [
+          "kind": "flow",
+          "title": "運用ループ: 下書き → 承認 → 投稿 → 週次計測",
+          "steps": [
             {
-              "src": "/assets/works/sns-post-1.jpg",
-              "alt": "ひだまり珈琲店の新メニュー投稿サンプル。栗をのせたモンブランラテの写真の下にクリーム色の帯、「モンブランラテ ¥640」の見出し",
-              "kind": "A"
+              "icon": "file",
+              "label": "下書き",
+              "sub": "実物リンク＋事実の出典つき"
             },
             {
-              "src": "/assets/works/sns-post-2.jpg",
-              "alt": "ひだまり珈琲店の豆知識投稿サンプル。テラコッタ地にドリッパーとケトルのイラスト、淹れ方のコツ3点をカードで紹介",
-              "kind": "B"
+              "icon": "check",
+              "label": "承認",
+              "sub": "人が Yes / 修正だけ返す"
             },
             {
-              "src": "/assets/works/sns-post-3.jpg",
-              "alt": "ひだまり珈琲店のお知らせ投稿サンプル。店内カウンターの写真を暗めに敷き、二重枠の中に平日・土日祝の営業時間と定休日",
-              "kind": "C"
+              "icon": "sns",
+              "label": "投稿",
+              "sub": "4 SNS へ手動投稿・URL を記録"
             },
             {
-              "src": "/assets/works/sns-post-4.jpg",
-              "alt": "ひだまり珈琲店のイベント告知投稿サンプル。ダークブラウン地に開催日時と参加費、焙煎機のイラスト",
-              "kind": "C"
-            },
-            {
-              "src": "/assets/works/sns-post-5.jpg",
-              "alt": "ひだまり珈琲店の新メニュー投稿サンプル。あんことバターをのせた厚切りトーストの写真の下にクリーム色の帯、「あんバタートースト ¥520」の見出し",
-              "kind": "A"
-            },
-            {
-              "src": "/assets/works/sns-post-6.jpg",
-              "alt": "ひだまり珈琲店の豆知識投稿サンプル。テラコッタ地にコーヒー豆と花のイラスト、産地の特長3点をカードで紹介",
-              "kind": "B"
-            },
-            {
-              "src": "/assets/works/sns-post-7.jpg",
-              "alt": "ひだまり珈琲店の豆知識投稿サンプル。テラコッタ地に豆の入った保存瓶のイラスト、保存のコツ3点をカードで紹介",
-              "kind": "B"
-            },
-            {
-              "src": "/assets/works/sns-post-8.jpg",
-              "alt": "ひだまり珈琲店のお知らせ投稿サンプル。ダークブラウン地に「ドリンク10杯で1杯無料」の案内とスタンプカードのイラスト",
-              "kind": "C"
-            },
-            {
-              "src": "/assets/works/sns-post-9.jpg",
-              "alt": "ひだまり珈琲店の新メニュー投稿サンプル。紙袋からこぼれるコーヒー豆と秋の葉の写真の下にクリーム色の帯、「秋のたそがれ ¥1,300」の見出し",
-              "kind": "A"
+              "icon": "data",
+              "label": "週次計測",
+              "sub": "型別の反応で翌週の配分を変更"
             }
           ],
-          "legend": {
-            "A": "商品・新メニュー",
-            "B": "豆知識・コラム",
-            "C": "お知らせ・イベント"
-          },
-          "note": "架空ブランド・数値はサンプル"
+          "timeline": [
+            {
+              "t": "Day 1",
+              "label": "初回投稿"
+            },
+            {
+              "t": "Day 7",
+              "label": "週次 1 回目"
+            },
+            {
+              "t": "Day 14",
+              "label": "14 日分消化"
+            },
+            {
+              "t": "Day 30",
+              "label": "配分見直し"
+            }
+          ]
         },
         {
           "type": "mock",
           "kind": "calendar",
-          "title": "月間投稿カレンダー（週 3 投稿）",
+          "title": "30 日カレンダー（先頭 4 週・X の毎日投稿は省略）",
           "days": [
             "月",
             "火",
@@ -1236,90 +1230,90 @@
           "weeks": [
             [
               "",
-              "A",
-              "",
-              "B",
               "",
               "C",
+              "",
+              "A",
+              "",
               ""
             ],
             [
-              "",
+              "C",
+              "B",
+              "A",
+              "C",
               "B",
               "",
-              "A",
-              "",
-              "C",
               ""
             ],
             [
-              "",
               "A",
-              "",
               "B",
               "",
               "C",
+              "B",
+              "",
               ""
             ],
             [
+              "C",
+              "B",
               "",
               "C",
-              "",
-              "A",
-              "",
               "B",
+              "",
               ""
             ]
           ],
           "legend": {
-            "A": "商品",
-            "B": "豆知識",
-            "C": "お知らせ"
+            "A": "縦型動画",
+            "B": "カルーセル",
+            "C": "まとめ回"
           },
-          "note": "曜日と型の割り当てはサンプル"
+          "note": "2026-09-16 開始の配分。縦型動画 = Shorts・Reels・TikTok の 3 露出、カルーセル = Instagram、まとめ回 = X スレッド・YouTube 長尺。X の毎日投稿は省略・表示はサンプル"
         },
         {
           "type": "mock",
           "kind": "insight",
-          "title": "月次レポートの雛形",
+          "title": "週次レポートの雛形",
           "kpis": [
             {
               "label": "フォロワー",
-              "value": "+312",
-              "sub": "前月比（サンプル）"
+              "value": "+48",
+              "sub": "4 SNS 合計・前週比（サンプル）"
             },
             {
-              "label": "保存数",
-              "value": "486",
-              "sub": "月合計（サンプル）"
+              "label": "投稿数",
+              "value": "11",
+              "sub": "週合計（サンプル）"
             },
             {
-              "label": "プロフィール",
-              "value": "1,040",
-              "sub": "アクセス数（サンプル）"
+              "label": "HP への遷移",
+              "value": "23",
+              "sub": "プロフィール経由（サンプル）"
             }
           ],
           "bars": {
-            "label": "型別の保存率（サンプル）",
+            "label": "型別の保存・シェア率（サンプル）",
             "items": [
               {
-                "label": "豆知識",
-                "value": 6.2,
-                "display": "6.2%"
+                "label": "実録",
+                "value": 5.4,
+                "display": "5.4%"
               },
               {
-                "label": "商品",
-                "value": 4.1,
-                "display": "4.1%"
+                "label": "数字",
+                "value": 4.8,
+                "display": "4.8%"
               },
               {
-                "label": "お知らせ",
-                "value": 2.3,
-                "display": "2.3%"
+                "label": "知見",
+                "value": 3.1,
+                "display": "3.1%"
               }
             ]
           },
-          "note": "数値はサンプル"
+          "note": "数値はサンプル。実数は初回の週次レポート（2026-09-22）から記入"
         }
       ]
     },
@@ -1331,13 +1325,13 @@
         "marketing"
       ],
       "label": "public",
-      "year": "2025",
-      "summary": "公開中アプリ 3 本のタイトル・サブタイトル・説明文・スクリーンショットを設計し、審査対応まで一貫して実施。小額広告の実験は判断基準を先に決めてから行う設計。",
+      "year": "2026",
+      "summary": "自分の iOS アプリ 4 本のストア文言・スクリーンショット・審査対応を一貫して実施。公開後は App Store Connect API で週次ダウンロード・表示回数・製品ページ閲覧を自動取得し、広告を出す判断基準と流入実験の設計書を実数つきで公開しています。",
       "role": "掲載文設計・多言語ローカライズ・審査対応・計測設計",
       "points": [
-        "検索されるキーワードを含めたタイトル・サブタイトル設計",
-        "日英ほか多言語のストア文言",
-        "広告出稿は「効果を測れる条件」を満たしてから、と基準を明文化"
+        "直近 8 週の初回ダウンロード 44 件（4 本合計）・9/7〜9/13 週のストア表示 1,614 回（App Store Connect API 取得・2026-09-19）を、小さくてもそのまま掲載",
+        "率には必ず分母を添える。広告は「効果を測れる 3 条件」を満たしてから（現時点は見送りと判定）",
+        "却下理由（更新内容の具体性・広告の申告）を次の版の基準に反映"
       ],
       "stack": [
         "App Store Connect",
@@ -1346,11 +1340,21 @@
       ],
       "links": [
         {
+          "label": "実数と判断基準を見る",
+          "url": "/cases/aso/"
+        },
+        {
           "label": "Sweepfield のストアページ",
           "url": "https://apps.apple.com/jp/app/id6799108644"
         }
       ],
       "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/aso-2.jpg",
+          "alt": "ASO 事例ページ（週次ダウンロードと表示回数の実数）",
+          "frame": "browser"
+        },
         {
           "type": "image",
           "src": "/assets/works/store-listing-1.jpg",
@@ -1460,6 +1464,490 @@
           "src": "/assets/works/mitsumori-3.jpg",
           "alt": "見積トリアージのスマホ表示（依頼の詳細と返信案）",
           "frame": "phone"
+        }
+      ]
+    },
+    {
+      "slug": "making-shorts",
+      "title": "縦型ショート動画シリーズ「MAKING」（3 本）",
+      "kicker": "動画制作",
+      "categories": [
+        "video",
+        "sns",
+        "marketing"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "Claude Code で作った実物（紹介 HP・Web アプリ・夜間の自律ランナー）の制作過程を、各 26 秒の縦型ショートに。YouTube Shorts・Reels・TikTok に同じ素材で投稿できる字幕焼き込み・無音でも伝わる構成。BGM は自作合成。",
+      "role": "企画・構成・モーション制作・字幕設計・BGM 合成・書き出し",
+      "points": [
+        "「実物 → 日本語で頼む → 生成 → 確認 → 公開」の 5 ビートを 3 本で共通化し、シリーズとして続けられる型に",
+        "数字は実物の台帳から引いた実数のみ（19 ページ生成・自動テスト 235 項目・1 日 7 回の実行枠 など）",
+        "共通のイントロ 2 秒／アウトロ 3 秒をブランド素材として分離し、次回以降は本編だけ作れば済む"
+      ],
+      "stack": [
+        "HTML / CSS アニメーション",
+        "headless Chrome フレーム書き出し",
+        "ffmpeg（H.264 / VP9・AAC / Opus）",
+        "Python（BGM 合成）"
+      ],
+      "links": [],
+      "visuals": [
+        {
+          "type": "video",
+          "mp4": "/assets/works/v-short-01-portfolio.mp4",
+          "webm": "/assets/works/v-short-01-portfolio.webm",
+          "poster": "/assets/works/v-short-01-portfolio-poster.jpg",
+          "alt": "MAKING #01 紹介 HP を Claude Code で作る（26 秒・縦型・無音でも伝わる字幕つき）",
+          "frame": "phone"
+        },
+        {
+          "type": "video",
+          "mp4": "/assets/works/v-short-02-reachlab.mp4",
+          "webm": "/assets/works/v-short-02-reachlab.webm",
+          "poster": "/assets/works/v-short-02-reachlab-poster.jpg",
+          "alt": "MAKING #02 ブラウザで動く演出シミュレーターを Claude Code で作る（26 秒・縦型）",
+          "frame": "phone"
+        },
+        {
+          "type": "video",
+          "mp4": "/assets/works/v-short-03-autopilot.mp4",
+          "webm": "/assets/works/v-short-03-autopilot.webm",
+          "poster": "/assets/works/v-short-03-autopilot-poster.jpg",
+          "alt": "MAKING #03 夜に自走する autopilot を Claude Code で作る（26 秒・縦型・画面はサンプル表示の UI 図）",
+          "frame": "phone"
+        },
+        {
+          "type": "mock",
+          "kind": "storyboard",
+          "title": "絵コンテ（#01 紹介 HP・6 カット・26 秒）",
+          "frames": [
+            {
+              "src": "/assets/works/v-short-01-sb-1.jpg",
+              "time": "00:03",
+              "label": "フック（実物）",
+              "note": "公開中の紹介 HP の実画面（PC ブラウザ枠＋スマホ枠）が下と右からスライドインし、等速で軽くスクロール。字幕『紹介 HP を、Claude Code で作った。』",
+              "alt": "フック: 紹介 HP の実画面がブラウザ枠とスマホ枠で表示され『紹介 HP を、Claude Code で作った。』"
+            },
+            {
+              "src": "/assets/works/v-short-01-sb-2.jpg",
+              "time": "00:08",
+              "label": "指示（日本語）",
+              "note": "端末風パネルに日本語の指示が 1 文字ずつ打たれる（琥珀のカーソル）。打ち終わると Enter →『Claude Code が作業中…』。字幕『まず、日本語で頼む』",
+              "alt": "端末に日本語の指示『自己紹介サイトを作り直したい…』が打ち込まれ『まず、日本語で頼む』"
+            },
+            {
+              "src": "/assets/works/v-short-01-sb-3.jpg",
+              "time": "00:13",
+              "label": "生成（JSON→19 ページ）",
+              "note": "content.json のカードから build 矢印を経て、ページのミニカードが 19 枚ポップして並ぶ。最後に琥珀チップ『19 ページ』。字幕『文言は JSON 1 つ。19 ページを自動生成』",
+              "alt": "content.json 1 つから 19 枚のページカードが生成される図と『文言は JSON 1 つ。19 ページを自動生成』"
+            },
+            {
+              "src": "/assets/works/v-short-01-sb-4.jpg",
+              "time": "00:17",
+              "label": "確認（テスト＋別 AI）",
+              "note": "受入テスト（禁止語・リンク切れ・画像・到達性）が順に緑のチェックへ。別系統 AI（GPT）の視覚レビュー 1 回も通過 →『公開へ』チップ。字幕『テストと別 AI のレビューで確認』",
+              "alt": "受入テスト 4 項目が OK になり、別系統 AI の視覚レビューも通過『テストと別 AI のレビューで確認』"
+            },
+            {
+              "src": "/assets/works/v-short-01-sb-5.jpg",
+              "time": "00:22",
+              "label": "公開＋結果",
+              "note": "URL ピル kenji6836.github.io の下でスマホ枠が実画面を等速で縦スクロール。実数チップ『10 分野・17 作品』『19 ページ』『決定 → 公開 約 2 時間 15 分』。字幕『決定から約 2 時間で公開』",
+              "alt": "スマホ枠で紹介 HP をスクロールし『10 分野・17 作品』『19 ページ』『約 2 時間 15 分』のチップ"
+            },
+            {
+              "src": "/assets/works/v-short-01-sb-6.jpg",
+              "time": "00:25",
+              "label": "アウトロ",
+              "note": "青のサークルワイプで転換し、ブランド共通アウトロ（マーク・Kenji Ido・@idk0723ai・『作った実物は HP で』・URL）",
+              "alt": "アウトロ: マークと Kenji Ido @idk0723ai『作った実物は HP で』kenji6836.github.io"
+            }
+          ],
+          "note": "3 本とも同じ 5 ビート構成。#02 #03 の絵コンテも同様に制作"
+        },
+        {
+          "type": "mock",
+          "kind": "pipeline",
+          "title": "1 本あたりの流れ",
+          "steps": [
+            {
+              "icon": "file",
+              "label": "事実シート",
+              "sub": "出せる実数と出典を先に固める"
+            },
+            {
+              "icon": "list",
+              "label": "5 ビート構成",
+              "sub": "実物→指示→生成→確認→公開"
+            },
+            {
+              "icon": "code",
+              "label": "モーション制作",
+              "sub": "実画面＋UI 図＋字幕"
+            },
+            {
+              "icon": "box",
+              "label": "書き出し",
+              "sub": "mp4 / webm・BGM・絵コンテ"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "mitsumori-ads",
+      "title": "広告セット（見積トリアージ・訴求 2 案 × 7 サイズ）",
+      "kicker": "広告制作",
+      "categories": [
+        "ad",
+        "design",
+        "marketing"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "自作の建設向け Web アプリ「見積トリアージ」を題材に、SNS・ディスプレイ広告の 7 サイズを同じ世界観で展開。時間訴求と安心訴求の 2 案、実写風写真と製品の実画面を組み合わせ、A/B テストにそのまま使える構成。",
+      "role": "コンセプト・コピー・写真ディレクション・ビジュアル制作・サイズ展開",
+      "points": [
+        "1 つのキービジュアルから 7 サイズ（1080×1080 / 1080×1920 / 1200×628 / 1600×900 / 300×250 / 728×90）へ展開",
+        "訴求軸を「時間」「安心」の 2 案に分け、レイアウト骨格は共通にして比較しやすく",
+        "実写風写真をブランド色の面に溶かし、製品の実画面をスマホ枠で載せて「動く実物がある」ことを伝える"
+      ],
+      "stack": [
+        "HTML / CSS / SVG",
+        "Google Fonts",
+        "headless Chrome レンダリング",
+        "実写風写真（自作生成）"
+      ],
+      "links": [
+        {
+          "label": "7 サイズと A/B の比較ページ",
+          "url": "https://kenji6836.github.io/ads/mitsumori/"
+        },
+        {
+          "label": "題材のアプリ（見積トリアージ）",
+          "url": "https://kenji6836.github.io/app/mitsumori/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "mock",
+          "kind": "adset",
+          "title": "7 サイズ × 訴求 2 案（抜粋 5 点）",
+          "items": [
+            {
+              "src": "/assets/works/v-ad-square-a.jpg",
+              "alt": "「見積依頼の仕分け、60 秒。」を掲げた正方形バナー（A 時間訴求）。青地に現場監督の写真と受信箱画面のスマホ",
+              "slot": "square-a",
+              "label": "Instagram フィード",
+              "size": "1080×1080",
+              "variant": "A 時間訴求"
+            },
+            {
+              "src": "/assets/works/v-ad-square-b.jpg",
+              "alt": "「急ぎの依頼、埋もれない。」を掲げた正方形バナー（B 安心訴求）。事務所で依頼を確認する事務員の写真",
+              "slot": "square-b",
+              "label": "Instagram フィード",
+              "size": "1080×1080",
+              "variant": "B 安心訴求"
+            },
+            {
+              "src": "/assets/works/v-ad-story.jpg",
+              "alt": "縦長ストーリーズ用バナー。職人のポートレートと見出し、下部に受信箱画面のスマホ",
+              "slot": "story",
+              "label": "ストーリーズ / リール",
+              "size": "1080×1920",
+              "variant": "A 時間訴求"
+            },
+            {
+              "src": "/assets/works/v-ad-landscape.jpg",
+              "alt": "横長リンク広告用バナー。左に見出しと CTA、右に写真とスマホ",
+              "slot": "landscape",
+              "label": "Facebook リンク広告",
+              "size": "1200×628",
+              "variant": "A 時間訴求"
+            },
+            {
+              "src": "/assets/works/v-ad-rect.jpg",
+              "alt": "300×250 ディスプレイ広告用の小型バナー。見出しと CTA だけに絞った構成",
+              "slot": "rect",
+              "label": "Google ディスプレイ",
+              "size": "300×250",
+              "variant": "A 時間訴求"
+            }
+          ],
+          "note": "題材は自作アプリ・広告は自主制作のサンプル（未出稿）。「60 秒」は設計上の目安"
+        },
+        {
+          "type": "mock",
+          "kind": "insight",
+          "title": "A/B テストの見方",
+          "kpis": [
+            {
+              "label": "A 時間訴求 CTR",
+              "value": "—",
+              "sub": "未出稿（出稿後に実測）"
+            },
+            {
+              "label": "B 安心訴求 CTR",
+              "value": "—",
+              "sub": "未出稿（出稿後に実測）"
+            },
+            {
+              "label": "判定",
+              "value": "1 週間",
+              "sub": "同予算で比較して継続案を決める"
+            }
+          ],
+          "bars": {
+            "label": "サイズ別の配信比率（サンプル）",
+            "items": [
+              {
+                "label": "フィード",
+                "value": 45,
+                "display": "45%"
+              },
+              {
+                "label": "ストーリーズ",
+                "value": 30,
+                "display": "30%"
+              },
+              {
+                "label": "ディスプレイ",
+                "value": 25,
+                "display": "25%"
+              }
+            ]
+          },
+          "note": "数値はサンプル"
+        },
+        {
+          "type": "mock",
+          "kind": "pipeline",
+          "title": "ヒアリングから入稿まで",
+          "steps": [
+            {
+              "icon": "mail",
+              "label": "ヒアリング",
+              "sub": "強み・対象・予算"
+            },
+            {
+              "icon": "file",
+              "label": "訴求軸 2 案",
+              "sub": "コピーと骨格"
+            },
+            {
+              "icon": "box",
+              "label": "写真＋サイズ展開",
+              "sub": "媒体の規定に合わせる"
+            },
+            {
+              "icon": "sheet",
+              "label": "入稿・計測",
+              "sub": "A/B の結果で改善"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "channel-brand",
+      "title": "チャンネルブランディング（X・YouTube・Instagram・TikTok 共通）",
+      "kicker": "デザイン制作",
+      "categories": [
+        "design",
+        "sns",
+        "video"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "4 つの SNS で同じ人物・同じ世界観と分かるブランド一式を制作。マーク・アイコン 2 種・X ヘッダー・YouTube バナー・投稿テンプレ 3 サイズ・動画のイントロ/アウトロ・字幕ルールを 1 ページのガイドにまとめ、各プラットフォームの画像規格も表にした。",
+      "role": "コンセプト・マーク設計・配色/書体・テンプレート制作・モーション制作・ガイド執筆",
+      "points": [
+        "紺地・ブランド青・琥珀のカーソル（端末の暗喩）で「AI で作って、本番に出す」を一目で",
+        "アイコンは 48px の丸クロップでも判読できる太さで設計し、顔写真版とマーク版を用意",
+        "イントロ 2 秒／アウトロ 3 秒を CSS だけで作り、ショート動画に共通部品として組み込める形に"
+      ],
+      "stack": [
+        "SVG / CSS",
+        "Google Fonts（Noto Sans JP・IBM Plex Mono）",
+        "headless Chrome レンダリング",
+        "ffmpeg"
+      ],
+      "links": [
+        {
+          "label": "ブランドガイド（1 ページ）",
+          "url": "https://kenji6836.github.io/design/channel-brand/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/v-brand-x-header.jpg",
+          "alt": "X ヘッダー 1500×500: 紺地に「AIで作って、本番に出す。」と端末風のスニペット",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/v-brand-icon.png",
+          "alt": "チャンネルアイコン（顔写真版・右下に青のマーク）",
+          "frame": "icon"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/v-brand-yt-banner.jpg",
+          "alt": "YouTube バナー: 夜の作業机の写真を薄く敷き、中央にマークと名前・タグライン",
+          "frame": "browser"
+        },
+        {
+          "type": "video",
+          "mp4": "/assets/works/v-brand-intro.mp4",
+          "webm": "/assets/works/v-brand-intro.webm",
+          "poster": "/assets/works/v-brand-intro-poster.jpg",
+          "alt": "動画イントロ 2 秒: マークが弾んで着地し MAKING と通番が出る",
+          "frame": "phone"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/v-brand-post-3.jpg",
+          "alt": "X 用の画像投稿テンプレ 1600×900: 青地に見出しと実物のスクショ枠",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/v-brand-post-1.jpg",
+          "alt": "正方形の投稿テンプレ 1080×1080",
+          "frame": "browser"
+        }
+      ]
+    },
+    {
+      "slug": "mitsumori-design-system",
+      "title": "デザインシステム（見積トリアージ・業務 UI）",
+      "kicker": "デザイン制作",
+      "categories": [
+        "design",
+        "web",
+        "app"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "自作の建設向け Web アプリ「見積トリアージ」の色・書体・余白・部品・状態・アクセシビリティを 1 ページに。コントラスト比は実測値を載せ、部品はすべて CSS の実物で表示。ライト/ダーク・スマホ幅に対応。",
+      "role": "トークン設計・部品設計・アクセシビリティ基準・ドキュメント制作",
+      "points": [
+        "色はライト/ダークとも WCAG のコントラスト比を実測して表に（基準未満は隠さず表示）",
+        "緊急度・状態は色だけに頼らず形とアイコンで区別（至急＝赤＋アイコン）",
+        "3 ペインの業務画面をスマホでタブ切替にする型まで定義"
+      ],
+      "stack": [
+        "HTML / CSS",
+        "Google Fonts",
+        "WCAG 2.x コントラスト計算"
+      ],
+      "links": [
+        {
+          "label": "デザインシステム（1 ページ）",
+          "url": "https://kenji6836.github.io/design/mitsumori/"
+        },
+        {
+          "label": "対象のアプリ（見積トリアージ）",
+          "url": "https://kenji6836.github.io/app/mitsumori/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/v-ds-1.jpg",
+          "alt": "デザインシステムのページ（ライト）: 色トークンとコントラスト比、部品の実物",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/v-ds-2.jpg",
+          "alt": "デザインシステムのページ（ダーク）",
+          "frame": "browser"
+        }
+      ]
+    },
+    {
+      "slug": "kensetsu-lp",
+      "title": "見積依頼 AI 仕分け — サービス紹介 LP（工務店・リフォーム会社向け）",
+      "kicker": "LP 制作",
+      "categories": [
+        "web",
+        "marketing"
+      ],
+      "label": "public",
+      "year": "2026",
+      "summary": "自分の受託サービス「見積依頼の AI 仕分け＋概算返信の下書き」の紹介ページ。参考 LP 3 本の構成を分析し、課題→仕組み→対応範囲→料金→進め方→FAQ の順で、問い合わせと実物デモへ 1 クリックで到達できる導線に設計。Lighthouse（制作時計測）はモバイル・デスクトップとも 4 項目 100。",
+      "role": "構成設計・コピー・実装・計測設計",
+      "points": [
+        "ヒーローに製品の入出力をそのまま見せ、「AI は金額を決めない」を先に明示",
+        "料金は最小構成・PoC・月額の 3 段。納品後の責任範囲（検収・修正・保守・データ）を表で公開",
+        "Lighthouse 100/100/100/100（モバイル・デスクトップ・制作時計測）・390px 対応・ダーク／reduced-motion 対応（自前検査 2026-09-14）"
+      ],
+      "stack": [
+        "HTML/CSS（自己完結）",
+        "SVG",
+        "Lighthouse",
+        "CDP 検査"
+      ],
+      "links": [
+        {
+          "label": "LP を見る",
+          "url": "/lp/kensetsu-mitsumori/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/kensetsu-lp-1.jpg",
+          "alt": "見積依頼 AI 仕分けの LP の PC 表示",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/kensetsu-lp-2.jpg",
+          "alt": "同 LP のスマホ表示",
+          "frame": "phone"
+        }
+      ]
+    },
+    {
+      "slug": "portfolio-site",
+      "title": "この紹介サイト（静的サイト生成・検査ツール自作）",
+      "kicker": "サービスサイト",
+      "categories": [
+        "web"
+      ],
+      "label": "public",
+      "year": "2026",
+      "summary": "いま見ているサイト自体も制作物です。文言・作品・フォーム定義を 1 つの JSON にまとめ、自作の生成スクリプトで全ページを出力。禁止語・リンク切れ・画像の alt・スマホ幅のはみ出しを機械検査してから公開しています。",
+      "role": "設計・実装・運用",
+      "points": [
+        "JSON 1 つが正典。作品追加は 1 エントリ＋画像＋再生成だけ",
+        "公開前に自動検査（リンク・alt・キャッシュ対策・禁止語・ページ容量）",
+        "スクリーンショットとはみ出し検査を headless ブラウザで自動化"
+      ],
+      "stack": [
+        "Python（標準ライブラリ）",
+        "HTML/CSS",
+        "GitHub Pages",
+        "CDP"
+      ],
+      "links": [
+        {
+          "label": "ソースコード（GitHub）",
+          "url": "https://github.com/kenji6836/kenji6836.github.io"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/portfolio-site-1.jpg",
+          "alt": "紹介サイトのトップページ",
+          "frame": "browser"
         }
       ]
     }
