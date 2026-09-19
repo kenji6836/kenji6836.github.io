@@ -2061,7 +2061,7 @@
         "label": "ご予算感（任意）",
         "type": "select",
         "required": false,
-        "entry": "",
+        "entry": "entry.459491663",
         "options": [
           "〜5 万円",
           "5〜30 万円",
@@ -2074,7 +2074,7 @@
         "label": "参考にしたいサイト・アプリ（任意）",
         "type": "text",
         "required": false,
-        "entry": ""
+        "entry": "entry.552739232"
       },
       {
         "name": "message",
