@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>MAKING #01 — 紹介 HP を Claude Code で作る（26s・1080×1920）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500;600&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../../brand/tokens-provisional.css">
+<link rel="stylesheet" href="../../brand/intro-outro.css">
+<style>
+/* ============================================================
+   MAKING #01 「紹介 HP を Claude Code で作る」 1080×1920 / 30fps / 26.0s
+   0.0–2.0 intro(slot) / 2.0–23.0 body (5 beats) / 23.0–26.0 outro(slot)
+   All motion = CSS animations with animation-delay (deterministic, __seek-able)
+   ============================================================ */
+:root{
+  --navy:var(--v-navy,#0b1430); --navy2:var(--v-navy-2,#121c3d); --blue:var(--v-blue,#2457e6); --amber:var(--v-amber,#f5a524);
+  --ok:var(--v-ok,#1a7f4b); --white:#fff; --soft:var(--v-soft,#e9efff); --text2:var(--v-text-2,#c3cbd6); --line:var(--v-line,#c5d3fb);
+  --font:"Noto Sans JP",system-ui,-apple-system,"Hiragino Sans",sans-serif; --mono:"IBM Plex Mono","Noto Sans JP",ui-monospace,Menlo,monospace;
+  --r:16px; --rs:12px;
+  --ease:cubic-bezier(.16,.9,.25,1); --easeOut:cubic-bezier(.55,0,.7,.3); --spring:cubic-bezier(.34,1.56,.64,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--navy)}
+body{font-family:var(--font);color:var(--white);position:relative;font-feature-settings:"palt";-webkit-font-smoothing:antialiased}
+img{display:block}
+.stage{position:absolute;inset:0;overflow:hidden}
+
+/* ---- background: navy + faint blueprint grid + soft blue glow ---- */
+.bg{position:absolute;inset:0;background:
+  radial-gradient(900px 700px at 50% 22%, rgba(36,87,230,.30), transparent 70%),
+  radial-gradient(800px 600px at 15% 95%, rgba(36,87,230,.16), transparent 65%),
+  var(--navy)}
+.bg::before{content:"";position:absolute;inset:0;background-image:
+  linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+  background-size:60px 60px;background-position:30px 30px}
+.bg::after{content:"";position:absolute;inset:0;background:radial-gradient(1400px 1200px at 50% 45%, transparent 55%, rgba(11,20,48,.75) 100%)}
+
+/* ---- generic in/out wrappers (one animation per element) ---- */
+.in{animation:rise .55s var(--ease) var(--in) both}
+.in.pop{animation:pop .5s var(--spring) var(--in) both}
+.in.fade{animation:fade .4s ease-out var(--in) both}
+.in.fromR{animation:fromR .6s var(--ease) var(--in) both}
+.in.fromB{animation:fromB .6s var(--ease) var(--in) both}
+.in.hold{animation:hold .01s steps(1) var(--in) both}
+.out{animation:out .35s var(--easeOut) var(--out) both}
+.out.shrink{animation:shrinkOut .4s var(--easeOut) var(--out) both}
+.out.fadeO{animation:fadeOut .3s ease-in var(--out) both}
+@keyframes rise{from{transform:translateY(70px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes pop{from{transform:translateY(30px) scale(.7);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes hold{from{opacity:0}to{opacity:1}}
+@keyframes fromR{from{transform:translateX(420px) rotate(4deg);opacity:0}to{transform:translateX(0) rotate(0);opacity:1}}
+@keyframes fromB{from{transform:translateY(900px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes out{from{transform:translateY(0);opacity:1}to{transform:translateY(-60px);opacity:0}}
+@keyframes shrinkOut{from{transform:scale(1);opacity:1}to{transform:scale(.92);opacity:0}}
+@keyframes fadeOut{from{opacity:1}to{opacity:0}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.float{animation:bob 3s ease-in-out var(--fl,0s) infinite both}
+
+/* ---- captions (y=1180–1460, white 900 72px, ≤13 chars/line, ≤2 lines) ---- */
+.cap{position:absolute;left:60px;right:60px;top:1180px;height:280px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;text-align:center}
+.cap .l{overflow:hidden;padding:6px 10px 10px}
+.cap .l .in,.cap .l .out{display:block}
+.cap .t{display:block;font-size:72px;font-weight:900;line-height:1.28;letter-spacing:.005em;color:var(--white);white-space:nowrap;
+  text-shadow:0 4px 18px rgba(11,20,48,.9),0 0 2px rgba(11,20,48,.9)}
+.cap em{font-style:normal}
+.cap .am{color:var(--amber)}
+.cap .bl{display:inline-block;background:var(--blue);color:#fff;border-radius:14px;padding:0 .18em;margin:0 .04em;line-height:1.2;box-shadow:0 8px 26px -8px rgba(36,87,230,.7)}
+
+/* ---- chips (white pill, 40px, icon disc) ---- */
+.chip{position:absolute;display:inline-flex;align-items:center;gap:16px;padding:14px 30px 14px 14px;border-radius:999px;background:#fff;color:#0b1430;font-weight:700;font-size:40px;letter-spacing:.01em;white-space:nowrap;
+  box-shadow:0 26px 50px -18px rgba(0,0,0,.6),0 1px 0 rgba(255,255,255,.8) inset}
+.chip .ic{width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none}
+.chip .ic svg{width:32px;height:32px;stroke:#fff;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.ic.blue{background:var(--blue)}.ic.amber{background:var(--amber)}.ic.ok{background:var(--ok)}.ic.navy{background:var(--navy)}
+.chip.amber{background:var(--amber);color:#0b1430}
+.chip.amber .ic{background:#0b1430}
+
+/* ---- decorative bottom band (inside the 420px UI zone: low priority only) ---- */
+.series{position:absolute;left:60px;top:1560px;font-family:var(--mono);font-weight:600;font-size:40px;letter-spacing:.04em;color:rgba(195,203,214,.75);display:flex;align-items:center;gap:22px}
+.series b{color:var(--amber);font-weight:600}
+.series i{display:inline-block;width:14px;height:44px;background:var(--amber);border-radius:3px;animation:blink 1s steps(1) 0s infinite both}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+.prog{position:absolute;left:60px;right:60px;top:1640px;display:flex;gap:10px}
+.prog i{flex:1;height:10px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden;position:relative}
+.prog i::after{content:"";position:absolute;left:0;top:0;bottom:0;width:100%;background:var(--blue);transform-origin:0 50%;transform:scaleX(0);animation:fill var(--d) linear var(--s) both}
+@keyframes fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.proglabel{position:absolute;left:60px;right:60px;top:1690px;display:flex;justify-content:space-between;font-size:40px;font-weight:500;color:rgba(195,203,214,.55);letter-spacing:.02em}
+
+/* ============================================================
+   BEAT 1 (2.0–5.0): real screens — browser + phone
+   ============================================================ */
+.browser{position:absolute;left:40px;top:250px;width:1000px;height:620px;border-radius:22px;background:#fff;overflow:hidden;
+  box-shadow:0 60px 110px -30px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.08)}
+.browser .bar{height:76px;background:#eef2f8;display:flex;align-items:center;padding:0 24px;gap:12px;border-bottom:1px solid #dbe3f0}
+.browser .bar i{width:16px;height:16px;border-radius:50%;background:#c9d2e2}
+.browser .bar .url{margin-left:18px;flex:1;height:54px;border-radius:999px;background:#fff;display:flex;align-items:center;padding:0 22px;font-family:var(--mono);font-weight:500;font-size:40px;color:#4c5a72;letter-spacing:.01em}
+.browser .view{position:relative;height:544px;overflow:hidden;background:#fff}
+.browser .view img{width:1000px;height:auto;animation:scrollA 2.3s linear 2.7s both}
+@keyframes scrollA{from{transform:translateY(0)}to{transform:translateY(-300px)}}
+
+.phone{position:absolute;left:640px;top:430px;width:390px;height:720px;border-radius:56px;background:#0a0e1f;padding:12px;
+  box-shadow:0 60px 110px -30px rgba(0,0,0,.75),0 0 0 2px rgba(255,255,255,.10),inset 0 0 0 2px rgba(255,255,255,.06)}
+.phone .screen{position:relative;width:366px;height:696px;border-radius:46px;overflow:hidden;background:#fff}
+.phone .screen img{width:366px;height:auto;animation:scrollB 2.3s linear 2.9s both}
+@keyframes scrollB{from{transform:translateY(0)}to{transform:translateY(-200px)}}
+.phone .notch{position:absolute;left:50%;top:14px;width:120px;height:32px;border-radius:999px;background:#0a0e1f;transform:translateX(-50%)}
+
+/* ============================================================
+   BEAT 2 (5.0–9.5): terminal — Japanese instruction typed char by char
+   ============================================================ */
+.term{position:absolute;left:60px;top:330px;width:960px;height:640px;border-radius:20px;background:var(--navy2);overflow:hidden;
+  box-shadow:0 50px 100px -30px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.08),inset 0 1px 0 rgba(255,255,255,.06)}
+.term .bar{height:72px;display:flex;align-items:center;gap:14px;padding:0 28px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.08)}
+.term .bar i{width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.18)}
+.term .bar i:nth-child(1){background:#ff5f57}.term .bar i:nth-child(2){background:#febc2e}.term .bar i:nth-child(3){background:#28c840}
+.term .bar span{margin-left:auto;margin-right:auto;font-family:var(--mono);font-weight:500;font-size:40px;color:var(--text2);letter-spacing:.02em}
+.term .body{padding:44px 48px 0;font-family:var(--mono);font-weight:500;font-size:40px;line-height:1.75;color:var(--soft)}
+.term .prompt{display:flex;gap:18px;align-items:flex-start}
+.term .prompt .ps{color:var(--amber);font-weight:600;flex:none}
+.term .typed{position:relative;flex:1;min-width:0;word-break:break-all}
+.term .typed .c{position:relative;opacity:0;animation:hold .01s steps(1) var(--t) both}
+.term .typed .c::after{content:"";position:absolute;left:100%;top:.14em;width:.55em;height:1.05em;background:var(--amber);border-radius:3px;opacity:0;animation:cur var(--dur) steps(1) var(--t) both}
+.term .typed .c.last::after{animation:cur var(--dur) steps(1) var(--t) both, blink 1s steps(1) var(--tend) infinite}
+@keyframes cur{0%{opacity:0}1%{opacity:1}99%{opacity:1}100%{opacity:0}}
+.term .precur{display:inline-block;width:.55em;height:1.05em;background:var(--amber);border-radius:3px;vertical-align:-.12em;animation:blink 1s steps(1) 0s infinite, preOff .01s steps(1) var(--off) both}
+@keyframes preOff{from{visibility:visible;width:.55em}to{visibility:hidden;width:0}}
+.term .enter{margin-top:34px;display:flex;align-items:center;gap:20px;color:var(--text2);font-size:40px}
+.term .enter .key svg{width:34px;height:34px;stroke:#fff;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;margin-right:12px}
+.term .enter .key{display:inline-flex;align-items:center;justify-content:center;min-width:120px;height:64px;padding:0 20px;border-radius:12px;background:rgba(255,255,255,.10);color:#fff;font-weight:600;
+  box-shadow:0 4px 0 rgba(0,0,0,.35);animation:press .18s ease-in var(--in) both}
+@keyframes press{from{transform:translateY(0);box-shadow:0 4px 0 rgba(0,0,0,.35)}to{transform:translateY(4px);box-shadow:0 0 0 rgba(0,0,0,.35)}}
+.term .work{margin-top:26px;display:flex;align-items:center;gap:18px;color:var(--text2);font-size:40px}
+.term .work .dot{width:22px;height:22px;border-radius:50%;background:var(--amber);animation:pulse .8s ease-in-out 0s infinite alternate both}
+@keyframes pulse{from{transform:scale(.7);opacity:.5}to{transform:scale(1.15);opacity:1}}
+
+/* ============================================================
+   BEAT 3 (9.5–14.5): one JSON → 19 pages
+   ============================================================ */
+.json{position:absolute;left:60px;top:250px;width:960px;height:280px;border-radius:20px;background:var(--navy2);overflow:hidden;
+  box-shadow:0 40px 90px -30px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.08)}
+.json .bar{height:64px;display:flex;align-items:center;gap:14px;padding:0 26px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.08);font-family:var(--mono);font-size:40px;font-weight:600;color:#fff}
+.json .bar svg{width:34px;height:34px;stroke:var(--amber);fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.json .bar em{margin-left:auto;font-style:normal;font-weight:500;font-size:40px;color:var(--text2)}
+.json .code{padding:26px 34px;font-family:var(--mono);font-weight:500;font-size:40px;line-height:1.55;color:var(--soft);white-space:pre}
+.json .code .k{color:#8fb0ff}.json .code .n{color:var(--amber)}.json .code .p{color:rgba(233,239,255,.55)}
+
+.gen{position:absolute;left:0;right:0;top:546px;height:64px;display:flex;align-items:center;justify-content:center;gap:16px;font-size:40px;font-weight:700;color:var(--text2)}
+.gen svg{width:56px;height:56px;stroke:var(--amber);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.gen svg{animation:down .55s ease-in-out 10.1s infinite alternate both}
+@keyframes down{from{transform:translateY(-8px)}to{transform:translateY(8px)}}
+
+.pages{position:absolute;left:60px;top:626px;width:960px;height:520px;display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:repeat(3,1fr);gap:16px}
+.pg{border-radius:12px;background:#fff;overflow:hidden;position:relative;box-shadow:0 18px 30px -14px rgba(0,0,0,.7);animation:pgIn .45s var(--spring) var(--t) both}
+@keyframes pgIn{from{transform:translateY(40px) scale(.5);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+.pg .h{height:22px;background:var(--soft);display:flex;align-items:center;padding:0 10px;gap:6px}
+.pg .h i{width:14px;height:14px;border-radius:4px;background:var(--blue)}
+.pg .h b{flex:1;height:6px;border-radius:3px;background:#c5d3fb}
+.pg .b{padding:10px 10px 0;display:flex;flex-direction:column;gap:7px}
+.pg .b i{display:block;height:8px;border-radius:4px;background:#dfe6f5}
+.pg .b i.t{height:12px;width:70%;background:#0b1430;opacity:.85}
+.pg .b i.s{width:85%}.pg .b i.x{width:55%}
+.pg .b .img{height:48px;border-radius:8px;background:linear-gradient(160deg,#e9efff,#c5d3fb)}
+.pg .b .btn{width:52%;height:14px;border-radius:999px;background:var(--blue);margin-top:4px}
+.pg.idx .h{background:var(--blue)}.pg.idx .h i{background:#fff}.pg.idx .h b{background:rgba(255,255,255,.5)}
+.pg .tag{position:absolute;left:0;right:0;bottom:0;height:26px;background:#f4f6fb;display:flex;align-items:center;justify-content:center}
+.pg .tag i{width:40%;height:8px;border-radius:4px;background:#c5d3fb}
+.count{position:absolute;left:680px;top:1010px;z-index:3}
+
+/* ============================================================
+   BEAT 4 (14.5–18.5): tests + independent AI review
+   ============================================================ */
+.card{position:absolute;left:60px;width:960px;border-radius:20px;background:#fff;color:#0b1430;overflow:hidden;
+  box-shadow:0 40px 90px -30px rgba(0,0,0,.7)}
+.card .hd{display:flex;align-items:center;gap:18px;padding:26px 34px 18px;font-size:44px;font-weight:900;letter-spacing:.005em}
+.card .hd .ico{width:64px;height:64px;border-radius:16px;background:var(--soft);display:flex;align-items:center;justify-content:center;flex:none}
+.card .hd .ico svg{width:36px;height:36px;stroke:var(--blue);fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.card .hd .sub{margin-left:auto;font-size:40px;font-weight:500;color:#5b6a86}
+.card .row{display:flex;align-items:center;gap:20px;padding:14px 34px;font-size:40px;font-weight:700;border-top:1px solid #edf1f8}
+.card .row .st{width:60px;height:60px;border-radius:50%;flex:none;position:relative}
+.card .row .st .spin{position:absolute;inset:0;border-radius:50%;border:5px solid #dfe6f5;border-top-color:var(--blue);animation:spin .8s linear 0s infinite both, offAt .01s steps(1) var(--ok-at) both}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes offAt{from{opacity:1}to{opacity:0}}
+.card .row .st .ok{position:absolute;inset:0;border-radius:50%;background:var(--ok);display:flex;align-items:center;justify-content:center;animation:okIn .4s var(--spring) var(--ok-at) both}
+.card .row .st .ok svg{width:34px;height:34px;stroke:#fff;fill:none;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+@keyframes okIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.card .row .lbl{flex:1}
+.card .row .res{font-weight:500;color:#5b6a86;font-size:40px;opacity:0;animation:fade .3s ease-out var(--ok-at) both}
+.card .row .res.g{color:var(--ok);font-weight:700}
+.card .foot{display:flex;align-items:center;gap:16px;padding:18px 34px 24px;border-top:1px solid #edf1f8;font-size:40px;font-weight:500;color:#5b6a86}
+.card .foot .pill{display:inline-flex;align-items:center;gap:12px;padding:6px 22px;border-radius:999px;background:var(--soft);color:var(--blue);font-weight:700;font-family:var(--mono)}
+.tests{top:262px}
+.review{top:762px}
+.allok{position:absolute;left:560px;top:1046px;z-index:3}
+
+/* ============================================================
+   BEAT 5 (18.5–23.0): published — phone scroll + fact chips
+   ============================================================ */
+.urlpill{position:absolute;left:0;right:0;top:250px;display:flex;justify-content:center}
+.urlpill .in{display:inline-flex}
+.urlpill .p{display:inline-flex;align-items:center;gap:16px;padding:12px 30px 12px 20px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);font-family:var(--mono);font-weight:500;font-size:40px;color:#fff;letter-spacing:.01em}
+.urlpill .p i{width:18px;height:18px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 6px rgba(245,165,36,.25)}
+.phone2{position:absolute;left:270px;top:340px;width:540px;height:810px;border-radius:64px;background:#0a0e1f;padding:14px;
+  box-shadow:0 60px 110px -30px rgba(0,0,0,.75),0 0 0 2px rgba(255,255,255,.10),inset 0 0 0 2px rgba(255,255,255,.06)}
+.phone2 .screen{position:relative;width:512px;height:782px;border-radius:52px;overflow:hidden;background:#fff}
+.phone2 .screen img{width:512px;height:auto;animation:scrollC 4.0s linear 18.9s both}
+@keyframes scrollC{from{transform:translateY(0)}to{transform:translateY(-1500px)}}
+.phone2 .notch{position:absolute;left:50%;top:16px;width:150px;height:38px;border-radius:999px;background:#0a0e1f;transform:translateX(-50%)}
+
+/* ============================================================
+   transition 22.5–23.0: circle wipe → outro slot
+   ============================================================ */
+.wipe{position:absolute;inset:0;z-index:10;background:var(--blue);animation:wipeIn .5s cubic-bezier(.7,0,.2,1) 22.5s both}
+@keyframes wipeIn{from{clip-path:circle(0% at 50% 50%)}to{clip-path:circle(120% at 50% 50%)}}
+
+/* INTRO / OUTRO: brand/intro-outro.css（.v-intro z=20 / .v-outro z=30・開始時刻は --v-intro-start / --v-outro-start） */
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="bg"></div>
+
+  <!-- ===== decorative band (bottom UI zone) ===== -->
+  <div class="series"><span>MAKING <b>#01</b></span><i></i></div>
+  <div class="prog">
+    <i style="--s:2s;--d:3s"></i><i style="--s:5s;--d:4.5s"></i><i style="--s:9.5s;--d:5s"></i><i style="--s:14.5s;--d:4s"></i><i style="--s:18.5s;--d:4.5s"></i>
+  </div>
+  <div class="proglabel"><span>実物</span><span>指示</span><span>生成</span><span>確認</span><span>公開</span></div>
+
+  <!-- ===== BEAT 1 (2.0–5.0): hook — real screens ===== -->
+  <div class="in fromB" style="--in:2.0s;position:absolute;inset:0"><div class="out shrink" style="--out:4.8s;position:absolute;inset:0">
+    <div class="browser">
+      <div class="bar"><i></i><i></i><i></i><span class="url">kenji6836.github.io</span></div>
+      <div class="view"><img src="../captures/hp-top-1280.png" alt=""></div>
+    </div>
+  </div></div>
+  <div class="in fromR" style="--in:2.35s;position:absolute;inset:0"><div class="out shrink" style="--out:4.85s;position:absolute;inset:0">
+    <div class="phone"><div class="screen"><img src="../captures/hp-top-390.png" alt=""></div></div>
+  </div></div>
+  <div class="cap">
+    <div class="l"><div class="in" style="--in:2.3s"><div class="out" style="--out:4.8s"><span class="t">紹介 HP を、</span></div></div></div>
+    <div class="l"><div class="in" style="--in:2.42s"><div class="out" style="--out:4.84s"><span class="t"><em class="bl">Claude Code</em> で作った。</span></div></div></div>
+  </div>
+
+  <!-- ===== BEAT 2 (5.0–9.5): instruction typed in Japanese ===== -->
+  <div class="in pop" style="--in:5.0s;position:absolute;inset:0"><div class="out shrink" style="--out:9.3s;position:absolute;inset:0">
+    <div class="term">
+      <div class="bar"><i></i><i></i><i></i><span>claude</span></div>
+      <div class="body">
+        <div class="prompt"><span class="ps">&gt;</span><span class="typed" id="typed"><span class="precur" style="--off:5.6s"></span></span></div>
+        <div class="in hold" style="--in:8.85s"><div class="enter"><span class="key"><svg viewBox="0 0 24 24"><path d="M20 5v7a2 2 0 0 1-2 2H6"/><path d="M9 10l-4 4 4 4"/></svg>Enter</span><span>送信</span></div></div>
+        <div class="in fade" style="--in:9.0s"><div class="work"><span class="dot"></span><span>Claude Code が作業中…</span></div></div>
+      </div>
+    </div>
+  </div></div>
+  <div class="cap">
+    <div class="l"><div class="in" style="--in:5.3s"><div class="out" style="--out:9.3s"><span class="t">まず、<em class="am">日本語</em>で頼む</span></div></div></div>
+  </div>
+
+  <!-- ===== BEAT 3 (9.5–14.5): one JSON → 19 pages ===== -->
+  <div class="in pop" style="--in:9.55s;position:absolute;inset:0"><div class="out shrink" style="--out:14.3s;position:absolute;inset:0">
+    <div class="json">
+      <div class="bar"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>content.json<em>1 ファイル</em></div>
+<div class="code">{
+  <span class="k">"categories"</span>: <span class="n">10</span>,  <span class="k">"works"</span>: <span class="n">17</span>,  <span class="p">…</span>
+}</div>
+    </div>
+  </div></div>
+  <div class="in fade" style="--in:10.1s;position:absolute;inset:0"><div class="out fadeO" style="--out:14.3s;position:absolute;inset:0">
+    <div class="gen"><svg viewBox="0 0 24 24"><path d="M12 4v14M6 12l6 6 6-6"/></svg><span>build</span></div>
+  </div></div>
+  <div class="in hold" style="--in:9.5s;position:absolute;inset:0"><div class="out shrink" style="--out:14.3s;position:absolute;inset:0">
+    <div class="pages" id="pages"></div>
+    <div class="count"><div class="in pop" style="--in:12.8s"><div class="chip amber float" style="--fl:-.3s"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg></span>19 ページ</div></div></div>
+  </div></div>
+  <div class="cap">
+    <div class="l"><div class="in" style="--in:9.8s"><div class="out" style="--out:14.3s"><span class="t">文言は <em class="am">JSON 1 つ</em>。</span></div></div></div>
+    <div class="l"><div class="in" style="--in:9.92s"><div class="out" style="--out:14.34s"><span class="t"><em class="am">19 ページ</em>を自動生成</span></div></div></div>
+  </div>
+
+  <!-- ===== BEAT 4 (14.5–18.5): tests + independent AI review ===== -->
+  <div class="in pop" style="--in:14.55s;position:absolute;inset:0"><div class="out shrink" style="--out:18.35s;position:absolute;inset:0">
+    <div class="card tests">
+      <div class="hd"><span class="ico"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>受入テスト<span class="sub">機械検査</span></div>
+      <div class="row" style="--ok-at:15.3s"><span class="st"><span class="spin"></span><span class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span></span><span class="lbl">禁止語</span><span class="res g">OK</span></div>
+      <div class="row" style="--ok-at:15.7s"><span class="st"><span class="spin"></span><span class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span></span><span class="lbl">リンク切れ</span><span class="res g">OK</span></div>
+      <div class="row" style="--ok-at:16.1s"><span class="st"><span class="spin"></span><span class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span></span><span class="lbl">画像</span><span class="res g">OK</span></div>
+      <div class="row" style="--ok-at:16.5s"><span class="st"><span class="spin"></span><span class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span></span><span class="lbl">到達性</span><span class="res g">OK</span></div>
+    </div>
+  </div></div>
+  <div class="in pop" style="--in:16.7s;position:absolute;inset:0"><div class="out shrink" style="--out:18.4s;position:absolute;inset:0">
+    <div class="card review">
+      <div class="hd"><span class="ico"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>別系統 AI の視覚レビュー<span class="sub">GPT</span></div>
+      <div class="row" style="--ok-at:17.4s"><span class="st"><span class="spin"></span><span class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span></span><span class="lbl">公開前に 1 回</span><span class="res g">通過</span></div>
+    </div>
+  </div></div>
+  <div class="allok"><div class="in pop" style="--in:17.9s"><div class="out shrink" style="--out:18.4s"><div class="chip amber"><span class="ic"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>公開へ</div></div></div></div>
+  <div class="cap">
+    <div class="l"><div class="in" style="--in:14.8s"><div class="out" style="--out:18.3s"><span class="t"><em class="am">テスト</em>と別 AI の</span></div></div></div>
+    <div class="l"><div class="in" style="--in:14.92s"><div class="out" style="--out:18.34s"><span class="t"><em class="am">レビュー</em>で確認</span></div></div></div>
+  </div>
+
+  <!-- ===== BEAT 5 (18.5–23.0): published — phone scroll + fact chips ===== -->
+  <div class="urlpill"><div class="in fade" style="--in:18.55s"><span class="p"><i></i>kenji6836.github.io</span></div></div>
+  <div class="in fromB" style="--in:18.5s;position:absolute;inset:0">
+    <div class="phone2"><div class="screen"><img src="../captures/hp-top-390.png" alt=""></div></div>
+  </div>
+  <div class="in pop" style="--in:19.5s;position:absolute;left:40px;top:520px"><div class="chip float" style="--fl:-.4s"><span class="ic blue"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>10 分野・17 作品</div></div>
+  <div class="in pop" style="--in:20.1s;position:absolute;left:600px;top:700px"><div class="chip float" style="--fl:-1.4s"><span class="ic navy"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg></span>19 ページ</div></div>
+  <div class="in pop" style="--in:20.7s;position:absolute;left:40px;top:900px"><div class="chip amber float" style="--fl:-.9s"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>決定 → 公開 約 2 時間 15 分</div></div>
+  <div class="cap">
+    <div class="l"><div class="in" style="--in:18.9s"><div class="out" style="--out:22.55s"><span class="t">決定から<em class="am">約 2 時間</em>で公開</span></div></div></div>
+  </div>
+
+  <!-- ===== transition → outro ===== -->
+  <div class="wipe"></div>
+
+  <!-- ===== INTRO (0.0–2.0s) / OUTRO (23.0–26.0s): brand/intro-outro.html からコピー（iframe 不可） ===== -->
+<section class="v-intro" style="--v-intro-start:0s">
+  <div class="v-grid"></div>
+  <div class="v-ghost">MAKING</div>
+  <div class="v-band"></div>
+  <div class="v-stage">
+    <div class="v-mark"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22.5" fill="#2457e6"/><text x="20" y="72.5" font-family="'Noto Sans JP', sans-serif" font-weight="900" font-size="60" fill="#ffffff">K</text><rect x="64" y="48" width="15" height="24.5" rx="2.5" fill="#f5a524"/></svg></div>
+    <div class="v-title"><span class="v-line"><span class="v-word">MAKING</span><span class="v-no">#01</span><i class="v-cur"></i></span></div>
+    <div class="v-tag">AIで作って、本番に出す。</div>
+  </div>
+</section>
+
+<section class="v-outro" style="--v-outro-start:23s">
+  <div class="v-grid"></div>
+  <div class="v-ghost">MAKING</div>
+  <div class="v-band"></div>
+  <div class="v-mark"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22.5" fill="#2457e6"/><text x="20" y="72.5" font-family="'Noto Sans JP', sans-serif" font-weight="900" font-size="60" fill="#ffffff">K</text><rect x="64" y="48" width="15" height="24.5" rx="2.5" fill="#f5a524"/></svg></div>
+  <div class="v-row v-name"><span>Kenji Ido</span></div>
+  <div class="v-row v-handle"><span>@idk0723ai</span></div>
+  <div class="v-row v-msg"><span>作った実物は HP で</span></div>
+  <div class="v-url">kenji6836.github.io<i class="v-cur"></i></div>
+</section>
+</div>
+
+<script>
+// ---- deterministic content (no Math.random / no timers) ----
+(function(){
+  // beat 2: typed instruction (FACTS.md 「指示の例」・要旨)
+  const text='自己紹介サイトを作り直したい。前面に出すのは AI ではなく『何を任せられるか』。10 分野ごとに実績へ 1 クリックで。';
+  const start=5.6, step=0.055; // s
+  const chars=[...text];
+  const typed=document.getElementById('typed');
+  let html='';
+  chars.forEach((ch,i)=>{
+    const t=(start+i*step).toFixed(3);
+    const last=i===chars.length-1;
+    const tend=(start+chars.length*step).toFixed(3);
+    html+=`<span class="c${last?' last':''}" style="--t:${t}s;--dur:${step}s${last?`;--tend:${tend}s`:''}">${ch===' '?'&nbsp;':ch}</span>`;
+  });
+  typed.insertAdjacentHTML('beforeend',html);
+
+  // beat 3: 19 generated pages (index + works + 17 details) — decorative mini pages
+  const pages=document.getElementById('pages');
+  const labels=['index','works','w/1','w/2','w/3','w/4','w/5','w/6','w/7','w/8','w/9','w/10','w/11','w/12','w/13','w/14','w/15','w/16','w/17'];
+  let p='';
+  for(let i=0;i<19;i++){
+    const t=(10.4+i*0.095).toFixed(3);
+    const variant=i%3;
+    const body= i===0 ? '<i class="t"></i><i class="s"></i><i class="x"></i><span class="btn"></span>'
+      : i===1 ? '<i class="t"></i><span class="img"></span><i class="s"></i>'
+      : variant===0 ? '<span class="img"></span><i class="t"></i><i class="s"></i>'
+      : variant===1 ? '<i class="t"></i><i class="s"></i><span class="img"></span>'
+      : '<i class="t"></i><i class="x"></i><span class="img"></span><i class="s"></i>';
+    p+=`<div class="pg${i===0?' idx':''}" style="--t:${t}s"><div class="h"><i></i><b></b></div><div class="b">${body}</div><div class="tag"><i></i></div></div>`;
+  }
+  pages.innerHTML=p;
+})();
+
+// ---- deterministic seek API for the frame renderer (copied from site/src/video/promo.html) ----
+window.__duration=26;
+window.__ready=(async()=>{
+  try{ if(document.fonts) await document.fonts.ready; }catch(e){}
+  await Promise.all([...document.images].map(im=>new Promise(res=>{
+    const done=()=>{ (im.decode?im.decode().catch(()=>{}):Promise.resolve()).then(res,res); };
+    if(im.complete) done(); else { im.onload=done; im.onerror=res; }
+  })));
+  return true;
+})();
+window.__seek=async function(t){
+  await window.__ready;
+  const ms=Math.max(0,+t)*1000;
+  for(const a of document.getAnimations()){ a.pause(); a.currentTime=ms; }
+  void document.body.offsetHeight; // flush style/layout
+  await new Promise(r=>{ let done=false; const f=()=>{ if(!done){done=true;r();} }; requestAnimationFrame(()=>requestAnimationFrame(f)); setTimeout(f,150); });
+  return t;
+};
+</script>
+</body>
+</html>

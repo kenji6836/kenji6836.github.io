@@ -1,0 +1,92 @@
+/* ============================================================
+   チャンネルブランド トークン（採用: D1 工房・紺地 主面 ＋ 副面 ブランド青）
+   使う側: <link rel="stylesheet" href="…/brand.css"> ＋ Google Fonts
+     Noto Sans JP 400/500/700/900・IBM Plex Mono 400/500/600
+   HP（site/static/site.css）と同じ青・書体・角丸。動画は intro-outro.css
+   ============================================================ */
+:root{
+  /* 色 */
+  --v-blue:#2457e6;          /* ブランド青（HP と同一）*/
+  --v-blue-ink:#ffffff;      /* 青面の上の文字 */
+  --v-navy:#0b1430;          /* 主面の地 */
+  --v-navy-2:#121c3d;        /* 紺の上の一段明るい面（端末パネル・カード）*/
+  --v-navy-3:#1b2750;        /* 紺の上の二段目（枠線・区切り）*/
+  --v-white:#ffffff;
+  --v-soft:#e9efff;          /* 薄青（白地のタイル・チップ）*/
+  --v-line:#c5d3fb;          /* 白地の青い線 */
+  --v-pale:#86a8ff;          /* 紺の上の淡い青（ハンドル・補足）*/
+  --v-amber:#f5a524;         /* 琥珀: カーソル・「本番に出す」瞬間・CTA・左端帯にだけ */
+  --v-ok:#1a7f4b; --v-ok-soft:#e3f5ea; --v-ok-on-navy:#7ee2a8;
+  --v-text:#14171f; --v-text-2:#4a5361; --v-text-3:#6b7480;     /* 白地の文字 */
+  --v-text-on-navy:#ffffff; --v-text-on-navy-2:#c3cbd6;          /* 紺地の文字 */
+  --v-edge:rgba(134,168,255,.28);                                  /* 紺面の外周 1px（黒 UI で沈まないため）*/
+  /* 書体 */
+  --v-font:"Noto Sans JP",system-ui,-apple-system,"Hiragino Sans",sans-serif;
+  --v-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --v-w-body:400; --v-w-medium:500; --v-w-bold:700; --v-w-black:900;
+  /* 角丸・影・寸法 */
+  --v-radius:16px; --v-radius-sm:12px; --v-radius-xs:8px; --v-pill:999px; --v-icon-radius:22.5%;
+  --v-shadow:0 1px 2px rgba(16,24,40,.05),0 10px 30px rgba(16,24,40,.07);
+  --v-shadow-navy:0 20px 50px rgba(0,0,0,.35);
+  --v-band:12px;                                                   /* 琥珀の左端帯の太さ（1080 幅基準）*/
+  --v-stroke:1.75;                                                 /* 線画アイコン */
+  /* 設計図グリッド（紺面の質感）*/
+  --v-grid-major:rgba(134,168,255,.13); --v-grid-minor:rgba(134,168,255,.05);
+  --v-grid-size:96px; --v-grid-minor-size:24px;
+}
+
+/* ---------- 面 ---------- */
+.v-surface{position:relative;overflow:hidden;background:var(--v-navy);color:var(--v-text-on-navy);font-family:var(--v-font);
+  border-radius:var(--v-radius);box-shadow:inset 0 0 0 1px var(--v-edge);font-feature-settings:"palt";-webkit-font-smoothing:antialiased}
+.v-surface::before{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--v-band);background:var(--v-amber);z-index:2}   /* 琥珀の左端帯 */
+.v-surface.v-noband::before{display:none}
+.v-grid{position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(var(--v-grid-major) 1px,transparent 1px),linear-gradient(90deg,var(--v-grid-major) 1px,transparent 1px),
+    linear-gradient(var(--v-grid-minor) 1px,transparent 1px),linear-gradient(90deg,var(--v-grid-minor) 1px,transparent 1px);
+  background-size:var(--v-grid-size) var(--v-grid-size),var(--v-grid-size) var(--v-grid-size),var(--v-grid-minor-size) var(--v-grid-minor-size),var(--v-grid-minor-size) var(--v-grid-minor-size);
+  background-position:-1px -1px}
+.v-ghost{position:absolute;font-weight:900;line-height:1;letter-spacing:-.04em;color:rgba(255,255,255,.05);white-space:nowrap;pointer-events:none;user-select:none}
+.v-panel{background:var(--v-blue);color:var(--v-blue-ink);border-radius:var(--v-radius-sm)}                       /* 青の面 */
+.v-panel-2{background:var(--v-navy-2);color:var(--v-text-on-navy);border-radius:var(--v-radius-sm);box-shadow:inset 0 0 0 1px var(--v-edge)}
+.v-signal{background:var(--v-blue);color:var(--v-blue-ink)}                                                         /* 副面（X 画像投稿・チップ・ボタン）*/
+.v-term{font-family:var(--v-mono);font-weight:500;line-height:1.7;white-space:pre}
+.v-term .ok{color:var(--v-ok-on-navy)} .v-term .dim{opacity:.62}
+
+/* ---------- カーソル（琥珀ブロック）---------- */
+.v-cur{display:inline-block;width:.42em;height:.86em;border-radius:.06em;background:var(--v-amber);vertical-align:-.08em;margin-left:.12em}
+.v-cur.blink{animation:v-blink 1s steps(1,end) infinite}
+@keyframes v-blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+
+/* ---------- 字幕 ---------- */
+.cap{--cap-size:64px;display:inline-block;font-family:var(--v-font);font-weight:900;font-size:var(--cap-size);line-height:1.25;letter-spacing:.01em;
+  color:#fff;background:rgba(11,20,48,.88);padding:.18em .5em .2em;border-radius:.14em;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+  font-feature-settings:"palt";text-align:center;max-width:22em}
+.cap::before{content:"";display:inline-block;width:.16em;height:.86em;background:var(--v-amber);border-radius:.03em;margin-right:.32em;vertical-align:-.06em}
+.cap em{font-style:normal;color:var(--v-amber)}                 /* キーワード（1 行に 1 つ）*/
+.cap .k{font-style:normal;background:var(--v-blue);border-radius:.1em;padding:0 .18em}   /* 青面の白抜き（琥珀を使わない行）*/
+.cap.on-white{color:var(--v-text);background:rgba(255,255,255,.95);border-left:.06em solid var(--v-blue)}
+.cap.on-white::before{display:none} .cap.on-white em{color:var(--v-blue)}
+
+/* ---------- チップ・ボタン・ワードマーク ---------- */
+.v-chip{display:inline-flex;align-items:center;gap:.4em;padding:.28em .8em;border-radius:var(--v-pill);font-family:var(--v-mono);font-weight:600;letter-spacing:.08em;font-size:.85em;line-height:1.2;white-space:nowrap}
+.v-chip.amber{background:var(--v-amber);color:var(--v-navy)}          /* MAKING #NN（主）*/
+.v-chip.soft{background:var(--v-soft);color:var(--v-blue)}            /* 白地 */
+.v-chip.line{background:rgba(245,165,36,.16);color:var(--v-amber)}    /* 紺地の控えめ版 */
+.v-chip.ok{background:var(--v-ok-soft);color:var(--v-ok)}
+.v-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;min-height:2.6em;padding:.6em 1.4em;border-radius:var(--v-pill);
+  font-family:var(--v-font);font-weight:700;line-height:1.3;border:1px solid transparent;text-decoration:none;white-space:nowrap}
+.v-btn.primary{background:var(--v-blue);color:#fff}
+.v-btn.cta{background:var(--v-amber);color:var(--v-navy)}             /* 「本番に出す」系の 1 個だけ */
+.v-btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+.v-btn.ghost-blue{background:transparent;color:var(--v-blue);border-color:var(--v-line)}
+.v-wordmark{display:inline-flex;align-items:center;gap:.6em;font-family:var(--v-font);line-height:1.15}
+.v-wordmark .name{font-weight:700;letter-spacing:-.01em}
+.v-wordmark .handle{font-family:var(--v-mono);font-weight:500;opacity:.8}
+.v-wordmark svg{display:block;flex-shrink:0}
+
+/* ---------- アイコン（角丸・丸クロップ）---------- */
+.v-icon{display:block;overflow:hidden;border-radius:var(--v-icon-radius);background:var(--v-blue)}
+.v-icon.round{border-radius:50%}
+.v-icon img{display:block;width:100%;height:100%;object-fit:cover;object-position:46% 40%}
+.v-icon .badge{position:absolute;right:10%;bottom:10%;width:29%;height:29%;border-radius:50%;background:var(--v-navy);display:grid;place-items:center}
+.v-icon .badge svg{width:84%;height:84%}

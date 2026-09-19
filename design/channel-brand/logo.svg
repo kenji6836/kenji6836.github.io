@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1100 420" width="1100" height="420">
+  <!-- Kenji Ido / @idk0723ai チャンネルマーク。symbol 3 種: #mark（青地・白 K）/ #mark-white（白抜き・青地の上用）/ #wordmark（横並び）。
+       文字は Noto Sans JP 900/700 と IBM Plex Mono 500（下の @import。<img> で使う場合は out/icon-mark-*.png を使う） -->
+  <style>@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&amp;family=IBM+Plex+Mono:wght@500&amp;display=swap');</style>
+  <defs>
+    <symbol id="mark" viewBox="0 0 100 100">
+      <rect width="100" height="100" rx="22.5" fill="#2457e6"/>
+      <text x="20" y="72.5" font-family="'Noto Sans JP', sans-serif" font-weight="900" font-size="60" fill="#ffffff">K</text>
+      <rect x="64" y="48" width="15" height="24.5" rx="2.5" fill="#f5a524"/>
+    </symbol>
+    <symbol id="mark-white" viewBox="0 0 100 100">
+      <rect width="100" height="100" rx="22.5" fill="#ffffff"/>
+      <text x="20" y="72.5" font-family="'Noto Sans JP', sans-serif" font-weight="900" font-size="60" fill="#2457e6">K</text>
+      <rect x="64" y="48" width="15" height="24.5" rx="2.5" fill="#f5a524"/>
+    </symbol>
+    <symbol id="wordmark" viewBox="0 0 640 120">
+      <use xlink:href="#mark" x="0" y="10" width="100" height="100"/>
+      <text x="124" y="62" font-family="'Noto Sans JP', sans-serif" font-weight="700" font-size="52" fill="currentColor" letter-spacing="-0.5">Kenji Ido</text>
+      <text x="124" y="104" font-family="'IBM Plex Mono', Menlo, monospace" font-weight="500" font-size="30" fill="currentColor" opacity="0.72">@idk0723ai</text>
+    </symbol>
+  </defs>
+  <!-- 表示（ファイル単体で開いたときの見本） -->
+  <rect width="1100" height="420" fill="#ffffff"/>
+  <use xlink:href="#mark" x="40" y="40" width="200" height="200"/>
+  <rect x="280" y="40" width="200" height="200" rx="16" fill="#2457e6"/>
+  <use xlink:href="#mark-white" x="330" y="90" width="100" height="100"/>
+  <rect x="520" y="40" width="200" height="200" rx="16" fill="#0b1430"/>
+  <use xlink:href="#mark" x="570" y="90" width="100" height="100"/>
+  <g color="#14171f"><use xlink:href="#wordmark" x="40" y="280" width="640" height="120"/></g>
+</svg>

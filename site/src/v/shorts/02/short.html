@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>MAKING #02 — リーチラボ（Web アプリ）を Claude Code で作る（1080×1920・26s）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=IBM+Plex+Mono:wght@500&display=block" rel="stylesheet">
+<style>
+/* ===== tokens (brand.css が置かれたら差し替え・現状は tokens-provisional.css と同値) ===== */
+:root{
+  --v-blue:#2457e6; --v-navy:#0b1430; --v-navy-2:#121c3d; --v-navy-3:#18254f; --v-white:#ffffff; --v-soft:#e9efff; --v-line:#c5d3fb;
+  --v-amber:#f5a524; --v-ok:#1a7f4b; --v-ok-soft:#e3f5ea; --v-text-2:#c3cbd6;
+  --v-font:"Noto Sans JP",system-ui,-apple-system,"Hiragino Sans",sans-serif; --v-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --v-radius:16px; --v-radius-sm:12px; --v-pill:999px;
+  --shade:inset 0 2px 0 rgba(255,255,255,.07),inset 0 -6px 0 rgba(0,0,0,.28),0 34px 70px -30px rgba(0,0,0,.75);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--v-navy)}
+body{font-family:var(--v-font);color:var(--v-white);position:relative;font-feature-settings:"palt";-webkit-font-smoothing:antialiased}
+img{display:block}
+svg.i{fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.stage{position:absolute;inset:0;overflow:hidden;perspective:2400px;perspective-origin:50% 45%}
+
+/* ===== background: 紺 + 薄い設計図グリッド + 青の淡い光 ===== */
+.bg{position:absolute;inset:0;background:
+  radial-gradient(900px 700px at 50% 0%, rgba(36,87,230,.30), transparent 70%),
+  radial-gradient(700px 600px at 100% 100%, rgba(36,87,230,.14), transparent 70%),
+  var(--v-navy)}
+.bg::after{content:"";position:absolute;inset:0;
+  background-image:linear-gradient(rgba(197,211,251,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(197,211,251,.07) 1px,transparent 1px);
+  background-size:60px 60px;background-position:30px 30px}
+
+/* ===== generic in/out wrappers (1 要素 1 プロパティ 1 アニメ) ===== */
+.in{animation:rise .55s cubic-bezier(.16,.9,.25,1) var(--in) both}
+.in.pop{animation:pop .5s cubic-bezier(.34,1.56,.64,1) var(--in) both}
+.in.fade{animation:fade .45s ease-out var(--in) both}
+.in.drop{animation:drop .6s cubic-bezier(.22,1.2,.36,1) var(--in) both}
+.in.lift{animation:lift .6s cubic-bezier(.22,1.2,.36,1) var(--in) both}
+.out{animation:out .35s cubic-bezier(.55,0,.7,.3) var(--out) both}
+.out.shrink{animation:shrinkOut .4s cubic-bezier(.6,0,.8,.4) var(--out) both}
+.out.fade{animation:fadeOut .35s ease-in var(--out) both}
+@keyframes rise{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes pop{from{transform:translateY(30px) scale(.6);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes drop{from{transform:translateY(-260px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes lift{from{transform:translateY(260px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes out{from{transform:translateY(0);opacity:1}to{transform:translateY(-40px);opacity:0}}
+@keyframes shrinkOut{from{transform:scale(1);opacity:1}to{transform:scale(.9);opacity:0}}
+@keyframes fadeOut{from{opacity:1}to{opacity:0}}
+
+/* ===== 字幕（y=1180〜1460・白 900・70px・2 行以内） ===== */
+.cap{position:absolute;left:60px;right:60px;top:1180px;height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  font-weight:900;font-size:70px;line-height:1.3;letter-spacing:0;white-space:nowrap;z-index:20}
+.cap .l{display:block;text-shadow:0 4px 26px rgba(11,20,48,.95),0 0 3px rgba(11,20,48,.9)}
+.cap b{font-weight:900}
+.cap b.a{color:var(--v-amber)}
+.cap b.b{display:inline-block;background:var(--v-blue);color:#fff;border-radius:var(--v-radius-sm);padding:0 .16em;margin:0 .04em;line-height:1.15;text-shadow:none}
+.capband{position:absolute;left:0;right:0;top:1130px;height:380px;z-index:19;
+  background:linear-gradient(180deg,rgba(11,20,48,0) 0%,rgba(11,20,48,.86) 22%,rgba(11,20,48,.86) 78%,rgba(11,20,48,0) 100%)}
+
+/* ===== スマホ枠（輪郭なし・2 段階陰影） ===== */
+.phone{position:absolute;border-radius:78px;background:#1b2650;padding:14px;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.09),inset 0 -6px 0 rgba(0,0,0,.4),0 70px 120px -30px rgba(0,0,0,.8),0 30px 50px -30px rgba(0,0,0,.6)}
+.phone .screen{position:relative;overflow:hidden;border-radius:64px;background:#0a0d16}
+.phone .glare{position:absolute;inset:0;border-radius:64px;background:linear-gradient(115deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,.03) 28%,transparent 45%);pointer-events:none}
+
+/* --- Scene 1: 実戦画面のスマホ（2.0–5.2s） --- */
+.p1{left:180px;top:250px;width:720px;animation:p1in .6s cubic-bezier(.16,.9,.25,1) 2.0s both}
+.p1 .screen{width:692px;height:1597px}
+.p1 .screen img{width:692px;height:1597px}
+@keyframes p1in{from{transform:translateY(1800px) rotateX(10deg);opacity:0}to{transform:translateY(0) rotateX(0);opacity:1}}
+
+/* --- Scene 2: 端末パネル（5.05–9.65s） --- */
+.term{position:absolute;left:80px;top:400px;width:880px;height:660px;border-radius:var(--v-radius);background:var(--v-navy-2);box-shadow:var(--shade);overflow:hidden}
+.term .bar{height:74px;display:flex;align-items:center;gap:14px;padding:0 30px;background:rgba(255,255,255,.03);border-bottom:2px solid rgba(255,255,255,.06)}
+.term .dot{width:18px;height:18px;border-radius:50%;background:#2b3766}
+.term .ttl{margin-left:auto;font-family:var(--v-mono);font-weight:500;font-size:40px;color:var(--v-text-2)}
+.term .body{padding:34px 40px 0;font-family:var(--v-mono),var(--v-font);font-weight:500;font-size:46px;line-height:1.5;color:#fff}
+.term .ln1{color:var(--v-text-2);margin-bottom:14px}
+.term .pr{color:var(--v-amber)}
+.term .ch{position:relative;opacity:0;animation:show 1ms steps(1,end) var(--t) both}
+.term .ch::after{content:"";position:absolute;left:100%;top:.12em;width:.55em;height:1.1em;background:var(--v-amber);border-radius:3px;opacity:0;animation:on var(--d) linear var(--t) 1 none}
+.term .cur0{display:inline-block;width:.55em;height:1.1em;vertical-align:-.15em;background:var(--v-amber);border-radius:3px;opacity:0;animation:on var(--d) linear var(--t) 1 none}
+.term .curE{display:inline-block;width:.55em;height:1.1em;vertical-align:-.15em;background:var(--v-amber);border-radius:3px;margin-left:.06em;opacity:0;animation:blink .8s linear var(--t) infinite none}
+@keyframes show{from{opacity:0}to{opacity:1}}
+@keyframes on{from,to{opacity:1}}
+@keyframes blink{0%,49.9%{opacity:1}50%,100%{opacity:0}}
+
+/* --- Scene 3: 3 層ブロック図（9.7–14.7s） --- */
+.diag{position:absolute;inset:0}
+.blk{position:absolute;left:120px;width:840px;height:200px;border-radius:var(--v-radius);background:var(--v-navy-3);box-shadow:var(--shade);display:flex;align-items:center;gap:32px;padding:0 40px}
+.blk .ic{width:110px;height:110px;border-radius:28px;background:var(--v-blue);display:flex;align-items:center;justify-content:center;flex:none;box-shadow:inset 0 2px 0 rgba(255,255,255,.18),inset 0 -5px 0 rgba(0,0,0,.22)}
+.blk .ic svg{width:64px;height:64px;color:#fff}
+.blk h3{font-size:56px;font-weight:900;line-height:1.1;letter-spacing:-.01em}
+.blk p{font-size:40px;font-weight:700;color:var(--v-text-2);margin-top:6px;letter-spacing:0}
+.blk.b-show{top:320px}.blk.b-eng{top:620px}.blk.b-rec{top:920px}
+.blk.b-eng .ic{background:var(--v-amber)}
+.blk.b-eng .ic svg{color:#1a1200}
+.conn{position:absolute;left:0;top:0;width:1080px;height:1920px;pointer-events:none}
+.conn path{fill:none;stroke:var(--v-line);stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:140;stroke-dashoffset:140;animation:draw .4s ease-out var(--t) both}
+.conn path.hd{stroke-dasharray:100;stroke-dashoffset:100}
+@keyframes draw{to{stroke-dashoffset:0}}
+.lbl{position:absolute;left:580px;padding:8px 26px;border-radius:var(--v-pill);background:var(--v-navy-2);color:var(--v-line);font-size:40px;font-weight:700;line-height:1.2;box-shadow:inset 0 2px 0 rgba(255,255,255,.06),inset 0 -4px 0 rgba(0,0,0,.25)}
+.lbl.l1{top:532px}.lbl.l2{top:832px}
+.flow{position:absolute;left:530px;width:20px;height:20px;border-radius:50%;background:var(--v-amber);box-shadow:0 0 16px rgba(245,165,36,.8);opacity:0}
+.flow.up{top:610px;animation:flowUp 1s cubic-bezier(.4,0,.6,1) var(--t) infinite none}
+.flow.dn{top:810px;animation:flowDn 1s cubic-bezier(.4,0,.6,1) var(--t) infinite none}
+@keyframes flowUp{0%{transform:translateY(0);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translateY(-100px);opacity:0}}
+@keyframes flowDn{0%{transform:translateY(0);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translateY(100px);opacity:0}}
+
+/* --- Scene 4: テストパネル（14.55–18.65s） --- */
+@property --n{syntax:'<integer>';inherits:false;initial-value:0}
+.tests{position:absolute;left:100px;top:340px;width:880px;height:740px;border-radius:var(--v-radius);background:var(--v-navy-2);box-shadow:var(--shade);padding:40px 44px}
+.tests .hd{display:flex;align-items:baseline;gap:22px;margin-bottom:28px}
+.tests .hd h3{font-size:52px;font-weight:900}
+.tests .hd span{font-size:40px;font-weight:700;color:var(--v-text-2)}
+.row{display:grid;grid-template-columns:1fr 200px 64px;align-items:center;column-gap:18px;row-gap:12px;padding:20px 0 24px;border-bottom:2px solid rgba(255,255,255,.06)}
+.row .nm{font-size:42px;font-weight:700;grid-column:1}
+.row .num{font-family:var(--v-mono);font-weight:500;font-size:46px;text-align:right;color:#fff;counter-reset:n var(--n);grid-column:2}
+.row .num::before{content:counter(n)}
+.row .num i{font-style:normal;font-family:var(--v-font);font-weight:700;font-size:34px;color:var(--v-text-2);margin-left:6px}
+.row .ck{grid-column:3;width:56px;height:56px;border-radius:50%;background:var(--v-ok);display:flex;align-items:center;justify-content:center;animation:pop .4s cubic-bezier(.34,1.56,.64,1) var(--t) both}
+.row .ck svg{width:34px;height:34px;color:#fff;stroke-width:2.6}
+.row .bar{grid-column:1/4;height:18px;border-radius:var(--v-pill);background:rgba(255,255,255,.08);overflow:hidden}
+.row .bar i{display:block;height:100%;width:0;border-radius:var(--v-pill);background:var(--v-blue);animation:fill var(--d) linear var(--t) both}
+@keyframes fill{0%{width:0;background:var(--v-blue)}98%{background:var(--v-blue)}100%{width:100%;background:var(--v-ok)}}
+.num.c-e{animation:cntE var(--d) linear var(--t) both}
+.num.c-b{animation:cntB var(--d) linear var(--t) both}
+.num.c-p{animation:cntP var(--d) linear var(--t) both}
+@keyframes cntE{from{--n:0}to{--n:103}}
+@keyframes cntB{from{--n:0}to{--n:132}}
+@keyframes cntP{from{--n:0}to{--n:12}}
+.total{position:absolute;left:44px;right:44px;bottom:40px;height:132px;border-radius:var(--v-pill);background:var(--v-navy-3);display:flex;align-items:center;gap:26px;padding:0 40px 0 24px;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.08),inset 0 -6px 0 rgba(0,0,0,.28);animation:goGreen .35s ease-out 17.05s both}
+@keyframes goGreen{to{background:var(--v-ok)}}
+.total .ck{width:84px;height:84px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex:none;animation:pop .45s cubic-bezier(.34,1.56,.64,1) 17.1s both}
+.total .ck svg{width:52px;height:52px;color:var(--v-ok);stroke-width:2.8}
+.total .t{font-size:50px;font-weight:900;white-space:nowrap}
+.total .n{font-family:var(--v-mono);font-weight:500;font-size:72px;line-height:1;counter-reset:n var(--n);animation:cntT 1.8s linear 15.2s both;min-width:3ch;text-align:right}
+.total .n::before{content:counter(n)}
+@keyframes cntT{from{--n:0}to{--n:235}}
+
+/* --- Scene 5: 公開・スクロール（18.5–23.0s） --- */
+.p2{left:270px;top:130px;width:540px;animation:p2in .6s cubic-bezier(.16,.9,.25,1) 18.5s both}
+.p2 .screen{width:512px;height:1102px}
+.p2 .screen img{width:512px;height:auto;animation:scroll 3.8s linear 18.9s both}
+@keyframes p2in{from{transform:translateY(900px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes scroll{from{transform:translateY(0)}to{transform:translateY(-1000px)}}
+.chip{position:absolute;display:inline-flex;align-items:center;gap:16px;padding:16px 34px 16px 16px;border-radius:var(--v-pill);background:#fff;color:var(--v-navy);font-weight:900;font-size:42px;white-space:nowrap;letter-spacing:0;
+  box-shadow:0 26px 50px -18px rgba(0,0,0,.6),inset 0 2px 0 rgba(255,255,255,.9),inset 0 -4px 0 rgba(11,20,48,.10)}
+.chip .ic{width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;background:var(--v-blue)}
+.chip .ic.ok{background:var(--v-ok)}.chip .ic.am{background:var(--v-amber)}
+.chip .ic svg{width:36px;height:36px;color:#fff;stroke-width:2.2}
+.chip .ic.am svg{color:#1a1200}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.float{animation:bob 3s ease-in-out var(--fl,0s) infinite both}
+
+/* --- 下帯（装飾・安全域外）: ビート進捗 + URL --- */
+.foot{position:absolute;left:0;right:0;top:1585px;display:flex;flex-direction:column;align-items:center;gap:22px}
+.seg{display:flex;gap:14px}
+.seg i{display:block;width:96px;height:10px;border-radius:var(--v-pill);background:rgba(197,211,251,.16);animation:segOn .3s ease-out var(--t) both}
+@keyframes segOn{to{background:var(--v-blue)}}
+.url{font-family:var(--v-mono);font-weight:500;font-size:40px;color:var(--v-text-2);letter-spacing:.02em}
+
+/* --- 転換（22.45–23.0s）: 青→紺のサークルワイプ --- */
+.wipe{position:absolute;inset:0;z-index:40}
+.wipe .c1{position:absolute;inset:0;background:var(--v-blue);animation:wipeIn .45s cubic-bezier(.7,0,.2,1) 22.45s both}
+.wipe .c2{position:absolute;inset:0;background:var(--v-navy);animation:wipeIn .45s cubic-bezier(.7,0,.2,1) 22.62s both}
+@keyframes wipeIn{from{clip-path:circle(0% at 50% 100%)}to{clip-path:circle(140% at 50% 100%)}}
+
+/* --- intro / outro ラッパー（本編の .wipe z=40 より上に置く。中身は brand/intro-outro.html のコピー） --- */
+.intro-wrap{position:absolute;inset:0;z-index:80}
+.outro-wrap{position:absolute;inset:0;z-index:70}
+</style>
+<!-- ===== brand/intro-outro.css のコピー（2026-09-14 20:37 版・iframe 不可のため埋め込み・通番は .v-no で #02）===== -->
+<style>
+/* ============================================================
+   MAKING イントロ／アウトロ（1080×1920・紺地・D1 工房）
+   - DOM は intro-outro.html（<section class="v-intro"> / <section class="v-outro">）
+   - JS なし。CSS @keyframes ＋ animation-delay のみ（__seek で決定論的に再生できる）
+   - 開始時刻は CSS 変数で: --v-intro-start（既定 0s）／--v-outro-start（既定 0s・ショートは 23s）
+   - .v-intro は start+2.0s 以降 visibility:hidden／.v-outro は start より前 visibility:hidden
+   - 必要フォント（ショート側 head で読む）: Noto Sans JP 700/900・IBM Plex Mono 500
+   - 重要要素は上 220px・下 420px・右 120px を避けて配置（Shorts/Reels/TikTok の UI 帯）
+   ============================================================ */
+.v-intro,.v-outro{
+  --v-blue:#2457e6;--v-navy:#0b1430;--v-amber:#f5a524;--v-pale:#86a8ff;--v-white:#fff;
+  --v-font:"Noto Sans JP",system-ui,-apple-system,"Hiragino Sans",sans-serif;
+  --v-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  position:absolute;inset:0;width:1080px;height:1920px;overflow:hidden;
+  background:var(--v-navy);color:var(--v-white);font-family:var(--v-font);
+  font-feature-settings:"palt";-webkit-font-smoothing:antialiased;
+  box-sizing:border-box;margin:0;padding:0
+}
+.v-intro *,.v-outro *{box-sizing:border-box;margin:0;padding:0}
+.v-intro{z-index:20;animation:v-hide 1ms linear calc(var(--v-intro-start,0s) + 1.99s) both}
+.v-outro{z-index:30;animation:v-show 1ms linear calc(var(--v-outro-start,0s) - .01s) both}
+@keyframes v-hide{from{visibility:visible}to{visibility:hidden}}
+@keyframes v-show{from{visibility:hidden}to{visibility:visible}}
+
+/* ---- 共通の地: 設計図グリッド＋薄い MAKING＋琥珀の左端帯 ---- */
+.v-grid{position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(134,168,255,.13) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(134,168,255,.13) 1px,transparent 1px),
+    linear-gradient(rgba(134,168,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(134,168,255,.05) 1px,transparent 1px);
+  background-size:96px 96px,96px 96px,24px 24px,24px 24px;background-position:-1px -1px}
+.v-ghost{position:absolute;right:-24px;bottom:300px;font-size:300px;font-weight:900;line-height:1;letter-spacing:-.04em;color:rgba(255,255,255,.05);white-space:nowrap;pointer-events:none}
+.v-band{position:absolute;left:0;top:0;width:12px;height:1920px;background:var(--v-amber);transform-origin:50% 0;transform:scaleY(0)}
+.v-intro .v-band{animation:v-band .5s cubic-bezier(.2,.8,.2,1) calc(var(--v-intro-start,0s) + .1s) both}
+.v-outro .v-band{animation:v-band .45s cubic-bezier(.2,.8,.2,1) calc(var(--v-outro-start,0s) + .05s) both}
+@keyframes v-band{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+
+/* ---- マーク（インライン SVG。K は Noto Sans JP 900） ---- */
+.v-mark{position:absolute;left:50%;display:block}
+.v-mark svg{display:block;width:100%;height:100%;filter:drop-shadow(0 30px 60px rgba(0,0,0,.45))}
+
+/* ================= イントロ 2.0s ================= */
+.v-intro .v-stage{position:absolute;inset:0;animation:v-out .25s cubic-bezier(.6,0,.8,.4) calc(var(--v-intro-start,0s) + 1.75s) both}
+@keyframes v-out{from{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(1.06)}}
+.v-intro .v-mark{top:560px;width:340px;height:340px;margin-left:-170px;
+  animation:v-drop .85s linear calc(var(--v-intro-start,0s) + .1s) both}
+@keyframes v-drop{
+  0%{transform:translateY(-1000px) scale(.92);opacity:0;animation-timing-function:cubic-bezier(.5,0,.9,.5)}
+  48%{transform:translateY(0) scale(1.04,.94);opacity:1;animation-timing-function:cubic-bezier(.2,.6,.4,1)}
+  66%{transform:translateY(-110px) scale(.98,1.03);animation-timing-function:cubic-bezier(.5,0,.8,.6)}
+  84%{transform:translateY(0) scale(1.02,.97);animation-timing-function:cubic-bezier(.2,.6,.4,1)}
+  100%{transform:translateY(0) scale(1)}}
+.v-intro .v-title{position:absolute;left:0;right:0;top:950px;text-align:center;line-height:1.1;overflow:hidden;padding:0 40px}
+.v-intro .v-title .v-line{display:inline-flex;align-items:baseline;gap:24px;
+  animation:v-rise .45s cubic-bezier(.16,.9,.25,1) calc(var(--v-intro-start,0s) + .7s) both}
+@keyframes v-rise{from{transform:translateY(110%);opacity:0}to{transform:translateY(0);opacity:1}}
+.v-intro .v-word{font-size:176px;font-weight:900;letter-spacing:-.02em}
+.v-intro .v-no{font-family:var(--v-mono);font-weight:500;font-size:120px;color:var(--v-pale);letter-spacing:-.02em}
+.v-intro .v-cur{display:inline-block;width:56px;height:112px;border-radius:8px;background:var(--v-amber);vertical-align:-6px;
+  animation:v-blink 1s steps(1,end) calc(var(--v-intro-start,0s) + 1.15s) infinite both}
+@keyframes v-blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+.v-intro .v-tag{position:absolute;left:0;right:0;top:1190px;text-align:center;font-size:44px;font-weight:700;color:rgba(255,255,255,.72);letter-spacing:.02em;
+  animation:v-fade .35s ease-out calc(var(--v-intro-start,0s) + 1.05s) both}
+@keyframes v-fade{from{opacity:0}to{opacity:1}}
+
+/* ================= アウトロ 3.0s ================= */
+.v-outro .v-mark{top:540px;width:220px;height:220px;margin-left:-110px;
+  animation:v-pop .5s cubic-bezier(.34,1.56,.64,1) calc(var(--v-outro-start,0s) + .05s) both}
+@keyframes v-pop{from{transform:translateY(60px) scale(.5);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+.v-outro .v-row{position:absolute;left:0;right:0;text-align:center;overflow:hidden;padding:0 40px}
+.v-outro .v-row > span{display:inline-block;animation:v-rise .45s cubic-bezier(.16,.9,.25,1) var(--d) both}
+.v-outro .v-name{top:810px;font-size:84px;font-weight:700;line-height:1.2;letter-spacing:-.01em}
+.v-outro .v-name > span{--d:calc(var(--v-outro-start,0s) + .35s)}
+.v-outro .v-handle{top:922px;font-family:var(--v-mono);font-weight:500;font-size:52px;line-height:1.3;color:var(--v-pale)}
+.v-outro .v-handle > span{--d:calc(var(--v-outro-start,0s) + .5s)}
+.v-outro .v-msg{top:1076px;font-size:76px;font-weight:900;line-height:1.25;letter-spacing:-.01em}
+.v-outro .v-msg > span{--d:calc(var(--v-outro-start,0s) + .9s)}
+.v-outro .v-url{position:absolute;left:50%;top:1204px;transform:translateX(-50%);display:inline-flex;align-items:center;gap:14px;
+  padding:22px 44px;border-radius:20px;background:var(--v-blue);font-family:var(--v-mono);font-weight:500;font-size:54px;line-height:1.2;color:#fff;white-space:nowrap;
+  box-shadow:0 20px 50px rgba(0,0,0,.35);
+  animation:v-popx .5s cubic-bezier(.34,1.56,.64,1) calc(var(--v-outro-start,0s) + 1.25s) both}
+@keyframes v-popx{from{transform:translateX(-50%) translateY(50px) scale(.7);opacity:0}to{transform:translateX(-50%) translateY(0) scale(1);opacity:1}}
+.v-outro .v-url .v-cur{display:inline-block;width:26px;height:56px;border-radius:5px;background:var(--v-amber);
+  animation:v-blink 1s steps(1,end) calc(var(--v-outro-start,0s) + 1.8s) infinite both}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="bg"></div>
+
+  <!-- ===== Beat 1 フック（2.0–5.2s）: 実戦画面のスマホが下からスッと入る ===== -->
+  <div class="out shrink" style="--out:4.85s">
+    <div class="phone p1">
+      <div class="screen"><img src="../captures/reachlab-play-390.png" alt=""><div class="glare"></div></div>
+    </div>
+  </div>
+  <div class="in fade" style="--in:2.2s"><div class="out fade" style="--out:4.95s"><div class="capband"></div></div></div>
+  <div class="cap"><div class="in" style="--in:2.25s"><div class="out" style="--out:3.55s">
+    <span class="l">ブラウザで動く</span><span class="l">演出シミュレーターを、</span>
+  </div></div></div>
+  <div class="cap"><div class="in" style="--in:3.75s"><div class="out" style="--out:5.15s">
+    <span class="l"><b class="b">Claude Code</b> で作った。</span>
+  </div></div></div>
+
+  <!-- ===== Beat 2 指示（5.05–9.65s）: 端末に日本語の指示を打つ ===== -->
+  <div class="in" style="--in:5.05s"><div class="out" style="--out:9.3s">
+    <div class="term">
+      <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="ttl">claude</span></div>
+      <div class="body">
+        <div class="ln1">$ claude</div>
+        <div class="ln2"><span class="pr">❯ </span><span class="cur0" style="--t:5.4s;--d:.3s"></span><span id="typed"></span><span class="curE" id="curE"></span></div>
+      </div>
+    </div>
+  </div></div>
+  <div class="cap"><div class="in" style="--in:5.5s"><div class="out" style="--out:9.35s">
+    <span class="l">まず、<b class="a">日本語</b>で頼む</span>
+  </div></div></div>
+
+  <!-- ===== Beat 3 設計/実装（9.7–14.7s）: エンジン／演出／記録 の 3 層が組み上がる ===== -->
+  <div class="out shrink" style="--out:14.3s"><div class="diag">
+    <div class="in drop" style="--in:10.4s">
+      <div class="blk b-show">
+        <span class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg></span>
+        <div><h3>演出</h3><p>リーチ・図柄＝結果の見せ方</p></div>
+      </div>
+    </div>
+    <div class="in lift" style="--in:9.7s">
+      <div class="blk b-eng">
+        <span class="ic"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg></span>
+        <div><h3>抽選エンジン</h3><p>乱数・確率＝当落を先に決める</p></div>
+      </div>
+    </div>
+    <div class="in lift" style="--in:11.1s">
+      <div class="blk b-rec">
+        <span class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M9 6h12M9 12h12M9 18h12"/><circle cx="4" cy="6" r="1.2"/><circle cx="4" cy="12" r="1.2"/><circle cx="4" cy="18" r="1.2"/></svg></span>
+        <div><h3>記録</h3><p>回転数・当たりの履歴</p></div>
+      </div>
+    </div>
+    <div class="in fade" style="--in:10.9s"><svg class="conn" viewBox="0 0 1080 1920">
+      <path style="--t:11.0s" d="M540 618V540"/><path class="hd" style="--t:11.2s" d="M516 562l24-24 24 24"/>
+      <path style="--t:11.7s" d="M540 822v78"/><path class="hd" style="--t:11.9s" d="M516 878l24 24 24-24"/>
+    </svg></div>
+    <div class="in pop" style="--in:11.3s"><div class="lbl l1">結果だけ渡す</div></div>
+    <div class="in pop" style="--in:12.0s"><div class="lbl l2">回転数・当たり</div></div>
+    <div class="flow up" style="--t:12.4s"></div><div class="flow up" style="--t:12.9s"></div>
+    <div class="flow dn" style="--t:12.65s"></div><div class="flow dn" style="--t:13.15s"></div>
+  </div></div>
+  <div class="cap"><div class="in" style="--in:9.9s"><div class="out" style="--out:14.35s">
+    <span class="l">抽選エンジンと</span><span class="l">演出を<b class="a">分けて設計</b></span>
+  </div></div></div>
+
+  <!-- ===== Beat 4 検証（14.55–18.65s）: 自動テスト 235 項目がカウントアップして緑に ===== -->
+  <div class="in" style="--in:14.55s"><div class="out" style="--out:18.3s">
+    <div class="tests">
+      <div class="hd"><h3>テスト実行</h3><span>毎回・公開前に</span></div>
+      <div class="row">
+        <div class="nm">抽選エンジン</div><div class="num c-e" style="--t:15.2s;--d:1s"><i>項目</i></div><div class="ck" style="--t:16.2s"><svg class="i" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></div>
+        <div class="bar"><i style="--t:15.2s;--d:1s"></i></div>
+      </div>
+      <div class="row">
+        <div class="nm">ブラウザ自動操作</div><div class="num c-b" style="--t:15.5s;--d:1.3s"><i>項目</i></div><div class="ck" style="--t:16.8s"><svg class="i" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></div>
+        <div class="bar"><i style="--t:15.5s;--d:1.3s"></i></div>
+      </div>
+      <div class="row">
+        <div class="nm">公開前チェック preflight</div><div class="num c-p" style="--t:16.4s;--d:.5s"><i>項目</i></div><div class="ck" style="--t:16.9s"><svg class="i" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></div>
+        <div class="bar"><i style="--t:16.4s;--d:.5s"></i></div>
+      </div>
+      <div class="total">
+        <span class="ck"><svg class="i" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
+        <span class="t">自動テスト</span><span class="n"></span><span class="t">項目</span>
+      </div>
+    </div>
+  </div></div>
+  <div class="cap"><div class="in" style="--in:14.9s"><div class="out" style="--out:18.35s">
+    <span class="l">自動テスト <b class="a">235</b> 項目を</span><span class="l">毎回通す</span>
+  </div></div></div>
+
+  <!-- ===== Beat 5 公開＋結果（18.5–23.0s）: 公開ページをスマホ枠で縦スクロール ===== -->
+  <div class="phone p2">
+    <div class="screen"><img src="../captures/reachlab-top-390.png" alt=""><div class="glare"></div></div>
+  </div>
+  <div class="in pop" style="--in:19.6s;position:absolute;left:50px;top:560px;z-index:5"><div class="chip float" style="--fl:-.3s"><span class="ic ok"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>外部依存ゼロ</div></div>
+  <div class="in pop" style="--in:20.3s;position:absolute;left:430px;top:770px;z-index:5"><div class="chip float" style="--fl:-1.4s"><span class="ic"><svg class="i" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M10 18.5h4"/><path d="M12 8v6M9 11h6"/></svg></span>PWA・オフライン起動</div></div>
+  <div class="in pop" style="--in:21.0s;position:absolute;left:60px;top:980px;z-index:5"><div class="chip float" style="--fl:-.9s"><span class="ic am"><svg class="i" viewBox="0 0 24 24"><path d="M12 15V4M7 9l5-5 5 5M5 20h14"/></svg></span>2026-08-07 公開</div></div>
+  <div class="in fade" style="--in:18.7s"><div class="capband"></div></div>
+  <div class="cap"><div class="in" style="--in:18.9s"><div class="out" style="--out:22.5s">
+    <span class="l"><b class="a">公開</b>して、スマホで遊べる</span>
+  </div></div></div>
+
+  <!-- 下帯（装飾） -->
+  <div class="in fade" style="--in:5.0s"><div class="out fade" style="--out:22.3s"><div class="foot">
+    <div class="seg"><i style="--t:2.0s"></i><i style="--t:5.0s"></i><i style="--t:9.5s"></i><i style="--t:14.5s"></i><i style="--t:18.5s"></i></div>
+    <div class="url">reachlab.pages.dev</div>
+  </div></div></div>
+
+  <!-- 転換 22.45–23.0 -->
+  <div class="wipe"><div class="c1"></div><div class="c2"></div></div>
+
+  <!-- ===== intro (0–2.0s) / outro (23.0–26.0s): brand/intro-outro.html（2026-09-14 20:37 版）の <section> をコピー・通番 #02・アウトロ開始 23s ===== -->
+  <div class="intro-wrap">
+<section class="v-intro" style="--v-intro-start:0s">
+  <div class="v-grid"></div>
+  <div class="v-ghost">MAKING</div>
+  <div class="v-band"></div>
+  <div class="v-stage">
+    <div class="v-mark"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22.5" fill="#2457e6"/><text x="20" y="72.5" font-family="'Noto Sans JP', sans-serif" font-weight="900" font-size="60" fill="#ffffff">K</text><rect x="64" y="48" width="15" height="24.5" rx="2.5" fill="#f5a524"/></svg></div>
+    <div class="v-title"><span class="v-line"><span class="v-word">MAKING</span><span class="v-no">#02</span><i class="v-cur"></i></span></div>
+    <div class="v-tag">AIで作って、本番に出す。</div>
+  </div>
+</section>
+  </div>
+  <div class="outro-wrap">
+<section class="v-outro" style="--v-outro-start:23s">
+  <div class="v-grid"></div>
+  <div class="v-ghost">MAKING</div>
+  <div class="v-band"></div>
+  <div class="v-mark"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22.5" fill="#2457e6"/><text x="20" y="72.5" font-family="'Noto Sans JP', sans-serif" font-weight="900" font-size="60" fill="#ffffff">K</text><rect x="64" y="48" width="15" height="24.5" rx="2.5" fill="#f5a524"/></svg></div>
+  <div class="v-row v-name"><span>Kenji Ido</span></div>
+  <div class="v-row v-handle"><span>@idk0723ai</span></div>
+  <div class="v-row v-msg"><span>作った実物は HP で</span></div>
+  <div class="v-url">kenji6836.github.io<i class="v-cur"></i></div>
+</section>
+  </div>
+</div>
+
+<script>
+// ---- 端末の日本語タイプ演出（決定論: 1 文字ずつ animation-delay・タイマー不使用） ----
+(function(){
+  const txt='ブラウザだけで動く演出シミュレーターを作りたい。公表スペックに忠実に、実機のような演出で、スマホで遊べるように。';
+  const T0=5.7, DT=0.056; // 開始 5.7s・56ms/文字 → 56 文字で 8.84s に完了
+  const chars=[...txt];
+  let html='';
+  chars.forEach((c,i)=>{ const t=(T0+i*DT).toFixed(3); html+=`<span class="ch" style="--t:${t}s;--d:${DT}s">${c}</span>`; });
+  document.getElementById('typed').innerHTML=html;
+  document.getElementById('curE').style.setProperty('--t',(T0+chars.length*DT).toFixed(3)+'s');
+})();
+
+// ---- deterministic seek API for the frame renderer（promo.html と同じ） ----
+window.__duration=26;
+window.__ready=(async()=>{
+  try{ if(document.fonts) await document.fonts.ready; }catch(e){}
+  await Promise.all([...document.images].map(im=>new Promise(res=>{
+    const done=()=>{ (im.decode?im.decode().catch(()=>{}):Promise.resolve()).then(res,res); };
+    if(im.complete) done(); else { im.onload=done; im.onerror=res; }
+  })));
+  return true;
+})();
+window.__seek=async function(t){
+  await window.__ready;
+  const ms=Math.max(0,+t)*1000;
+  for(const a of document.getAnimations()){ a.pause(); a.currentTime=ms; }
+  void document.body.offsetHeight; // flush style/layout
+  await new Promise(r=>{ let done=false; const f=()=>{ if(!done){done=true;r();} }; requestAnimationFrame(()=>requestAnimationFrame(f)); setTimeout(f,150); });
+  return t;
+};
+</script>
+</body>
+</html>

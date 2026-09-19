@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>MAKING #03 — 夜に自走する autopilot を Claude Code で作る（1080×1920・26s）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500;700&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../../brand/tokens-provisional.css">
+<style>
+/* ============================================================
+   MAKING #03 autopilot — 1080×1920 / 30fps / 26.0s
+   0.0–2.0 intro（brand/intro-outro.html を埋め込む）/ 2.0–23.0 本編 / 23.0–26.0 outro
+   すべて CSS/Web Animations。JS タイマー・乱数なし（__seek で決定論的に再生）。
+   ============================================================ */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--v-navy,#0b1430)}
+body{font-family:var(--v-font,"Noto Sans JP",sans-serif);color:#fff;position:relative;font-feature-settings:"palt";-webkit-font-smoothing:antialiased;line-height:1.3}
+.stage{position:absolute;inset:0;overflow:hidden}
+svg.i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* ---- background: 紺 + 設計図グリッド + 青の淡い光 ---- */
+.bg{position:absolute;inset:0;background:
+  radial-gradient(900px 800px at 12% 0%, rgba(36,87,230,.35), transparent 65%),
+  radial-gradient(700px 700px at 100% 100%, rgba(36,87,230,.18), transparent 65%),
+  var(--v-navy,#0b1430)}
+.bg::after{content:"";position:absolute;inset:0;background-image:
+  linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+  background-size:90px 90px;background-position:45px 45px}
+.dawn{position:absolute;inset:0;background:radial-gradient(1000px 900px at 50% -8%, rgba(245,165,36,.30), transparent 65%);animation:fade 1.4s ease 18.5s both}
+
+/* ---- generic in/out（1 要素 1 アニメ。状態を重ねるときはラッパーを重ねる）---- */
+.in{animation:rise .6s cubic-bezier(.16,.9,.25,1) var(--in) both}
+.in.pop{animation:pop .5s cubic-bezier(.34,1.56,.64,1) var(--in) both}
+.in.fade{animation:fade .45s ease-out var(--in) both}
+.in.card{animation:cardIn .7s cubic-bezier(.16,.9,.25,1) var(--in) both}
+.out{animation:out .4s cubic-bezier(.55,0,.7,.3) var(--out) both}
+.out.fadeo{animation:fadeOut .35s ease-in var(--out) both}
+.out.cardOut{animation:cardOut .45s cubic-bezier(.6,0,.8,.4) var(--out) both}
+@keyframes rise{from{transform:translateY(110%);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes pop{from{transform:translateY(30px) scale(.6);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes fadeOut{from{opacity:1}to{opacity:0}}
+@keyframes out{from{transform:translateY(0);opacity:1}to{transform:translateY(-60px);opacity:0}}
+@keyframes cardIn{from{transform:translateY(560px) scale(.92);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+@keyframes cardOut{from{transform:translateY(0) scale(1);opacity:1}to{transform:translateY(-120px) scale(.96);opacity:0}}
+
+/* ---- kicker（本編中ずっと）---- */
+.kicker{position:absolute;left:80px;top:248px;font-family:var(--v-mono,"IBM Plex Mono",monospace);font-weight:500;font-size:40px;letter-spacing:.06em;color:var(--v-text-2,#c3cbd6)}
+.kicker b{color:#fff;font-weight:700}
+.kicker i{display:inline-block;width:18px;height:40px;background:var(--v-amber,#f5a524);vertical-align:-6px;margin-left:14px;border-radius:3px;animation:blink 1s linear infinite}
+@keyframes blink{0%,49.9%{opacity:1}50%,100%{opacity:0}}
+
+/* ---- 字幕（y=1180〜1460）---- */
+.cap{position:absolute;left:60px;right:60px;top:1180px;text-align:center;font-weight:900;font-size:70px;line-height:1.36;letter-spacing:.01em;text-shadow:0 4px 24px rgba(0,0,0,.45)}
+.cap .line{overflow:hidden;padding:0 .08em}
+.cap .line .in,.cap .line .out{display:block}
+.am{color:var(--v-amber,#f5a524)}
+.bf{display:inline-block;background:var(--v-blue,#2457e6);color:#fff;padding:0 .2em;border-radius:14px;line-height:1.18;margin:0 .04em}
+
+/* hook（Beat 1）は全体像なので詰める */
+.hook .panel{padding:36px 40px}
+.hook .row{height:80px}
+.hook .sec{margin:22px 0 10px}
+.hook .tl{margin-top:22px;padding-top:0}
+/* ---- 製品 UI 風の図（HP と同じ語彙: 輪郭なし・2 段階陰影・光源=上・フラット）---- */
+.fig{position:absolute;left:80px;width:880px}
+.panel{background:#fff;color:#0b1430;border-radius:32px;padding:40px;box-shadow:0 2px 6px rgba(0,0,0,.10),0 40px 70px -24px rgba(0,0,0,.55)}
+.ph{display:flex;align-items:center;gap:22px;min-height:96px}
+.ph .ic{width:88px;height:88px;border-radius:50%;background:var(--v-soft,#e9efff);color:var(--v-blue,#2457e6);display:flex;align-items:center;justify-content:center;font-size:48px;flex:none}
+.ph .ic.am{background:#fff3d6;color:#c77700}
+.ph .tt{display:flex;flex-direction:column;gap:4px;flex:1;min-width:0}
+.ph .tt b{font-size:48px;font-weight:900;line-height:1.15}
+.ph .tt span{font-size:40px;color:#5b6577;font-weight:400;line-height:1.2}
+.tag{flex:none;font-size:40px;font-weight:700;color:#5b6577;background:#f1f3f7;border-radius:999px;padding:8px 26px;line-height:1.2}
+.sec{font-size:40px;font-weight:700;color:#5b6577;margin:28px 0 12px}
+.row{display:flex;align-items:center;gap:18px;height:88px;padding:0 20px;border-radius:24px;background:#f7f9fd}
+.row + .row{margin-top:12px}
+.row .ico{width:56px;height:56px;border-radius:50%;background:var(--v-soft,#e9efff);color:var(--v-blue,#2457e6);display:flex;align-items:center;justify-content:center;font-size:32px;flex:none}
+.row .nm{font-size:42px;font-weight:700;flex:1;white-space:nowrap}
+.chip{flex:none;font-family:var(--v-mono,"IBM Plex Mono",monospace);font-weight:500;font-size:40px;line-height:1.2;padding:8px 22px;border-radius:999px}
+.chip.ok{background:var(--v-ok-soft,#e3f5ea);color:var(--v-ok,#1a7f4b)}
+.chip.nr{background:#fff3d6;color:#a15f00}
+.chip.mg{background:var(--v-soft,#e9efff);color:var(--v-blue,#2457e6)}
+.chip.jp{font-family:var(--v-font);font-weight:700}
+/* 状態変化: 選ばれなかった行を沈める / 選ばれた行を持ち上げる */
+.st.dim{animation:dim .5s ease var(--at) both}
+.st.pick{animation:pick .5s ease var(--at) both;border-radius:24px}
+@keyframes dim{to{opacity:.32}}
+@keyframes pick{to{box-shadow:0 0 0 6px var(--v-blue,#2457e6);background:#fff}}
+
+/* タイムライン（夜間 3 枠 → 朝） */
+.tl{display:flex;align-items:flex-start;padding:10px 6px 0}
+.tl .nd{display:flex;flex-direction:column;align-items:center;gap:10px;flex:none;width:120px}
+.tl .seg{flex:1;height:8px;margin-top:72px;border-radius:4px;background:#e4e9f5;position:relative;overflow:hidden}
+.tl .seg::after{content:"";position:absolute;inset:0;background:var(--v-blue,#2457e6);transform:scaleX(0);transform-origin:left;animation:fill .55s linear var(--in) both}
+.tl time{font-family:var(--v-mono,"IBM Plex Mono",monospace);font-size:40px;font-weight:500;color:#5b6577;line-height:1}
+.tl .dot{width:40px;height:40px;border-radius:50%;background:#c5d3fb;margin:8px 0;animation:lit .4s ease-out var(--in) both}
+.tl .sun{width:56px;height:56px;border-radius:50%;background:#fff3d6;color:#c77700;display:flex;align-items:center;justify-content:center;font-size:36px;animation:sunlit .4s ease-out var(--in) both}
+.tl .lb{font-size:40px;font-weight:700;color:#0b1430;line-height:1;white-space:nowrap}
+@keyframes fill{to{transform:scaleX(1)}}
+@keyframes lit{to{background:var(--v-blue,#2457e6);box-shadow:0 0 0 14px rgba(36,87,230,.16);transform:scale(1.1)}}
+@keyframes sunlit{to{background:var(--v-amber,#f5a524);color:#fff;box-shadow:0 0 0 14px rgba(245,165,36,.22);transform:scale(1.1)}}
+
+/* ボタン */
+.btns{display:flex;gap:16px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;height:88px;padding:0 40px;border-radius:999px;font-size:40px;font-weight:700;line-height:1;white-space:nowrap}
+.btn.p{background:var(--v-blue,#2457e6);color:#fff;box-shadow:0 8px 18px -8px rgba(36,87,230,.7)}
+.btn.s{background:var(--v-soft,#e9efff);color:var(--v-blue,#2457e6)}
+.btn.sm{height:72px;padding:0 30px}
+
+/* ---- 端末パネル（Beat 2）---- */
+.term{background:var(--v-navy-2,#121c3d);border-radius:32px;padding:0 0 48px;box-shadow:0 2px 6px rgba(0,0,0,.25),0 40px 70px -24px rgba(0,0,0,.7);color:#fff}
+.term .bar{display:flex;align-items:center;gap:14px;height:96px;padding:0 40px;border-bottom:2px solid rgba(255,255,255,.08)}
+.term .bar i{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.18)}
+.term .bar span{margin-left:14px;font-family:var(--v-mono);font-size:40px;font-weight:500;color:var(--v-text-2,#c3cbd6)}
+.term .bar span b{color:#fff;font-weight:700}
+.term .body{padding:44px 48px 0;font-family:var(--v-mono,"IBM Plex Mono",monospace);font-size:50px;line-height:1.7;font-weight:500}
+.term .pr{color:var(--v-blue,#7aa0ff);margin-right:.5em;font-weight:700}
+.typed .ch{display:inline-block;max-width:0;overflow:hidden;white-space:pre;vertical-align:top;animation:ch 1ms steps(1,end) var(--d) both}
+@keyframes ch{from{max-width:0}to{max-width:1.4em}}
+.cur{display:inline-block;width:.6em;height:1.1em;background:var(--v-amber,#f5a524);vertical-align:-.18em;margin-left:.08em;border-radius:4px;animation:blink 1s linear infinite}
+.enter{margin-left:auto;display:inline-flex;align-items:center;gap:12px;font-family:var(--v-mono);font-size:40px;font-weight:700;color:#0b1430;background:#fff;border-radius:16px;padding:6px 22px;box-shadow:0 6px 0 #c5d3fb}
+
+/* ---- サンドボックス（Beat 3）---- */
+.slots{display:flex;gap:20px;margin-top:16px}
+.slot{flex:1;position:relative;height:160px;border-radius:24px;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:12px;padding:12px 20px;font-size:40px;font-weight:700}
+.slot.w{flex:1.2}.slot.l{flex:.8}
+.slot .top{display:flex;align-items:center;gap:14px;height:56px}
+.slot .land{height:76px;width:100%;border-radius:999px;background:rgba(36,87,230,.06)}
+.slot.l .land{display:flex;align-items:center;padding:0 22px;font-weight:400;color:#8a93a3;background:#e9ecf2}
+.slot.w{background:#f7f9fd;color:#0b1430}
+.slot.l{background:#f1f3f7;color:#8a93a3}
+.slot .ico{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;flex:none}
+.slot.w .ico{background:var(--v-soft);color:var(--v-blue)}
+.slot.l .ico{background:#e4e7ee;color:#8a93a3}
+.slot .frame{position:absolute;inset:-8px;width:calc(100% + 16px);height:calc(100% + 16px);overflow:visible}
+.slot .frame rect{fill:none;stroke:var(--v-amber,#f5a524);stroke-width:6;stroke-dasharray:100;stroke-dashoffset:100;animation:draw .6s ease-out var(--in) both}
+@keyframes draw{to{stroke-dashoffset:0}}
+.slot .okb{position:absolute;right:-14px;top:-14px;width:56px;height:56px;border-radius:50%;background:var(--v-amber,#f5a524);color:#fff;display:flex;align-items:center;justify-content:center;font-size:34px;box-shadow:0 6px 14px -4px rgba(0,0,0,.4)}
+/* 受信箱 → サンドボックスへ飛ぶチケット */
+.fly{position:absolute;left:0;top:0;animation:fly .7s cubic-bezier(.5,0,.2,1) var(--in) both;z-index:5}
+.pill{display:inline-flex;align-items:center;gap:14px;height:76px;padding:0 24px;border-radius:999px;background:var(--v-blue,#2457e6);color:#fff;font-size:40px;font-weight:700;box-shadow:0 14px 30px -10px rgba(36,87,230,.8);white-space:nowrap}
+@keyframes fly{0%{transform:translate(var(--x0),var(--y0)) scale(.8);opacity:0}18%{opacity:1;transform:translate(var(--x0),var(--y0)) scale(1)}100%{transform:translate(var(--x1),var(--y1)) scale(1);opacity:1}}
+
+/* ---- 実行カード（Beat 4）---- */
+.runh{display:flex;align-items:center;gap:20px;min-height:80px}
+.runh .ico{width:72px;height:72px;border-radius:50%;background:var(--v-soft);color:var(--v-blue);display:flex;align-items:center;justify-content:center;font-size:40px;flex:none}
+.runh b{font-size:44px;font-weight:900;flex:1}
+.stchip{position:relative;width:200px;height:64px;flex:none}
+.stchip .chip{position:absolute;right:0;top:0}
+.count{display:flex;align-items:baseline;gap:18px;margin-top:26px}
+.count .lb{font-size:40px;font-weight:700;color:#5b6577}
+@property --n{syntax:"<integer>";inherits:false;initial-value:0}
+.num{font-size:120px;font-weight:900;line-height:1;color:var(--v-blue,#2457e6);font-variant-numeric:tabular-nums;letter-spacing:-.02em;counter-reset:n var(--n);animation:cnt 1.6s cubic-bezier(.2,.7,.3,1) var(--in) both}
+.num::after{content:counter(n)}
+@keyframes cnt{from{--n:0}to{--n:449}}
+.count .of{font-size:44px;font-weight:700;color:#5b6577}
+.bar2{height:22px;border-radius:11px;background:#e4e9f5;overflow:hidden;margin-top:26px}
+.bar2 i{display:block;height:100%;border-radius:11px;background:var(--v-blue);transform:scaleX(0);transform-origin:left;animation:barfill 1.6s cubic-bezier(.2,.7,.3,1) var(--in) both}
+@keyframes barfill{0%{transform:scaleX(0);background:#2457e6}92%{transform:scaleX(1);background:#2457e6}100%{transform:scaleX(1);background:#1a7f4b}}
+
+/* ---- 実数チップ（浮遊）---- */
+.fc{position:absolute}
+.fchip{display:inline-flex;align-items:center;gap:16px;height:96px;padding:0 34px 0 14px;border-radius:999px;background:#fff;color:#0b1430;font-weight:900;font-size:44px;white-space:nowrap;box-shadow:0 2px 4px rgba(0,0,0,.1),0 26px 48px -18px rgba(0,0,0,.6);transform:rotate(var(--r,0deg))}
+.fchip .ic{width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:38px;flex:none;color:#fff;background:var(--v-blue)}
+.fchip .ic.ok{background:var(--v-ok,#1a7f4b)}
+.fchip .ic.am{background:var(--v-amber,#f5a524)}
+.fchip em{font-style:normal;color:var(--v-blue,#2457e6)}
+
+/* ---- 朝刊カード + 返事（Beat 5）---- */
+.res{display:flex;align-items:center;gap:18px;height:88px;padding:0 20px;border-radius:24px;background:#f7f9fd}
+.res + .res{margin-top:12px}
+.res .mk{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;flex:none;color:#fff}
+.res .mk.ok{background:var(--v-ok)}.res .mk.nr{background:var(--v-amber)}.res .mk.mg{background:var(--v-blue)}
+.res .nm{font-size:42px;font-weight:700;flex:1;white-space:nowrap}
+.res .rs{font-size:40px;font-weight:700;white-space:nowrap}
+.res .rs.ok{color:var(--v-ok)}.res .rs.nr{color:#a15f00}.res .rs.mg{color:var(--v-blue)}
+.pbtns{display:flex;gap:16px;margin-top:26px;position:relative}
+.okb2{position:absolute;left:190px;top:-22px;width:60px;height:60px;border-radius:50%;background:var(--v-ok);color:#fff;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 6px 14px -4px rgba(0,0,0,.4)}
+.press{animation:press .35s ease var(--at) both}
+@keyframes press{0%{transform:scale(1)}40%{transform:scale(.9)}100%{transform:scale(1)}}
+.reply{position:absolute;right:120px;top:1008px;max-width:760px;background:var(--v-blue,#2457e6);color:#fff;border-radius:32px 32px 8px 32px;padding:26px 36px;font-family:var(--v-mono,"IBM Plex Mono",monospace);font-size:44px;font-weight:500;line-height:1.5;box-shadow:0 2px 6px rgba(0,0,0,.15),0 30px 50px -20px rgba(36,87,230,.7);white-space:nowrap}
+.reply .who{position:absolute;right:0;top:-54px;font-family:var(--v-font);font-size:40px;font-weight:700;color:var(--v-text-2)}
+
+/* ---- intro / outro ラッパー（中身は brand/intro-outro.html を貼る）---- */
+.intro-wrap{position:absolute;inset:0;z-index:80}
+.outro-wrap{position:absolute;inset:0;z-index:70;background:#0b1430;animation:wipeIn .5s cubic-bezier(.7,0,.2,1) 22.5s both}
+@keyframes wipeIn{from{clip-path:circle(0% at 50% 100%)}to{clip-path:circle(140% at 50% 100%)}}
+</style>
+<!-- ===== brand/intro-outro.css のコピー（2026-09-14 20:37 版・iframe 不可のため埋め込み）===== -->
+<style>
+/* ============================================================
+   MAKING イントロ／アウトロ（1080×1920・紺地・D1 工房）
+   - DOM は intro-outro.html（<section class="v-intro"> / <section class="v-outro">）
+   - JS なし。CSS @keyframes ＋ animation-delay のみ（__seek で決定論的に再生できる）
+   - 開始時刻は CSS 変数で: --v-intro-start（既定 0s）／--v-outro-start（既定 0s・ショートは 23s）
+   - .v-intro は start+2.0s 以降 visibility:hidden／.v-outro は start より前 visibility:hidden
+   - 必要フォント（ショート側 head で読む）: Noto Sans JP 700/900・IBM Plex Mono 500
+   - 重要要素は上 220px・下 420px・右 120px を避けて配置（Shorts/Reels/TikTok の UI 帯）
+   ============================================================ */
+.v-intro,.v-outro{
+  --v-blue:#2457e6;--v-navy:#0b1430;--v-amber:#f5a524;--v-pale:#86a8ff;--v-white:#fff;
+  --v-font:"Noto Sans JP",system-ui,-apple-system,"Hiragino Sans",sans-serif;
+  --v-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  position:absolute;inset:0;width:1080px;height:1920px;overflow:hidden;
+  background:var(--v-navy);color:var(--v-white);font-family:var(--v-font);
+  font-feature-settings:"palt";-webkit-font-smoothing:antialiased;
+  box-sizing:border-box;margin:0;padding:0
+}
+.v-intro *,.v-outro *{box-sizing:border-box;margin:0;padding:0}
+.v-intro{z-index:20;animation:v-hide 1ms linear calc(var(--v-intro-start,0s) + 1.99s) both}
+.v-outro{z-index:30;animation:v-show 1ms linear calc(var(--v-outro-start,0s) - .01s) both}
+@keyframes v-hide{from{visibility:visible}to{visibility:hidden}}
+@keyframes v-show{from{visibility:hidden}to{visibility:visible}}
+
+/* ---- 共通の地: 設計図グリッド＋薄い MAKING＋琥珀の左端帯 ---- */
+.v-grid{position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(134,168,255,.13) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(134,168,255,.13) 1px,transparent 1px),
+    linear-gradient(rgba(134,168,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(134,168,255,.05) 1px,transparent 1px);
+  background-size:96px 96px,96px 96px,24px 24px,24px 24px;background-position:-1px -1px}
+.v-ghost{position:absolute;right:-24px;bottom:300px;font-size:300px;font-weight:900;line-height:1;letter-spacing:-.04em;color:rgba(255,255,255,.05);white-space:nowrap;pointer-events:none}
+.v-band{position:absolute;left:0;top:0;width:12px;height:1920px;background:var(--v-amber);transform-origin:50% 0;transform:scaleY(0)}
+.v-intro .v-band{animation:v-band .5s cubic-bezier(.2,.8,.2,1) calc(var(--v-intro-start,0s) + .1s) both}
+.v-outro .v-band{animation:v-band .45s cubic-bezier(.2,.8,.2,1) calc(var(--v-outro-start,0s) + .05s) both}
+@keyframes v-band{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+
+/* ---- マーク（インライン SVG。K は Noto Sans JP 900） ---- */
+.v-mark{position:absolute;left:50%;display:block}
+.v-mark svg{display:block;width:100%;height:100%;filter:drop-shadow(0 30px 60px rgba(0,0,0,.45))}
+
+/* ================= イントロ 2.0s ================= */
+.v-intro .v-stage{position:absolute;inset:0;animation:v-out .25s cubic-bezier(.6,0,.8,.4) calc(var(--v-intro-start,0s) + 1.75s) both}
+@keyframes v-out{from{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(1.06)}}
+.v-intro .v-mark{top:560px;width:340px;height:340px;margin-left:-170px;
+  animation:v-drop .85s linear calc(var(--v-intro-start,0s) + .1s) both}
+@keyframes v-drop{
+  0%{transform:translateY(-1000px) scale(.92);opacity:0;animation-timing-function:cubic-bezier(.5,0,.9,.5)}
+  48%{transform:translateY(0) scale(1.04,.94);opacity:1;animation-timing-function:cubic-bezier(.2,.6,.4,1)}
+  66%{transform:translateY(-110px) scale(.98,1.03);animation-timing-function:cubic-bezier(.5,0,.8,.6)}
+  84%{transform:translateY(0) scale(1.02,.97);animation-timing-function:cubic-bezier(.2,.6,.4,1)}
+  100%{transform:translateY(0) scale(1)}}
+.v-intro .v-title{position:absolute;left:0;right:0;top:950px;text-align:center;line-height:1.1;overflow:hidden;padding:0 40px}
+.v-intro .v-title .v-line{display:inline-flex;align-items:baseline;gap:24px;
+  animation:v-rise .45s cubic-bezier(.16,.9,.25,1) calc(var(--v-intro-start,0s) + .7s) both}
+@keyframes v-rise{from{transform:translateY(110%);opacity:0}to{transform:translateY(0);opacity:1}}
+.v-intro .v-word{font-size:176px;font-weight:900;letter-spacing:-.02em}
+.v-intro .v-no{font-family:var(--v-mono);font-weight:500;font-size:120px;color:var(--v-pale);letter-spacing:-.02em}
+.v-intro .v-cur{display:inline-block;width:56px;height:112px;border-radius:8px;background:var(--v-amber);vertical-align:-6px;
+  animation:v-blink 1s steps(1,end) calc(var(--v-intro-start,0s) + 1.15s) infinite both}
+@keyframes v-blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+.v-intro .v-tag{position:absolute;left:0;right:0;top:1190px;text-align:center;font-size:44px;font-weight:700;color:rgba(255,255,255,.72);letter-spacing:.02em;
+  animation:v-fade .35s ease-out calc(var(--v-intro-start,0s) + 1.05s) both}
+@keyframes v-fade{from{opacity:0}to{opacity:1}}
+
+/* ================= アウトロ 3.0s ================= */
+.v-outro .v-mark{top:540px;width:220px;height:220px;margin-left:-110px;
+  animation:v-pop .5s cubic-bezier(.34,1.56,.64,1) calc(var(--v-outro-start,0s) + .05s) both}
+@keyframes v-pop{from{transform:translateY(60px) scale(.5);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+.v-outro .v-row{position:absolute;left:0;right:0;text-align:center;overflow:hidden;padding:0 40px}
+.v-outro .v-row > span{display:inline-block;animation:v-rise .45s cubic-bezier(.16,.9,.25,1) var(--d) both}
+.v-outro .v-name{top:810px;font-size:84px;font-weight:700;line-height:1.2;letter-spacing:-.01em}
+.v-outro .v-name > span{--d:calc(var(--v-outro-start,0s) + .35s)}
+.v-outro .v-handle{top:922px;font-family:var(--v-mono);font-weight:500;font-size:52px;line-height:1.3;color:var(--v-pale)}
+.v-outro .v-handle > span{--d:calc(var(--v-outro-start,0s) + .5s)}
+.v-outro .v-msg{top:1076px;font-size:76px;font-weight:900;line-height:1.25;letter-spacing:-.01em}
+.v-outro .v-msg > span{--d:calc(var(--v-outro-start,0s) + .9s)}
+.v-outro .v-url{position:absolute;left:50%;top:1204px;transform:translateX(-50%);display:inline-flex;align-items:center;gap:14px;
+  padding:22px 44px;border-radius:20px;background:var(--v-blue);font-family:var(--v-mono);font-weight:500;font-size:54px;line-height:1.2;color:#fff;white-space:nowrap;
+  box-shadow:0 20px 50px rgba(0,0,0,.35);
+  animation:v-popx .5s cubic-bezier(.34,1.56,.64,1) calc(var(--v-outro-start,0s) + 1.25s) both}
+@keyframes v-popx{from{transform:translateX(-50%) translateY(50px) scale(.7);opacity:0}to{transform:translateX(-50%) translateY(0) scale(1);opacity:1}}
+.v-outro .v-url .v-cur{display:inline-block;width:26px;height:56px;border-radius:5px;background:var(--v-amber);
+  animation:v-blink 1s steps(1,end) calc(var(--v-outro-start,0s) + 1.8s) infinite both}
+
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="bg"></div>
+  <div class="dawn"></div>
+
+  <!-- kicker（2.2s → 22.6s） -->
+  <div class="kicker in fade" style="--in:2.2s"><div class="out fadeo" style="--out:22.55s"><b>MAKING #03</b> · autopilot<i></i></div></div>
+
+  <!-- ===== Beat 1 フック（2.0–5.0s）: 製品全体を 1 枚の窓で ===== -->
+  <div class="fig hook in card" style="--in:2.0s;top:330px"><div class="out cardOut" style="--out:4.6s">
+    <div class="panel">
+      <div class="ph">
+        <span class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M20.5 14A9 9 0 0 1 10 3a9 9 0 1 0 10.5 11Z"/></svg></span>
+        <div class="tt"><b>autopilot</b><span>夜間の自律ランナー</span></div>
+        <span class="tag">サンプル</span>
+      </div>
+      <div class="sec">受信箱</div>
+      <div class="row in pop" style="--in:2.35s"><span class="ico"><svg class="i" viewBox="0 0 24 24"><path d="M3 5h18v5a2 2 0 0 0 0 4v5H3v-5a2 2 0 0 0 0-4V5ZM15 5v3m0 3v2m0 3v3"/></svg></span><span class="nm">T-1 テスト追加</span><span class="chip ok">approved</span></div>
+      <div class="row in pop" style="--in:2.45s"><span class="ico"><svg class="i" viewBox="0 0 24 24"><path d="M3 5h18v5a2 2 0 0 0 0 4v5H3v-5a2 2 0 0 0 0-4V5ZM15 5v3m0 3v2m0 3v3"/></svg></span><span class="nm">T-2 出品文ドラフト</span><span class="chip nr">needs_review</span></div>
+      <div class="row in pop" style="--in:2.55s"><span class="ico"><svg class="i" viewBox="0 0 24 24"><path d="M3 5h18v5a2 2 0 0 0 0 4v5H3v-5a2 2 0 0 0 0-4V5ZM15 5v3m0 3v2m0 3v3"/></svg></span><span class="nm">T-3 棚卸し</span><span class="chip mg">merged</span></div>
+      <div class="tl in fade" style="--in:2.6s">
+        <div class="nd"><time>01:07</time><i class="dot" style="--in:2.65s"></i></div>
+        <div class="seg" style="--in:2.7s"></div>
+        <div class="nd"><time>03:37</time><i class="dot" style="--in:2.85s"></i></div>
+        <div class="seg" style="--in:2.9s"></div>
+        <div class="nd"><time>05:37</time><i class="dot" style="--in:3.05s"></i></div>
+        <div class="seg" style="--in:3.1s"></div>
+        <div class="nd"><time>&nbsp;</time><span class="sun" style="--in:3.25s"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 1v2M12 21v2M1 12h2M21 12h2M4 4l1.5 1.5m13 13L20 20M4 20l1.5-1.5m13-13L20 4"/></svg></span></div>
+      </div>
+      <div class="ph in pop" style="--in:2.8s;margin-top:14px;min-height:80px">
+        <span class="ic am" style="width:72px;height:72px;font-size:40px"><svg class="i" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6ZM14 2v6h6M8 12h8M8 16h6"/></svg></span>
+        <div class="tt"><b style="font-size:42px">朝刊 1 枚</b></div>
+        <div class="btns"><span class="btn p sm">マージ</span><span class="btn s sm">修正</span></div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- ===== Beat 2 指示（5.0–9.5s）: 端末に日本語で頼む ===== -->
+  <div class="fig in card" style="--in:5.0s;top:430px"><div class="out cardOut" style="--out:9.1s">
+    <div class="term">
+      <div class="bar"><i></i><i></i><i></i><span><b>Claude Code</b> — 端末</span><div class="enter in pop" style="--in:8.55s"><svg class="i" viewBox="0 0 24 24"><path d="M20 5v6a3 3 0 0 1-3 3H5m4-4-4 4 4 4"/></svg>Enter</div></div>
+      <div class="body"><span class="pr">❯</span><span class="typed" id="typed1"></span></div>
+    </div>
+  </div></div>
+
+  <!-- ===== Beat 3 設計/実装（9.5–14.5s）: 承認したチケットだけ・隔離して実行 ===== -->
+  <div class="fig in card" style="--in:9.5s;top:330px"><div class="out cardOut" style="--out:14.1s">
+    <div class="panel">
+      <div class="ph">
+        <span class="ic"><svg class="i" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m3 6 9 7 9-7"/></svg></span>
+        <div class="tt"><b>受信箱</b><span>承認済みだけを拾う</span></div>
+        <span class="tag">サンプル</span>
+      </div>
+      <div class="st pick" style="--at:10.6s;margin-top:28px"><div class="row in pop" style="--in:9.7s"><span class="ico"><svg class="i" viewBox="0 0 24 24"><path d="M3 5h18v5a2 2 0 0 0 0 4v5H3v-5a2 2 0 0 0 0-4V5ZM15 5v3m0 3v2m0 3v3"/></svg></span><span class="nm">T-1 テスト追加</span><span class="chip ok">approved</span></div></div>
+      <div class="st dim" style="--at:10.6s;margin-top:12px"><div class="row in pop" style="--in:9.82s"><span class="ico"><svg class="i" viewBox="0 0 24 24"><path d="M3 5h18v5a2 2 0 0 0 0 4v5H3v-5a2 2 0 0 0 0-4V5ZM15 5v3m0 3v2m0 3v3"/></svg></span><span class="nm">T-2 出品文ドラフト</span><span class="chip nr">needs_review</span></div></div>
+      <div class="st dim" style="--at:10.6s;margin-top:12px"><div class="row in pop" style="--in:9.94s"><span class="ico"><svg class="i" viewBox="0 0 24 24"><path d="M3 5h18v5a2 2 0 0 0 0 4v5H3v-5a2 2 0 0 0 0-4V5ZM15 5v3m0 3v2m0 3v3"/></svg></span><span class="nm">T-3 棚卸し</span><span class="chip mg">merged</span></div></div>
+    </div>
+  </div></div>
+  <div class="fig in card" style="--in:10.9s;top:820px"><div class="out cardOut" style="--out:14.15s">
+    <div class="panel" style="padding:32px 40px 32px">
+      <div class="ph" style="min-height:72px">
+        <span class="ic" style="width:72px;height:72px;font-size:40px"><svg class="i" viewBox="0 0 24 24"><path d="m3 7 9-5 9 5v10l-9 5-9-5V7Zm0 0 9 5 9-5M12 12v10M7.5 4.5l9 5"/></svg></span>
+        <div class="tt"><b style="font-size:44px">サンドボックス</b></div>
+        <span class="tag">書ける場所を限定</span>
+      </div>
+      <div class="slots">
+        <div class="slot w">
+          <svg class="frame" viewBox="0 0 100 100" preserveAspectRatio="none"><rect x="1" y="1" width="98" height="98" rx="5" pathLength="100" style="--in:11.8s"/></svg>
+          <div class="top"><span class="ico"><svg class="i" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="8" r="2"/><path d="M6 8v8M18 10a6 6 0 0 1-6 6H8"/></svg></span><span>作業用の複製</span></div>
+          <div class="land"></div>
+          <span class="okb in pop" style="--in:12.3s"><svg class="i" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></svg></span>
+        </div>
+        <div class="slot l">
+          <div class="top"><span class="ico"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><span>それ以外</span></div>
+          <div class="land">書けない</div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+  <!-- 受信箱の T-1 がサンドボックスへ飛ぶ（座標は試し撮りで調整） -->
+  <div class="fly" style="--in:11.2s;--x0:140px;--y0:500px;--x1:138px;--y1:1022px"><div class="out fadeo" style="--out:14.1s"><span class="pill"><svg class="i" viewBox="0 0 24 24"><path d="M3 5h18v5a2 2 0 0 0 0 4v5H3v-5a2 2 0 0 0 0-4V5ZM15 5v3m0 3v2m0 3v3"/></svg>T-1 テスト追加</span></div></div>
+  <div class="fc in pop" style="--in:12.7s;left:470px;top:742px;--r:-3deg"><div class="out fadeo" style="--out:14.1s"><span class="fchip"><span class="ic ok"><svg class="i" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></svg></span>承認済みだけ実行</span></div></div>
+
+  <!-- ===== Beat 4 検証（14.5–18.5s）: 夜間の枠で自動テスト 449 件 ===== -->
+  <div class="fig in card" style="--in:14.5s;top:330px"><div class="out cardOut" style="--out:18.1s">
+    <div class="panel" style="padding:32px 40px 36px">
+      <div class="ph" style="min-height:80px">
+        <span class="ic" style="width:72px;height:72px;font-size:40px"><svg class="i" viewBox="0 0 24 24"><path d="M20.5 14A9 9 0 0 1 10 3a9 9 0 1 0 10.5 11Z"/></svg></span>
+        <div class="tt"><b style="font-size:44px">夜間の実行枠</b></div>
+        <span class="tag">深夜 3 回</span>
+      </div>
+      <div class="tl" style="margin-top:14px">
+        <div class="nd"><time>01:07</time><i class="dot" style="--in:15.0s"></i><span class="lb">枠 1</span></div>
+        <div class="seg" style="--in:15.05s"></div>
+        <div class="nd"><time>03:37</time><i class="dot" style="--in:15.6s"></i><span class="lb">枠 2</span></div>
+        <div class="seg" style="--in:15.65s"></div>
+        <div class="nd"><time>05:37</time><i class="dot" style="--in:16.2s"></i><span class="lb">枠 3</span></div>
+        <div class="seg" style="--in:16.25s"></div>
+        <div class="nd"><time>&nbsp;</time><span class="sun" style="--in:16.8s"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 1v2M12 21v2M1 12h2M21 12h2M4 4l1.5 1.5m13 13L20 20M4 20l1.5-1.5m13-13L20 4"/></svg></span><span class="lb">朝</span></div>
+      </div>
+    </div>
+  </div></div>
+  <div class="fig in card" style="--in:14.7s;top:740px"><div class="out cardOut" style="--out:18.15s">
+    <div class="panel" style="padding:32px 40px 36px">
+      <div class="runh">
+        <span class="ico"><svg class="i" viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5l8-3Z"/><path d="m9 12 2 2 4-4"/></svg></span>
+        <b>T-1 テスト追加</b>
+        <span class="stchip"><span class="chip mg jp out fadeo" style="--out:16.85s">実行中</span><span class="chip ok jp in pop" style="--in:16.9s">合格</span></span>
+      </div>
+      <div class="count"><span class="lb">自動テスト</span><span class="num" style="--in:15.2s"></span><span class="of">/ 449 件</span></div>
+      <div class="bar2"><i style="--in:15.2s"></i></div>
+    </div>
+  </div></div>
+  <div class="fc in pop" style="--in:16.4s;left:600px;top:646px;--r:3deg"><div class="out fadeo" style="--out:18.1s"><span class="fchip"><span class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></span>1 日 <em>7</em> 回</span></div></div>
+  <div class="fc in pop" style="--in:17.1s;left:90px;top:1040px;--r:-2deg"><div class="out fadeo" style="--out:18.1s"><span class="fchip"><span class="ic ok"><svg class="i" viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5l8-3Z"/><path d="m9 12 2 2 4-4"/></svg></span>自動テスト <em>449</em> 件</span></div></div>
+  <div class="fc in pop" style="--in:17.6s;left:600px;top:1040px;--r:2deg"><div class="out fadeo" style="--out:18.1s"><span class="fchip"><span class="ic am"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>初回 <em>76</em> 秒</span></div></div>
+
+  <!-- ===== Beat 5 公開＋結果（18.5–23.0s）: 朝刊 1 枚に 1 行で返事 ===== -->
+  <div class="fig in card" style="--in:18.5s;top:330px"><div class="out fadeo" style="--out:22.6s">
+    <div class="panel">
+      <div class="ph">
+        <span class="ic am"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 1v2M12 21v2M1 12h2M21 12h2M4 4l1.5 1.5m13 13L20 20M4 20l1.5-1.5m13-13L20 4"/></svg></span>
+        <div class="tt"><b>朝刊</b><span>HTML 1 枚の報告</span></div>
+        <span class="tag">サンプル</span>
+      </div>
+      <div style="margin-top:28px">
+        <div class="res in pop" style="--in:18.9s"><span class="mk ok"><svg class="i" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></svg></span><span class="nm">T-1 テスト追加</span><span class="rs ok">合格 449 件・76 秒</span></div>
+        <div class="res in pop" style="--in:19.05s"><span class="mk nr"><svg class="i" viewBox="0 0 24 24"><path d="M12 5v9M12 18h.01"/></svg></span><span class="nm">T-2 出品文ドラフト</span><span class="rs nr">要確認</span></div>
+        <div class="res in pop" style="--in:19.2s"><span class="mk mg"><svg class="i" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="8" r="2"/><path d="M6 8v8M18 10a6 6 0 0 1-6 6H8"/></svg></span><span class="nm">T-3 棚卸し</span><span class="rs mg">取り込み済み</span></div>
+      </div>
+      <div class="pbtns in pop" style="--in:19.5s">
+        <span class="press" style="--at:21.95s"><span class="btn p">マージ</span></span>
+        <span class="btn s">修正</span>
+        <span class="okb2 in pop" style="--in:22.1s"><svg class="i" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></svg></span>
+      </div>
+    </div>
+  </div></div>
+  <div class="reply in pop" style="--in:20.3s"><div class="out fadeo" style="--out:22.6s"><span class="who">返事は 1 メッセージ</span><span class="typed" id="typed2"></span></div></div>
+
+  <!-- ===== 字幕（y=1180〜1460）===== -->
+  <div class="cap">
+    <!-- 1 -->
+    <div class="line"><div class="in" style="--in:2.3s"><div class="out" style="--out:4.65s"><span class="am">夜に自走する</span>仕組みを、</div></div></div>
+    <div class="line"><div class="in" style="--in:2.42s"><div class="out" style="--out:4.65s"><span class="bf">Claude Code</span> で作った。</div></div></div>
+  </div>
+  <div class="cap">
+    <!-- 2 -->
+    <div class="line"><div class="in" style="--in:5.4s"><div class="out" style="--out:9.15s">まず、<span class="am">日本語</span>で頼む</div></div></div>
+  </div>
+  <div class="cap">
+    <!-- 3 -->
+    <div class="line"><div class="in" style="--in:9.8s"><div class="out" style="--out:14.15s"><span class="am">承認した</span>チケットだけ・</div></div></div>
+    <div class="line"><div class="in" style="--in:9.92s"><div class="out" style="--out:14.15s"><span class="am">隔離</span>して実行</div></div></div>
+  </div>
+  <div class="cap">
+    <!-- 4 -->
+    <div class="line"><div class="in" style="--in:14.8s"><div class="out" style="--out:18.15s">自動テスト <span class="am">449 件</span>で守る</div></div></div>
+  </div>
+  <div class="cap">
+    <!-- 5 -->
+    <div class="line"><div class="in" style="--in:18.8s"><div class="out" style="--out:22.6s">朝は <span class="am">1 枚</span>の報告に、</div></div></div>
+    <div class="line"><div class="in" style="--in:18.92s"><div class="out" style="--out:22.6s"><span class="am">1 行</span>で返事</div></div></div>
+  </div>
+
+  <!-- ===== outro（22.5s サークルワイプ → 23.0–26.0s）===== -->
+  <section class="outro-wrap">
+    <div class="v-grid"></div><div class="v-ghost" style="font-family:var(--v-font);font-weight:900">MAKING</div>
+    <!-- brand/intro-outro.html の <section class="v-outro"> のコピー（開始 23.0s） -->
+    <section class="v-outro" style="--v-outro-start:23s">
+      <div class="v-grid"></div>
+      <div class="v-ghost">MAKING</div>
+      <div class="v-band"></div>
+      <div class="v-mark"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22.5" fill="#2457e6"/><text x="20" y="72.5" font-family="'Noto Sans JP', sans-serif" font-weight="900" font-size="60" fill="#ffffff">K</text><rect x="64" y="48" width="15" height="24.5" rx="2.5" fill="#f5a524"/></svg></div>
+      <div class="v-row v-name"><span>Kenji Ido</span></div>
+      <div class="v-row v-handle"><span>@idk0723ai</span></div>
+      <div class="v-row v-msg"><span>作った実物は HP で</span></div>
+      <div class="v-url">kenji6836.github.io<i class="v-cur"></i></div>
+    </section>
+  </section>
+  <!-- ===== intro（0.0–2.0s）===== -->
+  <section class="intro-wrap">
+    <!-- brand/intro-outro.html の <section class="v-intro"> のコピー（開始 0.0s・通番 #03） -->
+    <section class="v-intro" style="--v-intro-start:0s">
+      <div class="v-grid"></div>
+      <div class="v-ghost">MAKING</div>
+      <div class="v-band"></div>
+      <div class="v-stage">
+        <div class="v-mark"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22.5" fill="#2457e6"/><text x="20" y="72.5" font-family="'Noto Sans JP', sans-serif" font-weight="900" font-size="60" fill="#ffffff">K</text><rect x="64" y="48" width="15" height="24.5" rx="2.5" fill="#f5a524"/></svg></div>
+        <div class="v-title"><span class="v-line"><span class="v-word">MAKING</span><span class="v-no">#03</span><i class="v-cur"></i></span></div>
+        <div class="v-tag">AIで作って、本番に出す。</div>
+      </div>
+    </section>
+  </section>
+</div>
+
+<script>
+// ---- deterministic content (no Math.random / no timers) ----
+(function(){
+  // 「端末に日本語を打つ」演出: 1 文字 1 span・steps() で決定論的に表示
+  function type(id, text, start, step){
+    const el=document.getElementById(id); let html='', i=0;
+    for(const c of text){
+      if(c==='\n'){ html+='<br>'; continue; }
+      html+=`<span class="ch" style="--d:${(start+i*step).toFixed(3)}s">${c==='<'?'&lt;':c}</span>`; i++;
+    }
+    html+='<span class="cur"></span>'; el.innerHTML=html; return start+i*step;
+  }
+  // Beat 2: FACTS の「指示の例（要旨）」 5.7s → 約 8.3s
+  type('typed1', '夜中に、承認済みの作業だけを\n安全に自動で進めて、\n朝に 1 枚の報告で見たい。', 5.7, 0.075);
+  // Beat 5: 返事は 1 メッセージ（FACTS の例・内容は省略記号）
+  type('typed2', 'T-1 マージ・T-2 修正: …', 20.6, 0.07);
+})();
+
+// ---- deterministic seek API for the frame renderer（promo.html と同一）----
+window.__duration=26;
+window.__ready=(async()=>{
+  try{ if(document.fonts) await document.fonts.ready; }catch(e){}
+  await Promise.all([...document.images].map(im=>new Promise(res=>{
+    const done=()=>{ (im.decode?im.decode().catch(()=>{}):Promise.resolve()).then(res,res); };
+    if(im.complete) done(); else { im.onload=done; im.onerror=res; }
+  })));
+  return true;
+})();
+window.__seek=async function(t){
+  await window.__ready;
+  const ms=Math.max(0,+t)*1000;
+  for(const a of document.getAnimations()){ a.pause(); a.currentTime=ms; }
+  void document.body.offsetHeight; // flush style/layout
+  await new Promise(r=>{ let done=false; const f=()=>{ if(!done){done=true;r();} }; requestAnimationFrame(()=>requestAnimationFrame(f)); setTimeout(f,150); });
+  return t;
+};
+</script>
+</body>
+</html>

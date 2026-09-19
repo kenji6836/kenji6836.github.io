@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1600">
+<title>チャンネルブランド 方向 3 案 比較</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#2457e6;--navy:#0b1430;--soft:#e9efff;--amber:#f5a524;--ok:#1a7f4b;--ink:#14171f;--ink2:#4a5361;--ink3:#6b7480;--line:#e5e9f0;--pale:#86a8ff;--alt:#f6f8fb}
+*{box-sizing:border-box}
+html{background:#e6e8ee}
+body{width:1600px;margin:0;padding:34px 40px 44px;background:#e6e8ee;color:var(--ink);font-family:"Noto Sans JP",system-ui,-apple-system,"Hiragino Sans",sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{font-feature-settings:"palt";letter-spacing:-.01em;line-height:1.3}
+img{display:block}
+.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+.sr{position:absolute;width:0;height:0;overflow:hidden}
+
+/* ---------- page head ---------- */
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:16px}
+.head h1{font-size:28px;font-weight:900}
+.head p{margin-top:6px;color:var(--ink2);font-size:13px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;max-width:820px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:12px;font-weight:700;color:var(--ink2);white-space:nowrap}
+.chip b{color:var(--blue)}
+.chip i{width:12px;height:12px;border-radius:4px;display:inline-block}
+.crit{display:flex;gap:10px;margin:0 0 22px;padding:0;list-style:none}
+.crit li{flex:1;padding:8px 12px;border-radius:12px;background:#fff;border:1px solid var(--line);font-size:12px;color:var(--ink2);line-height:1.5}
+.crit li b{display:block;color:var(--blue);font-size:11px;letter-spacing:.08em}
+
+/* ---------- columns ---------- */
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.col{background:#fff;border-radius:16px;padding:20px;box-shadow:0 1px 2px rgba(16,24,40,.05),0 10px 30px rgba(16,24,40,.07)}
+.colhead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:16px}
+.colhead h2{font-size:22px;font-weight:900}
+.colhead h2 small{display:block;font-size:11px;font-weight:700;color:var(--ink3);letter-spacing:.1em;margin-bottom:2px}
+.colhead p{margin-top:6px;font-size:12px;color:var(--ink2);line-height:1.55}
+.sw{display:flex;gap:4px;flex-shrink:0;margin-top:6px}
+.sw i{width:20px;height:20px;border-radius:6px;border:1px solid rgba(0,0,0,.08)}
+.lbl{display:flex;justify-content:space-between;align-items:baseline;margin:16px 0 7px;font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--ink3)}
+.lbl span{font-weight:500;letter-spacing:0;color:var(--ink3)}
+.lbl.first{margin-top:0}
+
+/* ---------- mark ---------- */
+svg.mark{display:block}
+.icons{display:flex;justify-content:space-between}
+.tile{width:200px}
+.tile .big{width:200px;height:200px;border-radius:45px;overflow:hidden;position:relative;background:#ddd}
+.tile .big img{width:100%;height:100%;object-fit:cover;object-position:46% 40%}
+.tile .cap48{display:flex;gap:8px;margin-top:8px}
+.tile .cap48 > div{flex:1;height:64px;border-radius:10px;display:flex;align-items:center;justify-content:center;gap:0}
+.tile .cap48 .on-l{background:#fff;border:1px solid var(--line)}
+.tile .cap48 .on-d{background:#000}
+.tile .note{margin-top:6px;font-size:11px;color:var(--ink3);text-align:center}
+.av{position:relative;border-radius:50%;overflow:hidden;flex-shrink:0;background:#ddd}
+.av img{width:100%;height:100%;object-fit:cover;object-position:46% 40%}
+.av.mk{background:var(--blue)}
+.av svg.mark{width:100%;height:100%}
+.av48{width:48px;height:48px}
+.badge{position:absolute;display:grid;place-items:center;border-radius:50%;background:#fff}
+.badge svg.mark{display:block}
+.big .badge{right:10px;bottom:10px;width:70px;height:70px}
+.big .badge svg{width:58px;height:58px}
+.av48 .badge{right:3px;bottom:3px;width:20px;height:20px}
+.av48 .badge svg{width:16px;height:16px}
+.d1 .badge{background:var(--navy)}
+.d2 .badge{background:#fff}
+.d3 .badge{background:var(--amber)}
+.av48 .photo-wrap{position:absolute;inset:0}
+
+/* ---------- X profile ---------- */
+.xprof{position:relative;padding-bottom:56px}
+.xh{position:relative;height:149px;border-radius:8px;overflow:hidden}
+.xprof .xav{position:absolute;left:14px;top:99px;width:100px;height:100px;border-radius:50%;background:#fff;padding:4px}
+.xprof .xav .av{width:100%;height:100%}
+.xprof .xav .av .badge{width:32px;height:32px;right:8px;bottom:8px}
+.xprof .xav .av .badge svg{width:26px;height:26px}
+.xprof .xname{position:absolute;left:126px;top:157px;line-height:1.25}
+.xprof .xname b{display:block;font-size:15px;font-weight:700}
+.xprof .xname span{font-size:12px;color:var(--ink3)}
+.xprof .xbtn{position:absolute;right:0;top:158px;padding:5px 14px;border-radius:999px;border:1px solid #cfd9de;font-size:12px;font-weight:700}
+.avz{position:absolute;left:14px;top:99px;width:100px;height:100px;border-radius:50%;border:1px dashed rgba(255,255,255,.55);pointer-events:none}
+.d2 .avz{border-color:rgba(36,87,230,.5)}
+.tag{position:absolute;font-weight:900;font-feature-settings:"palt";letter-spacing:-.02em;line-height:1.22;white-space:nowrap}
+.cur{display:inline-block;width:.42em;height:.86em;background:var(--amber);border-radius:2px;vertical-align:-.08em;margin-left:.12em}
+.hnd{position:absolute;font-size:10.5px;letter-spacing:.02em}
+.bp{position:absolute;inset:0;background-image:linear-gradient(rgba(134,168,255,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(134,168,255,.14) 1px,transparent 1px),linear-gradient(rgba(134,168,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(134,168,255,.06) 1px,transparent 1px);background-size:36px 36px,36px 36px,9px 9px,9px 9px;background-position:-1px -1px}
+.dots{position:absolute;inset:0;background-image:radial-gradient(rgba(74,83,97,.16) 1px,transparent 1px);background-size:14px 14px}
+.term{position:absolute;border-radius:10px;background:var(--blue);color:#fff;font-size:9px;line-height:1.7;padding:8px 11px;white-space:nowrap}
+.term .ok{color:#7ee2a8}
+.term .dim{color:rgba(255,255,255,.62)}
+.term .c{display:inline-block;width:5px;height:10px;background:var(--amber);vertical-align:-1px;margin-left:2px}
+.ttile{position:absolute;border-radius:12px;background:var(--soft)}
+.ttile i{position:absolute;left:12%;height:7%;border-radius:999px;background:#fff}
+.ttile i:nth-child(1){top:16%;width:58%}
+.ttile i:nth-child(2){top:34%;width:40%}
+.ttile i:nth-child(3){top:64%;width:34%;background:var(--blue);height:12%}
+
+/* D1 X header */
+.d1 .xh{background:var(--navy)}
+.d1 .xh .tag{left:24px;top:28px;color:#fff;font-size:23px}
+.d1 .xh .term{right:22px;top:30px}
+.d1 .xh .hnd{right:24px;bottom:16px;color:var(--pale)}
+/* D2 X header */
+.d2 .xh{background:#fff;border:1px solid var(--line)}
+.d2 .xh .tag{left:24px;top:28px;color:var(--blue);font-size:23px}
+.d2 .xh .hnd{right:24px;bottom:16px;color:var(--ink3)}
+.d2 .xh .ttile.a{right:150px;top:22px;width:88px;height:64px}
+.d2 .xh .ttile.b{right:52px;top:38px;width:88px;height:64px}
+.d2 .xh .ttile.c{right:100px;top:108px;width:88px;height:64px;opacity:.7}
+/* D3 X header */
+.d3 .xh{background:var(--blue)}
+.d3 .xh .tag{left:24px;top:30px;color:#fff;font-size:26px}
+.d3 .xh .hnd{right:24px;bottom:16px;color:rgba(255,255,255,.8)}
+.d3 .xh .mkw{position:absolute;right:26px;top:22px;width:80px;height:80px}
+.d3 .xh .sig{position:absolute;left:0;top:0;bottom:0;width:8px;background:var(--amber)}
+
+/* ---------- YouTube banner ---------- */
+.yt{position:relative;height:252px;border-radius:8px;overflow:hidden}
+.safe{position:absolute;left:19.8%;top:35.3%;width:60.4%;height:29.4%;border:1px dashed rgba(255,255,255,.7);border-radius:3px}
+.safe:after{content:"安全域 1546×423";position:absolute;right:4px;bottom:-15px;font-size:9px;font-weight:500;letter-spacing:.04em;color:rgba(255,255,255,.75);white-space:nowrap}
+.d2 .safe{border-color:rgba(36,87,230,.55)}
+.d2 .safe:after{color:var(--blue)}
+.ytin{position:absolute;left:19.8%;top:35.3%;width:60.4%;height:29.4%;display:flex;align-items:center;gap:10px;padding:0 12px}
+.ytin svg.mark{width:54px;height:54px;flex-shrink:0}
+.ytin .t1{font-size:13px;font-weight:700;line-height:1.2;white-space:nowrap}
+.ytin .t2{font-size:11.5px;font-weight:900;line-height:1.2;white-space:nowrap;font-feature-settings:"palt";letter-spacing:-.01em}
+.ytin .t3{font-size:8px;line-height:1.3;white-space:nowrap;opacity:.8;margin-top:2px}
+.d1 .yt{background:var(--navy)}
+.d1 .ytin{color:#fff}
+.d1 .ytin .t3{color:var(--pale)}
+.d1 .yt .bpsvg{position:absolute;inset:0;width:100%;height:100%}
+.d2 .yt{background:#fff;border:1px solid var(--line)}
+.d2 .ytin{color:var(--ink)}
+.d2 .ytin .t1{color:var(--ink)}
+.d2 .ytin .t2{color:var(--blue)}
+.d2 .ytin .t3{color:var(--ink3)}
+.d2 .yt .ttile{opacity:.9}
+.d3 .yt{background:var(--blue)}
+.d3 .ytin{color:#fff}
+.d3 .yt .ghost{position:absolute;right:-6px;bottom:-30px;font-size:118px;font-weight:900;color:rgba(255,255,255,.09);letter-spacing:-.04em;line-height:1;white-space:nowrap}
+.d3 .yt .sig{position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--amber)}
+
+/* ---------- vertical post + right stack ---------- */
+.row2{display:flex;gap:16px;align-items:flex-start}
+.vp{position:relative;width:190px;height:338px;border-radius:8px;overflow:hidden;padding:14px 12px 12px;display:flex;flex-direction:column;flex-shrink:0}
+.vp .mk{align-self:flex-start;font-size:8.5px;font-weight:600;letter-spacing:.08em;padding:3px 7px;border-radius:999px}
+.vp h3{margin-top:10px;font-size:15.5px;font-weight:900;line-height:1.3;letter-spacing:-.02em}
+.vp .sub{margin-top:5px;font-size:7.5px;opacity:.75}
+.vp .shot{margin-top:auto;margin-bottom:auto;border-radius:7px;overflow:hidden;height:150px;position:relative}
+.shot .bar{height:12px;display:flex;align-items:center;gap:3px;padding:0 6px}
+.shot .bar i{width:4px;height:4px;border-radius:50%;background:rgba(127,127,127,.5)}
+.shot .body{padding:9px 9px 0;position:relative;height:138px}
+.shot .body i{display:block;border-radius:999px}
+.shot .h1{width:74%;height:7px}
+.shot .h2{width:52%;height:7px;margin-top:4px}
+.shot .p{width:88%;height:3px;margin-top:8px}
+.shot .p2{width:70%;height:3px;margin-top:3px}
+.shot .btn{width:38px;height:11px;margin-top:9px;background:var(--blue)!important}
+.shot .cards{display:flex;gap:5px;margin-top:11px}
+.shot .cards i{flex:1;height:38px;border-radius:5px}
+.vp .foot{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:8px;line-height:1.2}
+.vp .foot svg{width:18px;height:18px}
+.vp .foot b{font-weight:700;font-size:8.5px}
+.vp .foot span{opacity:.75}
+.vp .prod{position:absolute;right:12px;top:14px;font-size:7.5px;font-weight:700;color:var(--amber);letter-spacing:.06em}
+/* vertical variants */
+.d1 .vp{background:var(--navy);color:#fff}
+.d1 .vp .mk{background:rgba(245,165,36,.16);color:var(--amber)}
+.d1 .vp .shot{background:#161d3a}
+.d1 .shot .bar{background:#1f2748}
+.d1 .shot .body i{background:#2b3560}
+.d1 .shot .h1,.d1 .shot .h2{background:#e9edf2}
+.d2 .vp{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.d2 .vp .mk{background:var(--soft);color:var(--blue)}
+.d2 .vp h3 em{font-style:normal;color:var(--blue)}
+.d2 .vp .shot{background:var(--alt);box-shadow:0 1px 2px rgba(16,24,40,.05),0 6px 18px rgba(16,24,40,.08)}
+.d2 .shot .bar{background:#fff}
+.d2 .shot .body i{background:#dfe5ee}
+.d2 .shot .h1,.d2 .shot .h2{background:var(--ink)}
+.d2 .shot .cards i{background:#fff}
+.d3 .vp{background:var(--blue);color:#fff}
+.d3 .vp .mk{background:var(--amber);color:var(--navy)}
+.d3 .vp .shot{background:#fff}
+.d3 .shot .bar{background:var(--alt)}
+.d3 .shot .body i{background:#dfe5ee}
+.d3 .shot .h1,.d3 .shot .h2{background:var(--ink)}
+.d3 .shot .cards i{background:var(--soft)}
+.d3 .vp .prod{color:var(--amber)}
+
+.rstack{flex:1;min-width:0;display:flex;flex-direction:column;gap:10px}
+.capdemo{position:relative;height:134px;border-radius:8px;overflow:hidden;background:#0f1a3a}
+.capdemo .scr{position:absolute;left:14px;top:12px;right:14px;bottom:30px;border-radius:5px;background:#182350}
+.capdemo .scr i{display:block;height:3px;border-radius:999px;background:#33437a;margin:8px 0 0 10px}
+.capdemo .scr i:nth-child(1){width:52%;margin-top:10px}
+.capdemo .scr i:nth-child(2){width:36%}
+.capdemo .scr i:nth-child(3){width:64%;background:#7ee2a8}
+.capdemo .scr i:nth-child(4){width:24%}
+.capdemo .cap{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);white-space:nowrap;font-size:12px;line-height:1;padding:6px 10px;border-radius:6px}
+.capdemo .cap em{font-style:normal;color:var(--amber)}
+.d1 .cap{background:rgba(11,20,48,.88);color:#fff;font-weight:700}
+.d1 .cap:before{content:"";display:inline-block;width:5px;height:11px;background:var(--amber);border-radius:1.5px;margin-right:7px;vertical-align:-1px}
+.d2 .cap{background:rgba(255,255,255,.95);color:var(--ink);font-weight:700;border-left:3px solid var(--blue);border-radius:4px 6px 6px 4px}
+.d2 .cap em{color:var(--blue)}
+.d3 .cap{background:var(--blue);color:#fff;font-weight:900;letter-spacing:.01em}
+.rules{margin:0;padding:10px 12px;list-style:none;border-radius:10px;background:var(--alt);font-size:11px;color:var(--ink2);line-height:1.55}
+.rules li{display:flex;gap:6px}
+.rules li b{color:var(--ink);font-weight:700;flex-shrink:0;min-width:44px}
+
+/* ---------- feed strips ---------- */
+.feed{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:10px;margin-top:8px}
+.feed.light{background:#fff;border:1px solid var(--line);color:#0f1419}
+.feed.dark{background:#000;color:#e7e9ea}
+.feed .avs{display:flex;gap:6px;flex-shrink:0}
+.feed .txt{min-width:0;line-height:1.35}
+.feed .txt b{font-size:14px;font-weight:700}
+.feed .txt .h{font-size:12px;margin-left:5px}
+.feed.light .txt .h{color:#536471}
+.feed.dark .txt .h{color:#71767b}
+.feed .txt p{font-size:13px;line-height:1.4;margin-top:2px}
+.feed .txt p em{font-style:normal;color:var(--blue)}
+.feed.dark .txt p em{color:var(--pale)}
+</style>
+</head>
+<body>
+
+<!-- ===== shared mark symbols ===== -->
+<svg class="sr" aria-hidden="true">
+  <symbol id="mk" viewBox="0 0 100 100">
+    <rect width="100" height="100" rx="22.5" fill="#2457e6"/>
+    <text x="20" y="72.5" font-family="'Noto Sans JP', sans-serif" font-weight="900" font-size="60" fill="#ffffff">K</text>
+    <rect x="64" y="48" width="15" height="24.5" rx="2.5" fill="#f5a524"/>
+  </symbol>
+  <symbol id="mkw" viewBox="0 0 100 100">
+    <rect width="100" height="100" rx="22.5" fill="#ffffff"/>
+    <text x="20" y="72.5" font-family="'Noto Sans JP', sans-serif" font-weight="900" font-size="60" fill="#2457e6">K</text>
+    <rect x="64" y="48" width="15" height="24.5" rx="2.5" fill="#f5a524"/>
+  </symbol>
+</svg>
+
+<header class="head">
+  <div>
+    <h1>チャンネルブランド 方向 3 案 比較</h1>
+    <p>X / YouTube / Instagram / TikTok 共通。マーク・顔写真・タグライン・書体は 3 案共通、地色と面の作り方だけが違う。すべて CSS/SVG 描画・写真は profile.jpg。</p>
+  </div>
+  <div class="chips">
+    <span class="chip">表示名 <b>Kenji Ido</b></span>
+    <span class="chip mono">@idk0723ai</span>
+    <span class="chip">主 <b>AIで作って、本番に出す。</b></span>
+    <span class="chip">シリーズ <b>MAKING #01</b></span>
+    <span class="chip"><i style="background:#2457e6"></i>#2457e6</span>
+    <span class="chip"><i style="background:#0b1430"></i>#0b1430</span>
+    <span class="chip"><i style="background:#e9efff"></i>#e9efff</span>
+    <span class="chip"><i style="background:#f5a524"></i>#f5a524</span>
+    <span class="chip">Noto Sans JP 900 / IBM Plex Mono</span>
+  </div>
+</header>
+<ul class="crit">
+  <li><b>① 同一人物感</b>HP（白地・青・Noto）と同じ人だと分かるか</li>
+  <li><b>② 48px 判読</b>丸アバターで K とマーク色が読めるか</li>
+  <li><b>③ フィード識別性</b>タイムラインで一目で見つかるか</li>
+  <li><b>④ ライト/ダーク UI</b>白背景・黒背景の両方で沈まないか</li>
+  <li><b>⑤ 違和感のなさ</b>法人担当者にも視聴者にも通用するか</li>
+</ul>
+
+<div class="cols">
+
+<!-- ================= D1 工房 ================= -->
+<section class="col d1">
+  <div class="colhead">
+    <div>
+      <h2><small>D1</small>工房（紺地）</h2>
+      <p>紺 #0b1430 の地に白タイポ・青の面・琥珀カーソル・薄い設計図グリッド。動画の地色と同じ。</p>
+    </div>
+    <div class="sw"><i style="background:#0b1430"></i><i style="background:#2457e6"></i><i style="background:#ffffff"></i><i style="background:#f5a524"></i></div>
+  </div>
+
+  <div class="lbl first">アイコン 2 種 <span>200px ／ 48px 丸（白 UI・黒 UI）</span></div>
+  <div class="icons">
+    <div class="tile">
+      <div class="big"><svg class="mark" viewBox="0 0 100 100" width="200" height="200"><use href="#mk"/></svg></div>
+      <div class="cap48">
+        <div class="on-l"><div class="av av48 mk"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div>
+        <div class="on-d"><div class="av av48 mk"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div>
+      </div>
+      <div class="note">マーク版</div>
+    </div>
+    <div class="tile">
+      <div class="big"><img src="../../../static/profile.jpg" alt=""><div class="badge"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div>
+      <div class="cap48">
+        <div class="on-l"><div class="av av48"><img src="../../../static/profile.jpg" alt=""><div class="badge"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div></div>
+        <div class="on-d"><div class="av av48"><img src="../../../static/profile.jpg" alt=""><div class="badge"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div></div>
+      </div>
+      <div class="note">顔写真版（推奨）・右下にマーク</div>
+    </div>
+  </div>
+
+  <div class="lbl">X ヘッダー <span>1500×500 → 縮小・アバター重なり位置つき</span></div>
+  <div class="xprof">
+    <div class="xh">
+      <div class="bp"></div>
+      <div class="tag">AIで作って、<br>本番に出す。<i class="cur"></i></div>
+      <div class="term mono">$ claude "紹介 HP を作って"<br><span class="ok">✔</span> build <span class="ok">✔</span> test <span class="ok">✔</span> deploy<br><span class="dim">→ kenji6836.github.io</span><i class="c"></i></div>
+      <div class="hnd mono">@idk0723ai</div>
+    </div>
+    <div class="xav"><div class="av"><img src="../../../static/profile.jpg" alt=""><div class="badge"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div></div>
+    <div class="xname"><b>Kenji Ido</b><span class="mono">@idk0723ai</span></div>
+    <div class="xbtn">フォロー</div>
+  </div>
+
+  <div class="lbl">YouTube バナー <span>2560×1440 → 縮小・点線＝安全域</span></div>
+  <div class="yt">
+    <div class="bp"></div>
+    <svg class="bpsvg" viewBox="0 0 448 252" fill="none" stroke="#86a8ff" stroke-opacity=".45" stroke-width="1">
+      <rect x="20" y="24" width="50" height="96" rx="8"/><rect x="28" y="36" width="34" height="62" rx="2"/><circle cx="45" cy="110" r="4"/>
+      <rect x="374" y="128" width="58" height="42" rx="4"/><line x1="374" y1="138" x2="432" y2="138"/><circle cx="380" cy="133" r="1.5"/><circle cx="385" cy="133" r="1.5"/>
+      <path d="M20 190 h120" stroke-dasharray="3 3"/><path d="M300 40 h120" stroke-dasharray="3 3"/>
+      <path d="M96 60 v60 M80 100 h40" stroke-dasharray="2 4"/>
+    </svg>
+    <div class="ytin">
+      <svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg>
+      <div><div class="t1">Kenji Ido</div><div class="t2">AIで作って、本番に出す。<i class="cur"></i></div><div class="t3 mono">@idk0723ai · kenji6836.github.io</div></div>
+    </div>
+    <div class="safe"></div>
+  </div>
+
+  <div class="lbl">縦型投稿テンプレ／字幕 <span>1080×1920 → 縮小・字幕は動画下部</span></div>
+  <div class="row2">
+    <div class="vp">
+      <span class="mk mono">MAKING #01</span>
+      <span class="prod">自主制作</span>
+      <h3>紹介 HP を<br>Claude Code で作る</h3>
+      <div class="sub">企画から公開まで、1 本で。</div>
+      <div class="shot"><div class="bar"><i></i><i></i><i></i></div><div class="body"><i class="h1"></i><i class="h2"></i><i class="p"></i><i class="p2"></i><i class="btn"></i><div class="cards"><i></i><i></i><i></i></div></div></div>
+      <div class="foot"><svg viewBox="0 0 100 100"><use href="#mk"/></svg><div><b>Kenji Ido</b><br><span class="mono">@idk0723ai</span></div></div>
+    </div>
+    <div class="rstack">
+      <div class="capdemo"><div class="scr"><i></i><i></i><i></i><i></i></div><div class="cap">作ったら、そのまま<em>本番</em>へ。</div></div>
+      <ul class="rules">
+        <li><b>地色</b>紺。動画・イントロと同じ地で連続感</li>
+        <li><b>タイポ</b>白 900・青の面で情報を置く</li>
+        <li><b>琥珀</b>カーソルと「本番」の瞬間だけ</li>
+        <li><b>質感</b>薄い設計図グリッド＝制作過程</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="lbl">フィード内の見え方 <span>48px・白 UI ／ 黒 UI</span></div>
+  <div class="feed light">
+    <div class="avs"><div class="av av48 mk"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div><div class="av av48"><img src="../../../static/profile.jpg" alt=""><div class="badge"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div></div>
+    <div class="txt"><b>Kenji Ido</b><span class="h mono">@idk0723ai · 2h</span><p><em>MAKING #01</em> 紹介 HP を Claude Code で作って、そのまま公開まで。</p></div>
+  </div>
+  <div class="feed dark">
+    <div class="avs"><div class="av av48 mk"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div><div class="av av48"><img src="../../../static/profile.jpg" alt=""><div class="badge"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div></div>
+    <div class="txt"><b>Kenji Ido</b><span class="h mono">@idk0723ai · 2h</span><p><em>MAKING #01</em> 紹介 HP を Claude Code で作って、そのまま公開まで。</p></div>
+  </div>
+</section>
+
+<!-- ================= D2 スタジオ ================= -->
+<section class="col d2">
+  <div class="colhead">
+    <div>
+      <h2><small>D2</small>スタジオ（白地）</h2>
+      <p>白地・青タイポ大・薄青のタイル。HP と完全に同じ空気（角丸 16・影・ドット地）。</p>
+    </div>
+    <div class="sw"><i style="background:#ffffff"></i><i style="background:#2457e6"></i><i style="background:#e9efff"></i><i style="background:#f5a524"></i></div>
+  </div>
+
+  <div class="lbl first">アイコン 2 種 <span>200px ／ 48px 丸（白 UI・黒 UI）</span></div>
+  <div class="icons">
+    <div class="tile">
+      <div class="big"><svg class="mark" viewBox="0 0 100 100" width="200" height="200"><use href="#mk"/></svg></div>
+      <div class="cap48">
+        <div class="on-l"><div class="av av48 mk"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div>
+        <div class="on-d"><div class="av av48 mk"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div>
+      </div>
+      <div class="note">マーク版</div>
+    </div>
+    <div class="tile">
+      <div class="big"><img src="../../../static/profile.jpg" alt=""><div class="badge"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div>
+      <div class="cap48">
+        <div class="on-l"><div class="av av48"><img src="../../../static/profile.jpg" alt=""><div class="badge"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div></div>
+        <div class="on-d"><div class="av av48"><img src="../../../static/profile.jpg" alt=""><div class="badge"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div></div>
+      </div>
+      <div class="note">顔写真版（推奨）・右下にマーク</div>
+    </div>
+  </div>
+
+  <div class="lbl">X ヘッダー <span>1500×500 → 縮小・アバター重なり位置つき</span></div>
+  <div class="xprof">
+    <div class="xh">
+      <div class="dots"></div>
+      <div class="ttile a"><i></i><i></i><i></i></div>
+      <div class="ttile b"><i></i><i></i><i></i></div>
+      <div class="ttile c"><i></i><i></i><i></i></div>
+      <div class="tag">AIで作って、<br>本番に出す。<i class="cur"></i></div>
+      <div class="hnd mono">@idk0723ai</div>
+    </div>
+    <div class="xav"><div class="av"><img src="../../../static/profile.jpg" alt=""><div class="badge"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div></div>
+    <div class="xname"><b>Kenji Ido</b><span class="mono">@idk0723ai</span></div>
+    <div class="xbtn">フォロー</div>
+  </div>
+
+  <div class="lbl">YouTube バナー <span>2560×1440 → 縮小・点線＝安全域</span></div>
+  <div class="yt">
+    <div class="dots"></div>
+    <div class="ttile" style="left:22px;top:22px;width:96px;height:66px"><i></i><i></i><i></i></div>
+    <div class="ttile" style="left:22px;top:170px;width:96px;height:66px;opacity:.6"><i></i><i></i><i></i></div>
+    <div class="ttile" style="right:22px;top:22px;width:96px;height:66px;opacity:.6"><i></i><i></i><i></i></div>
+    <div class="ttile" style="right:22px;top:170px;width:96px;height:66px"><i></i><i></i><i></i></div>
+    <div class="ytin">
+      <svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg>
+      <div><div class="t1">Kenji Ido</div><div class="t2">AIで作って、本番に出す。<i class="cur"></i></div><div class="t3 mono">@idk0723ai · kenji6836.github.io</div></div>
+    </div>
+    <div class="safe"></div>
+  </div>
+
+  <div class="lbl">縦型投稿テンプレ／字幕 <span>1080×1920 → 縮小・字幕は動画下部</span></div>
+  <div class="row2">
+    <div class="vp">
+      <span class="mk mono">MAKING #01</span>
+      <span class="prod" style="color:#6b7480">自主制作</span>
+      <h3>紹介 HP を<br><em>Claude Code</em> で作る</h3>
+      <div class="sub">企画から公開まで、1 本で。</div>
+      <div class="shot"><div class="bar"><i></i><i></i><i></i></div><div class="body"><i class="h1"></i><i class="h2"></i><i class="p"></i><i class="p2"></i><i class="btn"></i><div class="cards"><i></i><i></i><i></i></div></div></div>
+      <div class="foot"><svg viewBox="0 0 100 100"><use href="#mk"/></svg><div><b>Kenji Ido</b><br><span class="mono">@idk0723ai</span></div></div>
+    </div>
+    <div class="rstack">
+      <div class="capdemo"><div class="scr"><i></i><i></i><i></i><i></i></div><div class="cap">作ったら、そのまま<em>本番</em>へ。</div></div>
+      <ul class="rules">
+        <li><b>地色</b>白。HP のカード・ドット地をそのまま</li>
+        <li><b>タイポ</b>青 900 を大きく・本文は墨</li>
+        <li><b>琥珀</b>カーソルのみ（白地では青で強調）</li>
+        <li><b>質感</b>薄青タイル＋柔らかい影</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="lbl">フィード内の見え方 <span>48px・白 UI ／ 黒 UI</span></div>
+  <div class="feed light">
+    <div class="avs"><div class="av av48 mk"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div><div class="av av48"><img src="../../../static/profile.jpg" alt=""><div class="badge"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div></div>
+    <div class="txt"><b>Kenji Ido</b><span class="h mono">@idk0723ai · 2h</span><p><em>MAKING #01</em> 紹介 HP を Claude Code で作って、そのまま公開まで。</p></div>
+  </div>
+  <div class="feed dark">
+    <div class="avs"><div class="av av48 mk"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div><div class="av av48"><img src="../../../static/profile.jpg" alt=""><div class="badge"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div></div>
+    <div class="txt"><b>Kenji Ido</b><span class="h mono">@idk0723ai · 2h</span><p><em>MAKING #01</em> 紹介 HP を Claude Code で作って、そのまま公開まで。</p></div>
+  </div>
+</section>
+
+<!-- ================= D3 シグナル ================= -->
+<section class="col d3">
+  <div class="colhead">
+    <div>
+      <h2><small>D3</small>シグナル（青地）</h2>
+      <p>ブランド青べたの地に白 900 タイポ・琥珀アクセント。マークは白抜き版。フィードで最も目立つ。</p>
+    </div>
+    <div class="sw"><i style="background:#2457e6"></i><i style="background:#ffffff"></i><i style="background:#f5a524"></i><i style="background:#0b1430"></i></div>
+  </div>
+
+  <div class="lbl first">アイコン 2 種 <span>200px ／ 48px 丸（白 UI・黒 UI）</span></div>
+  <div class="icons">
+    <div class="tile">
+      <div class="big"><svg class="mark" viewBox="0 0 100 100" width="200" height="200"><use href="#mk"/></svg></div>
+      <div class="cap48">
+        <div class="on-l"><div class="av av48 mk"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div>
+        <div class="on-d"><div class="av av48 mk"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div>
+      </div>
+      <div class="note">マーク版</div>
+    </div>
+    <div class="tile">
+      <div class="big"><img src="../../../static/profile.jpg" alt=""><div class="badge"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div>
+      <div class="cap48">
+        <div class="on-l"><div class="av av48"><img src="../../../static/profile.jpg" alt=""><div class="badge"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div></div>
+        <div class="on-d"><div class="av av48"><img src="../../../static/profile.jpg" alt=""><div class="badge"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div></div>
+      </div>
+      <div class="note">顔写真版（推奨）・右下にマーク</div>
+    </div>
+  </div>
+
+  <div class="lbl">X ヘッダー <span>1500×500 → 縮小・アバター重なり位置つき</span></div>
+  <div class="xprof">
+    <div class="xh">
+      <div class="sig"></div>
+      <div class="tag" style="left:30px">AIで作って、<br>本番に出す。<i class="cur"></i></div>
+      <svg class="mkw" viewBox="0 0 100 100"><use href="#mkw"/></svg>
+      <div class="hnd mono">@idk0723ai</div>
+    </div>
+    <div class="xav"><div class="av"><img src="../../../static/profile.jpg" alt=""><div class="badge"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div></div>
+    <div class="xname"><b>Kenji Ido</b><span class="mono">@idk0723ai</span></div>
+    <div class="xbtn">フォロー</div>
+  </div>
+
+  <div class="lbl">YouTube バナー <span>2560×1440 → 縮小・点線＝安全域</span></div>
+  <div class="yt">
+    <div class="sig"></div>
+    <div class="ghost">MAKING</div>
+    <div class="ytin">
+      <svg class="mark" viewBox="0 0 100 100"><use href="#mkw"/></svg>
+      <div><div class="t1">Kenji Ido</div><div class="t2">AIで作って、本番に出す。<i class="cur"></i></div><div class="t3 mono">@idk0723ai · kenji6836.github.io</div></div>
+    </div>
+    <div class="safe"></div>
+  </div>
+
+  <div class="lbl">縦型投稿テンプレ／字幕 <span>1080×1920 → 縮小・字幕は動画下部</span></div>
+  <div class="row2">
+    <div class="vp">
+      <span class="mk mono">MAKING #01</span>
+      <span class="prod" style="color:#fff;opacity:.8">自主制作</span>
+      <h3>紹介 HP を<br>Claude Code で作る</h3>
+      <div class="sub">企画から公開まで、1 本で。</div>
+      <div class="shot"><div class="bar"><i></i><i></i><i></i></div><div class="body"><i class="h1"></i><i class="h2"></i><i class="p"></i><i class="p2"></i><i class="btn"></i><div class="cards"><i></i><i></i><i></i></div></div></div>
+      <div class="foot"><svg viewBox="0 0 100 100"><use href="#mkw"/></svg><div><b>Kenji Ido</b><br><span class="mono">@idk0723ai</span></div></div>
+    </div>
+    <div class="rstack">
+      <div class="capdemo"><div class="scr"><i></i><i></i><i></i><i></i></div><div class="cap">作ったら、そのまま<em>本番</em>へ。</div></div>
+      <ul class="rules">
+        <li><b>地色</b>ブランド青べた。地そのものが目印</li>
+        <li><b>タイポ</b>白 900 を最大に・マークは白抜き</li>
+        <li><b>琥珀</b>カーソル・左端の帯・MAKING チップ</li>
+        <li><b>質感</b>フラット。装飾は置かない</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="lbl">フィード内の見え方 <span>48px・白 UI ／ 黒 UI</span></div>
+  <div class="feed light">
+    <div class="avs"><div class="av av48 mk"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div><div class="av av48"><img src="../../../static/profile.jpg" alt=""><div class="badge"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div></div>
+    <div class="txt"><b>Kenji Ido</b><span class="h mono">@idk0723ai · 2h</span><p><em>MAKING #01</em> 紹介 HP を Claude Code で作って、そのまま公開まで。</p></div>
+  </div>
+  <div class="feed dark">
+    <div class="avs"><div class="av av48 mk"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div><div class="av av48"><img src="../../../static/profile.jpg" alt=""><div class="badge"><svg class="mark" viewBox="0 0 100 100"><use href="#mk"/></svg></div></div></div>
+    <div class="txt"><b>Kenji Ido</b><span class="h mono">@idk0723ai · 2h</span><p><em>MAKING #01</em> 紹介 HP を Claude Code で作って、そのまま公開まで。</p></div>
+  </div>
+</section>
+
+</div>
+</body>
+</html>
