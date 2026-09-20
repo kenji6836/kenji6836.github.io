@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 560" width="480" height="560" role="img" aria-label="人物写真の枕">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E9EEF5"/>
+      <stop offset="1" stop-color="#CDD7E4"/>
+    </linearGradient>
+    <linearGradient id="fig" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9FB0C6"/>
+      <stop offset="1" stop-color="#7D8FA8"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="560" fill="url(#bg)"/>
+  <circle cx="240" cy="200" r="86" fill="url(#fig)"/>
+  <path d="M60 560c0-118 80-190 180-190s180 72 180 190Z" fill="url(#fig)"/>
+  <path d="M170 402l70 26 70-26" fill="none" stroke="#E9EEF5" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="240" y="530" text-anchor="middle" font-family="-apple-system, 'Hiragino Sans', sans-serif" font-size="16" fill="#5A6070">写真（見本）</text>
+</svg>

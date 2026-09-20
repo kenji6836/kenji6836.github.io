@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="防災訓練の写真の枕">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#EEF2F7"/>
+      <stop offset="1" stop-color="#D6DEE9"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg)"/>
+  <path d="M120 260l200-160 200 160Z" fill="#9FB0C6"/>
+  <rect x="200" y="260" width="240" height="40" fill="#7D8FA8"/>
+  <path d="M320 100v-40" stroke="#7D8FA8" stroke-width="8" stroke-linecap="round"/>
+  <path d="M320 60h60l-20 18 20 18h-60Z" fill="#7D8FA8"/>
+  <g fill="#B9C6D8">
+    <circle cx="90" cy="290" r="14"/><rect x="76" y="304" width="28" height="30" rx="8"/>
+    <circle cx="560" cy="290" r="14"/><rect x="546" y="304" width="28" height="30" rx="8"/>
+  </g>
+  <text x="320" y="340" text-anchor="middle" font-family="-apple-system, 'Hiragino Sans', sans-serif" font-size="16" fill="#5A6070">写真（見本）</text>
+</svg>
