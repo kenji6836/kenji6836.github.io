@@ -80,7 +80,7 @@ h1, h2, h3, p { margin: 0; }
 .hero-media { display: flex; justify-content: center; }
 .portrait {
   width: min(100%, 300px);
-  aspect-ratio: 6 / 7;
+  aspect-ratio: 3 / 4;
   border-radius: 20px;
   box-shadow: var(--shadow);
   border: 3px solid var(--on-primary);
