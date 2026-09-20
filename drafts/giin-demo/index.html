@@ -175,6 +175,202 @@
     <p class="footer-sample">※ サンプルサイト（架空の人物・自治体）</p>
   </div>
 </footer>
+<script>
+/* 簡易 CMS（編集モード）— build.py --editor でページ末尾にインライン展開される。
+   文字をタップして書きかえ・写真をタップして差し替え・活動報告の追加と削除・「公開する」で保存。
+   デモ版の保存先はこの端末の localStorage。本番では保存先を API（content.json の更新 → 再生成）に差し替える。 */
+(function () {
+  var KEY = 'giin-edits-v1';
+  var PARTS = ['header.site-header', 'main', 'footer.site-footer'];
+  var TEXT_SEL = [
+    '.brand-title', '.brand-name', '.eyebrow', '.hero-message', '.hero-name-main', '.hero-name-kana', '.hero-sub',
+    '.section-title', '.section-lead', '.fact-label', '.fact-value', '.prose p',
+    '.policy-title', '.policy-body', '.policy-done-label', '.policy-done-text',
+    '.report-date', '.report-title', '.report-text', '.voice-text', '.voice-attr',
+    '.contact-label', '.contact-text', '.contact-hours', '.contact-list a',
+    '.footer-admin', '.footer-notice'
+  ].join(',');
+  var IMG_SEL = '.portrait, .report-art';
+  var editing = false;
+
+  /* ---- 保存済みの編集を復元（ページ描画直後・テーマ切替バーの前） ---- */
+  var saved = null;
+  try { saved = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { saved = null; }
+  if (saved && saved.parts) {
+    PARTS.forEach(function (sel) {
+      var el = document.querySelector(sel);
+      if (el && typeof saved.parts[sel] === 'string') { el.outerHTML = saved.parts[sel]; }
+    });
+  }
+
+  /* ---- UI 部品 ---- */
+  function h(tag, cls, text) {
+    var el = document.createElement(tag);
+    if (cls) { el.className = cls; }
+    if (text != null) { el.textContent = text; }
+    return el;
+  }
+  var fab = h('button', 'gi-fab', '✎ 編集する');
+  fab.type = 'button';
+  var bar = h('div', 'gi-bar');
+  bar.setAttribute('role', 'toolbar');
+  bar.setAttribute('aria-label', '編集ツールバー');
+  var hint = h('span', 'gi-hint', '編集中：文字や写真をタップして書きかえ（本番はログインした本人だけ編集可）');
+  var btnReset = h('button', 'gi-reset', '元に戻す');
+  var btnCancel = h('button', 'gi-cancel', 'やめる');
+  var btnPublish = h('button', 'gi-publish', '公開する');
+  [btnReset, btnCancel, btnPublish].forEach(function (b) { b.type = 'button'; });
+  bar.appendChild(hint); bar.appendChild(btnReset); bar.appendChild(btnCancel); bar.appendChild(btnPublish);
+  var file = document.createElement('input');
+  file.type = 'file'; file.accept = 'image/*'; file.hidden = true;
+  document.body.appendChild(fab); document.body.appendChild(bar); document.body.appendChild(file);
+
+  function toast(msg) {
+    var t = h('div', 'gi-toast', msg);
+    t.setAttribute('role', 'status');
+    document.body.appendChild(t);
+    setTimeout(function () { t.remove(); }, 3600);
+  }
+
+  /* ---- 編集モードの ON/OFF ---- */
+  function setEditable(on) {
+    document.querySelectorAll(TEXT_SEL).forEach(function (el) {
+      if (el.closest('.gi-add')) { return; }
+      if (on) {
+        el.setAttribute('contenteditable', 'plaintext-only');
+        if (el.contentEditable !== 'plaintext-only') { el.setAttribute('contenteditable', 'true'); }
+      } else {
+        el.removeAttribute('contenteditable');
+      }
+    });
+    document.querySelectorAll(IMG_SEL).forEach(function (img) {
+      img.classList.toggle('gi-img', on);
+      var parent = img.parentElement;
+      var badge = parent.querySelector(':scope > .gi-img-badge');
+      if (on && !badge) { parent.appendChild(h('span', 'gi-img-badge', '写真をタップして差し替え')); }
+      if (!on && badge) { badge.remove(); }
+    });
+    document.querySelectorAll('.report-card').forEach(function (card) {
+      var del = card.querySelector(':scope > .gi-del');
+      if (on && !del) { var b = h('button', 'gi-del', '削除'); b.type = 'button'; card.appendChild(b); }
+      if (!on && del) { del.remove(); }
+    });
+    var grid = document.querySelector('.report-grid');
+    if (grid) {
+      var add = grid.querySelector('.gi-add');
+      if (on && !add) { var a = h('button', 'gi-add', '＋ 活動報告を追加'); a.type = 'button'; grid.appendChild(a); }
+      if (!on && add) { add.remove(); }
+    }
+    document.body.classList.toggle('gi-editing', on);
+    editing = on;
+    /* ツールバーの実高さぶんだけ本文と固定ヘッダーを下げる（幅で行数が変わる） */
+    document.documentElement.style.setProperty('--gi-bar-h', on ? bar.offsetHeight + 'px' : '0px');
+  }
+
+  /* ---- 保存（編集用の属性・ボタンを取り除いてから） ---- */
+  function cleanClone(el) {
+    var c = el.cloneNode(true);
+    c.querySelectorAll('[contenteditable]').forEach(function (n) { n.removeAttribute('contenteditable'); });
+    c.querySelectorAll('.gi-del, .gi-add, .gi-img-badge').forEach(function (n) { n.remove(); });
+    c.querySelectorAll('.gi-img').forEach(function (n) { n.classList.remove('gi-img'); if (!n.className) { n.removeAttribute('class'); } });
+    return c;
+  }
+  function publish() {
+    var parts = {};
+    PARTS.forEach(function (sel) { var el = document.querySelector(sel); if (el) { parts[sel] = cleanClone(el).outerHTML; } });
+    try {
+      localStorage.setItem(KEY, JSON.stringify({ parts: parts, at: new Date().toISOString() }));
+    } catch (e) {
+      toast('保存できませんでした（写真が大きすぎる可能性があります）。写真を小さくして再度お試しください。');
+      return;
+    }
+    setEditable(false);
+    toast('公開しました（デモ：この端末に保存されます。本番では数分でサイトに反映されます）');
+  }
+
+  /* ---- 活動報告カードの追加 ---- */
+  function newReportCard() {
+    var first = document.querySelector('.report-card');
+    var card;
+    if (first) {
+      card = cleanClone(first);
+    } else {
+      card = h('article', 'card report-card');
+      card.innerHTML = '<img class="report-art" src="assets/report-festival.svg" width="640" height="360" alt="活動の写真">' +
+        '<div class="report-body"><time class="report-date"></time><h3 class="report-title"></h3><p class="report-text"></p></div>';
+    }
+    var d = new Date();
+    var iso = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    var time = card.querySelector('.report-date');
+    if (time) { time.setAttribute('datetime', iso); time.textContent = d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日'; }
+    var title = card.querySelector('.report-title'); if (title) { title.textContent = '活動のタイトルを入力'; }
+    var body = card.querySelector('.report-text'); if (body) { body.textContent = 'ここに活動の内容を書きます。写真をタップすると差し替えられます。'; }
+    var img = card.querySelector('.report-art'); if (img) { img.src = 'assets/report-festival.svg'; img.alt = '活動の写真'; }
+    return card;
+  }
+
+  /* ---- イベント ---- */
+  fab.addEventListener('click', function () { setEditable(true); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  btnCancel.addEventListener('click', function () {
+    if (saved && saved.parts) {
+      PARTS.forEach(function (sel) { var el = document.querySelector(sel); if (el && saved.parts[sel]) { el.outerHTML = saved.parts[sel]; } });
+      setEditable(false);
+      toast('編集をやめました（公開済みの内容に戻しました）');
+    } else {
+      location.reload();
+    }
+  });
+  btnReset.addEventListener('click', function () {
+    if (!confirm('公開した編集をすべて取り消して、最初の内容に戻します。よろしいですか？')) { return; }
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    location.reload();
+  });
+  btnPublish.addEventListener('click', publish);
+
+  var pendingImg = null;
+  document.addEventListener('click', function (ev) {
+    if (!editing) { return; }
+    var t = ev.target;
+    if (t.closest('.gi-bar')) { return; }
+    var img = t.closest(IMG_SEL);
+    if (img) { ev.preventDefault(); pendingImg = img; file.value = ''; file.click(); return; }
+    var del = t.closest('.gi-del');
+    if (del) { ev.preventDefault(); var card = del.closest('.report-card'); if (card && confirm('この活動報告を削除しますか？')) { card.remove(); } return; }
+    var add = t.closest('.gi-add');
+    if (add) { ev.preventDefault(); var c = newReportCard(); add.parentNode.insertBefore(c, add); setEditable(true); c.querySelector('.report-title').focus(); return; }
+    var link = t.closest('a');
+    if (link) { ev.preventDefault(); if (link.hasAttribute('contenteditable')) { link.focus(); } }
+  }, true);
+  file.addEventListener('change', function () {
+    var f = file.files && file.files[0];
+    if (!f || !pendingImg) { return; }
+    var img = pendingImg; pendingImg = null;
+    var reader = new FileReader();
+    reader.onload = function () {
+      /* 端末保存の容量（約 5MB）に収めるため、長辺 1280px に縮小して JPEG 化 */
+      var src = new Image();
+      src.onload = function () {
+        var scale = Math.min(1, 1280 / Math.max(src.width, src.height));
+        var cv = document.createElement('canvas');
+        cv.width = Math.round(src.width * scale); cv.height = Math.round(src.height * scale);
+        cv.getContext('2d').drawImage(src, 0, 0, cv.width, cv.height);
+        img.src = cv.toDataURL('image/jpeg', 0.82);
+      };
+      src.src = reader.result;
+    };
+    reader.readAsDataURL(f);
+  });
+  /* 連絡先のメール・電話は表示文字に合わせてリンク先も更新 */
+  document.addEventListener('blur', function (ev) {
+    var a = ev.target;
+    if (!editing || !(a instanceof HTMLAnchorElement) || !a.closest('.contact-list')) { return; }
+    var href = a.getAttribute('href') || '';
+    var text = a.textContent.trim();
+    if (href.indexOf('mailto:') === 0) { a.setAttribute('href', 'mailto:' + text); }
+    if (href.indexOf('tel:') === 0) { a.setAttribute('href', 'tel:' + text.replace(/[^0-9+]/g, '')); }
+  }, true);
+})();
+</script>
 <div class="draft-bar" role="group" aria-label="テーマ切替（下書き用）"><span class="draft-bar-label">テーマ</span><button class="draft-chip" type="button" data-theme-key="navy" aria-pressed="true"><span class="swatch" style="background:#1F3A5F"></span>紺</button><button class="draft-chip" type="button" data-theme-key="blue" aria-pressed="false"><span class="swatch" style="background:#2A7DE1"></span>青</button><button class="draft-chip" type="button" data-theme-key="green" aria-pressed="false"><span class="swatch" style="background:#2E7D4F"></span>緑</button></div>
 <script>
 (function(){
