@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="議場の写真の枕">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#EEF2F7"/>
+      <stop offset="1" stop-color="#D6DEE9"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg)"/>
+  <g fill="#9FB0C6">
+    <rect x="200" y="70" width="240" height="90" rx="8"/>
+    <rect x="40" y="200" width="150" height="26" rx="6"/>
+    <rect x="245" y="200" width="150" height="26" rx="6"/>
+    <rect x="450" y="200" width="150" height="26" rx="6"/>
+    <rect x="70" y="250" width="150" height="26" rx="6"/>
+    <rect x="245" y="250" width="150" height="26" rx="6"/>
+    <rect x="420" y="250" width="150" height="26" rx="6"/>
+  </g>
+  <rect x="290" y="45" width="60" height="30" rx="4" fill="#7D8FA8"/>
+  <text x="320" y="330" text-anchor="middle" font-family="-apple-system, 'Hiragino Sans', sans-serif" font-size="16" fill="#5A6070">写真（見本）</text>
+</svg>

@@ -223,7 +223,10 @@ for pg in extra_pages:
         elif src and not src.startswith("data:"):
             path = resolve(src, pg)
             if not os.path.exists(path): fail(f"{pg}: missing image {src}")
+    # demos/ は顧客向け納品物のデモ（例: 議員サイトは公選法上 連絡先の明記が必要）→ mailto/tel を許可。javascript: は引き続き禁止
+    contact_ok = pg.startswith("demos/")
     for href, a in p.links:
+        if contact_ok and href.startswith(("mailto:", "tel:")): continue
         if href.startswith(("mailto:", "tel:", "javascript:")): fail(f"{pg}: unexpected scheme {href}")
         elif href.startswith(("http", "//")):
             if a.get("target") == "_blank" and "noopener" not in a.get("rel", ""): fail(f"{pg}: _blank without noopener {href}")
