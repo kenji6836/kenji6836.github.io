@@ -723,3 +723,25 @@ main:focus { outline: none; }
   .plan { padding: 18px; }
   .plan-price { font-size: 22px; }
 }
+
+/* ---- トップ「進め方」の下: 実際の記録 2 件へのリンク札 ---- */
+.flowcase-wrap { margin-top: clamp(32px, 4vw, 48px); padding-top: clamp(28px, 3.5vw, 40px); border-top: 1px solid var(--line); }
+.flowcase-lead { max-width: 46em; margin-bottom: 20px; color: var(--text-2); font-size: 14px; line-height: 1.8; }
+.flowcase-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.flowcase { min-width: 0; }
+.flowcase > a { display: flex; align-items: flex-start; gap: 14px; height: 100%; padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); transition: border-color .2s, transform .2s, box-shadow .2s; }
+.flowcase > a > div { flex: 1; min-width: 0; }
+.flowcase-glyph { display: grid; place-items: center; flex-shrink: 0; width: 40px; height: 40px; border-radius: 12px; color: var(--brand); background: var(--brand-soft); }
+.flowcase-glyph .icon { width: 21px; height: 21px; }
+.flowcase strong { display: block; font-size: 15px; font-weight: 700; line-height: 1.55; word-break: keep-all; overflow-wrap: anywhere; }
+.flowcase p { margin-top: 7px; color: var(--text-2); font-size: 13px; line-height: 1.75; }
+.flowcase-arrow { flex-shrink: 0; width: 17px; height: 17px; margin-top: 12px; color: var(--brand); transition: transform .2s; }
+@media (hover: hover) {
+  .flowcase > a:hover { border-color: var(--brand-line); transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+  .flowcase > a:hover .flowcase-arrow { transform: translateX(3px); }
+}
+@media (max-width: 639px) {
+  .flowcase-grid { grid-template-columns: 1fr; gap: 12px; }
+  .flowcase > a { padding: 16px; gap: 12px; }
+  .flowcase-arrow { display: none; }
+}

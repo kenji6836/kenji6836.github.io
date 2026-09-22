@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ホームページ制作はこう進みます（5 ページの見本で）｜進め方 — Kenji Ido</title>
+  <meta name="description" content="美容室の見本サイト 5 ページを、写真の用意から公開まで実際にどう作ったか。かかった時間・作った枚数・公開前に測った項目を、記録そのままで載せています。">
+  <link rel="canonical" href="https://kenji6836.github.io/cases/hp-flow/">
+  <meta property="og:title" content="ホームページ制作はこう進みます（5 ページの見本で）｜進め方 — Kenji Ido">
+  <meta property="og:description" content="写真の用意から公開まで、実際の記録で。かかった時間・作った枚数・公開前に測った項目を載せています。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://kenji6836.github.io/cases/hp-flow/">
+  <meta property="og:image" content="https://kenji6836.github.io/assets/beauty-salon/hero-800.jpg">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#2457e6">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/cases/assets/cases.css?v=1">
+  <style>
+    .tag { display: inline-block; padding: 0 8px; border-radius: 999px; font-size: 11px; font-weight: 700; background: var(--ok-soft); color: var(--ok); }
+    .shotwrap { margin-top: 8px; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--surface); box-shadow: var(--shadow); }
+    .shotwrap img { display: block; width: 100%; height: auto; }
+    .cta-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    @media (max-width: 720px) {
+      table, tbody, tr, td { display: block; } thead th { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+      tr { border-bottom: 1px solid var(--line); padding: 10px 0; } tr:last-child { border-bottom: 0; } td { border: 0; padding: 3px 14px; overflow-wrap: anywhere; }
+      td[data-l]::before { content: attr(data-l); display: block; font-size: 11px; font-weight: 700; color: var(--text-3); }
+    }
+  </style>
+</head>
+<body>
+<a class="skip-link" href="#main">本文へスキップ</a>
+<header class="site-header"><div class="container"><a class="brand" href="/">Kenji Ido</a><nav class="site-nav" aria-label="メインナビゲーション"><a href="/works/">制作実績</a><a href="/#contact">お問い合わせ</a></nav></div></header>
+<main id="main" tabindex="-1">
+
+<section class="case-hero"><div class="container">
+  <span class="eyebrow">ホームページ制作 ／ 進め方の記録</span>
+  <h1>ホームページ制作は、こう進みます</h1>
+  <p class="lead">美容室の見本サイト 5 ページを題材に、写真をそろえる所から公開まで実際にどう進んだかを、記録そのままで載せています。「頼んだら何がどの順で出てくるのか」を先に見ていただくためのページです。</p>
+  <ul class="badges">
+    <li class="badge badge-brand">自主制作の見本</li>
+    <li class="badge">時間はコミット記録から</li>
+    <li class="badge badge-warn">架空のお店です</li>
+  </ul>
+  <ul class="kpis">
+    <li class="kpi"><div class="kpi-value">5<small>ページ</small></div><div class="kpi-label">トップ・メニュー・スタイリスト・ギャラリー・アクセス</div><div class="kpi-src">hp/beauty-salon/ の 5 ファイル・2026-09-23 に計数</div></li>
+    <li class="kpi"><div class="kpi-value">9<small>枚</small></div><div class="kpi-label">写真は全部この店のために新しく作成（既製の素材は不使用）</div><div class="kpi-src">assets/beauty-salon/hp/README.md の生成記録・2026-09-23</div></li>
+    <li class="kpi"><div class="kpi-value">2<small>時間</small>29<small>分</small></div><div class="kpi-label">最初の公開物から仕上げの差し替えまで（同日中）</div><div class="kpi-src">git のコミット時刻 17:57→20:26・2026-09-22</div></li>
+    <li class="kpi"><div class="kpi-value">375<small>px</small></div><div class="kpi-label">いちばん狭いスマホ幅で横スクロールが出ないことを公開前に測定</div><div class="kpi-src">site/tools/cdp-eval.mjs の実行結果・2026-09-23</div></li>
+  </ul>
+</div></section>
+
+<section class="section"><div class="container">
+  <div class="section-heading"><span class="eyebrow">できあがり</span><h2>まずは実物を見てください</h2><p>下のリンクはそのまま開けます。スマホでも同じ見た目で動きます。</p></div>
+  <div class="cta-actions"><a class="button button-primary" href="/hp/beauty-salon/">見本サイトを開く</a><a class="button button-secondary" href="/works/beauty-salon/">制作物のページを見る</a></div>
+</div></section>
+
+<section class="section section-alt"><div class="container">
+  <div class="section-heading"><span class="eyebrow">進め方</span><h2>4 つの段階に分けて進みます</h2><p>各段階の終わりに、そのときの実物をお見せします。最後にまとめて見せる作り方はしません。</p></div>
+  <ol class="rules">
+    <li class="rule"><span class="num">1</span><div><h3>お店のことを伺い、必要なページを決める</h3><p>今回は「どんな店か・誰がいるか・いくらか・どこにあるか・どんな仕上がりか」の 5 つに分け、そのままページ 5 枚にしました。ページを増やすほど費用も更新の手間も増えるので、最初は少なめに決めます。</p></div></li>
+    <li class="rule"><span class="num">2</span><div><h3>写真をそろえる</h3><p>この見本では、店内 2 枚・スタッフ 3 枚・仕上がり 4 枚の計 9 枚をこのお店のために新しく作りました。よそで見かける既製の写真は使いません。お手元に撮影済みの写真があればそれを使い、無ければこの方法で用意できます。</p></div></li>
+    <li class="rule"><span class="num">3</span><div><h3>組み立てて、実物のリンクで確認していただく</h3><p>この段階で一度お見せします。文言・並び順・色は、この時点なら安く直せます。見本では 19:34 に 5 ページを置き、そのあと 20:26 にトップの背景を写真から短い動画に差し替えました。</p></div></li>
+    <li class="rule"><span class="num">4</span><div><h3>公開前に測ってから出す</h3><p>「たぶん大丈夫」では出しません。下の表の項目を毎回測り、通ってから公開します。</p></div></li>
+  </ol>
+</div></section>
+
+<section class="section"><div class="container">
+  <div class="section-heading"><span class="eyebrow">記録</span><h2>この見本でかかった時間と量</h2><p>すべてコミット記録とファイルから数えた実数です。お客様の案件では、ご相談と確認のやりとりの時間がこれに加わります。</p></div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>項目</th><th>値</th><th>出典</th><th>確認日</th></tr></thead>
+    <tbody>
+      <tr><td data-l="項目">同日 17:57</td><td data-l="値">先に 1 枚もののページと、触れる見本を公開</td><td data-l="出典" class="src">コミット 31c381f <span class="tag">実測</span></td><td data-l="確認日">2026-09-23</td></tr>
+      <tr><td data-l="項目">同日 19:34</td><td data-l="値">HP 5 ページを公開</td><td data-l="出典" class="src">コミット a474023 <span class="tag">実測</span></td><td data-l="確認日">2026-09-23</td></tr>
+      <tr><td data-l="項目">同日 20:26</td><td data-l="値">トップの背景を 9 秒の動画に差し替え（読み込めない端末では写真を表示）</td><td data-l="出典" class="src">コミット 2076e74 <span class="tag">実測</span></td><td data-l="確認日">2026-09-23</td></tr>
+      <tr><td data-l="項目">ページの中身</td><td data-l="値">5 ページ合計 約 58KB（文字部分）</td><td data-l="出典" class="src">hp/beauty-salon/*.html を計測 <span class="tag">実測</span></td><td data-l="確認日">2026-09-23</td></tr>
+      <tr><td data-l="項目">写真</td><td data-l="値">9 枚を新規作成。9 枚とも 1 回目で採用、撮り直し 0 回</td><td data-l="出典" class="src">assets/beauty-salon/hp/README.md <span class="tag">実測</span></td><td data-l="確認日">2026-09-23</td></tr>
+      <tr><td data-l="項目">表示の軽さ</td><td data-l="値">写真 9 枚それぞれに、長辺 1600px の軽い版を用意（計 18 ファイル）</td><td data-l="出典" class="src">assets/beauty-salon/hp/ を計数 <span class="tag">実測</span></td><td data-l="確認日">2026-09-23</td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+<section class="section section-alt"><div class="container">
+  <div class="section-heading"><span class="eyebrow">公開前の確認</span><h2>毎回ここを測ってから出します</h2></div>
+  <div class="cards">
+    <div class="card"><h3>見え方</h3><ul class="checklist">
+      <li>幅 375px（小さめのスマホ）で横スクロールが出ないこと</li>
+      <li>本文が 12px 以上あること</li>
+      <li>スマホ幅とパソコン幅の実画面を、目で 1 枚ずつ見ること</li>
+    </ul></div>
+    <div class="card"><h3>中身</h3><ul class="checklist">
+      <li>リンク切れ・画像切れが 0 件であること</li>
+      <li>ブラウザのエラー表示が 0 件であること</li>
+      <li>暗い画面設定でも文字が読めること</li>
+    </ul></div>
+  </div>
+  <p class="flow-caption">この見本については、2026-09-23 に幅 375px で横スクロール 0（測定値 375px）を確認しています。</p>
+</div></section>
+
+<section class="section"><div class="container">
+  <div class="note"><strong>正直な注記:</strong> 「hair salon nagi」は実在しないお店です。腕前をお見せするために作った見本で、お客様への納品事例ではありません。写真の人物・店舗もすべて架空です。掲載している時間と枚数は、2026-09-23 に手元のコミット記録とファイルから数えた実数です。</div>
+</div></section>
+
+<section class="section section-alt"><div class="container">
+  <div class="cta"><div><h2>同じ進め方で、御社のホームページを作ります</h2><p>ページ数と写真の有無で費用が変わります。まずは今お持ちの材料をお聞かせください。</p></div>
+    <div class="cta-actions"><a class="button button-primary" href="/#contact">相談する（無料）</a><a class="button button-secondary" href="/#pricing">費用の目安を見る</a></div></div>
+</div></section>
+
+</main>
+<footer class="site-footer"><div class="container"><small>© Kenji Ido</small><p>掲載している制作物はすべて本人が企画・設計・実装・公開したものです。</p></div></footer>
+</body>
+</html>

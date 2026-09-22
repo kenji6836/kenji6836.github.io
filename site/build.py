@@ -596,8 +596,15 @@ class Site:
         process = self.content["process"]
         steps = "".join('<li class="step reveal"><span class="step-num">{}</span><span class="step-glyph">{}</span><strong>{}</strong></li>'.format(
             esc(step["step"]), icon(step["icon"]), soft_break(step["title"])) for step in process["steps"])
-        return '<section id="process" class="section"><div class="container">{}<ol class="steps stagger-grid">{}</ol></div></section>'.format(
-            self.section_heading("PROCESS", process["heading"], process.get("note", "")), steps)
+        cases = "".join(
+            '<li class="flowcase reveal"><a href="{}"><span class="flowcase-glyph">{}</span><div><strong>{}</strong><p>{}</p></div>{}</a></li>'.format(
+                esc(case["href"]), icon(case["icon"]), soft_break(case["title"]), esc(case["summary"]),
+                icon("arrow", "flowcase-arrow"))
+            for case in process.get("cases", []))
+        cases_html = '<div class="flowcase-wrap"><p class="flowcase-lead">{}</p><ul class="flowcase-grid stagger-grid">{}</ul></div>'.format(
+            esc(process["cases_lead"]), cases) if cases else ""
+        return '<section id="process" class="section"><div class="container">{}<ol class="steps stagger-grid">{}</ol>{}</div></section>'.format(
+            self.section_heading("PROCESS", process["heading"], process.get("note", "")), steps, cases_html)
 
     def about(self):
         """自己紹介: 写真＋名前＋一言＋数字 3 つ（hero.stats）＋技術チップ。段落は置かない"""
@@ -738,6 +745,10 @@ class Site:
                     url = url[len(site_url):]
                 if url.startswith("/") and url.endswith("/") and url not in paths and (ROOT / url.strip("/") / "index.html").exists():
                     paths.append(url)
+        for case in self.content["process"].get("cases", []):  # 「進め方の記録」も独立ページなのでサイトマップに載せる
+            href = case.get("href", "")
+            if href.startswith("/") and href.endswith("/") and href not in paths and (ROOT / href.strip("/") / "index.html").exists():
+                paths.append(href)
         for name in ("site.css", "site.js"):
             result["assets/" + name] = (SOURCE / "static" / name).read_bytes()
         sitemap = ET.Element("urlset", xmlns="http://www.sitemaps.org/schemas/sitemap/0.9")
