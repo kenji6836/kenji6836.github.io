@@ -17,3 +17,5 @@ Phase 2（2026-09-13）: 動画・広告・SNS の自主制作サンプルの原
 レーン統合（2026-09-14・HP 底上げ計画）: 各レーンは `site/lanes/<x>/works.json`（works エントリ／categories の lead／featured／hero_stats）と素材だけを納品し、`content.json` は統合レーンだけが触る。
 　`python3 site/tools/merge_lanes.py --dry-run` で差分要約 → `--apply` で `content.json` へ冪等に反映（slug 一致は置換・無ければ追加・hero.stats は works の実数から再計算）→ `python3 site/build.py` → `python3 site/tests/check_site.py`。壊れたスニペットは理由つきで skip され exit 1。
 　単体テスト: `python3 site/tests/test_merge_lanes.py`。独立ページ（`/lp/ /app/ /viz/ /demos/ /dashboard/ /cases/` 配下の index.html）は check_site.py が存在するときだけ同じ検査を掛ける（lang・title・description・img alt・外部 script/css・内部リンク・_blank noopener・video muted/playsinline・禁止語）。
+トップの構成（2026-09-22・視覚主体）: `hero.catch`＋`tagline`＋ボタン 1 つ → `hero.band`（作品スクショが流れる帯 2 段。`{"work","visual"[,"item"]}` で作品のビジュアルを参照）→ `entry.items`（5 分類タイル: 題名・アイコン・スクショ・リンク先）→ `featured`（大サムネ 12 件。短い題名・使うビジュアル・種別札は `featured_cards[slug]`）→ できること（`categories`）→ `process.steps`（4 ステップ・`note` が見出し横の 1 行）→ 自己紹介（`hero.stats` を数字で表示）→ 相談フォーム。
+　帯の画像の選び方: ぱっと見で何か分かる画面（写真・図・盤面・大きな見出し）を優先し、文字だけの画面や事例ページの表は入れない。

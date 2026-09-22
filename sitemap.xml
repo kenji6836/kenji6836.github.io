@@ -88,6 +88,9 @@
     <loc>https://kenji6836.github.io/works/beauty-salon/</loc>
   </url>
   <url>
+    <loc>https://kenji6836.github.io/works/beauty-salon-hp/</loc>
+  </url>
+  <url>
     <loc>https://kenji6836.github.io/works/portfolio-site/</loc>
   </url>
   <url>
@@ -109,6 +112,15 @@
     <loc>https://kenji6836.github.io/app/mitsumori/</loc>
   </url>
   <url>
+    <loc>https://kenji6836.github.io/ads/mitsumori/</loc>
+  </url>
+  <url>
+    <loc>https://kenji6836.github.io/design/channel-brand/</loc>
+  </url>
+  <url>
+    <loc>https://kenji6836.github.io/design/mitsumori/</loc>
+  </url>
+  <url>
     <loc>https://kenji6836.github.io/demos/giin-intro/</loc>
   </url>
   <url>
@@ -119,5 +131,8 @@
   </url>
   <url>
     <loc>https://kenji6836.github.io/app/beauty-salon/</loc>
+  </url>
+  <url>
+    <loc>https://kenji6836.github.io/hp/beauty-salon/</loc>
   </url>
 </urlset>

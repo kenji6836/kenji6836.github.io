@@ -8,7 +8,7 @@
     "brand_color": "#2457e6",
     "nav": [
       {
-        "label": "任せられること",
+        "label": "できること",
         "href": "/#services"
       },
       {
@@ -27,13 +27,10 @@
     "footer_note": "掲載している制作物はすべて本人が企画・設計・実装・公開したものです。"
   },
   "hero": {
-    "headline": "アプリも、Web も、自動化も。\n企画から公開まで、\nまとめて任せられます。",
-    "sub": "App Store 公開アプリ 4 本・公開 Web ツール・業務自動化デモなど、実際に動いている制作物をご覧ください。",
-    "cta_primary": {
-      "label": "制作実績を見る",
-      "href": "/works/"
-    },
-    "cta_secondary": {
+    "catch": "言葉より、実物で。",
+    "catch_accent": "実物で。",
+    "tagline": "アプリ・Web・自動化。\n企画から公開まで、一人で。",
+    "cta": {
       "label": "相談する（無料）",
       "href": "/#contact"
     },
@@ -49,23 +46,142 @@
         "label": "公開ツール・デモ"
       },
       {
-        "value": "16",
+        "value": "17",
         "unit": "件",
         "label": "自主制作サンプル"
       }
     ],
-    "visual": [
+    "band": [
+      [
+        {
+          "work": "kensetsu-lp",
+          "visual": 0
+        },
+        {
+          "work": "sweepfield",
+          "visual": 0
+        },
+        {
+          "work": "mitsumori-triage",
+          "visual": 0
+        },
+        {
+          "work": "mitsumori-ads",
+          "visual": 0,
+          "item": "square-a"
+        },
+        {
+          "work": "viz-housing",
+          "visual": 0
+        },
+        {
+          "work": "shogi",
+          "visual": 1
+        },
+        {
+          "work": "beauty-salon",
+          "visual": 0
+        },
+        {
+          "work": "channel-brand",
+          "visual": 2
+        },
+        {
+          "work": "ad-banner-set",
+          "visual": 0,
+          "item": "square-a"
+        }
+      ],
+      [
+        {
+          "work": "giin-intro",
+          "visual": 0
+        },
+        {
+          "work": "blockwise",
+          "visual": 0
+        },
+        {
+          "work": "viz-housing",
+          "visual": 1
+        },
+        {
+          "work": "making-shorts",
+          "visual": 0
+        },
+        {
+          "work": "reachlab",
+          "visual": 0
+        },
+        {
+          "work": "mission-control",
+          "visual": 0
+        },
+        {
+          "work": "channel-brand",
+          "visual": 4
+        },
+        {
+          "work": "mitsumori-triage",
+          "visual": 1
+        },
+        {
+          "work": "mitsumori-ads",
+          "visual": 0,
+          "item": "landscape"
+        }
+      ]
+    ]
+  },
+  "entry": {
+    "kicker": "USE CASES",
+    "heading": "こんなご相談に",
+    "lead": "近い見本を見ながら、進め方と費用をご提案します。",
+    "items": [
       {
-        "work": "sweepfield",
-        "visual": 0
+        "title": "集計・レポートの自動化",
+        "icon": "sheet",
+        "href": "/works/gas-sales-report/",
+        "image": {
+          "work": "mitsumori-triage",
+          "visual": 1
+        }
       },
       {
-        "work": "reachlab",
-        "visual": 0
+        "title": "問い合わせ返信の下書き",
+        "icon": "mail",
+        "href": "/works/inquiry-reply-assistant/",
+        "image": {
+          "work": "mitsumori-triage",
+          "visual": 0
+        }
       },
       {
-        "work": "mission-control",
-        "visual": 0
+        "title": "紹介ページ・HP 制作",
+        "icon": "web",
+        "href": "/works/beauty-salon/",
+        "image": {
+          "work": "beauty-salon",
+          "visual": 0
+        }
+      },
+      {
+        "title": "新着の自動収集・通知",
+        "icon": "cloud",
+        "href": "/works/triage/",
+        "image": {
+          "work": "mission-control",
+          "visual": 0
+        }
+      },
+      {
+        "title": "AI 活用の相談・研修",
+        "icon": "model",
+        "href": "/works/autopilot/",
+        "image": {
+          "work": "channel-brand",
+          "visual": 2
+        }
       }
     ]
   },
@@ -138,11 +254,67 @@
   "featured": [
     "kensetsu-lp",
     "mitsumori-triage",
+    "beauty-salon",
+    "viz-housing",
+    "sweepfield",
+    "shogi",
     "making-shorts",
     "aso",
-    "viz-housing",
-    "autopilot"
+    "giin-intro",
+    "mitsumori-ads",
+    "channel-brand",
+    "reachlab"
   ],
+  "featured_cards": {
+    "kensetsu-lp": {
+      "title": "工務店向け 紹介 LP"
+    },
+    "mitsumori-triage": {
+      "title": "見積トリアージ（業務アプリ）",
+      "kind": "試せます"
+    },
+    "beauty-salon": {
+      "title": "美容院向け LP＋返信デモ",
+      "kind": "試せます"
+    },
+    "viz-housing": {
+      "title": "家は、どこに建っているのか。"
+    },
+    "sweepfield": {
+      "title": "Sweepfield（iOS）",
+      "kind": "App Store"
+    },
+    "shogi": {
+      "title": "本格将棋道場（iOS）",
+      "visual": 1,
+      "kind": "App Store"
+    },
+    "making-shorts": {
+      "title": "ショート動画 MAKING"
+    },
+    "aso": {
+      "title": "App Store 掲載最適化",
+      "visual": 1,
+      "kind": "実数つき"
+    },
+    "giin-intro": {
+      "title": "議員紹介サイト（デモ）"
+    },
+    "mitsumori-ads": {
+      "title": "広告セット（14 点）",
+      "visual": {
+        "visual": 0,
+        "item": "square-b"
+      }
+    },
+    "channel-brand": {
+      "title": "チャンネル素材一式",
+      "visual": 2
+    },
+    "reachlab": {
+      "title": "リーチラボ（Web アプリ）"
+    }
+  },
   "works": [
     {
       "slug": "sweepfield",
@@ -2069,6 +2241,49 @@
       ]
     },
     {
+      "slug": "beauty-salon-hp",
+      "title": "美容院のホームページ（5 ページ・架空店）",
+      "kicker": "ホームページ制作（美容院・ヘアサロン向け）",
+      "categories": [
+        "web",
+        "marketing"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "世田谷の住宅街にある席数 4 席の架空サロン「hair salon nagi」のホームページ。トップ・メニュー・スタッフ・ギャラリー・アクセスの 5 ページで、予約はホットペッパービューティーへの導線をそのまま使います。写真とスタッフはすべて架空です。",
+      "role": "構成・文章・写真の用意・実装（スマホ優先）・表示確認",
+      "points": [
+        "実在するサロンのサイトの型（HOME・CONCEPT・MENU・STAFF・GALLERY・ACCESS）に合わせた構成",
+        "メニューは税込価格と「シャンプー・ブロー込み」の一言まで、スタッフは経歴とひとことまで、そのまま使える粒度",
+        "スマホ下部に予約ボタンを固定。ホットペッパーの予約ページへ 1 タップ",
+        "外部の部品を使わない軽い作りで、写真の差し替えだけで実店舗に使えます"
+      ],
+      "stack": [
+        "HTML/CSS（自己完結）",
+        "JavaScript"
+      ],
+      "links": [
+        {
+          "label": "ホームページを見る",
+          "url": "/hp/beauty-salon/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/beauty-salon/hp/interior-1-1600.jpg",
+          "alt": "hair salon nagi のトップページ（店内写真のヒーロー）",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/beauty-salon/hp/staff-1-1600.jpg",
+          "alt": "スタッフ紹介ページのスタイリスト写真",
+          "frame": "phone"
+        }
+      ]
+    },
+    {
       "slug": "portfolio-site",
       "title": "この紹介サイト（静的サイト生成・検査ツール自作）",
       "kicker": "サービスサイト",
@@ -2137,33 +2352,32 @@
       }
     ]
   },
-  "process": [
-    {
-      "step": "1",
-      "title": "ご相談",
-      "text": "フォームから概要を送るだけ。ヒアリングで要件を整理します。"
-    },
-    {
-      "step": "2",
-      "title": "ご提案・お見積り",
-      "text": "進め方・納期・費用を先にお伝えします。"
-    },
-    {
-      "step": "3",
-      "title": "制作・確認",
-      "text": "動くものを早めにお見せし、確認しながら仕上げます。"
-    },
-    {
-      "step": "4",
-      "title": "納品・公開",
-      "text": "公開作業や引き継ぎ資料まで対応します。"
-    },
-    {
-      "step": "5",
-      "title": "納品後の責任範囲",
-      "text": "成果物の範囲・検収条件・修正の範囲・保守の有無・データの取扱いを、お見積り時に文書でお示しします。"
-    }
-  ],
+  "process": {
+    "heading": "進め方",
+    "note": "成果物の範囲・検収条件・修正の範囲・保守の有無・データの取扱いを、お見積り時に文書でお示しします。",
+    "steps": [
+      {
+        "step": "1",
+        "title": "ご相談",
+        "icon": "chat"
+      },
+      {
+        "step": "2",
+        "title": "ご提案・お見積り",
+        "icon": "file"
+      },
+      {
+        "step": "3",
+        "title": "制作・確認",
+        "icon": "check"
+      },
+      {
+        "step": "4",
+        "title": "納品・公開",
+        "icon": "rocket"
+      }
+    ]
+  },
   "contact": {
     "heading": "まずは\n「こんなことできますか？」から",
     "lead": "ご相談・お見積りは無料です。通常 2 日以内にご返信します。",

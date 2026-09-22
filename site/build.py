@@ -35,6 +35,11 @@ def esc(value):
     return html.escape(str(value), quote=True)
 
 
+def soft_break(text):
+    """「アプリ・システム開発」を「開／発」で折らず「・」の後だけで折れるように、<wbr> を置く（keep-all と組で使う）"""
+    return esc(text).replace("・", "・<wbr>")
+
+
 def icon(name, extra=""):
     return (
         '<svg class="icon {extra}" width="24" height="24" viewBox="0 0 24 24" '
@@ -79,14 +84,17 @@ def image_size(src):
     raise ValueError("Unsupported image: " + src)
 
 
-def image(visual, eager=False):
+def image(visual, eager=False, priority=None):
+    """priority=None なら eager と同じ（先読み画像は fetchpriority=high）。False で eager だけ付ける"""
     width, height = image_size(visual["src"])
+    if priority is None:
+        priority = eager
     return (
         '<img src="{src}" alt="{alt}" width="{width}" height="{height}" '
         'loading="{loading}" decoding="async"{priority}>'
     ).format(src=esc(asset_url(visual["src"])), alt=esc(visual["alt"]), width=width,
              height=height, loading="eager" if eager else "lazy",
-             priority=' fetchpriority="high"' if eager else "")
+             priority=' fetchpriority="high"' if priority else "")
 
 
 def device(visual, eager=False):
@@ -353,62 +361,130 @@ class Site:
             return '<div class="card-icon-row">{}</div>'.format("".join(icons))
         return visual_markup(first, True)
 
-    def section_heading(self, kicker, heading):
+    def section_heading(self, kicker, heading, lead=""):
         heading_html = "<br>".join(esc(line) for line in heading.split("\n"))
-        return '<div class="section-heading reveal"><span class="eyebrow">{}</span><h2>{}</h2></div>'.format(esc(kicker), heading_html)
+        lead_html = '<p class="section-lead">{}</p>'.format(esc(lead)) if lead else ""
+        return '<div class="section-heading reveal"><div><span class="eyebrow">{}</span><h2>{}</h2></div>{}</div>'.format(esc(kicker), heading_html, lead_html)
+
+    def pick_visual(self, work, ref=None):
+        """作品のビジュアル参照を image() 用の dict に解決する。
+        ref: None = 先頭の image/video（無ければ先頭の mock）／int = visuals の添字／
+        {"visual": i, "item": slot} = adset の 1 点／{"src", "alt", "frame"} = 直接指定。video は poster をスマホ枠で使う"""
+        if isinstance(ref, dict) and "src" in ref:
+            return {"src": ref["src"], "alt": ref["alt"], "frame": ref.get("frame", "browser")}
+        if ref is None:
+            visual = next((v for v in work["visuals"] if v["type"] in ("image", "video")), work["visuals"][0])
+        else:
+            visual = work["visuals"][ref["visual"] if isinstance(ref, dict) else ref]
+            if isinstance(ref, dict) and "item" in ref:
+                item = next(i for i in visual["items"] if i["slot"] == ref["item"])
+                return {"src": item["src"], "alt": item["alt"], "frame": "square" if ref["item"].startswith("square") else "browser"}
+        if visual["type"] == "video":
+            return {"src": visual["poster"], "alt": visual["alt"], "frame": "phone"}
+        return visual
+
+    def band_item(self, ref, eager=False, hidden=False):
+        """帯の 1 枚。hidden は継ぎ目なしループ用の 2 周目（読み上げ・タブ移動の対象外）"""
+        work = self.work_by_slug[ref["work"]]
+        visual = self.pick_visual(work, ref if "visual" in ref else None)
+        if hidden:
+            visual = dict(visual, alt="")
+        return '<li{}{}><a href="/works/{}/"{}>{}</a></li>'.format(
+            ' class="band-phone"' if visual.get("frame") == "phone" else "", ' aria-hidden="true"' if hidden else "",
+            esc(work["slug"]), ' tabindex="-1"' if hidden else "", image(visual, eager, priority=False))
+
+    def band(self):
+        """作品スクショが自動で流れる帯（2 段・逆向き）。並びは hero.band。
+        選び方: ぱっと見で何か分かる画面（写真・図・盤面・大きな見出し）を優先し、文字だけの画面や事例ページの表は入れない。
+        1 段目の 1 周目だけ先読み、2 周目（aria-hidden）は遅延読み込み"""
+        rows = []
+        for index, refs in enumerate(self.content["hero"]["band"]):
+            items = "".join(self.band_item(ref, eager=index == 0) for ref in refs)
+            items += "".join(self.band_item(ref, hidden=True) for ref in refs)
+            rows.append('<div class="band{}"><ul class="band-track">{}</ul></div>'.format(" band-reverse" if index % 2 else "", items))
+        return '<div class="band-stack" aria-label="つくったものの画面（流れる帯）">{}</div>'.format("".join(rows))
 
     def hero(self):
         hero = self.content["hero"]
-        headline = "<br>".join(esc(line) for line in hero["headline"].split("\n"))
-        headline = headline.replace("まとめて任せられます。", '<span class="accent">まとめて任せられます。</span>')
-        stats = "".join('<div><dt>{}</dt><dd><strong>{}</strong><span>{}</span></dd></div>'.format(
-            STAT_LABEL_HTML.get(stat["label"], esc(stat["label"])), esc(stat["value"]), esc(stat["unit"])) for stat in hero["stats"])
-        devices = "".join('<div class="hero-device hero-device-{}">{}</div>'.format(
-            i, device(self.work_by_slug[item["work"]]["visuals"][item["visual"]], eager=i == 0))
-            for i, item in enumerate(hero["visual"]))
-        primary, secondary = hero["cta_primary"], hero["cta_secondary"]
+        catch = "<br>".join(esc(line) for line in hero["catch"].split("\n"))
+        accent = esc(hero.get("catch_accent", ""))
+        if accent and accent in catch:
+            catch = catch.replace(accent, '<span class="accent">{}</span>'.format(accent), 1)
+        cta = hero["cta"]
         return (
-            '<section id="top" class="hero"><div class="container hero-grid"><div class="hero-copy">'
-            '<h1>{}</h1><p class="hero-lead">{}</p><div class="hero-actions">{}{}</div>'
-            '<dl class="hero-stats">{}</dl></div><div class="device-stage">{}</div></div></section>'
-        ).format(headline, esc(hero["sub"]), self.button(primary["label"], primary["href"], True),
-                 self.button(secondary["label"], secondary["href"]), stats, devices)
+            '<section id="top" class="hero"><div class="container hero-copy"><h1>{}</h1><p class="hero-lead">{}</p>'
+            '<div class="hero-actions">{}</div><p class="hero-scroll" aria-hidden="true">SCROLL{}</p></div>{}</section>'
+        ).format(catch, "".join('<span class="unit">{}</span>'.format(esc(line)) for line in hero["tagline"].split("\n")),
+                 self.button(cta["label"], cta["href"], True), icon("down"), self.band())
 
-    def services(self):
+    def entry(self):
+        """5 分類タイル: 作品スクショ＋アイコン＋題名だけ（段落なし）。押すと近い見本へ"""
+        entry = self.content["entry"]
         tiles = "".join(
-            '<a class="service-tile reveal" href="/works/#cat={}"><span class="service-icon">{}</span>'
-            '<h3>{}</h3><p>{}</p><span class="service-count">制作実績 {} 件 {}</span></a>'.format(
-                esc(cat["id"]), icon(cat["icon"]), esc(cat["name"]), esc(cat["lead"]), self.counts[cat["id"]], icon("arrow"))
-            for cat in self.categories)
-        return '<section id="services" class="section section-alt"><div class="container">{}<div class="services-grid stagger-grid">{}</div></div></section>'.format(
-            self.section_heading("SERVICES", "任せられること"), tiles)
+            '<li class="reveal"><a class="tile" href="{}"><div class="tile-visual">{}<span class="tile-icon">{}</span></div>'
+            '<div class="tile-body"><h3>{}</h3>{}</div></a></li>'.format(
+                esc(item["href"]), image(self.pick_visual(self.work_by_slug[item["image"]["work"]], item["image"])),
+                icon(item["icon"]), soft_break(item["title"]), icon("arrow"))
+            for item in entry["items"])
+        return '<section id="entry" class="section section-alt"><div class="container">{}<ul class="tile-grid stagger-grid">{}</ul></div></section>'.format(
+            self.section_heading(entry["kicker"], entry["heading"], entry.get("lead", "")), tiles)
+
+    def shot(self, slug):
+        """作品の大サムネ 1 枚（題名＋種別札だけ）。表示上書きは featured_cards[slug]（title・visual・kind）"""
+        work = self.work_by_slug[slug]
+        opts = self.content.get("featured_cards", {}).get(slug, {})
+        visual = self.pick_visual(work, opts.get("visual"))
+        frame = visual.get("frame")
+        if visual.get("type") == "mock":
+            markup = mock(visual, compact=True)
+        elif frame == "phone":
+            markup = '<div class="shot-phone">{}</div>'.format(image(visual))
+        elif frame in ("square", "icon"):
+            markup = '<div class="shot-square">{}</div>'.format(image(visual))
+        else:
+            markup = image(visual)
+        public = work["label"] == "public"
+        kind = opts.get("kind") or (self.content["labels"]["public"] if public else self.cat_by_id[work["categories"][0]]["name"])
+        return (
+            '<li class="reveal"><a class="shot" href="/works/{}/"><div class="shot-visual">{}</div>'
+            '<div class="shot-body"><h3>{}</h3><span class="shot-kind{}">{}</span></div></a></li>'
+        ).format(esc(slug), markup, soft_break(opts.get("title", work["title"])), " is-public" if public else "", esc(kind))
 
     def featured(self):
-        cards = "".join(self.card(self.work_by_slug[slug]) for slug in self.content["featured"])
-        return '<section id="works" class="section"><div class="container">{}<div class="works-grid stagger-grid">{}</div><div class="section-action">{}</div></div></section>'.format(
-            self.section_heading("WORKS", "制作実績"), cards,
-            self.button("すべての制作実績（{} 件）を見る".format(len(self.works)), "/works/"))
+        cards = "".join(self.shot(slug) for slug in self.content["featured"])
+        return '<section id="works" class="section"><div class="container">{}<ul class="shot-grid stagger-grid">{}</ul><div class="section-action">{}</div></div></section>'.format(
+            self.section_heading("WORKS", "つくったもの", self.site["footer_note"]), cards,
+            self.button("すべて見る（{} 件）".format(len(self.works)), "/works/"))
+
+    def services(self):
+        """できること: 10 分野をアイコン札で（名前＋件数だけ）。各札は一覧の絞り込みへ"""
+        tiles = "".join(
+            '<li class="reveal"><a class="cat" href="/works/#cat={}"><span class="cat-icon">{}</span>'
+            '<span><strong>{}</strong><small>{} 件</small></span></a></li>'.format(
+                esc(cat["id"]), icon(cat["icon"]), soft_break(cat["name"]), self.counts[cat["id"]])
+            for cat in self.categories)
+        return '<section id="services" class="section section-alt"><div class="container">{}<ul class="cat-grid stagger-grid">{}</ul></div></section>'.format(
+            self.section_heading("SERVICES", "できること"), tiles)
 
     def process(self):
-        steps = "".join('<li class="process-step reveal"><span class="process-number">{}</span><h3>{}</h3><p>{}</p></li>'.format(
-            esc(step["step"]), esc(step["title"]), esc(step["text"])) for step in self.content["process"])
-        return '<section id="process" class="section section-alt"><div class="container">{}<ol class="process-grid stagger-grid">{}</ol></div></section>'.format(
-            self.section_heading("PROCESS", "進め方"), steps)
+        process = self.content["process"]
+        steps = "".join('<li class="step reveal"><span class="step-num">{}</span><span class="step-glyph">{}</span><strong>{}</strong></li>'.format(
+            esc(step["step"]), icon(step["icon"]), soft_break(step["title"])) for step in process["steps"])
+        return '<section id="process" class="section"><div class="container">{}<ol class="steps stagger-grid">{}</ol></div></section>'.format(
+            self.section_heading("PROCESS", process["heading"], process.get("note", "")), steps)
 
     def about(self):
+        """自己紹介: 写真＋名前＋一言＋数字 3 つ（hero.stats）＋技術チップ。段落は置かない"""
         person = self.person
         avatar = image({"src": person["photo"], "alt": person["name"]}) if person["photo"] else '<span>{}</span>'.format(esc(person["initial"]))
-        facts = "".join('<li class="status-pill">{}{}</li>'.format(icon("check"), esc(fact)) for fact in person["facts"])
-        bio = "".join("<p>{}</p>".format(esc(line)) for line in person["bio"])
+        stats = "".join('<div><dt>{}</dt><dd><strong>{}</strong><span>{}</span></dd></div>'.format(
+            STAT_LABEL_HTML.get(stat["label"], esc(stat["label"])), esc(stat["value"]), esc(stat["unit"])) for stat in self.content["hero"]["stats"])
         skills = "".join('<li class="chip">{}</li>'.format(esc(skill)) for skill in person["skills"])
-        links = "".join(self.button(link["label"], link["url"], external=True, glyph="github") for link in person["links"])
         return (
-            '<section id="about" class="section"><div class="container">{}<div class="about-grid">'
-            '<div class="avatar reveal"{}>{}</div><div class="about-copy reveal"><h3>{}</h3><p class="tagline">{}</p>'
-            '<ul class="fact-list">{}</ul><div class="bio">{}</div><ul class="skill-list">{}</ul>'
-            '<div class="button-row">{}</div></div></div></div></section>'
-        ).format(self.section_heading("ABOUT", "自己紹介"), ' aria-hidden="true"' if not person["photo"] else "",
-                 avatar, esc(person["name"]), esc(person["tagline"]), facts, bio, skills, links)
+            '<section id="about" class="section section-alt"><div class="container about-grid">'
+            '<div class="avatar reveal"{}>{}</div><div class="about-copy reveal"><span class="eyebrow">ABOUT</span><h2>{}</h2>'
+            '<p class="tagline">{}</p><dl class="stats">{}</dl><ul class="skill-list">{}</ul></div></div></section>'
+        ).format(' aria-hidden="true"' if not person["photo"] else "", avatar, esc(person["name"]), esc(person["tagline"]), stats, skills)
 
     def contact(self):
         contact = self.content["contact"]
@@ -433,7 +509,7 @@ class Site:
                             for platform in contact["platforms"] if platform["url"])
         action = contact["form_action"].strip()
         return (
-            '<section id="contact" class="section section-alt"><div class="container contact-grid">'
+            '<section id="contact" class="section"><div class="container contact-grid">'
             '<div class="contact-copy">{}<p>{}</p><p class="contact-note">{}</p>{}</div>'
             '<div class="contact-card"><form{} data-action="{}" data-success="{}" data-error="{}" method="post">{}'
             '<button class="button button-primary submit-button" type="submit"{}>送信する{}</button>'
@@ -451,7 +527,7 @@ class Site:
 
     def home(self):
         return self.page("/", self.site["title"], self.site["description"],
-                         self.hero() + self.services() + self.featured() + self.process() + self.about() + self.contact())
+                         self.hero() + self.entry() + self.featured() + self.services() + self.process() + self.about() + self.contact())
 
     def breadcrumb(self, work=None):
         crumbs = '<li><a href="/">トップ</a></li>'
@@ -522,9 +598,12 @@ class Site:
         for index, work in enumerate(self.works):
             result["works/{}/index.html".format(work["slug"])] = self.detail(work, index)
             paths.append("/works/{}/".format(work["slug"]))
+        site_url = self.site["url"].rstrip("/")
         for work in self.works:  # 独立ページ（/viz/ /app/… 静的配信・build 対象外）も実在すればサイトマップに載せる
             for link in work.get("links", []):
                 url = link.get("url", "")
+                if url.startswith(site_url + "/"):  # content.json 側がルート絶対ではなく絶対 URL で書かれていても拾う
+                    url = url[len(site_url):]
                 if url.startswith("/") and url.endswith("/") and url not in paths and (ROOT / url.strip("/") / "index.html").exists():
                     paths.append(url)
         for name in ("site.css", "site.js"):
