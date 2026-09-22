@@ -600,6 +600,7 @@ main:focus { outline: none; }
 .rd-note { flex: 1 1 220px; font-size: 12px; line-height: 1.7; color: var(--text-3); }
 .rd-status { flex-basis: 100%; min-height: 1.7em; font-size: 13px; font-weight: 700; color: var(--ok); }
 .rd-stage { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.5fr) minmax(0, 1.1fr); gap: 40px; }
+@media (min-width: 640px) { .rd .kpi-row { grid-template-columns: 1fr 1fr; } .rd .kpi:first-child { grid-column: 1 / -1; } } /* 合計の桁数が多いので 1 段目を全幅に */
 .rd-col { position: relative; min-width: 0; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--bg); transition: border-color .3s, box-shadow .3s; }
 .rd-col:not(:last-child)::before, .rd-col:not(:last-child)::after { content: ""; position: absolute; color: var(--line); transition: color .3s; }
 .rd-col:not(:last-child)::after { top: 50%; left: calc(100% + 1px); width: 38px; height: 2px; background: currentColor; }

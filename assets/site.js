@@ -233,8 +233,8 @@
         if (!entries.some((entry) => entry.isIntersecting)) return;
         once.disconnect();
         setTimeout(() => { if (!busy && current === initial - 1) show(current + 1, true); }, 900);
-      }, { threshold: 0.2 });
-      once.observe(demo);
+      }, { threshold: 0.6 });
+      once.observe(run); // 縦長になるスマホでも、ボタンが見えた時点で始める
     }
   });
 })();
