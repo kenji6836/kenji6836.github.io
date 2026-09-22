@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>クチコミ返信の下書きと再来店フォロー（デモ）— ヘアラウンジ なごみ（架空）</title>
+<meta name="description" content="美容院向けデモ：架空のクチコミ 12 件を固定ルールで分類して返信を下書き、架空の顧客 30 件を最終来店日で分けて再来店フォロー文を表示します（AI 接続なし・通信なし）。">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#2457e6">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&amp;display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light dark;--bg:#f6f8fb;--bg-alt:#eef1f6;--surface:#fff;--text:#14171f;--text-2:#4a5361;--text-3:#5b6470;--line:#e3e7ee;--brand:#2457e6;--brand-ink:#fff;--brand-soft:#e9efff;--ok:#156a3e;--ok-soft:#e3f5ea;--warn:#8a5200;--warn-soft:#fff3df;--bad:#b3261e;--bad-soft:#fde8e6;--header-bg:rgba(255,255,255,.88);--shadow:0 1px 2px rgba(16,24,40,.04),0 8px 24px rgba(16,24,40,.06);
+--s-0:4px;--s-1:8px;--s-2:16px;--s-3:24px;--s-4:32px;--s-5:40px;--s-6:48px;--s-8:64px;--gutter:16px;--r:8px;--r-lg:16px}
+@media (prefers-color-scheme:dark){:root{--bg:#0e1116;--bg-alt:#131820;--surface:#161b23;--text:#e9edf2;--text-2:#c3cbd6;--text-3:#97a3b1;--line:#2a323d;--brand:#86a8ff;--brand-ink:#0b1430;--brand-soft:#1b2540;--ok:#5fd394;--ok-soft:#14301f;--warn:#f2b45a;--warn-soft:#3a2a10;--bad:#ff8a80;--bad-soft:#3d1a17;--header-bg:rgba(14,17,22,.88);--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35)}}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Noto Sans JP","Hiragino Sans",system-ui,sans-serif;font-size:16px;line-height:1.8;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+h1,h2,p,ul,pre{margin:0}
+ul{padding:0;list-style:none}
+button{font:inherit;color:inherit;cursor:pointer}
+img{display:block;max-width:100%;height:auto}
+svg{display:block;flex:none}
+h1,h2{font-weight:700;letter-spacing:-.01em;font-feature-settings:"palt";overflow-wrap:anywhere}
+h1{font-size:22px;line-height:1.4}
+h2{font-size:18px;line-height:1.5}
+.t-14{font-size:14px;line-height:1.6}
+.t-12{font-size:12px;line-height:1.5}
+.muted{color:var(--text-2)}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.wrap{width:100%;max-width:calc(760px + var(--gutter)*2);margin-inline:auto;padding-inline:var(--gutter)}
+.app-header{position:sticky;top:0;z-index:50;background:var(--header-bg);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.app-header .wrap{display:flex;align-items:center;gap:var(--s-2);min-height:56px}
+.wordmark{display:inline-flex;align-items:center;gap:var(--s-1);font-size:16px;line-height:1;font-weight:700}
+.wordmark i{width:10px;height:10px;border-radius:3px;background:var(--brand)}
+.pill{display:inline-block;padding:0 10px;border-radius:999px;font-size:12px;line-height:22px;font-weight:700;white-space:nowrap}
+.tone-brand{background:var(--brand-soft);color:var(--brand)}
+.tone-ok{background:var(--ok-soft);color:var(--ok)}
+.tone-warn{background:var(--warn-soft);color:var(--warn)}
+.tone-bad{background:var(--bad-soft);color:var(--bad)}
+.tone-muted{background:var(--bg-alt);color:var(--text-3)}
+.back{margin-left:auto;font-size:14px;line-height:1.6;color:var(--text-2);white-space:nowrap}
+.back:hover{color:var(--brand)}
+.cover{max-width:792px;margin-inline:auto}
+.cover img{width:100%;height:clamp(120px,24vw,180px);object-fit:cover;object-position:center 40%}
+.salon{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:var(--s-1) var(--s-2);margin-top:calc(-1*var(--s-4));padding:var(--s-3);background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);position:relative}
+.salon p{margin-top:var(--s-0)}
+.notice{display:flex;flex-wrap:wrap;gap:var(--s-0) var(--s-1);margin-top:var(--s-2);padding:var(--s-1) var(--s-2);border-radius:var(--r);background:var(--warn-soft);color:var(--warn);font-size:12px;line-height:1.5}
+.notice b{color:var(--text)}
+.tabs{display:flex;gap:var(--s-1);margin-top:var(--s-4);padding:var(--s-0);background:var(--bg-alt);border-radius:12px}
+.tab{display:inline-flex;align-items:center;justify-content:center;gap:var(--s-1);flex:1;min-height:44px;padding:0 var(--s-2);border:0;border-radius:var(--r);background:transparent;color:var(--text-2);font-size:14px;line-height:1.6;font-weight:700}
+.tab .n{padding:0 8px;border-radius:999px;background:var(--surface);font-size:12px;line-height:20px;color:var(--text-3)}
+.tab[aria-selected="true"]{background:var(--surface);color:var(--text);box-shadow:var(--shadow)}
+.tab[aria-selected="true"] .n{background:var(--brand-soft);color:var(--brand)}
+.panel{margin-top:var(--s-3)}
+.panel[hidden]{display:none}
+.panel-head p{margin-top:var(--s-0);font-size:14px;line-height:1.6;color:var(--text-2)}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-1);margin-top:var(--s-2)}
+.stat{padding:var(--s-2);background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.stat span{display:block;font-size:12px;line-height:1.5;color:var(--text-3)}
+.stat b{display:block;font-size:22px;line-height:1.4}
+.stat.tone-brand,.stat.tone-ok,.stat.tone-warn,.stat.tone-bad,.stat.tone-muted{background:var(--surface)}
+.stat.tone-brand b{color:var(--brand)}.stat.tone-ok b{color:var(--ok)}.stat.tone-warn b{color:var(--warn)}.stat.tone-bad b{color:var(--bad)}.stat.tone-muted b{color:var(--text-2)}
+.filters{display:flex;flex-wrap:wrap;gap:var(--s-1);margin-top:var(--s-3)}
+.filters button{min-height:36px;padding:0 var(--s-2);border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--text-2);font-size:14px;line-height:1.6;font-weight:700}
+.filters button[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.summary{margin-top:var(--s-2);font-size:14px;line-height:1.6;color:var(--text-3)}
+.list{display:grid;gap:var(--s-2);margin-top:var(--s-2)}
+.item{padding:var(--s-3);background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg)}
+.item-head{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--s-1)}
+.item-title{min-width:0}
+.item-title b{display:block;line-height:1.6}
+.item-meta{display:block;font-size:12px;line-height:1.5;color:var(--text-3)}
+.stars{color:var(--warn);letter-spacing:1px}
+.item-body{margin-top:var(--s-1);font-size:14px;line-height:1.7;color:var(--text-2)}
+.draft{margin-top:var(--s-2);border-top:1px solid var(--line)}
+.draft summary{display:flex;align-items:center;gap:var(--s-1);padding:var(--s-1) 0;font-size:14px;line-height:1.6;font-weight:700;cursor:pointer;list-style:none;color:var(--brand)}
+.draft summary::-webkit-details-marker{display:none}
+.draft summary::after{content:"";margin-left:auto;width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .2s}
+.draft[open] summary::after{transform:rotate(-135deg)}
+.bubble{margin-top:var(--s-1);padding:var(--s-2);border-radius:12px 12px 12px 2px;background:var(--bg-alt);font:inherit;font-size:14px;line-height:1.8;color:var(--text-2);white-space:pre-wrap;overflow-wrap:anywhere}
+.draft-foot{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-1) var(--s-2);margin-top:var(--s-1)}
+.copy-btn{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 var(--s-2);border:1px solid var(--line);border-radius:var(--r);background:var(--surface);font-size:14px;line-height:1.6;font-weight:700}
+.copy-btn svg{width:16px;height:16px}
+.copy-btn.copied{background:var(--ok-soft);color:var(--ok);border-color:var(--ok)}
+.hint{font-size:12px;line-height:1.5;color:var(--text-3)}
+.foot{margin-top:var(--s-8);padding-block:var(--s-3) var(--s-6);border-top:1px solid var(--line);font-size:12px;line-height:1.5;color:var(--text-3)}
+.foot p+p{margin-top:var(--s-0)}
+@media (max-width:480px){.item{padding:var(--s-2)}.stat{padding:var(--s-1) var(--s-2)}.salon{padding:var(--s-2)}.tab{padding:0 var(--s-1);white-space:nowrap}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h3"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+</defs></svg>
+
+<header class="app-header"><div class="wrap">
+  <a class="wordmark" href="/lp/beauty-salon/"><i aria-hidden="true"></i>Kenji Ido</a>
+  <span class="pill tone-warn">デモ</span>
+  <a class="back" href="/lp/beauty-salon/">提案ページに戻る</a>
+</div></header>
+
+<div class="cover"><img src="/assets/beauty-salon/hero-800.jpg" width="800" height="533" alt="美容院の受付で、スタイリストがスマートフォンの通知を確認している様子（イメージ）"></div>
+
+<main class="wrap">
+  <div class="salon"><div><h1>ヘアラウンジ なごみ</h1><p class="t-14 muted">架空のサロン — クチコミ返信の下書きと、再来店フォロー一覧</p></div><span class="pill tone-muted">業務デモ</span></div>
+  <p class="notice"><b>デモモード</b><span>架空のクチコミ 12 件・顧客 30 件／判定は固定ルール・AI 接続なし・通信なし</span></p>
+
+  <div class="tabs" role="tablist" aria-label="機能を切り替え">
+    <button class="tab" id="tab-reviews" role="tab" type="button" aria-selected="true" aria-controls="panel-reviews">クチコミ返信<span class="n" id="n-reviews">0</span></button>
+    <button class="tab" id="tab-bookings" role="tab" type="button" aria-selected="false" aria-controls="panel-bookings" tabindex="-1">再来店フォロー<span class="n" id="n-bookings">0</span></button>
+  </div>
+
+  <section class="panel" id="panel-reviews" role="tabpanel" aria-labelledby="tab-reviews">
+    <div class="panel-head"><h2>Google クチコミの返信下書き</h2><p>固定ルールで「好意的／改善要望／クレーム」に分け、分類ごとの文面を下書きします。送信はしません。</p></div>
+    <div class="stats" id="r-stats" aria-label="分類ごとの件数"></div>
+    <div class="filters" id="r-filters" role="group" aria-label="分類で絞り込み"></div>
+    <p class="summary" id="r-summary" aria-live="polite"></p>
+    <div class="list" id="r-list"></div>
+  </section>
+
+  <section class="panel" id="panel-bookings" role="tabpanel" aria-labelledby="tab-bookings" hidden>
+    <div class="panel-head"><h2>再来店フォロー一覧</h2><p>最終来店からの日数で「30 日以内／31〜60 日／61 日以上」に分け、公式 LINE から直接予約できる案内文を用意します。送信はしません。</p></div>
+    <div class="stats" id="b-stats" aria-label="経過日数ごとの件数"></div>
+    <div class="filters" id="b-filters" role="group" aria-label="経過日数で絞り込み"></div>
+    <p class="summary" id="b-summary" aria-live="polite"></p>
+    <div class="list" id="b-list"></div>
+  </section>
+</main>
+
+<footer class="foot wrap"><p>サロン名・クチコミ・顧客名・日付はすべて架空で、実在の店舗・人物とは関係ありません。</p><p>© Kenji Ido</p></footer>
+
+<script>
+(function(){
+"use strict";
+var SALON = "ヘアラウンジ なごみ";
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+
+/* ---- クチコミ（架空 12 件） ---- */
+var REVIEWS = [
+  {author:"M.K 様", rating:5, text:"担当していただいたスタイリストさんの説明がとても丁寧で、仕上がりも大満足でした。次もお願いしたいです。"},
+  {author:"S.T 様", rating:5, text:"雰囲気が良くて、いつも気持ちよく通っています。カラーの色持ちも良くて満足しています。"},
+  {author:"Y.N 様", rating:4, text:"施術は丁寧でしたが、予約時間より15分ほど待たされたのが少し残念でした。"},
+  {author:"K.O 様", rating:2, text:"スタッフの態度が悪く、説明も少なかったです。仕上がりも普通でした。"},
+  {author:"R.H 様", rating:5, text:"初めて来店しましたが、カウンセリングが丁寧で安心して任せられました。また来たいです。"},
+  {author:"A.I 様", rating:1, text:"予約していたのに待たされた上、対応も雑でした。もう二度と行きません。"},
+  {author:"T.F 様", rating:3, text:"仕上がりは良かったのですが、料金が思ったより高く感じました。もう少し事前に説明が欲しいです。"},
+  {author:"N.W 様", rating:5, text:"いつも丁寧なカットでお気に入りのサロンです。スタッフの対応も上手で満足しています。"},
+  {author:"C.U 様", rating:2, text:"電話予約が繋がりにくく、対応も雑に感じました。改善してもらえると嬉しいです。"},
+  {author:"H.M 様", rating:4, text:"施術は満足でしたが、次回予約の説明がもう少し詳しいと助かります。惜しい点はそこだけです。"},
+  {author:"J.K 様", rating:5, text:"トリートメントの仕上がりが最高でした。スタッフの技術力も高くおすすめです。"},
+  {author:"E.S 様", rating:1, text:"予約時間に遅刻したのに何も説明がなく最悪でした。残念です。"}
+];
+var CLAIM_WORDS = ["最悪","二度と","態度が悪","遅刻したのに","何も説明がなく"];
+var CAUTION_WORDS = ["残念","もう少し","高く感じ","惜しい","繋がりにくく","対応も雑","待たされた"];
+var CAT = {pos:{label:"好意的", tone:"ok"}, caution:{label:"改善要望", tone:"warn"}, claim:{label:"クレーム", tone:"bad"}};
+
+function classify(text){
+  for (var i=0;i<CLAIM_WORDS.length;i++){ if (text.indexOf(CLAIM_WORDS[i])!==-1) return "claim"; }
+  for (var j=0;j<CAUTION_WORDS.length;j++){ if (text.indexOf(CAUTION_WORDS[j])!==-1) return "caution"; }
+  return "pos";
+}
+function draftReply(r, cat){
+  if (cat==="claim") return r.author+"\n\nこの度はご不快な思いをさせてしまい、誠に申し訳ございませんでした。詳しい状況を確認させていただきたく、よろしければ店舗までご連絡いただけますでしょうか。改善に向けて早急に対応いたします。\n\n"+SALON;
+  if (cat==="caution") return r.author+"\n\nこの度は貴重なご意見をありがとうございます。ご指摘いただいた点はスタッフ間で共有し、改善に努めます。次回はより満足いただけるよう努めますので、またのご来店をお待ちしております。\n\n"+SALON;
+  return r.author+"\n\nこの度は「"+SALON+"」への口コミ投稿をありがとうございます。嬉しいお言葉を励みに、スタッフ一同さらに努力してまいります。またのご来店を心よりお待ちしております。\n\n"+SALON;
+}
+function reviewItems(){
+  return REVIEWS.map(function(r){
+    var cat = classify(r.text);
+    return {key:cat, title:r.author, meta:'<span class="stars" role="img" aria-label="星 '+r.rating+'">'+"★".repeat(r.rating)+"☆".repeat(5-r.rating)+'</span>・Google クチコミ（架空）',
+      body:r.text, draft:{label:"返信の下書き", text:draftReply(r, cat)}};
+  });
+}
+
+/* ---- 再来店フォロー（架空 30 件） ---- */
+var NAMES = ["A.T","B.S","C.K","D.M","E.N","F.O","G.H","H.I","I.J","J.K","K.L","L.M","M.N","N.O","O.P","P.Q","Q.R","R.S","S.T","T.U","U.V","V.W","W.X","X.Y","Y.Z","Z.A","A.B","B.C","C.D","D.E"];
+var SERVICES = ["カット","カラー","パーマ","トリートメント","縮毛矯正","ヘッドスパ"];
+var DAYS_AGO = [4,7,9,12,15,18,21,24,27,30, 33,36,39,42,45,48,51,54,57,60, 65,70,75,80,85,90,95,100,110,125];
+var BUCKET = {recent:{label:"30 日以内", tone:"muted", note:"順調です。今回はフォロー対象外。"}, due:{label:"31〜60 日", tone:"brand", note:"そろそろご案内のタイミングです。"}, follow:{label:"61 日以上", tone:"warn", note:"来店間隔が空いています。優先してフォロー。"}};
+
+function bucketOf(days){ return days<=30 ? "recent" : days<=60 ? "due" : "follow"; }
+function followText(c){
+  if (c.bucket==="due") return c.name+"へ：前回のご来店から"+c.daysAgo+"日が経ちました。次回のご来店は、公式LINEから直接ご予約いただけます。よろしければご利用ください。\n\n"+SALON;
+  return c.name+"へ：前回のご来店から"+c.daysAgo+"日が経っております。お変わりないでしょうか。よろしければ公式LINEから直接ご予約のうえ、またお立ち寄りください。\n\n"+SALON;
+}
+function bookingItems(){
+  var today = new Date(); today.setHours(0,0,0,0);
+  return DAYS_AGO.slice().sort(function(a, b){ return b-a; }).map(function(days, i){ /* 間隔が長い順 */
+    var d = new Date(today); d.setDate(d.getDate()-days);
+    var c = {name:NAMES[i]+" 様", service:SERVICES[i % SERVICES.length], daysAgo:days, bucket:bucketOf(days)};
+    var date = d.toLocaleDateString("ja-JP", {month:"numeric", day:"numeric"});
+    return {key:c.bucket, title:c.name, meta:"前回 "+esc(c.service)+"・"+date+"（"+days+" 日前）", body:BUCKET[c.bucket].note,
+      draft: c.bucket==="recent" ? null : {label:"フォロー文（公式 LINE 用）", text:followText(c)}};
+  });
+}
+
+/* ---- 共通レンダラー（両タブで同じ構造） ---- */
+function itemHtml(o, defs, open){
+  var d = defs[o.key];
+  return '<article class="item">'+
+    '<div class="item-head"><div class="item-title"><b>'+esc(o.title)+'</b><span class="item-meta">'+o.meta+'</span></div><span class="pill tone-'+d.tone+'">'+d.label+'</span></div>'+
+    '<p class="item-body">'+esc(o.body)+'</p>'+
+    (o.draft ? '<details class="draft"'+(open?' open':'')+'><summary>'+o.draft.label+'</summary><pre class="bubble">'+esc(o.draft.text)+'</pre>'+
+      '<div class="draft-foot"><button type="button" class="copy-btn"><svg aria-hidden="true"><use href="#i-copy"/></svg><span class="lbl">コピー</span></button><span class="hint">送信前に必ず確認・手直ししてください（自動送信ではありません）</span></div></details>' : '')+
+    '</article>';
+}
+function initPanel(prefix, items, defs){
+  var keys = Object.keys(defs), counts = {};
+  keys.forEach(function(k){ counts[k] = items.filter(function(o){ return o.key===k; }).length; });
+  $(prefix+"-stats").innerHTML = keys.map(function(k){ return '<div class="stat tone-'+defs[k].tone+'"><span>'+defs[k].label+'</span><b>'+counts[k]+'<small class="t-12"> 件</small></b></div>'; }).join("");
+  var filters = $(prefix+"-filters");
+  filters.innerHTML = '<button type="button" data-f="all" aria-pressed="true">すべて</button>'+keys.map(function(k){ return '<button type="button" data-f="'+k+'" aria-pressed="false">'+defs[k].label+'</button>'; }).join("");
+  function render(f){
+    var list = items.filter(function(o){ return f==="all" || o.key===f; });
+    $(prefix+"-summary").textContent = "全 "+items.length+" 件中 "+list.length+" 件を表示"+(f==="all" ? "" : "（"+defs[f].label+"）");
+    var firstDraft = -1;
+    $(prefix+"-list").innerHTML = list.map(function(o, i){
+      var open = o.draft && firstDraft===-1; if (open) firstDraft = i;
+      return itemHtml(o, defs, open);
+    }).join("");
+  }
+  filters.addEventListener("click", function(e){
+    var btn = e.target.closest("button[data-f]"); if (!btn) return;
+    Array.prototype.forEach.call(filters.querySelectorAll("button"), function(b){ b.setAttribute("aria-pressed", String(b===btn)); });
+    render(btn.getAttribute("data-f"));
+  });
+  render("all");
+  return items.length;
+}
+
+/* ---- コピー（イベント委譲） ---- */
+document.addEventListener("click", function(e){
+  var btn = e.target.closest(".copy-btn"); if (!btn) return;
+  var text = btn.closest(".draft").querySelector(".bubble").textContent;
+  function ok(){
+    btn.classList.add("copied"); btn.querySelector(".lbl").textContent = "コピーしました";
+    setTimeout(function(){ btn.classList.remove("copied"); btn.querySelector(".lbl").textContent = "コピー"; }, 1500);
+  }
+  function fallback(){
+    try{
+      var ta = document.createElement("textarea"); ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.focus(); ta.select(); document.execCommand("copy"); document.body.removeChild(ta); ok();
+    }catch(err){ /* コピー不可の環境では何もしない */ }
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(ok, fallback); } else { fallback(); }
+});
+
+/* ---- タブ（クリック＋左右キー） ---- */
+var tabs = [$("tab-reviews"), $("tab-bookings")];
+function show(idx){
+  tabs.forEach(function(t, i){
+    var on = i===idx;
+    t.setAttribute("aria-selected", String(on)); t.tabIndex = on ? 0 : -1;
+    $(t.getAttribute("aria-controls")).hidden = !on;
+  });
+}
+tabs.forEach(function(t, i){
+  t.addEventListener("click", function(){ show(i); });
+  t.addEventListener("keydown", function(e){
+    if (e.key!=="ArrowLeft" && e.key!=="ArrowRight") return;
+    var next = (i + (e.key==="ArrowRight" ? 1 : tabs.length-1)) % tabs.length;
+    show(next); tabs[next].focus(); e.preventDefault();
+  });
+});
+
+$("n-reviews").textContent = initPanel("r", reviewItems(), CAT);
+$("n-bookings").textContent = initPanel("b", bookingItems(), BUCKET);
+show(0);
+})();
+</script>
+</body>
+</html>

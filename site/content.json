@@ -49,7 +49,7 @@
         "label": "公開ツール・デモ"
       },
       {
-        "value": "15",
+        "value": "16",
         "unit": "件",
         "label": "自主制作サンプル"
       }
@@ -2015,6 +2015,55 @@
           "type": "image",
           "src": "/assets/works/kensetsu-lp-2.jpg",
           "alt": "同 LP のスマホ表示",
+          "frame": "phone"
+        }
+      ]
+    },
+    {
+      "slug": "beauty-salon",
+      "title": "美容院向け LP＋デモ — クチコミ返信の下書き・再来店フォロー",
+      "kicker": "LP 制作 · 業務デモ（美容院・ヘアサロン向け）",
+      "categories": [
+        "web",
+        "automation",
+        "marketing"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "ホットペッパーはそのままに、Google クチコミへの返信下書きと、来店間隔が空いたお客様への LINE 再来店フォローを仕組みにする提案 LP と、ブラウザでそのまま試せる業務デモ。サロン名・クチコミ 12 件・顧客 30 件はすべて架空で、AI 接続なし・固定ルールで動作します。",
+      "role": "構成設計・コピー・LP 実装・デモ実装（依存ゼロ・通信なし）・受入チェック",
+      "points": [
+        "課題→できること→仕組み→デモ→進め方→料金→FAQ の順で、問い合わせと実物デモへ 1 クリックで到達できる導線",
+        "クチコミを「好意的／改善要望／クレーム」に分けて返信を下書き。送信は人が確認してから（自動送信なし）",
+        "最終来店からの日数で「30 日以内／31〜60 日／61 日以上」に分け、公式 LINE への案内文をコピーして使える一覧",
+        "390px 対応・ライト／ダーク対応・外部 JS なし・登録不要のデモ"
+      ],
+      "stack": [
+        "HTML/CSS（自己完結）",
+        "JavaScript",
+        "SVG"
+      ],
+      "links": [
+        {
+          "label": "LP を見る",
+          "url": "/lp/beauty-salon/"
+        },
+        {
+          "label": "デモを開く（架空データ）",
+          "url": "/app/beauty-salon/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/beauty-salon/lp-1.jpg",
+          "alt": "美容院向け LP の PC 表示（ヒーロー）",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/beauty-salon/demo-1.jpg",
+          "alt": "同デモのスマホ表示（クチコミ返信の下書き）",
           "frame": "phone"
         }
       ]
