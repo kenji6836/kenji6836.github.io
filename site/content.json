@@ -41,12 +41,12 @@
         "label": "App Store 公開アプリ"
       },
       {
-        "value": "7",
+        "value": "8",
         "unit": "件",
         "label": "公開ツール・デモ"
       },
       {
-        "value": "15",
+        "value": "16",
         "unit": "件",
         "label": "自主制作サンプル"
       }
@@ -2669,6 +2669,128 @@
           "type": "image",
           "src": "/assets/beauty-salon/hp/staff-1-1600.jpg",
           "alt": "スタッフ紹介ページのスタイリスト写真",
+          "frame": "phone"
+        }
+      ]
+    },
+    {
+      "slug": "tsume",
+      "title": "毎日詰将棋（1手詰・3手詰）",
+      "kicker": "Web 制作 · 詰将棋の出題サイト",
+      "categories": [
+        "web"
+      ],
+      "label": "public",
+      "year": "2026",
+      "summary": "毎日 1 問、1手詰と3手詰の詰将棋を出題するサイト。盤と持ち駒を見ながら考え、答えは指し手の形で確認できます。過去の問題にも戻れます。公開予定の iOS アプリ『ツメトレ』と問題を共有する計画です。",
+      "role": "企画・出題データ作成・実装・公開",
+      "points": [
+        "日付ごとに新しい問題へ自動で切り替わり、過去 30 日分の問題にも戻れる",
+        "盤面と持ち駒だけで考えられるシンプルな画面。答えは指し手の形式で確認できる",
+        "ライト／ダーク表示に対応し、外部の部品を使わない軽い作り",
+        "公開予定の iOS アプリ『ツメトレ』と問題を共有する計画"
+      ],
+      "stack": [
+        "HTML/CSS（自己完結）",
+        "JavaScript"
+      ],
+      "tools": [
+        {
+          "icon": "game",
+          "label": "詰将棋を毎日出題"
+        },
+        {
+          "icon": "clock",
+          "label": "日替わりで自動更新"
+        },
+        {
+          "icon": "web",
+          "label": "ブラウザで見られる"
+        },
+        {
+          "icon": "phone",
+          "label": "iOS アプリと問題を共有予定"
+        }
+      ],
+      "links": [
+        {
+          "label": "毎日詰将棋を見る",
+          "url": "/tsume/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/tsume-1.jpg",
+          "alt": "毎日詰将棋のトップ画面（盤面と持ち駒、PC 表示）",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/tsume-2.jpg",
+          "alt": "同サイトのスマホ表示",
+          "frame": "phone"
+        }
+      ]
+    },
+    {
+      "slug": "invoice-demo",
+      "title": "請求・入金管理の見本デモ",
+      "kicker": "業務デモ（請求・入金管理向け）",
+      "categories": [
+        "web",
+        "data"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "請求書の状況を一目で把握できる業務画面の見本です。件数・金額の集計タイル、月別のグラフ、状態ごとの色分けを備え、「入金消込」を押すとその場で未回収額が減ります。会社名・金額はすべて架空の 20 件です。",
+      "role": "構成設計・画面実装・受入チェック",
+      "points": [
+        "件数・金額の集計タイルと月別グラフで、請求全体の状況がひと目でわかる",
+        "未回収・入金済みなど状態を色分けし、架空データ 20 件で一覧表示",
+        "「入金消込」ボタンを押すとその場で未回収額とグラフが更新される体験版",
+        "登録不要・ブラウザでそのまま試せる、外部通信のないデモ"
+      ],
+      "stack": [
+        "HTML/CSS（自己完結）",
+        "JavaScript",
+        "SVG"
+      ],
+      "tools": [
+        {
+          "icon": "invoice",
+          "label": "請求・入金の一覧"
+        },
+        {
+          "icon": "data",
+          "label": "集計タイル・月別グラフ"
+        },
+        {
+          "icon": "check",
+          "label": "入金消込で即時反映"
+        },
+        {
+          "icon": "web",
+          "label": "ブラウザで試せるデモ"
+        }
+      ],
+      "links": [
+        {
+          "label": "デモを開く（架空データ）",
+          "url": "/demo/invoice/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/invoice-demo-1.jpg",
+          "alt": "請求・入金管理デモの一覧画面（PC 表示）",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/invoice-demo-2.jpg",
+          "alt": "同デモのスマホ表示",
           "frame": "phone"
         }
       ]
