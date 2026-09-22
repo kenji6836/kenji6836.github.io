@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#f4f5f8" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1115" media="(prefers-color-scheme: dark)">
 <title>請求・入金管理（デモ）</title>
-<meta name="description" content="請求書の未回収を一目で把握し、入金消込で集計とグラフが即座に更新される業務画面のデモ。架空のサンプル 20 件で動きます。">
+<meta name="description" content="まだ入金されていない請求を見つけ、入金を登録すると、未回収の合計が自動で減る業務画面のデモ。架空のサンプル 20 件で、その場で試せます。">
 <style>
 :root{
   color-scheme: light;
@@ -56,6 +56,36 @@ button{cursor:pointer}
 svg.i{width:1em;height:1em;vertical-align:-.15em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .num{font-variant-numeric:tabular-nums}
+
+/* ---- はじめに（流れ＋お試し） ---- */
+.guide{padding:16px;margin-bottom:14px}
+.guide > h2{margin:0 0 3px;font-size:16px}
+.guide > .lead{margin:0 0 13px;font-size:13px;color:var(--muted)}
+.steps{display:grid;grid-template-columns:1fr;gap:8px;margin:0 0 14px;padding:0;list-style:none}
+.steps li{display:flex;gap:10px;align-items:flex-start;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.steps .n{flex:none;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-size:12.5px;font-weight:700;display:grid;place-items:center;margin-top:1px}
+.steps .t{font-weight:600;font-size:14px;display:block}
+.steps .d{font-size:12.5px;color:var(--muted)}
+.steps .arw{display:none}
+@media (min-width:760px){
+  .steps{grid-template-columns:1fr auto 1fr auto 1fr;align-items:stretch;gap:0}
+  .steps li{height:100%}
+  .steps .arw{display:grid;place-items:center;color:var(--line-strong);padding:0 8px;background:none;border:0}
+}
+.try{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn.big{padding:12px 18px;font-size:15.5px;border-radius:11px}
+.try .hint{font-size:12.5px;color:var(--muted)}
+.ba{margin-top:13px;border:1px solid var(--accent);border-radius:11px;background:var(--accent-bg);padding:12px}
+.ba h3{margin:0 0 9px;font-size:13.5px;color:var(--accent-text)}
+.ba .pairs{display:grid;grid-template-columns:1fr;gap:9px}
+@media (min-width:560px){.ba .pairs{grid-template-columns:1fr 1fr}}
+.ba .pair{background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:9px 11px}
+.ba .pair .lbl{font-size:12px;color:var(--muted);display:block;margin-bottom:3px}
+.ba .pair .ln{display:flex;flex-wrap:wrap;align-items:baseline;gap:7px;font-size:15px}
+.ba .pair .was{color:var(--muted);text-decoration:line-through}
+.ba .pair .now{font-weight:700}
+.ba .pair .dl{font-size:12px;color:var(--good-ink);font-weight:600}
+.ba .foot{margin-top:9px;display:flex;flex-wrap:wrap;gap:9px;align-items:center;font-size:12.5px;color:var(--text-2)}
 
 /* ---- banner / header ---- */
 .banner{
@@ -270,7 +300,6 @@ footer{max-width:1120px;margin:0 auto;padding:0 16px 30px;font-size:12px;color:v
 <body>
 <div class="banner" role="note">
   <span><b>デモモード</b>　架空のサンプル 20 件・操作はブラウザ内だけで完結（保存されません）</span>
-  <span>行をタップ → 明細　／　「入金消込」→ 集計とグラフが即時に変わります</span>
 </div>
 
 <header class="top">
@@ -278,7 +307,7 @@ footer{max-width:1120px;margin:0 auto;padding:0 16px 30px;font-size:12px;color:v
     <div class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
     <div>
       <h1>請求・入金管理</h1>
-      <p>未回収の把握と入金消込を、ひとつの画面で</p>
+      <p>まだ入金されていない請求と、その残額を、ひとつの画面で</p>
     </div>
   </div>
   <div class="meta">
@@ -288,6 +317,39 @@ footer{max-width:1120px;margin:0 auto;padding:0 16px 30px;font-size:12px;color:v
 </header>
 
 <main>
+  <section class="card guide" aria-labelledby="guideH">
+    <h2 id="guideH">この画面でできること</h2>
+    <p class="lead">やることは 3 つだけです。下のボタンひとつで、①〜③がその場で起きます。</p>
+    <ol class="steps">
+      <li><span class="n">1</span><span><span class="t">未入金を発見</span><span class="d">まだ入金されていない請求を確認</span></span></li>
+      <li class="arw" aria-hidden="true"><svg class="i" viewBox="0 0 24 24" style="width:20px;height:20px"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></li>
+      <li><span class="n">2</span><span><span class="t">入金を登録</span><span class="d">受け取った金額を入金済みに</span></span></li>
+      <li class="arw" aria-hidden="true"><svg class="i" viewBox="0 0 24 24" style="width:20px;height:20px"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></li>
+      <li><span class="n">3</span><span><span class="t">残額が分かる</span><span class="d">未回収の合計が自動で減る</span></span></li>
+    </ol>
+    <div class="try">
+      <button class="btn primary big" id="btnTry" type="button"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>サンプル 1 件を入金済みにする</button>
+      <span class="hint">いちばん長く待っている 1 件を入金済みにします</span>
+    </div>
+    <div class="ba" id="baBox" hidden>
+      <h3 id="baHead"></h3>
+      <div class="pairs">
+        <div class="pair">
+          <span class="lbl">未回収額（合計）</span>
+          <span class="ln"><span class="was num" id="baUnpaidWas"></span><span aria-hidden="true">→</span><span class="now num" id="baUnpaidNow"></span><span class="dl" id="baUnpaidDelta"></span></span>
+        </div>
+        <div class="pair">
+          <span class="lbl">期限超過</span>
+          <span class="ln"><span class="was num" id="baOverWas"></span><span aria-hidden="true">→</span><span class="now num" id="baOverNow"></span><span class="dl" id="baOverDelta"></span></span>
+        </div>
+      </div>
+      <div class="foot">
+        <span id="baNote"></span>
+        <button class="btn small" id="btnTryUndo" type="button">元に戻す</button>
+      </div>
+    </div>
+  </section>
+
   <section class="tiles" aria-label="集計">
     <div class="card tile" id="t-unpaid">
       <div class="lbl">未回収額（合計）</div>
@@ -672,9 +734,9 @@ function renderDetail() {
   let pay;
   if (st === 'paid') {
     pay = `<div class="pay done">
-      <h3>${ICON.paid} 入金済み（消込済み）</h3>
+      <h3>${ICON.paid} 入金済み</h3>
       <dl class="kv"><dt>入金日</dt><dd class="num">${fd(inv.paid.date)}</dd><dt>方法</dt><dd>${esc(inv.paid.method)}</dd><dt>入金額</dt><dd class="num">${yen(t)}</dd></dl>
-      <div class="act"><button type="button" class="btn small" data-action="unpay">${ICON.undo}消込を取り消す</button></div>
+      <div class="act"><button type="button" class="btn small" data-action="unpay">${ICON.undo}未入金に戻す</button></div>
     </div>`;
   } else {
     pay = `<div class="pay">
@@ -682,10 +744,10 @@ function renderDetail() {
       <div class="f">
         <label>入金日<input type="date" id="payDate" value="${TODAY_S}" max="${TODAY_S}"></label>
         <label>方法<select id="payMethod"><option>銀行振込</option><option>口座振替</option><option>現金</option><option>クレジットカード</option></select></label>
-        <label style="grid-column:1/-1">入金額（このデモは全額消込）<input type="text" id="payAmount" value="${yen(t)}" readonly class="num"></label>
+        <label style="grid-column:1/-1">入金額（このデモは全額を受け取った扱い）<input type="text" id="payAmount" value="${yen(t)}" readonly class="num"></label>
       </div>
       <div class="act">
-        <button type="button" class="btn primary" data-action="pay">${ICON.paid}入金消込</button>
+        <button type="button" class="btn primary" data-action="pay">${ICON.paid}入金を登録</button>
         ${st === 'overdue' ? `<button type="button" class="btn" data-action="remind">${ICON.mail}督促文を作る</button>` : ''}
       </div>
       <div class="remind" id="remindBox" hidden>
@@ -744,13 +806,13 @@ function markPaid(id, date, method) {
   inv.paid = { date, method };
   refresh({ animate: true, flashId: id });
   const after = summarize().unpaidTotal;
-  toast(`${inv.id}（${inv.client}）を消込しました。未回収 ${yen(before)} → ${yen(after)}`, { label: '取り消す', fn: () => unmarkPaid(id) });
+  toast(`${inv.id}（${inv.client}）を入金済みにしました。未回収 ${yen(before)} → ${yen(after)}`, { label: '取り消す', fn: () => unmarkPaid(id) });
 }
 function unmarkPaid(id) {
   const inv = invoices.find(i => i.id === id); if (!inv || !inv.paid) return;
   inv.paid = null;
   refresh({ animate: true, flashId: id });
-  toast(`${inv.id} の消込を取り消しました`);
+  toast(`${inv.id} を未入金に戻しました`);
 }
 let toastTimer;
 function toast(msg, action) {
@@ -789,7 +851,39 @@ $('#detail').addEventListener('click', e => {
 });
 $('#backdrop').addEventListener('click', closeDetail);
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && selectedId) closeDetail(); });
+/* ---- はじめての 1 回（流れ①〜③をボタン 1 つで） ---- */
+let lastTryId = null;
+function pickNextUnpaid() {
+  const open = invoices.filter(i => !i.paid);
+  if (!open.length) return null;
+  return open.slice().sort((a, b) => daysFromToday(a.due) - daysFromToday(b.due))[0];
+}
+function showBeforeAfter(inv, b, a) {
+  const d1 = b.unpaidTotal - a.unpaidTotal, d2 = b.overdueTotal - a.overdueTotal;
+  $('#baHead').textContent = `${inv.id}（${inv.client}）を入金済みにしました`;
+  $('#baUnpaidWas').textContent = yen(b.unpaidTotal);
+  $('#baUnpaidNow').textContent = yen(a.unpaidTotal);
+  $('#baUnpaidDelta').textContent = d1 > 0 ? `−${yen(d1)}` : '';
+  $('#baOverWas').textContent = yen(b.overdueTotal);
+  $('#baOverNow').textContent = yen(a.overdueTotal);
+  $('#baOverDelta').textContent = d2 > 0 ? `−${yen(d2)}` : '';
+  $('#baNote').textContent = `未回収は ${b.unpaidCount} 件から ${a.unpaidCount} 件になりました。下の集計・グラフ・一覧も同時に変わっています。`;
+  $('#baBox').hidden = false;
+}
+$('#btnTry').addEventListener('click', () => {
+  const inv = pickNextUnpaid();
+  if (!inv) { toast('未入金の請求がもうありません。「サンプルを戻す」で最初からやり直せます'); return; }
+  const before = summarize();
+  markPaid(inv.id, TODAY_S, '振込');
+  lastTryId = inv.id;
+  showBeforeAfter(inv, before, summarize());
+});
+$('#btnTryUndo').addEventListener('click', () => {
+  if (lastTryId) unmarkPaid(lastTryId);
+  lastTryId = null; $('#baBox').hidden = true;
+});
 $('#btnReset').addEventListener('click', () => {
+  lastTryId = null; $('#baBox').hidden = true;
   invoices = clone(SEED); selectedId = null; filter = { status:'all', month:null, q:'' }; $('#q').value = '';
   refresh({ animate: true }); toast('サンプルデータを最初の状態に戻しました');
 });
