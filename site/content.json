@@ -347,6 +347,70 @@
       "title": "パチンコ演出 シミュレーター"
     }
   },
+  "listing": {
+    "band": [
+      [
+        {
+          "work": "kensetsu-lp",
+          "visual": 0
+        },
+        {
+          "work": "sweepfield",
+          "visual": 0
+        },
+        {
+          "work": "viz-housing",
+          "visual": 0
+        },
+        {
+          "work": "mitsumori-ads",
+          "visual": 0,
+          "item": "square-a"
+        },
+        {
+          "work": "beauty-salon-hp",
+          "visual": 0
+        },
+        {
+          "work": "shogi",
+          "visual": 1
+        },
+        {
+          "work": "giin-intro",
+          "visual": 0
+        },
+        {
+          "work": "ad-banner-set",
+          "visual": 0,
+          "item": "square-a"
+        },
+        {
+          "work": "mission-control",
+          "visual": 0
+        },
+        {
+          "work": "making-shorts",
+          "visual": 0
+        },
+        {
+          "work": "beauty-salon",
+          "visual": 0
+        },
+        {
+          "work": "tsume",
+          "visual": 0
+        },
+        {
+          "work": "blockwise",
+          "visual": 0
+        },
+        {
+          "work": "channel-brand",
+          "visual": 2
+        }
+      ]
+    ]
+  },
   "works": [
     {
       "slug": "sweepfield",

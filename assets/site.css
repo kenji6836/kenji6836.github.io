@@ -253,6 +253,11 @@ main:focus { outline: none; }
 .breadcrumbs li + li::before { content: "›"; color: var(--text-3); }
 .breadcrumbs a:hover { color: var(--brand); text-decoration: underline; text-underline-offset: 4px; }
 .listing-page, .detail-page { padding-top: 32px; padding-bottom: var(--section-space); }
+/* 一覧の先頭: 見出し＋実物の画面が流れる大きめの帯 1 段（hero の点模様と光を共用。中身は ::before より前に出すため relative） */
+.listing-hero { padding-top: 32px; }
+.listing-hero > .container { position: relative; }
+.listing-hero .page-heading { margin-bottom: clamp(24px, 4vw, 40px); }
+.band-stack.band-solo { --band-h: clamp(200px, 30vw, 320px); margin-top: 0; padding-bottom: clamp(28px, 4vw, 44px); }
 .page-heading { margin-bottom: 36px; }
 .page-heading p { max-width: 50em; margin-top: 20px; color: var(--text-2); }
 .work-filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 40px; }

@@ -488,17 +488,18 @@ class Site:
             ' class="band-phone"' if visual.get("frame") == "phone" else "", ' aria-hidden="true"' if hidden else "",
             esc(work["slug"]), ' tabindex="-1"' if hidden else "", image(visual, eager, priority=False))
 
-    def band(self):
-        """作品スクショが自動で流れる帯（2 段・逆向き）。並びは hero.band。
+    def band(self, rows=None, extra=""):
+        """作品スクショが自動で流れる帯（2 段・逆向き）。並びは hero.band（rows で listing.band など別の並びも渡せる）。
         選び方: ぱっと見で何か分かる画面（写真・図・盤面・大きな見出し）を優先し、文字だけの画面や事例ページの表は入れない。
-        1 段目の 1 周目だけ先読み、2 周目（aria-hidden）は遅延読み込み"""
-        rows = []
-        for index, refs in enumerate(self.content["hero"]["band"]):
+        1 段目の 1 周目だけ先読み、2 周目（aria-hidden）は遅延読み込み。extra は追加クラス（一覧の 1 段・大きめ = band-solo）"""
+        result = []
+        for index, refs in enumerate(self.content["hero"]["band"] if rows is None else rows):
             refs = [ref for ref in refs if not self.work_by_slug[ref["work"]].get("hidden")]
             items = "".join(self.band_item(ref, eager=index == 0) for ref in refs)
             items += "".join(self.band_item(ref, hidden=True) for ref in refs)
-            rows.append('<div class="band{}"><ul class="band-track">{}</ul></div>'.format(" band-reverse" if index % 2 else "", items))
-        return '<div class="band-stack" aria-label="つくったものの画面（流れる帯）">{}</div>'.format("".join(rows))
+            result.append('<div class="band{}"><ul class="band-track">{}</ul></div>'.format(" band-reverse" if index % 2 else "", items))
+        return '<div class="band-stack{}" aria-label="つくったものの画面（流れる帯）">{}</div>'.format(
+            " " + esc(extra) if extra else "", "".join(result))
 
     def hero(self):
         hero = self.content["hero"]
@@ -637,11 +638,15 @@ class Site:
         filters = '<button class="chip is-selected" type="button" data-cat="all" aria-pressed="true">すべて ({})</button>'.format(len(self.works))
         filters += "".join('<button class="chip" type="button" data-cat="{}" aria-pressed="false">{} ({})</button>'.format(
             esc(cat["id"]), esc(cat["name"]), self.counts[cat["id"]]) for cat in self.categories)
-        body = (
-            '<div class="container listing-page">{}<header class="page-heading"><h1>制作実績</h1><p>{}</p></header>'
+        heading = '{}<header class="page-heading"><h1>制作実績</h1><p>{}</p></header>'.format(self.breadcrumb(), esc(self.site["footer_note"]))
+        # 一覧の先頭: 実物の画面が流れる大きめの帯 1 段（listing.band）。見出しごと hero に入れて全幅で見せる。無ければ従来どおり見出しだけ
+        rows = self.content.get("listing", {}).get("band")
+        hero = '<section class="hero listing-hero"><div class="container">{}</div>{}</section>'.format(heading, self.band(rows, "band-solo")) if rows else ""
+        body = hero + (
+            '<div class="container listing-page">{}'
             '<div class="work-filters" role="group" aria-label="カテゴリ">{}</div>'
             '<div class="works-grid stagger-grid" id="work-list">{}</div></div>'
-        ).format(self.breadcrumb(), esc(self.site["footer_note"]), filters, "".join(self.card(work) for work in self.works))
+        ).format("" if rows else heading, filters, "".join(self.card(work) for work in self.works))
         return self.page("/works/", "制作実績 — " + self.site["name"], self.site["footer_note"], body)
 
     def detail(self, work, index):
