@@ -12,6 +12,7 @@ def ok(msg): print("ok:", msg)
 
 content = json.load(open("site/content.json", encoding="utf-8"))
 works = content["works"]; cats = content["categories"]
+shown = [w for w in works if not w.get("hidden")]  # 一覧・トップ・サイトマップ・hero.stats に出す作品（"hidden": true 以外）
 slugs = [w["slug"] for w in works]
 
 # 0. ビルドが冪等（--check が 0 で終わる）
@@ -130,12 +131,21 @@ for sec in ("services", "works", "about", "contact"):
 if idx.forms < 1: fail("index: contact form missing")
 if "会社名" not in all_text["index.html"]: fail("index: form fields not rendered")
 
-# 2. 一覧: 全作品カード・data-cats
+# 2. 一覧: 表示作品のカード・data-cats。hidden の作品は一覧・サイトマップに出ない（作品ページは残る）
 wl_raw = open("works/index.html", encoding="utf-8").read()
+sitemap_raw = open("sitemap.xml", encoding="utf-8").read() if os.path.exists("sitemap.xml") else ""
 for w in works:
-    if not re.search(rf'href="(/works/{w["slug"]}/|{w["slug"]}/|\.\./works/{w["slug"]}/)"', wl_raw): fail(f"works index: no card link for {w['slug']}")
+    listed = bool(re.search(rf'href="(/works/{w["slug"]}/|{w["slug"]}/|\.\./works/{w["slug"]}/)"', wl_raw))
+    in_sitemap = f"/works/{w['slug']}/</loc>" in sitemap_raw
+    if w.get("hidden"):
+        if listed: fail(f"works index: hidden work {w['slug']} is listed")
+        if in_sitemap: fail(f"sitemap: hidden work {w['slug']} is listed")
+    else:
+        if not listed: fail(f"works index: no card link for {w['slug']}")
+        if not in_sitemap: fail(f"sitemap: {w['slug']} missing")
+if f"すべて ({len(shown)})" not in wl_raw: fail(f"works index: filter 'すべて' count != {len(shown)}")
 for c in cats:
-    n = sum(1 for w in works if c["id"] in w["categories"])
+    n = sum(1 for w in shown if c["id"] in w["categories"])
     if n == 0: fail(f"category {c['id']} has no works")
     if f'data-cats' not in wl_raw: fail("works index: cards lack data-cats"); break
     if len(re.findall(rf'data-cats="[^"]*\b{c["id"]}\b', wl_raw)) < n: fail(f"works index: fewer cards tagged {c['id']} than content ({n})")
@@ -186,7 +196,7 @@ stats = {s["label"]: s["value"] for s in content["hero"]["stats"]}
 counts = hero_stat_counts(works)
 for label in STAT_LABELS:
     if stats.get(label) != str(counts[label]): fail(f"hero stat '{label}' {stats.get(label)} != works {counts[label]}")
-if sum(counts.values()) != len(works): fail(f"hero stats sum {sum(counts.values())} != works {len(works)} (label must be public/self)")
+if sum(counts.values()) != len(shown): fail(f"hero stats sum {sum(counts.values())} != shown works {len(shown)} (label must be public/self)")
 if re.search(r"https?://(?!fonts\.g)", css): fail("site.css references external URL")
 if not os.path.exists(".nojekyll"): fail(".nojekyll missing")
 if os.path.exists("style.css"): fail("old root style.css still present")

@@ -25,6 +25,7 @@ hero.stats は works の実数から常に再計算する（check_site.py と同
   App Store 公開アプリ = label public かつ categories に app かつ apps.apple.com へのリンクあり
   公開ツール・デモ     = それ以外の label public
   自主制作サンプル     = label self
+  "hidden": true の作品は数えない（build.py が一覧・トップ・サイトマップから外す作品。作品ページは残る）
 壊れたスニペットは理由つきで skip し、他のスニペットは処理したうえで exit 1 で終わる。
 """
 
@@ -74,7 +75,8 @@ def is_app_store_app(work):
 
 
 def hero_stat_counts(works):
-    """3 区分の件数。合計は works の件数と一致する（label が public/self のみのとき）。"""
+    """3 区分の件数。"hidden": true の作品は数えない（build.py の一覧と同じ集合）。合計は表示中の works の件数と一致する（label が public/self のみのとき）。"""
+    works = [w for w in works if not w.get("hidden")]
     apps = sum(1 for w in works if is_app_store_app(w))
     public = sum(1 for w in works if w.get("label") == "public") - apps
     self_made = sum(1 for w in works if w.get("label") == "self")
@@ -154,6 +156,8 @@ def validate_work(work, content, root, seen_slugs):
             errors.append("{}: unknown category '{}'".format(where, cat))
     if work["label"] not in content["labels"]:
         errors.append("{}: unknown label '{}' (expected one of {})".format(where, work["label"], sorted(content["labels"])))
+    if "hidden" in work and not isinstance(work["hidden"], bool):
+        errors.append("{}: 'hidden' must be true/false".format(where))
     for key in ("points", "stack"):
         if not all(isinstance(item, str) for item in work[key]):
             errors.append("{}: '{}' must be a list of strings".format(where, key))

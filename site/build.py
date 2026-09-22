@@ -31,6 +31,11 @@ LEGACY = (
 WIDE_KINDS = {"storyboard", "adset", "feed"}  # 詳細ページのギャラリーで 2 列に収めず全幅にする
 
 
+def visible(works):
+    """一覧・トップ（帯・featured）・件数・前後リンク・サイトマップに出す作品。"hidden": true は除く（作品ページ自体は生成し、直リンクは生きる）"""
+    return [work for work in works if not work.get("hidden")]
+
+
 def esc(value):
     return html.escape(str(value), quote=True)
 
@@ -272,9 +277,10 @@ class Site:
         self.content = content
         self.site = content["site"]
         self.person = content["person"]
-        self.works = content["works"]
+        self.all_works = content["works"]
+        self.works = visible(self.all_works)  # 一覧・トップ・件数・前後リンク・サイトマップの対象
         self.categories = content["categories"]
-        self.work_by_slug = {work["slug"]: work for work in self.works}
+        self.work_by_slug = {work["slug"]: work for work in self.all_works}
         self.cat_by_id = {category["id"]: category for category in self.categories}
         self.counts = {c["id"]: sum(c["id"] in w["categories"] for w in self.works) for c in self.categories}
         self.template = Template((SOURCE / "templates/page.html").read_text(encoding="utf-8"))
@@ -399,6 +405,7 @@ class Site:
         1 段目の 1 周目だけ先読み、2 周目（aria-hidden）は遅延読み込み"""
         rows = []
         for index, refs in enumerate(self.content["hero"]["band"]):
+            refs = [ref for ref in refs if not self.work_by_slug[ref["work"]].get("hidden")]
             items = "".join(self.band_item(ref, eager=index == 0) for ref in refs)
             items += "".join(self.band_item(ref, hidden=True) for ref in refs)
             rows.append('<div class="band{}"><ul class="band-track">{}</ul></div>'.format(" band-reverse" if index % 2 else "", items))
@@ -451,7 +458,7 @@ class Site:
         ).format(esc(slug), markup, soft_break(opts.get("title", work["title"])), " is-public" if public else "", esc(kind))
 
     def featured(self):
-        cards = "".join(self.shot(slug) for slug in self.content["featured"])
+        cards = "".join(self.shot(slug) for slug in self.content["featured"] if not self.work_by_slug[slug].get("hidden"))
         return '<section id="works" class="section"><div class="container">{}<ul class="shot-grid stagger-grid">{}</ul><div class="section-action">{}</div></div></section>'.format(
             self.section_heading("WORKS", "つくったもの", self.site["footer_note"]), cards,
             self.button("すべて見る（{} 件）".format(len(self.works)), "/works/"))
@@ -549,6 +556,7 @@ class Site:
         return self.page("/works/", "制作実績 — " + self.site["name"], self.site["footer_note"], body)
 
     def detail(self, work, index):
+        """index は一覧（visible）での位置。hidden の作品は None で、前後リンクを付けない"""
         visuals = work["visuals"]
         consumed = 1
         if visuals[0].get("frame") == "icon":
@@ -568,11 +576,11 @@ class Site:
             " is-wide" if v.get("kind") in WIDE_KINDS else "", visual_markup(v)) for v in visuals[consumed:])
         previous = '<span></span>'
         following = '<span></span>'
-        if index > 0:
+        if index is not None and index > 0:
             previous_work = self.works[index - 1]
             previous = '<a rel="prev" href="/works/{}/">{}<span>前の実績: {}</span></a>'.format(
                 esc(previous_work["slug"]), icon("arrow", "arrow-back"), esc(previous_work["title"]))
-        if index + 1 < len(self.works):
+        if index is not None and index + 1 < len(self.works):
             next_work = self.works[index + 1]
             following = '<a rel="next" href="/works/{}/"><span>次の実績: {}</span>{}</a>'.format(
                 esc(next_work["slug"]), esc(next_work["title"]), icon("arrow"))
@@ -595,9 +603,10 @@ class Site:
     def outputs(self):
         result = {"index.html": self.home(), "works/index.html": self.listing()}
         paths = ["/", "/works/"]
-        for index, work in enumerate(self.works):
-            result["works/{}/index.html".format(work["slug"])] = self.detail(work, index)
-            paths.append("/works/{}/".format(work["slug"]))
+        position = {work["slug"]: index for index, work in enumerate(self.works)}
+        for work in self.all_works:  # hidden の作品ページも生成する（一覧・サイトマップには載せない）
+            result["works/{}/index.html".format(work["slug"])] = self.detail(work, position.get(work["slug"]))
+        paths += ["/works/{}/".format(work["slug"]) for work in self.works]
         site_url = self.site["url"].rstrip("/")
         for work in self.works:  # 独立ページ（/viz/ /app/… 静的配信・build 対象外）も実在すればサイトマップに載せる
             for link in work.get("links", []):

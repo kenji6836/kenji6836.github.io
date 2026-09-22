@@ -144,6 +144,22 @@ class MergeLanesTest(unittest.TestCase):
         self.assertEqual(stats[merge_lanes.STAT_SELF], "2")
         self.assertNotIn("categories_lead", saved)
 
+    def test_hidden_work_is_kept_but_not_counted(self):
+        # "hidden": true は一覧・トップ・サイトマップから外す印。works には残るが hero.stats には数えない
+        self.write_snippet("h", {"works": [work("six", label="self", cats=("web",), hidden=True)]})
+        code, merged, log = self.run_merge(apply=True)
+        self.assertEqual(code, 0, log)
+        saved = self.read_content()
+        self.assertEqual([w["slug"] for w in saved["works"]], ["one", "two", "six"])
+        self.assertIs(saved["works"][2]["hidden"], True)
+        stats = {s["label"]: s["value"] for s in saved["hero"]["stats"]}
+        self.assertEqual(stats[merge_lanes.STAT_SELF], "1")
+        self.assertEqual(merge_lanes.hero_stat_counts(saved["works"]), {merge_lanes.STAT_APPS: 1, merge_lanes.STAT_PUBLIC: 0, merge_lanes.STAT_SELF: 1})
+        self.write_snippet("h", {"works": [work("six", label="self", cats=("web",), hidden="yes")]})
+        code, merged, log = self.run_merge(apply=True)
+        self.assertEqual(code, 1)
+        self.assertIn("'hidden' must be true/false", log)
+
     def test_internal_link_must_exist_and_lead_conflict_is_reported(self):
         self.write_snippet("w", {"works": [work("lp", cats=("web",), links=[{"label": "LP", "url": "/lp/missing/"}])]})
         code, merged, log = self.run_merge(apply=True)

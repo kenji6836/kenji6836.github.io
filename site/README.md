@@ -19,3 +19,4 @@ Phase 2（2026-09-13）: 動画・広告・SNS の自主制作サンプルの原
 　単体テスト: `python3 site/tests/test_merge_lanes.py`。独立ページ（`/lp/ /app/ /viz/ /demos/ /dashboard/ /cases/` 配下の index.html）は check_site.py が存在するときだけ同じ検査を掛ける（lang・title・description・img alt・外部 script/css・内部リンク・_blank noopener・video muted/playsinline・禁止語）。
 トップの構成（2026-09-22・視覚主体）: `hero.catch`＋`tagline`＋ボタン 1 つ → `hero.band`（作品スクショが流れる帯 2 段。`{"work","visual"[,"item"]}` で作品のビジュアルを参照）→ `entry.items`（5 分類タイル: 題名・アイコン・スクショ・リンク先）→ `featured`（大サムネ 12 件。短い題名・使うビジュアル・種別札は `featured_cards[slug]`）→ できること（`categories`）→ `process.steps`（4 ステップ・`note` が見出し横の 1 行）→ 自己紹介（`hero.stats` を数字で表示）→ 相談フォーム。
 　帯の画像の選び方: ぱっと見で何か分かる画面（写真・図・盤面・大きな見出し）を優先し、文字だけの画面や事例ページの表は入れない。
+一覧から外す（2026-09-22）: works エントリに `"hidden": true` を付けると、一覧・トップの帯/featured・サイトマップ・`hero.stats` の件数・前後リンクから外れる。作品ページ `/works/<slug>/` は生成され続け、直リンク（事例ページなど）は生きる。データは消さない。
