@@ -179,6 +179,18 @@ main:focus { outline: none; }
 .label-self { color: var(--brand); background: var(--brand-soft); }
 .card-arrow { display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 50%; color: var(--brand); }
 .card-arrow .icon { width: 16px; height: 16px; }
+/* 一覧カード: 扱うもの（アイコン列）と先頭アイコンのバッジ。動きは hover/reveal/絞り込みの 3 つだけ（reduced-motion では全て止まる） */
+.card-badge { position: absolute; z-index: 2; left: 12px; top: 12px; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; color: var(--brand); background: var(--surface); box-shadow: var(--shadow); }
+.card-badge .icon { width: 22px; height: 22px; }
+.card-tools { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 14px; }
+.card-tools li { display: inline-flex; align-items: center; gap: 7px; max-width: 100%; color: var(--text-2); font-size: 12.5px; font-weight: 500; line-height: 1.5; word-break: keep-all; overflow-wrap: anywhere; }
+.tool-icon { display: grid; place-items: center; flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; color: var(--brand); background: var(--brand-soft); transition: background .25s, color .25s, transform .25s; }
+.tool-icon .icon { width: 15px; height: 15px; }
+.card-categories .chip { padding: 2px 9px; color: var(--text-3); font-size: 11px; }
+.card-arrow { transition: transform .25s, background .25s, color .25s, border-color .25s; }
+.card-visual > .device-frame, .card-visual > .card-icon-row, .card-visual > .mock[data-compact], .card-badge { transition: transform .45s cubic-bezier(.2, .7, .2, 1), box-shadow .45s; }
+@keyframes card-enter { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.card-enter { animation: card-enter .42s cubic-bezier(.2, .7, .2, 1) backwards; animation-delay: var(--enter-delay, 0ms); }
 .section-action { margin-top: 40px; text-align: center; }
 /* ---- トップ: 作品の大サムネ（題名＋種別札だけ） ---- */
 .shot-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
@@ -357,12 +369,26 @@ main:focus { outline: none; }
   .button-primary:hover { filter: brightness(.94); transform: translateY(-1px); box-shadow: var(--shadow); }
   .button-secondary:hover { background: var(--brand-soft); transform: translateY(-1px); }
   .site-nav a:hover, .footer-nav a:hover, .work-pagination a:hover { color: var(--brand); }
-  .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+  .card:hover { transform: translateY(-4px); border-color: var(--brand-line); box-shadow: var(--shadow-hover); }
+  .card:hover .card-arrow { color: var(--brand-ink); border-color: var(--brand); background: var(--brand); }
+  .card:hover .tool-icon { color: var(--brand-ink); background: var(--brand); }
+  .card:hover .card-tools li:nth-child(2) .tool-icon { transition-delay: 60ms; }
+  .card:hover .card-tools li:nth-child(3) .tool-icon { transition-delay: 120ms; }
+  .card:hover .card-tools li:nth-child(4) .tool-icon { transition-delay: 180ms; }
   button.chip:hover, a.chip:hover { border-color: var(--brand); }
   .band-track a:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
   .tile:hover, .shot:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
   .tile:hover .tile-visual > img, .shot:hover .shot-visual > img { transform: scale(1.04); }
   .cat:hover { border-color: var(--brand-line); transform: translateY(-2px); }
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .card:hover .card-visual > .device-frame, .card:hover .card-visual > .card-icon-row { transform: translateY(-6px); }
+  .card:hover .card-visual > .device-icon { transform: translate(-50%, calc(-50% - 6px)); }
+  .card:hover .card-visual > .mock[data-compact] { transform: translate(-50%, calc(-50% - 6px)) scale(.72); }
+  .card:hover .card-badge { transform: translateY(-3px) scale(1.08) rotate(-5deg); box-shadow: var(--shadow-hover); }
+  .card:hover .card-arrow { transform: translateX(3px); }
+  .card:hover .tool-icon { transform: translateY(-2px); }
 }
 
 @media (max-width: 1099px) {
@@ -443,6 +469,11 @@ main:focus { outline: none; }
   .breadcrumbs { margin-bottom: 28px; }
   .work-filters { gap: 8px; }
   .work-filters .chip { font-size: 12px; padding-inline: 12px; }
+  .card-body { padding: 20px; }
+  .card h3 { font-size: 18px; }
+  .card-tools { gap: 6px 12px; margin-top: 12px; }
+  .card-badge { left: 10px; top: 10px; width: 36px; height: 36px; border-radius: 10px; }
+  .card-badge .icon { width: 20px; height: 20px; }
   .detail-lead { font-size: 18px; }
   .detail-tags { gap: 6px; }
   .visual-panel { padding: 40px 16px; }
@@ -567,6 +598,7 @@ main:focus { outline: none; }
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   .reveal, .reveal-pending { opacity: 1; transform: none; }
   .card:hover, .tile:hover, .shot:hover, .cat:hover, .button:hover { transform: none; }
+  .card-enter { animation: none; opacity: 1; }
   .band { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
   .band-track { animation: none; }
   .band-track li[aria-hidden="true"] { display: none; }

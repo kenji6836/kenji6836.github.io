@@ -251,6 +251,39 @@
     "public": "公開中",
     "self": "自主制作"
   },
+  "tools_legend": {
+    "mail": "メール",
+    "chat": "チャット通知",
+    "message": "メッセージ配信",
+    "sheet": "スプレッドシート",
+    "calendar": "カレンダー",
+    "clock": "定時に自動実行",
+    "invoice": "見積・請求",
+    "sparkle": "AI 下書き",
+    "filter": "自動仕分け",
+    "shield": "人が確認して送信",
+    "phone": "スマホアプリ",
+    "game": "ゲーム",
+    "store": "App Store 公開",
+    "web": "ブラウザで見られる",
+    "video": "動画",
+    "ad": "広告バナー",
+    "sns": "SNS",
+    "data": "数字の見える化",
+    "design": "デザイン",
+    "image": "画像",
+    "star": "クチコミ",
+    "search": "調査",
+    "users": "人物紹介",
+    "pin": "地図・アクセス",
+    "palette": "配色",
+    "text": "文章",
+    "file": "レポート",
+    "list": "一覧",
+    "code": "自動生成",
+    "check": "自動検査",
+    "sun": "明るい画面・暗い画面"
+  },
   "featured": [
     "kensetsu-lp",
     "mitsumori-triage",
@@ -339,6 +372,17 @@
         "AdMob",
         "StoreKit"
       ],
+      "tools": [
+        {
+          "icon": "phone",
+          "label": "iPhone アプリ"
+        },
+        {
+          "icon": "game",
+          "label": "パズルゲーム"
+        },
+        "store"
+      ],
       "links": [
         {
           "label": "App Store で見る",
@@ -389,6 +433,17 @@
         "AdMob",
         "StoreKit"
       ],
+      "tools": [
+        {
+          "icon": "phone",
+          "label": "iPhone アプリ"
+        },
+        {
+          "icon": "game",
+          "label": "パズルゲーム"
+        },
+        "store"
+      ],
       "links": [
         {
           "label": "App Store で見る",
@@ -437,6 +492,17 @@
         "SwiftUI",
         "AdMob"
       ],
+      "tools": [
+        {
+          "icon": "phone",
+          "label": "iPhone アプリ"
+        },
+        {
+          "icon": "game",
+          "label": "対戦ゲーム"
+        },
+        "store"
+      ],
       "links": [
         {
           "label": "App Store で見る",
@@ -476,6 +542,17 @@
         "SwiftUI",
         "AdMob",
         "StoreKit"
+      ],
+      "tools": [
+        {
+          "icon": "phone",
+          "label": "iPhone アプリ"
+        },
+        {
+          "icon": "game",
+          "label": "将棋 AI 対局"
+        },
+        "store"
       ],
       "links": [
         {
@@ -524,6 +601,20 @@
         "HTML / CSS / JavaScript",
         "PWA",
         "Cloudflare Pages"
+      ],
+      "tools": [
+        {
+          "icon": "web",
+          "label": "ブラウザで動く"
+        },
+        {
+          "icon": "game",
+          "label": "演出シミュレーター"
+        },
+        {
+          "icon": "phone",
+          "label": "スマホ・PC 対応"
+        }
       ],
       "links": [
         {
@@ -632,6 +723,18 @@
         "Google Apps Script",
         "Google スプレッドシート",
         "Slack"
+      ],
+      "tools": [
+        "sheet",
+        {
+          "icon": "mail",
+          "label": "メール通知"
+        },
+        "chat",
+        {
+          "icon": "clock",
+          "label": "月ごとに自動"
+        }
       ],
       "links": [
         {
@@ -782,6 +885,21 @@
         "Python",
         "Claude API"
       ],
+      "tools": [
+        {
+          "icon": "mail",
+          "label": "問い合わせメール"
+        },
+        {
+          "icon": "sparkle",
+          "label": "AI が返信を下書き"
+        },
+        {
+          "icon": "filter",
+          "label": "自動分類"
+        },
+        "shield"
+      ],
       "links": [
         {
           "label": "GitHub で見る",
@@ -834,6 +952,20 @@
         "Python",
         "launchd",
         "HTML / SVG"
+      ],
+      "tools": [
+        {
+          "icon": "data",
+          "label": "進捗・売上を一画面に"
+        },
+        {
+          "icon": "clock",
+          "label": "30 分ごとに自動更新"
+        },
+        {
+          "icon": "file",
+          "label": "週ごとのレポート"
+        }
       ],
       "links": [],
       "visuals": [
@@ -944,6 +1076,20 @@
         "Python",
         "launchd"
       ],
+      "tools": [
+        {
+          "icon": "clock",
+          "label": "毎朝 7:30 に自動"
+        },
+        {
+          "icon": "filter",
+          "label": "条件と予算で仕分け"
+        },
+        {
+          "icon": "text",
+          "label": "提案文の下書き"
+        }
+      ],
       "links": [
         {
           "label": "事例ページ（実数つき）",
@@ -1013,6 +1159,20 @@
         "調査設計",
         "HTML レポート"
       ],
+      "tools": [
+        {
+          "icon": "data",
+          "label": "3 つの数字で判定"
+        },
+        {
+          "icon": "search",
+          "label": "競合の実データ"
+        },
+        {
+          "icon": "web",
+          "label": "ブラウザで計算"
+        }
+      ],
       "links": [
         {
           "label": "事例ページ＋計算ツール",
@@ -1074,6 +1234,17 @@
       "stack": [
         "SVG",
         "App Store Connect"
+      ],
+      "tools": [
+        {
+          "icon": "image",
+          "label": "アプリアイコン"
+        },
+        {
+          "icon": "store",
+          "label": "ストア画像"
+        },
+        "design"
       ],
       "links": [
         {
@@ -1147,6 +1318,20 @@
         "HTML / CSS アニメーション",
         "ffmpeg",
         "H.264 / VP9"
+      ],
+      "tools": [
+        {
+          "icon": "video",
+          "label": "15 秒の縦型動画"
+        },
+        {
+          "icon": "phone",
+          "label": "実機画面を使用"
+        },
+        {
+          "icon": "sns",
+          "label": "SNS・ストア向け"
+        }
       ],
       "links": [],
       "visuals": [
@@ -1258,6 +1443,20 @@
         "HTML / CSS / SVG",
         "Google Fonts",
         "headless Chrome レンダリング"
+      ],
+      "tools": [
+        {
+          "icon": "ad",
+          "label": "バナー広告 4 サイズ"
+        },
+        {
+          "icon": "palette",
+          "label": "訴求 2 案"
+        },
+        {
+          "icon": "sns",
+          "label": "Instagram・ストーリーズ"
+        }
       ],
       "links": [],
       "visuals": [
@@ -1403,6 +1602,20 @@
         "HTML / CSS / SVG",
         "JSON（承認キュー）",
         "Claude Code"
+      ],
+      "tools": [
+        {
+          "icon": "sns",
+          "label": "4 つの SNS"
+        },
+        {
+          "icon": "calendar",
+          "label": "30 日カレンダー"
+        },
+        {
+          "icon": "list",
+          "label": "投稿の型と流れ"
+        }
       ],
       "links": [
         {
@@ -1580,6 +1793,20 @@
         "AdMob",
         "Apple Ads"
       ],
+      "tools": [
+        {
+          "icon": "store",
+          "label": "App Store 掲載"
+        },
+        {
+          "icon": "text",
+          "label": "文章と画像の改善"
+        },
+        {
+          "icon": "data",
+          "label": "週ごとの実数集計"
+        }
+      ],
       "links": [
         {
           "label": "実数と判断基準を見る",
@@ -1627,6 +1854,17 @@
         "Canvas 2D",
         "SVG",
         "Python（データ整形・静的生成）"
+      ],
+      "tools": [
+        {
+          "icon": "data",
+          "label": "公共統計の図解"
+        },
+        {
+          "icon": "pin",
+          "label": "触れる地図"
+        },
+        "web"
       ],
       "links": [
         {
@@ -1682,6 +1920,21 @@
         "PWA (Service Worker)",
         "Node.js test"
       ],
+      "tools": [
+        {
+          "icon": "invoice",
+          "label": "見積依頼"
+        },
+        "filter",
+        {
+          "icon": "mail",
+          "label": "返信の下書き"
+        },
+        {
+          "icon": "phone",
+          "label": "スマホ・オフライン対応"
+        }
+      ],
       "links": [
         {
           "label": "デモを開く",
@@ -1732,6 +1985,20 @@
         "headless Chrome フレーム書き出し",
         "ffmpeg（H.264 / VP9・AAC / Opus）",
         "Python（BGM 合成）"
+      ],
+      "tools": [
+        {
+          "icon": "video",
+          "label": "26 秒の縦型 3 本"
+        },
+        {
+          "icon": "text",
+          "label": "字幕焼き込み"
+        },
+        {
+          "icon": "sns",
+          "label": "Shorts・Reels・TikTok"
+        }
       ],
       "links": [],
       "visuals": [
@@ -1861,6 +2128,20 @@
         "Google Fonts",
         "headless Chrome レンダリング",
         "実写風写真（自作生成）"
+      ],
+      "tools": [
+        {
+          "icon": "ad",
+          "label": "広告 7 サイズ"
+        },
+        {
+          "icon": "image",
+          "label": "実写風写真"
+        },
+        {
+          "icon": "palette",
+          "label": "訴求 2 案"
+        }
       ],
       "links": [
         {
@@ -2017,6 +2298,24 @@
         "headless Chrome レンダリング",
         "ffmpeg"
       ],
+      "tools": [
+        {
+          "icon": "sns",
+          "label": "4 つの SNS 共通"
+        },
+        {
+          "icon": "image",
+          "label": "ヘッダー・アイコン"
+        },
+        {
+          "icon": "video",
+          "label": "動画の始まりと終わり"
+        },
+        {
+          "icon": "palette",
+          "label": "同じ顔・同じ色"
+        }
+      ],
       "links": [
         {
           "label": "ブランドガイド（1 ページ）",
@@ -2087,6 +2386,17 @@
         "Google Fonts",
         "WCAG 2.x コントラスト計算"
       ],
+      "tools": [
+        {
+          "icon": "palette",
+          "label": "色・文字・部品のルール"
+        },
+        {
+          "icon": "web",
+          "label": "1 ページで確認"
+        },
+        "sun"
+      ],
       "links": [
         {
           "label": "デザインシステム（1 ページ）",
@@ -2134,6 +2444,24 @@
         "SVG",
         "Python（生成・検査）"
       ],
+      "tools": [
+        {
+          "icon": "web",
+          "label": "1 ページのサイト"
+        },
+        {
+          "icon": "users",
+          "label": "プロフィール・政策"
+        },
+        {
+          "icon": "mail",
+          "label": "お問い合わせ"
+        },
+        {
+          "icon": "palette",
+          "label": "配色 3 案"
+        }
+      ],
       "links": [
         {
           "label": "デモを見る（架空の人物）",
@@ -2177,6 +2505,24 @@
         "SVG",
         "Lighthouse",
         "CDP 検査"
+      ],
+      "tools": [
+        {
+          "icon": "web",
+          "label": "サービス紹介 LP"
+        },
+        {
+          "icon": "invoice",
+          "label": "見積依頼の仕分け"
+        },
+        {
+          "icon": "sparkle",
+          "label": "AI が下書き"
+        },
+        {
+          "icon": "mail",
+          "label": "問い合わせ導線"
+        }
       ],
       "links": [
         {
@@ -2222,6 +2568,24 @@
         "HTML/CSS（自己完結）",
         "JavaScript",
         "SVG"
+      ],
+      "tools": [
+        {
+          "icon": "star",
+          "label": "クチコミ返信の下書き"
+        },
+        {
+          "icon": "message",
+          "label": "LINE で再来店の案内"
+        },
+        {
+          "icon": "web",
+          "label": "ブラウザで試せるデモ"
+        },
+        {
+          "icon": "shield",
+          "label": "送信は人が確認"
+        }
       ],
       "links": [
         {
@@ -2270,6 +2634,24 @@
         "HTML/CSS（自己完結）",
         "JavaScript"
       ],
+      "tools": [
+        {
+          "icon": "web",
+          "label": "5 ページのホームページ"
+        },
+        {
+          "icon": "image",
+          "label": "写真・ギャラリー"
+        },
+        {
+          "icon": "calendar",
+          "label": "予約ボタン（ホットペッパーへ）"
+        },
+        {
+          "icon": "pin",
+          "label": "アクセスページ"
+        }
+      ],
       "links": [
         {
           "label": "ホームページを見る",
@@ -2312,6 +2694,20 @@
         "HTML/CSS",
         "GitHub Pages",
         "CDP"
+      ],
+      "tools": [
+        {
+          "icon": "web",
+          "label": "このサイト"
+        },
+        {
+          "icon": "code",
+          "label": "全ページを自動生成"
+        },
+        {
+          "icon": "check",
+          "label": "公開前の自動検査"
+        }
       ],
       "links": [
         {

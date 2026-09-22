@@ -282,6 +282,7 @@ class Site:
         self.categories = content["categories"]
         self.work_by_slug = {work["slug"]: work for work in self.all_works}
         self.cat_by_id = {category["id"]: category for category in self.categories}
+        self.tool_legend = content.get("tools_legend", {})  # カードの「扱うもの」アイコン id → 既定ラベル
         self.counts = {c["id"]: sum(c["id"] in w["categories"] for w in self.works) for c in self.categories}
         self.template = Template((SOURCE / "templates/page.html").read_text(encoding="utf-8"))
         self.symbols = (SOURCE / "templates/icons.svg").read_text(encoding="utf-8").strip()
@@ -344,14 +345,31 @@ class Site:
                 result.append('<span class="chip">{}</span>'.format(name))
         return "".join(result)
 
+    def tools(self, work):
+        """カードの「扱うもの」: work["tools"]（アイコン id の文字列、または {"icon","label"}）。無ければ分類のアイコンと名前で代用。
+        label は content.json の tools_legend が既定。公式ロゴ（Slack・LINE・Gmail 等）は使わず、中立の線画で表す"""
+        items = work.get("tools")
+        if not items:
+            items = [{"icon": self.cat_by_id[c]["icon"], "label": self.cat_by_id[c]["name"]} for c in work["categories"]]
+        result = []
+        for item in items:
+            if isinstance(item, str):
+                item = {"icon": item, "label": self.tool_legend[item]}
+            result.append({"icon": item["icon"], "label": item.get("label") or self.tool_legend[item["icon"]]})
+        return result
+
     def card(self, work):
+        tools = self.tools(work)
+        tool_items = "".join('<li><span class="tool-icon">{}</span><span>{}</span></li>'.format(
+            icon(tool["icon"]), soft_break(tool["label"])) for tool in tools)
         return (
             '<article class="card reveal" data-cats="{}"><a class="card-link" href="/works/{}/">'
-            '<div class="card-visual">{}</div><div class="card-body"><p class="work-kicker">{}</p>'
-            '<h3>{}</h3><div class="card-categories">{}</div><div class="card-bottom">{}'
+            '<div class="card-visual">{}<span class="card-badge" aria-hidden="true">{}</span></div>'
+            '<div class="card-body"><p class="work-kicker">{}</p>'
+            '<h3>{}</h3><ul class="card-tools" aria-label="扱うもの">{}</ul><div class="card-categories">{}</div><div class="card-bottom">{}'
             '<span class="card-arrow">{}</span></div></div></a></article>'
-        ).format(esc(" ".join(work["categories"])), esc(work["slug"]), self.card_visual(work),
-                 esc(work["kicker"]), esc(work["title"]), self.category_chips(work), self.label(work), icon("arrow"))
+        ).format(esc(" ".join(work["categories"])), esc(work["slug"]), self.card_visual(work), icon(tools[0]["icon"]),
+                 esc(work["kicker"]), esc(work["title"]), tool_items, self.category_chips(work), self.label(work), icon("arrow"))
 
     def card_visual(self, work):
         """カード用: 先頭が icon なら連続する icon（最大 3）を 1 行で見せる。それ以外は先頭ビジュアル 1 つ"""

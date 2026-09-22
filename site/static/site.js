@@ -29,6 +29,18 @@
     document.documentElement.classList.add("js");
   }
 
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  // 一覧カードの出現アニメ（読み込み時の最初の画面と、絞り込みの切り替え時）。動きを減らす設定では付けない
+  const enterCards = (list, step) => {
+    if (reducedMotion.matches) return;
+    list.forEach((card, index) => {
+      card.classList.remove("card-enter");
+      void card.offsetWidth; // 連続クリックでも毎回アニメを再生する
+      card.style.setProperty("--enter-delay", Math.min(index, 8) * step + "ms");
+      card.classList.add("card-enter");
+    });
+  };
+
   const filters = Array.from(document.querySelectorAll("button[data-cat]"));
   const cards = Array.from(document.querySelectorAll("#work-list .card[data-cats]"));
   if (filters.length) {
@@ -42,6 +54,7 @@
       cards.forEach((card) => {
         card.hidden = selected !== "all" && !card.dataset.cats.split(/\s+/).includes(selected);
       });
+      if (updateHash) enterCards(cards.filter((card) => !card.hidden), 40);
       if (updateHash) {
         const hash = selected === "all" ? "" : "#cat=" + encodeURIComponent(selected);
         history.replaceState(null, "", location.pathname + location.search + hash);
@@ -63,7 +76,6 @@
     fromHash();
   }
 
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const reveals = Array.from(document.querySelectorAll(".reveal"));
   let observer;
   const showAll = () => {
@@ -89,6 +101,7 @@
       element.classList.add("reveal-pending");
       observer.observe(element);
     });
+    enterCards(cards.filter((card) => !card.classList.contains("reveal-pending")), 70); // 最初の画面のカードは順に浮かび上がる
   }
   reducedMotion.addEventListener("change", (event) => {
     if (event.matches) showAll();
