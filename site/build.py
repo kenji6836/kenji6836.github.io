@@ -142,6 +142,73 @@ def pipeline(steps):
     return '<ol class="pipeline" style="--steps:{}">{}</ol>'.format(len(steps), items)
 
 
+INTERACTIVE_KINDS = {"report"}  # 触って動く実演。role="img" を付けず、中のボタンを読み上げ・操作の対象に残す
+
+
+def report(visual):
+    """動く実演（kind=report）: 売上 CSV を置く → 集計表が更新 → 通知が届く。
+    全月ぶんを build 時に描き、初期は initial か月だけ見せる。進行は site.js（.rd）が hidden とクラスの付け替えだけで行う（JS 無しでも初期状態が読める）"""
+    months = visual["months"]
+    initial = visual["initial"]
+    last = initial - 1
+    peak = max(month["total"] for month in months) or 1
+    yen = lambda value: "{:,} 円".format(value)
+    count = lambda value: "{} 件".format(value)
+
+    def head(column):
+        return '<h3 class="rd-head"><span class="step-icon">{}</span><span>{}<small>{}</small></span></h3>'.format(
+            icon(column["icon"]), esc(column["label"]), esc(column["sub"]))
+
+    files = "".join(
+        '<li class="rd-file"{}><strong>{}</strong><span class="step-sub">{} 行</span><pre>{}</pre></li>'.format(
+            "" if i == last else " hidden", esc(month["file"]), month["rows"],
+            esc("\n".join([visual["csv_head"]] + month["lines"] + ["…"])))
+        for i, month in enumerate(months))
+    current = months[last]
+    tiles = "".join(
+        '<li class="kpi"><span class="step-sub">{}</span><strong data-tile="{}"{}>{}</strong></li>'.format(
+            esc(visual["tiles"][key]), key, ' class="is-down"' if value.startswith("−") else "", esc(value))
+        for key, value in (("total", yen(current["total"])), ("diff", current["diff"]), ("rows", count(current["rows"]))))
+    bars = "".join(
+        '<li class="rd-bar{}{}" style="--bar:{:.1f}%"><span class="rd-val">{}</span><span class="rd-fill"></span><span class="rd-m">{}</span></li>'.format(
+            " is-future" if i > last else "", " is-latest" if i == last else "", month["total"] / peak * 78,
+            round(month["total"] / 10000), esc(month["label"]))
+        for i, month in enumerate(months))
+    heads = "".join('<th scope="col">{}</th>'.format(esc(h)) for h in visual["table_head"])
+    rows = "".join(
+        '<tr class="rd-row"{} data-month="{}" data-total="{}" data-diff="{}" data-rows="{}">'
+        '<td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>'.format(
+            " hidden" if i > last else "", esc(month["label"]), esc(yen(month["total"])), esc(month["diff"]), esc(count(month["rows"])),
+            esc(month["label"]), "{:,}".format(month["total"]), esc(month["diff"]), month["rows"])
+        for i, month in enumerate(months))
+    table = '<table class="sample-table"><caption>{}</caption><thead><tr>{}</tr></thead><tbody>{}</tbody></table>'.format(
+        esc(visual["table_caption"]), heads, rows)
+    message = visual["message"]
+    messages = "".join(
+        '<li class="rd-msg"{}><span class="rd-msg-head"><span class="rd-avatar">{}</span><strong>{}</strong><time>{}</time></span>'
+        '<span class="rd-msg-title">{}</span><span class="rd-msg-body">{}</span><span class="rd-msg-link">{}{}</span></li>'.format(
+            "" if last - 1 <= i <= last else " hidden", icon("chat"), esc(message["from"]), esc(message["time"]),
+            esc(message["subject"].replace("{month}", month["label"])),
+            "<br>".join(esc(line) for line in message["body"].format(
+                total=yen(month["total"]), diff=month["diff"], rows=count(month["rows"]),
+                product=month["product"], staff=month["staff"]).split("\n")),
+            esc(message["action"]), icon("arrow"))
+        for i, month in enumerate(months))
+    run_label = visual["run"].replace("{month}", months[initial]["label"]) if initial < len(months) else visual["reset"]
+    controls = (
+        '<div class="rd-controls"><button class="button button-primary rd-run" type="button">{}<span>{}</span></button>'
+        '<p class="rd-note">{}</p><p class="rd-status" role="status" aria-live="polite"></p></div>'
+    ).format(icon("file"), esc(run_label), esc(visual["note"]))
+    csv_col, sheet_col, notice_col = visual["columns"]
+    return (
+        '<div class="rd" data-initial="{}" data-run="{}" data-reset="{}" data-done="{}" data-phase="0">{}<ol class="rd-stage">'
+        '<li class="rd-col rd-csv">{}<ul class="rd-files">{}</ul></li>'
+        '<li class="rd-col rd-sheet">{}<ul class="kpi-row">{}</ul><div class="chart-label">{}</div><ol class="rd-bars" aria-hidden="true">{}</ol>{}</li>'
+        '<li class="rd-col rd-notice">{}<ol class="rd-msgs">{}</ol></li></ol></div>'
+    ).format(initial, esc(visual["run"]), esc(visual["reset"]), esc(visual["done"]), controls,
+             head(csv_col), files, head(sheet_col), tiles, esc(visual["chart_label"]), bars, table, head(notice_col), messages)
+
+
 def mock(visual, compact=False):
     kind = visual["kind"]
     body = pipeline(visual["steps"]) if "steps" in visual else ""
@@ -254,10 +321,13 @@ def mock(visual, compact=False):
             )
             body += '<div class="chart-label">{}</div><ol class="hbar-list">{}</ol>'.format(esc(bars["label"]), rows)
         body += '<div class="visual-note">{}</div>'.format(esc(visual["note"]))
+    elif kind == "report":
+        body = report(visual)
     elif kind != "pipeline":
         raise ValueError("Unknown visual kind: " + kind)
-    return '<figure class="mock mock-{}"{} role="img" aria-label="{}"><div class="mock-ui">{}</div><figcaption>{}</figcaption></figure>'.format(
-        esc(kind), " data-compact" if compact else "", esc(visual["title"]), body, esc(visual["title"]))
+    return '<figure class="mock mock-{}"{}{} aria-label="{}"><div class="mock-ui">{}</div><figcaption>{}</figcaption></figure>'.format(
+        esc(kind), " data-compact" if compact else "", "" if kind in INTERACTIVE_KINDS else ' role="img"',
+        esc(visual["title"]), body, esc(visual["title"]))
 
 
 def visual_markup(visual, compact=False):
@@ -372,9 +442,10 @@ class Site:
                  esc(work["kicker"]), esc(work["title"]), tool_items, self.category_chips(work), self.label(work), icon("arrow"))
 
     def card_visual(self, work):
-        """カード用: 先頭が icon なら連続する icon（最大 3）を 1 行で見せる。それ以外は先頭ビジュアル 1 つ"""
+        """カード用: 先頭が icon なら連続する icon（最大 3）を 1 行で見せる。それ以外は先頭ビジュアル 1 つ。
+        work["card_visual"]（添字）で別のビジュアルを指定できる（詳細ページの主役が動く実演で、カードには実画面を使いたい時）"""
         visuals = work["visuals"]
-        first = visuals[0]
+        first = visuals[work.get("card_visual", 0)]
         if first["type"] == "image" and first.get("frame") == "icon":
             icons = []
             for visual in visuals:

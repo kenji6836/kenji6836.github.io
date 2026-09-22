@@ -177,4 +177,64 @@
     });
     submit.disabled = false;
   });
+
+  // 動く実演（mock kind=report）: 「CSV を置く」→ 集計表が更新 → 通知が届く。要素は build 時に全月ぶん描いてあり、hidden とクラスの付け替えだけで進める
+  document.querySelectorAll(".rd").forEach((demo) => {
+    const run = demo.querySelector(".rd-run");
+    const label = run.querySelector("span");
+    const status = demo.querySelector(".rd-status");
+    const pick = (selector) => Array.from(demo.querySelectorAll(selector));
+    const files = pick(".rd-file"), rows = pick(".rd-row"), bars = pick(".rd-bar"), messages = pick(".rd-msg"), tiles = pick("[data-tile]");
+    const initial = Number(demo.dataset.initial) || 1;
+    let current = initial - 1;
+    let busy = false;
+    const month = (index) => rows[index].dataset.month;
+    const steps = [
+      (index, fresh) => files.forEach((file, n) => { file.hidden = n !== index; file.classList.toggle("is-new", fresh && n === index); }),
+      (index, fresh) => {
+        rows.forEach((row, n) => { row.hidden = n > index; row.classList.toggle("is-new", fresh && n === index); });
+        bars.forEach((bar, n) => { bar.classList.toggle("is-future", n > index); bar.classList.toggle("is-latest", n === index); });
+        const data = rows[index].dataset;
+        tiles.forEach((tile) => {
+          const value = data[tile.dataset.tile];
+          tile.textContent = value;
+          tile.classList.toggle("is-down", value.startsWith("−"));
+          tile.classList.remove("is-bump");
+          if (fresh) { void tile.offsetWidth; tile.classList.add("is-bump"); }
+        });
+      },
+      (index, fresh) => messages.forEach((message, n) => { message.hidden = n > index || n < index - 1; message.classList.toggle("is-new", fresh && n === index); })
+    ];
+    const finish = () => {
+      busy = false;
+      run.disabled = false;
+      label.textContent = current + 1 < rows.length ? demo.dataset.run.replace("{month}", month(current + 1)) : demo.dataset.reset;
+    };
+    const show = (index, fresh) => { // fresh: 3 段階を順に見せる／false: 一括で描き直す（最初に戻す）
+      current = index;
+      if (!fresh) { steps.forEach((step) => step(index, false)); demo.dataset.phase = "0"; status.textContent = ""; finish(); return; }
+      busy = true;
+      run.disabled = true;
+      const wait = reducedMotion.matches ? 0 : 650;
+      steps.forEach((step, n) => setTimeout(() => {
+        demo.dataset.phase = String(n + 1);
+        step(index, true);
+        if (n === steps.length - 1) { status.textContent = demo.dataset.done.replace("{month}", month(index)); finish(); }
+      }, n * wait));
+    };
+    run.addEventListener("click", () => {
+      if (busy) return;
+      if (current + 1 < rows.length) show(current + 1, true); else show(initial - 1, false);
+    });
+    finish();
+    // 見えたら 1 か月ぶんだけ自動で進めて、押さなくても動きが分かるようにする（動きを減らす設定では待つ）
+    if (!reducedMotion.matches && "IntersectionObserver" in window && current + 1 < rows.length) {
+      const once = new IntersectionObserver((entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        once.disconnect();
+        setTimeout(() => { if (!busy && current === initial - 1) show(current + 1, true); }, 900);
+      }, { threshold: 0.2 });
+      once.observe(demo);
+    }
+  });
 })();
