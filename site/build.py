@@ -568,6 +568,30 @@ class Site:
         return '<section id="services" class="section section-alt"><div class="container">{}<ul class="cat-grid cat-grid-primary stagger-grid">{}</ul>{}</div></section>'.format(
             self.section_heading("SERVICES", "得意なこと", "ご相談の多い 3 つです。"), tiles, more)
 
+    def pricing(self):
+        """費用の目安: 3 つの型を同じ項目（費用・期間・含まれるもの）で並べて比べられるようにする"""
+        pricing = self.content["pricing"]
+        labels = {row["key"]: row["label"] for row in pricing["rows"]}
+        cards = []
+        for plan in pricing["plans"]:
+            includes = "".join('<li>{}{}</li>'.format(icon("check"), esc(item)) for item in plan["includes"])
+            footnote = '<p class="plan-footnote">{}</p>'.format(esc(plan["footnote"])) if plan.get("footnote") else ""
+            sample = self.button(plan["sample"]["label"], plan["sample"]["href"])
+            cards.append(
+                '<li class="plan reveal"><div class="plan-head"><span class="plan-icon">{}</span>'
+                '<h3>{}</h3><p class="plan-for">{}</p></div>'
+                '<dl class="plan-rows"><div><dt>{}</dt><dd class="plan-price">{}</dd></div>'
+                '<div><dt>{}</dt><dd class="plan-duration">{}</dd></div>'
+                '<div class="plan-includes"><dt>{}</dt><dd><ul>{}</ul></dd></div></dl>{}'
+                '<div class="plan-action">{}</div></li>'.format(
+                    icon(plan["icon"]), esc(plan["name"]), esc(plan["for"]),
+                    esc(labels["price"]), esc(plan["price"]),
+                    esc(labels["duration"]), esc(plan["duration"]),
+                    esc(labels["includes"]), includes, footnote, sample))
+        return '<section id="pricing" class="section"><div class="container">{}<ul class="plan-grid stagger-grid">{}</ul><p class="plan-note">{}</p></div></section>'.format(
+            self.section_heading(pricing["kicker"], pricing["heading"], pricing.get("lead", "")),
+            "".join(cards), esc(pricing["note"]))
+
     def process(self):
         process = self.content["process"]
         steps = "".join('<li class="step reveal"><span class="step-num">{}</span><span class="step-glyph">{}</span><strong>{}</strong></li>'.format(
@@ -629,7 +653,7 @@ class Site:
 
     def home(self):
         return self.page("/", self.site["title"], self.site["description"],
-                         self.hero() + self.entry() + self.featured() + self.services() + self.process() + self.about() + self.contact())
+                         self.hero() + self.entry() + self.featured() + self.services() + self.pricing() + self.process() + self.about() + self.contact())
 
     def breadcrumb(self, work=None):
         crumbs = '<li><a href="/">トップ</a></li>'
