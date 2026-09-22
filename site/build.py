@@ -554,14 +554,19 @@ class Site:
             self.button("すべて見る（{} 件）".format(len(self.works)), "/works/"))
 
     def services(self):
-        """できること: 10 分野をアイコン札で（名前＋件数だけ）。各札は一覧の絞り込みへ"""
+        """得意 3 分野（categories[].primary）を一言つきで大きく、残りはチップで。各札は一覧の絞り込みへ"""
+        primary = [c for c in self.categories if c.get("primary")]
+        rest = [c for c in self.categories if not c.get("primary")]
         tiles = "".join(
-            '<li class="reveal"><a class="cat" href="/works/#cat={}"><span class="cat-icon">{}</span>'
-            '<span><strong>{}</strong><small>{} 件</small></span></a></li>'.format(
-                esc(cat["id"]), icon(cat["icon"]), soft_break(cat["name"]), self.counts[cat["id"]])
-            for cat in self.categories)
-        return '<section id="services" class="section section-alt"><div class="container">{}<ul class="cat-grid stagger-grid">{}</ul></div></section>'.format(
-            self.section_heading("SERVICES", "できること"), tiles)
+            '<li class="reveal"><a class="cat cat-lead" href="/works/#cat={}"><span class="cat-icon">{}</span>'
+            '<span><strong>{}</strong><small>{}</small><small class="cat-count">見本 {} 件</small></span></a></li>'.format(
+                esc(cat["id"]), icon(cat["icon"]), soft_break(cat["name"]), esc(cat["lead"]), self.counts[cat["id"]])
+            for cat in primary)
+        chips = "".join('<li><a class="chip" href="/works/#cat={}">{}<span>{}</span></a></li>'.format(
+            esc(cat["id"]), esc(cat["name"]), self.counts[cat["id"]]) for cat in rest)
+        more = '<p class="cat-more-label">ほかにも承ります</p><ul class="cat-more">{}</ul>'.format(chips) if chips else ""
+        return '<section id="services" class="section section-alt"><div class="container">{}<ul class="cat-grid cat-grid-primary stagger-grid">{}</ul>{}</div></section>'.format(
+            self.section_heading("SERVICES", "得意なこと", "ご相談の多い 3 つです。"), tiles, more)
 
     def process(self):
         process = self.content["process"]

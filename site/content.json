@@ -8,7 +8,7 @@
     "brand_color": "#2457e6",
     "nav": [
       {
-        "label": "できること",
+        "label": "得意なこと",
         "href": "/#services"
       },
       {
@@ -27,9 +27,9 @@
     "footer_note": "掲載している制作物はすべて本人が企画・設計・実装・公開したものです。"
   },
   "hero": {
-    "catch": "言葉より、実物で。",
-    "catch_accent": "実物で。",
-    "tagline": "アプリ・Web・自動化。\n企画から公開まで、一人で。",
+    "catch": "請求・集計・返信。\nその手作業、自動化します。",
+    "catch_accent": "自動化します。",
+    "tagline": "ホームページ・スマホアプリの制作も。\n企画から公開まで、一人で。",
     "cta": {
       "label": "相談する（無料）",
       "href": "/#contact"
@@ -187,52 +187,25 @@
   },
   "categories": [
     {
+      "id": "automation",
+      "name": "AI活用・自動化",
+      "icon": "automation",
+      "lead": "請求書づくり・売上集計・問い合わせ返信・新着チェックを自動で。判断は人、作業は機械。",
+      "primary": true
+    },
+    {
       "id": "web",
       "name": "Web制作",
       "icon": "web",
-      "lead": "LP・サービスサイト・ブラウザで動くツール（PWA）"
+      "lead": "お店・事業のホームページ、紹介ページ（LP）、ブラウザで動く業務ツール。",
+      "primary": true
     },
     {
       "id": "app",
       "name": "アプリ・システム開発",
       "icon": "app",
-      "lead": "iOS アプリの企画から公開まで・業務 Web アプリ（PWA・オフライン対応）"
-    },
-    {
-      "id": "automation",
-      "name": "AI活用・自動化",
-      "icon": "automation",
-      "lead": "AI 仕分け・返信下書きなど、判断は人・作業は自動の業務フロー"
-    },
-    {
-      "id": "design",
-      "name": "デザイン制作",
-      "icon": "design",
-      "lead": "デザインシステム・チャンネルブランディング・アプリアイコン・画面デザイン"
-    },
-    {
-      "id": "video",
-      "name": "動画制作",
-      "icon": "video",
-      "lead": "アプリ・サービスの縦型ショート動画・チャンネル素材・モーショングラフィックス"
-    },
-    {
-      "id": "ad",
-      "name": "広告制作",
-      "icon": "ad",
-      "lead": "SNS・ディスプレイ広告のバナー制作・サイズ展開・A/B 案（実写風写真を含む）"
-    },
-    {
-      "id": "sns",
-      "name": "SNS運用",
-      "icon": "sns",
-      "lead": "X・YouTube・Instagram・TikTok の運用設計、承認キュー、週次計測"
-    },
-    {
-      "id": "marketing",
-      "name": "マーケティング",
-      "icon": "marketing",
-      "lead": "App Store 掲載最適化（ASO）の実数と判断基準・流入実験の設計"
+      "lead": "iOS アプリを企画から App Store 公開まで。社内で使う業務アプリも。",
+      "primary": true
     },
     {
       "id": "data",
@@ -245,6 +218,36 @@
       "name": "企画・業務改善",
       "icon": "planning",
       "lead": "業務フローの自動化・判断基準づくり・自律運用（実数つきの事例 3 本）"
+    },
+    {
+      "id": "design",
+      "name": "デザイン制作",
+      "icon": "design",
+      "lead": "デザインシステム・チャンネルブランディング・アプリアイコン・画面デザイン"
+    },
+    {
+      "id": "marketing",
+      "name": "マーケティング",
+      "icon": "marketing",
+      "lead": "App Store 掲載最適化（ASO）の実数と判断基準・流入実験の設計"
+    },
+    {
+      "id": "ad",
+      "name": "広告制作",
+      "icon": "ad",
+      "lead": "SNS・ディスプレイ広告のバナー制作・サイズ展開・A/B 案（実写風写真を含む）"
+    },
+    {
+      "id": "video",
+      "name": "動画制作",
+      "icon": "video",
+      "lead": "アプリ・サービスの縦型ショート動画・チャンネル素材・モーショングラフィックス"
+    },
+    {
+      "id": "sns",
+      "name": "SNS運用",
+      "icon": "sns",
+      "lead": "X・YouTube・Instagram・TikTok の運用設計、承認キュー、週次計測"
     }
   ],
   "labels": {
@@ -412,6 +415,1272 @@
     ]
   },
   "works": [
+    {
+      "slug": "gas-sales-report",
+      "title": "売上データを置くだけで、月次レポートが届く",
+      "kicker": "業務自動化デモ",
+      "categories": [
+        "automation"
+      ],
+      "label": "public",
+      "year": "2026",
+      "summary": "売上データを置くだけで、月ごとの集計とグラフができ、要約がメールやチャットに届く。追加費用なし。見本は数字を書き換えるとその場で作り直される。",
+      "role": "設計・実装・テスト・ドキュメント",
+      "points": [
+        "数字を置くだけで、集計・グラフ・通知文まで自動",
+        "見本は実際に触って試せる（数字を変えると結果が変わる）",
+        "売上のほか、経費・勤怠・問い合わせ件数にも同じ形で使える"
+      ],
+      "stack": [
+        "表計算シートの自動処理",
+        "月次の集計とグラフ",
+        "メール・チャット通知"
+      ],
+      "tools": [
+        "sheet",
+        {
+          "icon": "mail",
+          "label": "メール通知"
+        },
+        "chat",
+        {
+          "icon": "clock",
+          "label": "月ごとに自動"
+        }
+      ],
+      "links": [
+        {
+          "label": "触って試せる見本を開く",
+          "url": "/demos/gas-sales-report/"
+        },
+        {
+          "label": "公開している仕組みを見る",
+          "url": "https://github.com/kenji6836/automation-demos/tree/main/gas-sales-report"
+        }
+      ],
+      "card_visual": 1,
+      "visuals": [
+        {
+          "type": "mock",
+          "kind": "report",
+          "title": "売上 CSV を置くと、集計と通知まで自動で進む（架空のサンプル）",
+          "run": "{month}の売上 CSV を置く",
+          "reset": "最初から見る",
+          "done": "{month}分を集計して、通知を送りました",
+          "note": "架空のサンプルです。ボタンを押すたびに 1 か月分が進みます。",
+          "initial": 3,
+          "columns": [
+            {
+              "icon": "file",
+              "label": "売上 CSV",
+              "sub": "決まった場所に置くだけ"
+            },
+            {
+              "icon": "sheet",
+              "label": "集計表",
+              "sub": "月ごとに自動で集計"
+            },
+            {
+              "icon": "chat",
+              "label": "通知",
+              "sub": "メール／チャットに届く"
+            }
+          ],
+          "csv_head": "日付,商品,担当,金額",
+          "tiles": {
+            "total": "今月の売上",
+            "diff": "前月比",
+            "rows": "明細"
+          },
+          "chart_label": "月別の売上（万円）",
+          "table_head": [
+            "月",
+            "売上",
+            "前月比",
+            "明細"
+          ],
+          "table_caption": "架空のサンプルデータ",
+          "message": {
+            "from": "売上レポート（自動）",
+            "time": "9:00",
+            "subject": "{month}の売上レポートができました",
+            "body": "合計 {total}（前月比 {diff}）・明細 {rows}\n商品別 1 位: {product} ／ 担当別 1 位: {staff}",
+            "action": "集計表を開く"
+          },
+          "months": [
+            {
+              "label": "4 月",
+              "file": "sales_2026-04.csv",
+              "total": 1240000,
+              "diff": "+8%",
+              "rows": 36,
+              "product": "定期プラン",
+              "staff": "営業 1 課",
+              "lines": [
+                "2026-04-01,定期プラン,営業 1 課,48000",
+                "2026-04-02,単品,営業 2 課,12500"
+              ]
+            },
+            {
+              "label": "5 月",
+              "file": "sales_2026-05.csv",
+              "total": 1318000,
+              "diff": "+6%",
+              "rows": 39,
+              "product": "定期プラン",
+              "staff": "営業 2 課",
+              "lines": [
+                "2026-05-01,定期プラン,営業 2 課,48000",
+                "2026-05-01,オプション,営業 1 課,8000"
+              ]
+            },
+            {
+              "label": "6 月",
+              "file": "sales_2026-06.csv",
+              "total": 1402000,
+              "diff": "+6%",
+              "rows": 41,
+              "product": "定期プラン",
+              "staff": "営業 1 課",
+              "lines": [
+                "2026-06-02,定期プラン,営業 1 課,96000",
+                "2026-06-02,単品,営業 1 課,12500"
+              ]
+            },
+            {
+              "label": "7 月",
+              "file": "sales_2026-07.csv",
+              "total": 1355000,
+              "diff": "−3%",
+              "rows": 40,
+              "product": "単品",
+              "staff": "営業 2 課",
+              "lines": [
+                "2026-07-01,単品,営業 2 課,25000",
+                "2026-07-03,定期プラン,営業 1 課,48000"
+              ]
+            },
+            {
+              "label": "8 月",
+              "file": "sales_2026-08.csv",
+              "total": 1496000,
+              "diff": "+10%",
+              "rows": 44,
+              "product": "定期プラン",
+              "staff": "営業 1 課",
+              "lines": [
+                "2026-08-03,定期プラン,営業 1 課,144000",
+                "2026-08-04,オプション,営業 2 課,8000"
+              ]
+            },
+            {
+              "label": "9 月",
+              "file": "sales_2026-09.csv",
+              "total": 1588000,
+              "diff": "+6%",
+              "rows": 47,
+              "product": "定期プラン",
+              "staff": "営業 2 課",
+              "lines": [
+                "2026-09-01,定期プラン,営業 2 課,96000",
+                "2026-09-01,単品,営業 1 課,25000"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/gas-sales-report-shot.jpg",
+          "alt": "実際の集計表の画面（月ごとの合計・商品別・担当者別）",
+          "frame": "browser"
+        }
+      ]
+    },
+    {
+      "slug": "invoice-demo",
+      "title": "請求・入金管理の見本デモ",
+      "kicker": "業務デモ（請求・入金管理向け）",
+      "categories": [
+        "web",
+        "data"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "請求書の状況を一目で把握できる業務画面の見本です。件数・金額の集計タイル、月別のグラフ、状態ごとの色分けを備え、「入金消込」を押すとその場で未回収額が減ります。会社名・金額はすべて架空の 20 件です。",
+      "role": "構成設計・画面実装・受入チェック",
+      "points": [
+        "件数・金額の集計タイルと月別グラフで、請求全体の状況がひと目でわかる",
+        "未回収・入金済みなど状態を色分けし、架空データ 20 件で一覧表示",
+        "「入金消込」ボタンを押すとその場で未回収額とグラフが更新される体験版",
+        "登録不要・ブラウザでそのまま試せる、外部通信のないデモ"
+      ],
+      "stack": [
+        "HTML/CSS（自己完結）",
+        "JavaScript",
+        "SVG"
+      ],
+      "tools": [
+        {
+          "icon": "invoice",
+          "label": "請求・入金の一覧"
+        },
+        {
+          "icon": "data",
+          "label": "集計タイル・月別グラフ"
+        },
+        {
+          "icon": "check",
+          "label": "入金消込で即時反映"
+        },
+        {
+          "icon": "web",
+          "label": "ブラウザで試せるデモ"
+        }
+      ],
+      "links": [
+        {
+          "label": "デモを開く（架空データ）",
+          "url": "/demo/invoice/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/invoice-demo-1.jpg",
+          "alt": "請求・入金管理デモの一覧画面（PC 表示）",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/invoice-demo-2.jpg",
+          "alt": "同デモのスマホ表示",
+          "frame": "phone"
+        }
+      ]
+    },
+    {
+      "slug": "inquiry-reply-assistant",
+      "title": "問い合わせ返信アシスタント",
+      "kicker": "AI 活用デモ",
+      "categories": [
+        "automation"
+      ],
+      "label": "public",
+      "year": "2026",
+      "summary": "問い合わせメールを要約・分類し、返信の下書きを AI で作成する支援ツール。建設業向けの分類プロファイル（見積依頼／施工中の連絡／その他）付き。",
+      "role": "設計・実装・テスト・業種プロファイル作成",
+      "points": [
+        "受信メールを「見積依頼」「施工中の連絡」などに自動分類",
+        "返信の下書きは人が確認してから送る前提の設計",
+        "分類カテゴリは設定ファイルで業種ごとに差し替え可能"
+      ],
+      "stack": [
+        "Python",
+        "Claude API"
+      ],
+      "tools": [
+        {
+          "icon": "mail",
+          "label": "問い合わせメール"
+        },
+        {
+          "icon": "sparkle",
+          "label": "AI が返信を下書き"
+        },
+        {
+          "icon": "filter",
+          "label": "自動分類"
+        },
+        "shield"
+      ],
+      "links": [
+        {
+          "label": "GitHub で見る",
+          "url": "https://github.com/kenji6836/automation-demos/tree/main/inquiry-reply-assistant"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "mock",
+          "kind": "email",
+          "title": "問い合わせ → 分類 → 返信下書き",
+          "inbox": {
+            "subject": "キッチンのリフォーム見積について",
+            "from": "お客様",
+            "preview": "築 20 年の戸建てで、キッチンの交換を検討しています。概算の費用と工期を教えてください。"
+          },
+          "classes": [
+            "見積依頼",
+            "施工中の連絡",
+            "その他"
+          ],
+          "selected": "見積依頼",
+          "draft": [
+            "お問い合わせありがとうございます。",
+            "キッチン交換の概算は、現地確認のうえ 2 営業日以内にお送りします。",
+            "ご都合のよい日時を 2〜3 候補いただけますでしょうか。"
+          ],
+          "badge": "人が確認してから送信"
+        }
+      ]
+    },
+    {
+      "slug": "mitsumori-triage",
+      "title": "見積依頼の自動仕分けアプリ「見積トリアージ」",
+      "kicker": "業務アプリ（工務店・リフォーム会社向け）",
+      "categories": [
+        "app",
+        "automation",
+        "design"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "届いた見積依頼を工種・緊急度で自動仕分け。返信の下書きまで用意。金額は人が決める。架空の依頼 30 件で動くデモをブラウザで試せます。",
+      "role": "企画・UI/UX 設計・実装（依存ゼロの PWA）・仕分けルール設計・テスト",
+      "points": [
+        "ホームは「至急 5 件・未対応 12 件」と今日の依頼だけ。文字より色とアイコンで状態が分かる設計",
+        "概算帯はレンジバーに依頼者の予算を重ねて表示 — 帯の中か外かが一目で分かる",
+        "返信案は人が編集してコピー・メール送信。送信と金額の判断はアプリに持たせない",
+        "オフラインでも動く PWA（ホーム画面に追加可）・キーボード操作（j/k/Enter/Esc/c/d）・ダークモード・スクリーンリーダー対応",
+        "本番構成（Claude API はサーバ側で接続・キーは端末に置かない）を設定画面に明示。デモは固定ルールと事前生成文で動作"
+      ],
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript (ES Modules)",
+        "PWA (Service Worker)",
+        "Node.js test"
+      ],
+      "tools": [
+        {
+          "icon": "invoice",
+          "label": "見積依頼"
+        },
+        "filter",
+        {
+          "icon": "mail",
+          "label": "返信の下書き"
+        },
+        {
+          "icon": "phone",
+          "label": "スマホ・オフライン対応"
+        }
+      ],
+      "links": [
+        {
+          "label": "デモを開く",
+          "url": "/app/mitsumori/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/mitsumori-1.jpg",
+          "alt": "見積トリアージのホーム画面（今日やること）と依頼の詳細パネル",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/mitsumori-2.jpg",
+          "alt": "見積トリアージの集計画面（日別件数・工種別の内訳）",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/mitsumori-3.jpg",
+          "alt": "見積トリアージのスマホ表示（依頼の詳細と返信案）",
+          "frame": "phone"
+        }
+      ]
+    },
+    {
+      "slug": "estat-to-sheet",
+      "title": "政府統計の自動取り込み",
+      "kicker": "データ収集デモ",
+      "categories": [
+        "automation",
+        "data"
+      ],
+      "label": "public",
+      "hidden": true,
+      "year": "2026",
+      "summary": "e-Stat（政府統計）の公式 API からデータを取得し、スプレッドシートを自動更新。定期実行で常に最新の統計を手元に。",
+      "role": "設計・実装・テスト・ドキュメント",
+      "points": [
+        "公式 API を利用し、利用規約に沿った取得",
+        "取得項目・期間は設定ファイルで変更可能",
+        "業界統計・人口・物価などの定点観測に応用"
+      ],
+      "stack": [
+        "Python",
+        "e-Stat API",
+        "Google スプレッドシート"
+      ],
+      "links": [
+        {
+          "label": "GitHub で見る",
+          "url": "https://github.com/kenji6836/automation-demos/tree/main/estat-to-sheet"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "mock",
+          "kind": "pipeline",
+          "title": "公式 API から定期取得",
+          "steps": [
+            {
+              "icon": "cloud",
+              "label": "e-Stat 公式 API",
+              "sub": "政府統計"
+            },
+            {
+              "icon": "code",
+              "label": "取得・整形",
+              "sub": "Python・設定ファイルで項目指定"
+            },
+            {
+              "icon": "sheet",
+              "label": "スプレッドシート",
+              "sub": "定期実行で自動更新"
+            }
+          ],
+          "detail": {
+            "kind": "bars",
+            "label": "取得した系列の例（サンプル）",
+            "values": [
+              42,
+              48,
+              45,
+              53,
+              58,
+              61
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "slug": "triage",
+      "title": "毎朝 7:30、応募すべき案件だけが並ぶ仕組み",
+      "kicker": "業務フローの自動化",
+      "categories": [
+        "automation",
+        "planning"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "募集中の案件を毎朝 7:30 に自動で集め、条件と予算で仕分けて一覧に。有望な案件は提案文の下書きまで用意。人は見て、送るかどうかを決めるだけ。",
+      "role": "要件定義・設計・実装・テスト",
+      "points": [
+        "取得 → 分類 → 提案文の下書きまで 1 コマンド（9/13 実走: 92 件取得 → キュー 88 件・下書き 10 件）",
+        "取得先の規約に従う（クロール間隔 5 秒・最大 2 ページ・送信元を明示）",
+        "レイアウト変更に備えた自動テスト 118 件"
+      ],
+      "stack": [
+        "Python",
+        "launchd"
+      ],
+      "tools": [
+        {
+          "icon": "clock",
+          "label": "毎朝 7:30 に自動"
+        },
+        {
+          "icon": "filter",
+          "label": "条件と予算で仕分け"
+        },
+        {
+          "icon": "text",
+          "label": "提案文の下書き"
+        }
+      ],
+      "links": [
+        {
+          "label": "事例ページ（実数つき）",
+          "url": "/cases/triage/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "mock",
+          "kind": "queue",
+          "title": "毎朝、見るだけの状態にしておく",
+          "steps": [
+            {
+              "icon": "cloud",
+              "label": "公開案件を取得",
+              "sub": "毎朝 07:30"
+            },
+            {
+              "icon": "filter",
+              "label": "キーワード・予算で分類",
+              "sub": "業種ルールは設定で変更"
+            },
+            {
+              "icon": "list",
+              "label": "承認キュー",
+              "sub": "人はここだけ見る"
+            }
+          ],
+          "rows": [
+            {
+              "title": "見積書作成の自動化ツール",
+              "lane": "法人",
+              "budget": "20〜30 万円"
+            },
+            {
+              "title": "スプレッドシート集計の効率化",
+              "lane": "パッケージ",
+              "budget": "5 万円"
+            },
+            {
+              "title": "問い合わせメールの一次返信",
+              "lane": "法人",
+              "budget": "10〜20 万円"
+            }
+          ],
+          "caption": "表示はサンプル"
+        }
+      ]
+    },
+    {
+      "slug": "mission-control",
+      "title": "複数案件の進捗と売上を 一画面で見るダッシュボード",
+      "kicker": "データ見える化",
+      "categories": [
+        "data",
+        "planning"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "案件ごとの進捗・目標・売上を 1 画面に。30 分ごとに自動で最新に更新。週ごとの振り返りレポートも自動で作成。",
+      "role": "要件定義・設計・実装・運用",
+      "points": [
+        "KPI・メーター・タイムラインで状態が一目で分かる構成",
+        "launchd による定期実行で人手ゼロの更新",
+        "収益の自動記入・週次監査など運用の判断材料を集約"
+      ],
+      "stack": [
+        "Python",
+        "launchd",
+        "HTML / SVG"
+      ],
+      "tools": [
+        {
+          "icon": "data",
+          "label": "進捗・売上を一画面に"
+        },
+        {
+          "icon": "clock",
+          "label": "30 分ごとに自動更新"
+        },
+        {
+          "icon": "file",
+          "label": "週ごとのレポート"
+        }
+      ],
+      "links": [],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/mission-control-1.jpg",
+          "alt": "Mission Control の今週のアクティビティ（リングと指標）",
+          "frame": "browser"
+        }
+      ]
+    },
+    {
+      "slug": "autopilot",
+      "title": "autopilot（夜間の自律開発ランナー）",
+      "kicker": "自律運用の仕組み化",
+      "categories": [
+        "automation",
+        "planning"
+      ],
+      "label": "self",
+      "hidden": true,
+      "year": "2026",
+      "summary": "承認済みの作業チケットを、夜間や日中の空き時間に無人で実行する仕組み。作業ごとに隔離した環境で実装・自動検証し、朝に 1 通の報告で承認できます。失敗も記録し、原因を直して再判定します。",
+      "role": "設計・実装・運用設計",
+      "points": [
+        "チケットに目的・範囲・検証方法・予算を必須にし、曖昧な作業は着手させない",
+        "作業ごとに独立した環境で実行し、検証に通ったものだけ取り込む",
+        "9/7〜9/13 の起動 42 回のうち成功 3・失敗 30（原因は版数確認の不一致 → 修正済み・再判定 9/22）を隠さず公開"
+      ],
+      "stack": [
+        "Python",
+        "launchd",
+        "Git worktree",
+        "Claude Code"
+      ],
+      "links": [
+        {
+          "label": "事例ページ（実数つき）",
+          "url": "/cases/autopilot/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "mock",
+          "kind": "flow",
+          "title": "夜のあいだに進み、朝 1 通で承認",
+          "steps": [
+            {
+              "icon": "ticket",
+              "label": "承認済みチケット",
+              "sub": "目的・範囲・検証・予算が必須"
+            },
+            {
+              "icon": "moon",
+              "label": "空き枠で自動実行",
+              "sub": "夜間 3 回・日中 4 回"
+            },
+            {
+              "icon": "box",
+              "label": "隔離環境で実装＋検証",
+              "sub": "作業ごとに独立"
+            },
+            {
+              "icon": "sun",
+              "label": "朝の報告 1 通",
+              "sub": "承認 / 差し戻し"
+            }
+          ],
+          "timeline": [
+            {
+              "t": "01:00",
+              "label": "夜間枠 1"
+            },
+            {
+              "t": "03:30",
+              "label": "夜間枠 2"
+            },
+            {
+              "t": "05:30",
+              "label": "夜間枠 3"
+            },
+            {
+              "t": "07:00",
+              "label": "朝刊"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "m0-gate",
+      "title": "新規事業を始める前の 三つの数字チェック",
+      "kicker": "判断基準づくり",
+      "categories": [
+        "planning"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "新しいサービスに手を出す前に、競合の実データ・費用・無料で足りないかの 3 点を数字で確認。判定は 1 枚にまとめる。ブラウザで試せる簡易計算つき。",
+      "role": "フレーム設計・調査・判定書作成",
+      "points": [
+        "思いつきで作り始めないための着手前チェック（撤退基準も先に決める）",
+        "競合数・価格帯・手数料・工数を実データで計数（例: 同一語検索で競合 41〜1,086 件）",
+        "ブラウザで試せる簡易計算ツール付き（手取り・時給換算・3 点の判定）"
+      ],
+      "stack": [
+        "調査設計",
+        "HTML レポート"
+      ],
+      "tools": [
+        {
+          "icon": "data",
+          "label": "3 つの数字で判定"
+        },
+        {
+          "icon": "search",
+          "label": "競合の実データ"
+        },
+        {
+          "icon": "web",
+          "label": "ブラウザで計算"
+        }
+      ],
+      "links": [
+        {
+          "label": "事例ページ＋計算ツール",
+          "url": "/cases/m0-gate/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/m0-gate-1.jpg",
+          "alt": "M0 定量ゲートの事例ページ",
+          "frame": "browser"
+        },
+        {
+          "type": "mock",
+          "kind": "gate",
+          "title": "着手前に 3 点を数字で確認",
+          "criteria": [
+            {
+              "label": "競合の実データ計数",
+              "sub": "件数・価格帯・成立率",
+              "meter": 0.7,
+              "verdict": "有利"
+            },
+            {
+              "label": "コスト構造の非対称",
+              "sub": "自分だけ安く作れるか",
+              "meter": 0.5,
+              "verdict": "中立"
+            },
+            {
+              "label": "無料手段での充足",
+              "sub": "既存の無料ツールで足りないか",
+              "meter": 0.75,
+              "verdict": "未充足"
+            }
+          ],
+          "result": "条件付き GO",
+          "note": "数値はサンプル"
+        }
+      ]
+    },
+    {
+      "slug": "kensetsu-lp",
+      "title": "工務店向け サービス紹介 LP（見積依頼の AI 仕分け）",
+      "kicker": "LP 制作",
+      "categories": [
+        "web",
+        "marketing"
+      ],
+      "label": "public",
+      "year": "2026",
+      "summary": "見積依頼を AI が仕分け、返信の下書きまで用意するサービスの紹介ページ。料金と進め方を 1 ページで。問い合わせと実物デモへ 1 クリックで届く導線。",
+      "role": "構成設計・コピー・実装・計測設計",
+      "points": [
+        "ヒーローに製品の入出力をそのまま見せ、「AI は金額を決めない」を先に明示",
+        "料金は最小構成・PoC・月額の 3 段。納品後の責任範囲（検収・修正・保守・データ）を表で公開",
+        "Lighthouse 100/100/100/100（モバイル・デスクトップ・制作時計測）・390px 対応・ダーク／reduced-motion 対応（自前検査 2026-09-14）"
+      ],
+      "stack": [
+        "HTML/CSS（自己完結）",
+        "SVG",
+        "Lighthouse",
+        "CDP 検査"
+      ],
+      "tools": [
+        {
+          "icon": "web",
+          "label": "サービス紹介 LP"
+        },
+        {
+          "icon": "invoice",
+          "label": "見積依頼の仕分け"
+        },
+        {
+          "icon": "sparkle",
+          "label": "AI が下書き"
+        },
+        {
+          "icon": "mail",
+          "label": "問い合わせ導線"
+        }
+      ],
+      "links": [
+        {
+          "label": "LP を見る",
+          "url": "/lp/kensetsu-mitsumori/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/kensetsu-lp-1.jpg",
+          "alt": "見積依頼 AI 仕分けの LP の PC 表示",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/kensetsu-lp-2.jpg",
+          "alt": "同 LP のスマホ表示",
+          "frame": "phone"
+        }
+      ]
+    },
+    {
+      "slug": "beauty-salon",
+      "title": "美容院向け LP＋デモ（クチコミ返信・再来店フォロー）",
+      "kicker": "LP 制作 · 業務デモ（美容院・ヘアサロン向け）",
+      "categories": [
+        "web",
+        "automation",
+        "marketing"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "クチコミ返信の下書き。来店が空いたお客様に LINE で案内。ブラウザでそのまま試せるデモ。サロン名・クチコミ・お客様はすべて架空です。",
+      "role": "構成設計・コピー・LP 実装・デモ実装（依存ゼロ・通信なし）・受入チェック",
+      "points": [
+        "課題→できること→仕組み→デモ→進め方→料金→FAQ の順で、問い合わせと実物デモへ 1 クリックで到達できる導線",
+        "クチコミを「好意的／改善要望／クレーム」に分けて返信を下書き。送信は人が確認してから（自動送信なし）",
+        "最終来店からの日数で「30 日以内／31〜60 日／61 日以上」に分け、公式 LINE への案内文をコピーして使える一覧",
+        "390px 対応・ライト／ダーク対応・外部 JS なし・登録不要のデモ"
+      ],
+      "stack": [
+        "HTML/CSS（自己完結）",
+        "JavaScript",
+        "SVG"
+      ],
+      "tools": [
+        {
+          "icon": "star",
+          "label": "クチコミ返信の下書き"
+        },
+        {
+          "icon": "message",
+          "label": "LINE で再来店の案内"
+        },
+        {
+          "icon": "web",
+          "label": "ブラウザで試せるデモ"
+        },
+        {
+          "icon": "shield",
+          "label": "送信は人が確認"
+        }
+      ],
+      "links": [
+        {
+          "label": "LP を見る",
+          "url": "/lp/beauty-salon/"
+        },
+        {
+          "label": "デモを開く（架空データ）",
+          "url": "/app/beauty-salon/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/beauty-salon/lp-1.jpg",
+          "alt": "美容院向け LP の PC 表示（ヒーロー）",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/beauty-salon/demo-1.jpg",
+          "alt": "同デモのスマホ表示（クチコミ返信の下書き）",
+          "frame": "phone"
+        }
+      ]
+    },
+    {
+      "slug": "beauty-salon-hp",
+      "title": "美容院のホームページ（5 ページ・架空店）",
+      "kicker": "ホームページ制作（美容院・ヘアサロン向け）",
+      "categories": [
+        "web",
+        "marketing"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "世田谷の住宅街にある席数 4 席の架空サロン「hair salon nagi」のホームページ。トップ・メニュー・スタッフ・ギャラリー・アクセスの 5 ページで、予約はホットペッパービューティーへの導線をそのまま使います。写真とスタッフはすべて架空です。",
+      "role": "構成・文章・写真の用意・実装（スマホ優先）・表示確認",
+      "points": [
+        "実在するサロンのサイトの型（HOME・CONCEPT・MENU・STAFF・GALLERY・ACCESS）に合わせた構成",
+        "メニューは税込価格と「シャンプー・ブロー込み」の一言まで、スタッフは経歴とひとことまで、そのまま使える粒度",
+        "スマホ下部に予約ボタンを固定。ホットペッパーの予約ページへ 1 タップ",
+        "外部の部品を使わない軽い作りで、写真の差し替えだけで実店舗に使えます"
+      ],
+      "stack": [
+        "HTML/CSS（自己完結）",
+        "JavaScript"
+      ],
+      "tools": [
+        {
+          "icon": "web",
+          "label": "5 ページのホームページ"
+        },
+        {
+          "icon": "image",
+          "label": "写真・ギャラリー"
+        },
+        {
+          "icon": "calendar",
+          "label": "予約ボタン（ホットペッパーへ）"
+        },
+        {
+          "icon": "pin",
+          "label": "アクセスページ"
+        }
+      ],
+      "links": [
+        {
+          "label": "ホームページを見る",
+          "url": "/hp/beauty-salon/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/beauty-salon/hp/interior-1-1600.jpg",
+          "alt": "hair salon nagi のトップページ（店内写真のヒーロー）",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/beauty-salon/hp/staff-1-1600.jpg",
+          "alt": "スタッフ紹介ページのスタイリスト写真",
+          "frame": "phone"
+        }
+      ]
+    },
+    {
+      "slug": "giin-intro",
+      "title": "市議会議員の紹介サイト（架空の人物によるデモ）",
+      "kicker": "Web 制作 · 政治活動用サイト",
+      "categories": [
+        "web",
+        "design"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "人物と政策を知ってもらう 1 ページの議員サイト。プロフィール→政策→活動報告→お問い合わせの順で、文章と写真を差し替えるだけで本番に。人物・自治体は架空。配色 3 案を切り替えて比べられる。",
+      "role": "構成設計・コピー・実装・テンプレート化・受入チェック",
+      "points": [
+        "content.json を書き換えるだけで人物・政策・連絡先が差し替わる（build.py で生成・--check で差分検査）",
+        "公職選挙法を踏まえ、政治活動用サイトの範囲で設計。連絡先の明記・投票依頼表現の不使用を受入チェックで確認",
+        "外部リソース 0（フォント・JS 読み込みなし）・390px 対応・ライト／ダーク対応・3 テーマ切替・18 項目の自動受入チェック"
+      ],
+      "stack": [
+        "HTML/CSS（自己完結）",
+        "SVG",
+        "Python（生成・検査）"
+      ],
+      "tools": [
+        {
+          "icon": "web",
+          "label": "1 ページのサイト"
+        },
+        {
+          "icon": "users",
+          "label": "プロフィール・政策"
+        },
+        {
+          "icon": "mail",
+          "label": "お問い合わせ"
+        },
+        {
+          "icon": "palette",
+          "label": "配色 3 案"
+        }
+      ],
+      "links": [
+        {
+          "label": "デモを見る（架空の人物）",
+          "url": "/demos/giin-intro/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/giin-intro-shot.jpg",
+          "alt": "市議会議員 紹介サイトのデモの PC 表示（ヒーロー・架空の人物）",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/giin-intro-shot-m.jpg",
+          "alt": "同デモのスマホ表示",
+          "frame": "phone"
+        }
+      ]
+    },
+    {
+      "slug": "viz-housing",
+      "title": "家は、どこに建っているのか。",
+      "kicker": "データストーリー（公共統計の可視化）",
+      "categories": [
+        "data",
+        "web"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "国土交通省の住宅着工統計 75 年と総務省の人口推計 25 年から、47 都道府県の「家が建つ場所」をたどる自主制作のスクロール連動ビジュアライゼーション。1 粒 ＝ 1,000 戸の粒子が段を跨いで並び替わり、触れる地図で自分の県を読める。",
+      "role": "題材選定・データ取得と整形（e-Stat／総務省の公開ファイル）・設計・実装（Canvas 2D と SVG を自前で描画）・検証",
+      "points": [
+        "依存ライブラリなし。粒子・地図・散布図・ドットプロットをすべて自前で描画し、スクロールに同期",
+        "ライト／ダーク・スマホ幅・動きを減らす設定・JavaScript 無効の 4 条件で内容が読める",
+        "出典と取得日を明記し、本文の数字はビルド時にデータから再計算（手書きしない）"
+      ],
+      "stack": [
+        "HTML / CSS / JavaScript",
+        "Canvas 2D",
+        "SVG",
+        "Python（データ整形・静的生成）"
+      ],
+      "tools": [
+        {
+          "icon": "data",
+          "label": "公共統計の図解"
+        },
+        {
+          "icon": "pin",
+          "label": "触れる地図"
+        },
+        "web"
+      ],
+      "links": [
+        {
+          "label": "作品を見る",
+          "url": "/viz/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/viz-1.jpg",
+          "alt": "「家は、どこに建っているのか。」の導入画面（75 年の棒グラフと 39%）",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/viz-2.jpg",
+          "alt": "人口 1,000 人あたりの新設住宅着工で塗り分けた都道府県地図",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/viz-3.jpg",
+          "alt": "スマホ幅での地図の場面",
+          "frame": "phone"
+        }
+      ]
+    },
+    {
+      "slug": "portfolio-site",
+      "title": "この紹介サイトも自作",
+      "kicker": "サービスサイト",
+      "categories": [
+        "web"
+      ],
+      "label": "public",
+      "year": "2026",
+      "summary": "いま見ているこのサイトも制作物です。文言と作品を 1 つのファイルにまとめ、全ページを自動で生成。公開前にリンク切れや文字のはみ出しを自動で検査。",
+      "role": "設計・実装・運用",
+      "points": [
+        "JSON 1 つが正典。作品追加は 1 エントリ＋画像＋再生成だけ",
+        "公開前に自動検査（リンク・alt・キャッシュ対策・禁止語・ページ容量）",
+        "スクリーンショットとはみ出し検査を headless ブラウザで自動化"
+      ],
+      "stack": [
+        "Python（標準ライブラリ）",
+        "HTML/CSS",
+        "GitHub Pages",
+        "CDP"
+      ],
+      "tools": [
+        {
+          "icon": "web",
+          "label": "このサイト"
+        },
+        {
+          "icon": "code",
+          "label": "全ページを自動生成"
+        },
+        {
+          "icon": "check",
+          "label": "公開前の自動検査"
+        }
+      ],
+      "links": [
+        {
+          "label": "ソースコード（GitHub）",
+          "url": "https://github.com/kenji6836/kenji6836.github.io"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/portfolio-site-shot.jpg",
+          "alt": "紹介サイトのトップページ",
+          "frame": "browser"
+        }
+      ]
+    },
+    {
+      "slug": "tsume",
+      "title": "毎日詰将棋（1手詰・3手詰）",
+      "kicker": "Web 制作 · 詰将棋の出題サイト",
+      "categories": [
+        "web"
+      ],
+      "label": "public",
+      "year": "2026",
+      "summary": "毎日 1 問、1手詰と3手詰の詰将棋を出題するサイト。盤と持ち駒を見ながら考え、答えは指し手の形で確認できます。過去の問題にも戻れます。公開予定の iOS アプリ『ツメトレ』と問題を共有する計画です。",
+      "role": "企画・出題データ作成・実装・公開",
+      "points": [
+        "日付ごとに新しい問題へ自動で切り替わり、過去 30 日分の問題にも戻れる",
+        "盤面と持ち駒だけで考えられるシンプルな画面。答えは指し手の形式で確認できる",
+        "ライト／ダーク表示に対応し、外部の部品を使わない軽い作り",
+        "公開予定の iOS アプリ『ツメトレ』と問題を共有する計画"
+      ],
+      "stack": [
+        "HTML/CSS（自己完結）",
+        "JavaScript"
+      ],
+      "tools": [
+        {
+          "icon": "game",
+          "label": "詰将棋を毎日出題"
+        },
+        {
+          "icon": "clock",
+          "label": "日替わりで自動更新"
+        },
+        {
+          "icon": "web",
+          "label": "ブラウザで見られる"
+        },
+        {
+          "icon": "phone",
+          "label": "iOS アプリと問題を共有予定"
+        }
+      ],
+      "links": [
+        {
+          "label": "毎日詰将棋を見る",
+          "url": "/tsume/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/tsume-1.jpg",
+          "alt": "毎日詰将棋のトップ画面（盤面と持ち駒、PC 表示）",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/tsume-2.jpg",
+          "alt": "同サイトのスマホ表示",
+          "frame": "phone"
+        }
+      ]
+    },
+    {
+      "slug": "reachlab",
+      "title": "ブラウザで遊べる パチンコ演出シミュレーター",
+      "kicker": "Web アプリ",
+      "categories": [
+        "web"
+      ],
+      "label": "public",
+      "year": "2026",
+      "summary": "「リーチラボ」— アプリを入れずに、ブラウザですぐ遊べる。演出ごとの確率を公開し、その場で回して実測と比べられる。スマホでも PC でも同じ画面。",
+      "role": "企画・設計・実装・デザイン・公開（Cloudflare Pages）",
+      "points": [
+        "ブラウザだけで動き、ホーム画面に追加すればアプリのように使える PWA",
+        "演出の確率表を公開し、実際の試行結果と比較できる",
+        "スマホ・PC の両方でレイアウトが崩れない設計"
+      ],
+      "stack": [
+        "HTML / CSS / JavaScript",
+        "PWA",
+        "Cloudflare Pages"
+      ],
+      "tools": [
+        {
+          "icon": "web",
+          "label": "ブラウザで動く"
+        },
+        {
+          "icon": "game",
+          "label": "演出シミュレーター"
+        },
+        {
+          "icon": "phone",
+          "label": "スマホ・PC 対応"
+        }
+      ],
+      "links": [
+        {
+          "label": "サイトを開く",
+          "url": "https://reachlab.pages.dev/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/reachlab-1.jpg",
+          "alt": "リーチラボの PC 画面",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/reachlab-2.jpg",
+          "alt": "リーチラボのスマホ画面",
+          "frame": "phone"
+        }
+      ]
+    },
+    {
+      "slug": "mitsumori-design-system",
+      "title": "業務アプリの色・文字・部品のルールブック（1 ページ）",
+      "kicker": "デザイン制作",
+      "categories": [
+        "design",
+        "web",
+        "app"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "自作の業務アプリ「見積トリアージ」の色・文字・余白・ボタンなどの決まりを 1 ページに。色の見やすさは測った数値を掲載。明るい画面・暗い画面・スマホ幅で確認できる。",
+      "role": "トークン設計・部品設計・アクセシビリティ基準・ドキュメント制作",
+      "points": [
+        "色はライト/ダークとも WCAG のコントラスト比を実測して表に（基準未満は隠さず表示）",
+        "緊急度・状態は色だけに頼らず形とアイコンで区別（至急＝赤＋アイコン）",
+        "3 ペインの業務画面をスマホでタブ切替にする型まで定義"
+      ],
+      "stack": [
+        "HTML / CSS",
+        "Google Fonts",
+        "WCAG 2.x コントラスト計算"
+      ],
+      "tools": [
+        {
+          "icon": "palette",
+          "label": "色・文字・部品のルール"
+        },
+        {
+          "icon": "web",
+          "label": "1 ページで確認"
+        },
+        "sun"
+      ],
+      "links": [
+        {
+          "label": "デザインシステム（1 ページ）",
+          "url": "https://kenji6836.github.io/design/mitsumori/"
+        },
+        {
+          "label": "対象のアプリ（見積トリアージ）",
+          "url": "https://kenji6836.github.io/app/mitsumori/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/v-ds-1.jpg",
+          "alt": "デザインシステムのページ（ライト）: 色トークンとコントラスト比、部品の実物",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/v-ds-2.jpg",
+          "alt": "デザインシステムのページ（ダーク）",
+          "frame": "browser"
+        }
+      ]
+    },
     {
       "slug": "sweepfield",
       "title": "Sweepfield",
@@ -646,62 +1915,6 @@
       ]
     },
     {
-      "slug": "reachlab",
-      "title": "ブラウザで遊べる パチンコ演出シミュレーター",
-      "kicker": "Web アプリ",
-      "categories": [
-        "web"
-      ],
-      "label": "public",
-      "year": "2026",
-      "summary": "「リーチラボ」— アプリを入れずに、ブラウザですぐ遊べる。演出ごとの確率を公開し、その場で回して実測と比べられる。スマホでも PC でも同じ画面。",
-      "role": "企画・設計・実装・デザイン・公開（Cloudflare Pages）",
-      "points": [
-        "ブラウザだけで動き、ホーム画面に追加すればアプリのように使える PWA",
-        "演出の確率表を公開し、実際の試行結果と比較できる",
-        "スマホ・PC の両方でレイアウトが崩れない設計"
-      ],
-      "stack": [
-        "HTML / CSS / JavaScript",
-        "PWA",
-        "Cloudflare Pages"
-      ],
-      "tools": [
-        {
-          "icon": "web",
-          "label": "ブラウザで動く"
-        },
-        {
-          "icon": "game",
-          "label": "演出シミュレーター"
-        },
-        {
-          "icon": "phone",
-          "label": "スマホ・PC 対応"
-        }
-      ],
-      "links": [
-        {
-          "label": "サイトを開く",
-          "url": "https://reachlab.pages.dev/"
-        }
-      ],
-      "visuals": [
-        {
-          "type": "image",
-          "src": "/assets/works/reachlab-1.jpg",
-          "alt": "リーチラボの PC 画面",
-          "frame": "browser"
-        },
-        {
-          "type": "image",
-          "src": "/assets/works/reachlab-2.jpg",
-          "alt": "リーチラボのスマホ画面",
-          "frame": "phone"
-        }
-      ]
-    },
-    {
       "slug": "kyotei",
       "title": "KyoteiAI（競艇予測アプリ）",
       "kicker": "iOS アプリ × 機械学習",
@@ -764,603 +1977,6 @@
           "src": "/assets/works/kyotei-1.jpg",
           "alt": "KyoteiAI の全期間評価レポート（的中率と件数）",
           "frame": "browser"
-        }
-      ]
-    },
-    {
-      "slug": "gas-sales-report",
-      "title": "売上データを置くだけで、月次レポートが届く",
-      "kicker": "業務自動化デモ",
-      "categories": [
-        "automation"
-      ],
-      "label": "public",
-      "year": "2026",
-      "summary": "売上データを置くだけで、月ごとの集計とグラフができ、要約がメールやチャットに届く。追加費用なし。見本は数字を書き換えるとその場で作り直される。",
-      "role": "設計・実装・テスト・ドキュメント",
-      "points": [
-        "数字を置くだけで、集計・グラフ・通知文まで自動",
-        "見本は実際に触って試せる（数字を変えると結果が変わる）",
-        "売上のほか、経費・勤怠・問い合わせ件数にも同じ形で使える"
-      ],
-      "stack": [
-        "表計算シートの自動処理",
-        "月次の集計とグラフ",
-        "メール・チャット通知"
-      ],
-      "tools": [
-        "sheet",
-        {
-          "icon": "mail",
-          "label": "メール通知"
-        },
-        "chat",
-        {
-          "icon": "clock",
-          "label": "月ごとに自動"
-        }
-      ],
-      "links": [
-        {
-          "label": "触って試せる見本を開く",
-          "url": "/demos/gas-sales-report/"
-        },
-        {
-          "label": "公開している仕組みを見る",
-          "url": "https://github.com/kenji6836/automation-demos/tree/main/gas-sales-report"
-        }
-      ],
-      "card_visual": 1,
-      "visuals": [
-        {
-          "type": "mock",
-          "kind": "report",
-          "title": "売上 CSV を置くと、集計と通知まで自動で進む（架空のサンプル）",
-          "run": "{month}の売上 CSV を置く",
-          "reset": "最初から見る",
-          "done": "{month}分を集計して、通知を送りました",
-          "note": "架空のサンプルです。ボタンを押すたびに 1 か月分が進みます。",
-          "initial": 3,
-          "columns": [
-            {
-              "icon": "file",
-              "label": "売上 CSV",
-              "sub": "決まった場所に置くだけ"
-            },
-            {
-              "icon": "sheet",
-              "label": "集計表",
-              "sub": "月ごとに自動で集計"
-            },
-            {
-              "icon": "chat",
-              "label": "通知",
-              "sub": "メール／チャットに届く"
-            }
-          ],
-          "csv_head": "日付,商品,担当,金額",
-          "tiles": {
-            "total": "今月の売上",
-            "diff": "前月比",
-            "rows": "明細"
-          },
-          "chart_label": "月別の売上（万円）",
-          "table_head": [
-            "月",
-            "売上",
-            "前月比",
-            "明細"
-          ],
-          "table_caption": "架空のサンプルデータ",
-          "message": {
-            "from": "売上レポート（自動）",
-            "time": "9:00",
-            "subject": "{month}の売上レポートができました",
-            "body": "合計 {total}（前月比 {diff}）・明細 {rows}\n商品別 1 位: {product} ／ 担当別 1 位: {staff}",
-            "action": "集計表を開く"
-          },
-          "months": [
-            {
-              "label": "4 月",
-              "file": "sales_2026-04.csv",
-              "total": 1240000,
-              "diff": "+8%",
-              "rows": 36,
-              "product": "定期プラン",
-              "staff": "営業 1 課",
-              "lines": [
-                "2026-04-01,定期プラン,営業 1 課,48000",
-                "2026-04-02,単品,営業 2 課,12500"
-              ]
-            },
-            {
-              "label": "5 月",
-              "file": "sales_2026-05.csv",
-              "total": 1318000,
-              "diff": "+6%",
-              "rows": 39,
-              "product": "定期プラン",
-              "staff": "営業 2 課",
-              "lines": [
-                "2026-05-01,定期プラン,営業 2 課,48000",
-                "2026-05-01,オプション,営業 1 課,8000"
-              ]
-            },
-            {
-              "label": "6 月",
-              "file": "sales_2026-06.csv",
-              "total": 1402000,
-              "diff": "+6%",
-              "rows": 41,
-              "product": "定期プラン",
-              "staff": "営業 1 課",
-              "lines": [
-                "2026-06-02,定期プラン,営業 1 課,96000",
-                "2026-06-02,単品,営業 1 課,12500"
-              ]
-            },
-            {
-              "label": "7 月",
-              "file": "sales_2026-07.csv",
-              "total": 1355000,
-              "diff": "−3%",
-              "rows": 40,
-              "product": "単品",
-              "staff": "営業 2 課",
-              "lines": [
-                "2026-07-01,単品,営業 2 課,25000",
-                "2026-07-03,定期プラン,営業 1 課,48000"
-              ]
-            },
-            {
-              "label": "8 月",
-              "file": "sales_2026-08.csv",
-              "total": 1496000,
-              "diff": "+10%",
-              "rows": 44,
-              "product": "定期プラン",
-              "staff": "営業 1 課",
-              "lines": [
-                "2026-08-03,定期プラン,営業 1 課,144000",
-                "2026-08-04,オプション,営業 2 課,8000"
-              ]
-            },
-            {
-              "label": "9 月",
-              "file": "sales_2026-09.csv",
-              "total": 1588000,
-              "diff": "+6%",
-              "rows": 47,
-              "product": "定期プラン",
-              "staff": "営業 2 課",
-              "lines": [
-                "2026-09-01,定期プラン,営業 2 課,96000",
-                "2026-09-01,単品,営業 1 課,25000"
-              ]
-            }
-          ]
-        },
-        {
-          "type": "image",
-          "src": "/assets/works/gas-sales-report-shot.jpg",
-          "alt": "実際の集計表の画面（月ごとの合計・商品別・担当者別）",
-          "frame": "browser"
-        }
-      ]
-    },
-    {
-      "slug": "estat-to-sheet",
-      "title": "政府統計の自動取り込み",
-      "kicker": "データ収集デモ",
-      "categories": [
-        "automation",
-        "data"
-      ],
-      "label": "public",
-      "hidden": true,
-      "year": "2026",
-      "summary": "e-Stat（政府統計）の公式 API からデータを取得し、スプレッドシートを自動更新。定期実行で常に最新の統計を手元に。",
-      "role": "設計・実装・テスト・ドキュメント",
-      "points": [
-        "公式 API を利用し、利用規約に沿った取得",
-        "取得項目・期間は設定ファイルで変更可能",
-        "業界統計・人口・物価などの定点観測に応用"
-      ],
-      "stack": [
-        "Python",
-        "e-Stat API",
-        "Google スプレッドシート"
-      ],
-      "links": [
-        {
-          "label": "GitHub で見る",
-          "url": "https://github.com/kenji6836/automation-demos/tree/main/estat-to-sheet"
-        }
-      ],
-      "visuals": [
-        {
-          "type": "mock",
-          "kind": "pipeline",
-          "title": "公式 API から定期取得",
-          "steps": [
-            {
-              "icon": "cloud",
-              "label": "e-Stat 公式 API",
-              "sub": "政府統計"
-            },
-            {
-              "icon": "code",
-              "label": "取得・整形",
-              "sub": "Python・設定ファイルで項目指定"
-            },
-            {
-              "icon": "sheet",
-              "label": "スプレッドシート",
-              "sub": "定期実行で自動更新"
-            }
-          ],
-          "detail": {
-            "kind": "bars",
-            "label": "取得した系列の例（サンプル）",
-            "values": [
-              42,
-              48,
-              45,
-              53,
-              58,
-              61
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "slug": "inquiry-reply-assistant",
-      "title": "問い合わせ返信アシスタント",
-      "kicker": "AI 活用デモ",
-      "categories": [
-        "automation"
-      ],
-      "label": "public",
-      "year": "2026",
-      "summary": "問い合わせメールを要約・分類し、返信の下書きを AI で作成する支援ツール。建設業向けの分類プロファイル（見積依頼／施工中の連絡／その他）付き。",
-      "role": "設計・実装・テスト・業種プロファイル作成",
-      "points": [
-        "受信メールを「見積依頼」「施工中の連絡」などに自動分類",
-        "返信の下書きは人が確認してから送る前提の設計",
-        "分類カテゴリは設定ファイルで業種ごとに差し替え可能"
-      ],
-      "stack": [
-        "Python",
-        "Claude API"
-      ],
-      "tools": [
-        {
-          "icon": "mail",
-          "label": "問い合わせメール"
-        },
-        {
-          "icon": "sparkle",
-          "label": "AI が返信を下書き"
-        },
-        {
-          "icon": "filter",
-          "label": "自動分類"
-        },
-        "shield"
-      ],
-      "links": [
-        {
-          "label": "GitHub で見る",
-          "url": "https://github.com/kenji6836/automation-demos/tree/main/inquiry-reply-assistant"
-        }
-      ],
-      "visuals": [
-        {
-          "type": "mock",
-          "kind": "email",
-          "title": "問い合わせ → 分類 → 返信下書き",
-          "inbox": {
-            "subject": "キッチンのリフォーム見積について",
-            "from": "お客様",
-            "preview": "築 20 年の戸建てで、キッチンの交換を検討しています。概算の費用と工期を教えてください。"
-          },
-          "classes": [
-            "見積依頼",
-            "施工中の連絡",
-            "その他"
-          ],
-          "selected": "見積依頼",
-          "draft": [
-            "お問い合わせありがとうございます。",
-            "キッチン交換の概算は、現地確認のうえ 2 営業日以内にお送りします。",
-            "ご都合のよい日時を 2〜3 候補いただけますでしょうか。"
-          ],
-          "badge": "人が確認してから送信"
-        }
-      ]
-    },
-    {
-      "slug": "mission-control",
-      "title": "複数案件の進捗と売上を 一画面で見るダッシュボード",
-      "kicker": "データ見える化",
-      "categories": [
-        "data",
-        "planning"
-      ],
-      "label": "self",
-      "year": "2026",
-      "summary": "案件ごとの進捗・目標・売上を 1 画面に。30 分ごとに自動で最新に更新。週ごとの振り返りレポートも自動で作成。",
-      "role": "要件定義・設計・実装・運用",
-      "points": [
-        "KPI・メーター・タイムラインで状態が一目で分かる構成",
-        "launchd による定期実行で人手ゼロの更新",
-        "収益の自動記入・週次監査など運用の判断材料を集約"
-      ],
-      "stack": [
-        "Python",
-        "launchd",
-        "HTML / SVG"
-      ],
-      "tools": [
-        {
-          "icon": "data",
-          "label": "進捗・売上を一画面に"
-        },
-        {
-          "icon": "clock",
-          "label": "30 分ごとに自動更新"
-        },
-        {
-          "icon": "file",
-          "label": "週ごとのレポート"
-        }
-      ],
-      "links": [],
-      "visuals": [
-        {
-          "type": "image",
-          "src": "/assets/works/mission-control-1.jpg",
-          "alt": "Mission Control の今週のアクティビティ（リングと指標）",
-          "frame": "browser"
-        }
-      ]
-    },
-    {
-      "slug": "autopilot",
-      "title": "autopilot（夜間の自律開発ランナー）",
-      "kicker": "自律運用の仕組み化",
-      "categories": [
-        "automation",
-        "planning"
-      ],
-      "label": "self",
-      "hidden": true,
-      "year": "2026",
-      "summary": "承認済みの作業チケットを、夜間や日中の空き時間に無人で実行する仕組み。作業ごとに隔離した環境で実装・自動検証し、朝に 1 通の報告で承認できます。失敗も記録し、原因を直して再判定します。",
-      "role": "設計・実装・運用設計",
-      "points": [
-        "チケットに目的・範囲・検証方法・予算を必須にし、曖昧な作業は着手させない",
-        "作業ごとに独立した環境で実行し、検証に通ったものだけ取り込む",
-        "9/7〜9/13 の起動 42 回のうち成功 3・失敗 30（原因は版数確認の不一致 → 修正済み・再判定 9/22）を隠さず公開"
-      ],
-      "stack": [
-        "Python",
-        "launchd",
-        "Git worktree",
-        "Claude Code"
-      ],
-      "links": [
-        {
-          "label": "事例ページ（実数つき）",
-          "url": "/cases/autopilot/"
-        }
-      ],
-      "visuals": [
-        {
-          "type": "mock",
-          "kind": "flow",
-          "title": "夜のあいだに進み、朝 1 通で承認",
-          "steps": [
-            {
-              "icon": "ticket",
-              "label": "承認済みチケット",
-              "sub": "目的・範囲・検証・予算が必須"
-            },
-            {
-              "icon": "moon",
-              "label": "空き枠で自動実行",
-              "sub": "夜間 3 回・日中 4 回"
-            },
-            {
-              "icon": "box",
-              "label": "隔離環境で実装＋検証",
-              "sub": "作業ごとに独立"
-            },
-            {
-              "icon": "sun",
-              "label": "朝の報告 1 通",
-              "sub": "承認 / 差し戻し"
-            }
-          ],
-          "timeline": [
-            {
-              "t": "01:00",
-              "label": "夜間枠 1"
-            },
-            {
-              "t": "03:30",
-              "label": "夜間枠 2"
-            },
-            {
-              "t": "05:30",
-              "label": "夜間枠 3"
-            },
-            {
-              "t": "07:00",
-              "label": "朝刊"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "slug": "triage",
-      "title": "毎朝 7:30、応募すべき案件だけが並ぶ仕組み",
-      "kicker": "業務フローの自動化",
-      "categories": [
-        "automation",
-        "planning"
-      ],
-      "label": "self",
-      "year": "2026",
-      "summary": "募集中の案件を毎朝 7:30 に自動で集め、条件と予算で仕分けて一覧に。有望な案件は提案文の下書きまで用意。人は見て、送るかどうかを決めるだけ。",
-      "role": "要件定義・設計・実装・テスト",
-      "points": [
-        "取得 → 分類 → 提案文の下書きまで 1 コマンド（9/13 実走: 92 件取得 → キュー 88 件・下書き 10 件）",
-        "取得先の規約に従う（クロール間隔 5 秒・最大 2 ページ・送信元を明示）",
-        "レイアウト変更に備えた自動テスト 118 件"
-      ],
-      "stack": [
-        "Python",
-        "launchd"
-      ],
-      "tools": [
-        {
-          "icon": "clock",
-          "label": "毎朝 7:30 に自動"
-        },
-        {
-          "icon": "filter",
-          "label": "条件と予算で仕分け"
-        },
-        {
-          "icon": "text",
-          "label": "提案文の下書き"
-        }
-      ],
-      "links": [
-        {
-          "label": "事例ページ（実数つき）",
-          "url": "/cases/triage/"
-        }
-      ],
-      "visuals": [
-        {
-          "type": "mock",
-          "kind": "queue",
-          "title": "毎朝、見るだけの状態にしておく",
-          "steps": [
-            {
-              "icon": "cloud",
-              "label": "公開案件を取得",
-              "sub": "毎朝 07:30"
-            },
-            {
-              "icon": "filter",
-              "label": "キーワード・予算で分類",
-              "sub": "業種ルールは設定で変更"
-            },
-            {
-              "icon": "list",
-              "label": "承認キュー",
-              "sub": "人はここだけ見る"
-            }
-          ],
-          "rows": [
-            {
-              "title": "見積書作成の自動化ツール",
-              "lane": "法人",
-              "budget": "20〜30 万円"
-            },
-            {
-              "title": "スプレッドシート集計の効率化",
-              "lane": "パッケージ",
-              "budget": "5 万円"
-            },
-            {
-              "title": "問い合わせメールの一次返信",
-              "lane": "法人",
-              "budget": "10〜20 万円"
-            }
-          ],
-          "caption": "表示はサンプル"
-        }
-      ]
-    },
-    {
-      "slug": "m0-gate",
-      "title": "新規事業を始める前の 三つの数字チェック",
-      "kicker": "判断基準づくり",
-      "categories": [
-        "planning"
-      ],
-      "label": "self",
-      "year": "2026",
-      "summary": "新しいサービスに手を出す前に、競合の実データ・費用・無料で足りないかの 3 点を数字で確認。判定は 1 枚にまとめる。ブラウザで試せる簡易計算つき。",
-      "role": "フレーム設計・調査・判定書作成",
-      "points": [
-        "思いつきで作り始めないための着手前チェック（撤退基準も先に決める）",
-        "競合数・価格帯・手数料・工数を実データで計数（例: 同一語検索で競合 41〜1,086 件）",
-        "ブラウザで試せる簡易計算ツール付き（手取り・時給換算・3 点の判定）"
-      ],
-      "stack": [
-        "調査設計",
-        "HTML レポート"
-      ],
-      "tools": [
-        {
-          "icon": "data",
-          "label": "3 つの数字で判定"
-        },
-        {
-          "icon": "search",
-          "label": "競合の実データ"
-        },
-        {
-          "icon": "web",
-          "label": "ブラウザで計算"
-        }
-      ],
-      "links": [
-        {
-          "label": "事例ページ＋計算ツール",
-          "url": "/cases/m0-gate/"
-        }
-      ],
-      "visuals": [
-        {
-          "type": "image",
-          "src": "/assets/works/m0-gate-1.jpg",
-          "alt": "M0 定量ゲートの事例ページ",
-          "frame": "browser"
-        },
-        {
-          "type": "mock",
-          "kind": "gate",
-          "title": "着手前に 3 点を数字で確認",
-          "criteria": [
-            {
-              "label": "競合の実データ計数",
-              "sub": "件数・価格帯・成立率",
-              "meter": 0.7,
-              "verdict": "有利"
-            },
-            {
-              "label": "コスト構造の非対称",
-              "sub": "自分だけ安く作れるか",
-              "meter": 0.5,
-              "verdict": "中立"
-            },
-            {
-              "label": "無料手段での充足",
-              "sub": "既存の無料ツールで足りないか",
-              "meter": 0.75,
-              "verdict": "未充足"
-            }
-          ],
-          "result": "条件付き GO",
-          "note": "数値はサンプル"
         }
       ]
     },
@@ -1443,6 +2059,66 @@
           "src": "/assets/works/sweepfield-1.jpg",
           "alt": "Sweepfield のストア画像",
           "frame": "phone"
+        }
+      ]
+    },
+    {
+      "slug": "aso",
+      "title": "App Store 掲載の文章と画像を実数で改善",
+      "kicker": "マーケティング",
+      "categories": [
+        "marketing"
+      ],
+      "label": "public",
+      "year": "2026",
+      "summary": "自分のアプリ 4 本のストア文言・画像・審査対応をまとめて実施。公開後は週ごとのダウンロード数と表示回数を自動で集計。広告を出すかの判断基準を実数つきで公開。",
+      "role": "掲載文設計・多言語ローカライズ・審査対応・計測設計",
+      "points": [
+        "直近 8 週の初回ダウンロード 44 件（4 本合計）・9/7〜9/13 週のストア表示 1,614 回（App Store Connect API 取得・2026-09-19）を、小さくてもそのまま掲載",
+        "率には必ず分母を添える。広告は「効果を測れる 3 条件」を満たしてから（現時点は見送りと判定）",
+        "却下理由（更新内容の具体性・広告の申告）を次の版の基準に反映"
+      ],
+      "stack": [
+        "App Store Connect",
+        "AdMob",
+        "Apple Ads"
+      ],
+      "tools": [
+        {
+          "icon": "store",
+          "label": "App Store 掲載"
+        },
+        {
+          "icon": "text",
+          "label": "文章と画像の改善"
+        },
+        {
+          "icon": "data",
+          "label": "週ごとの実数集計"
+        }
+      ],
+      "links": [
+        {
+          "label": "実数と判断基準を見る",
+          "url": "/cases/aso/"
+        },
+        {
+          "label": "Sweepfield のストアページ",
+          "url": "https://apps.apple.com/jp/app/id6799108644"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/store-listing-1.jpg",
+          "alt": "Sweepfield の App Store 掲載ページ",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/aso-2.jpg",
+          "alt": "ASO 事例ページ（週次ダウンロードと表示回数の実数）",
+          "frame": "browser"
         }
       ]
     },
@@ -1566,6 +2242,149 @@
               "icon": "box",
               "label": "書き出し",
               "sub": "mp4 / webm・縦横の展開"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "making-shorts",
+      "title": "縦型ショート動画シリーズ「MAKING」（3 本）",
+      "kicker": "動画制作",
+      "categories": [
+        "video",
+        "sns",
+        "marketing"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "Claude Code で作った実物（紹介 HP・Web アプリ・夜間の自律ランナー）の制作過程を、各 26 秒の縦型ショートに。YouTube Shorts・Reels・TikTok に同じ素材で投稿できる字幕焼き込み・無音でも伝わる構成。BGM は自作合成。",
+      "role": "企画・構成・モーション制作・字幕設計・BGM 合成・書き出し",
+      "points": [
+        "「実物 → 日本語で頼む → 生成 → 確認 → 公開」の 5 ビートを 3 本で共通化し、シリーズとして続けられる型に",
+        "数字は実物の台帳から引いた実数のみ（19 ページ生成・自動テスト 235 項目・1 日 7 回の実行枠 など）",
+        "共通のイントロ 2 秒／アウトロ 3 秒をブランド素材として分離し、次回以降は本編だけ作れば済む"
+      ],
+      "stack": [
+        "HTML / CSS アニメーション",
+        "headless Chrome フレーム書き出し",
+        "ffmpeg（H.264 / VP9・AAC / Opus）",
+        "Python（BGM 合成）"
+      ],
+      "tools": [
+        {
+          "icon": "video",
+          "label": "26 秒の縦型 3 本"
+        },
+        {
+          "icon": "text",
+          "label": "字幕焼き込み"
+        },
+        {
+          "icon": "sns",
+          "label": "Shorts・Reels・TikTok"
+        }
+      ],
+      "links": [],
+      "visuals": [
+        {
+          "type": "video",
+          "mp4": "/assets/works/v-short-01-portfolio.mp4",
+          "webm": "/assets/works/v-short-01-portfolio.webm",
+          "poster": "/assets/works/v-short-01-portfolio-poster.jpg",
+          "alt": "MAKING #01 紹介 HP を Claude Code で作る（26 秒・縦型・無音でも伝わる字幕つき）",
+          "frame": "phone"
+        },
+        {
+          "type": "video",
+          "mp4": "/assets/works/v-short-02-reachlab.mp4",
+          "webm": "/assets/works/v-short-02-reachlab.webm",
+          "poster": "/assets/works/v-short-02-reachlab-poster.jpg",
+          "alt": "MAKING #02 ブラウザで動く演出シミュレーターを Claude Code で作る（26 秒・縦型）",
+          "frame": "phone"
+        },
+        {
+          "type": "video",
+          "mp4": "/assets/works/v-short-03-autopilot.mp4",
+          "webm": "/assets/works/v-short-03-autopilot.webm",
+          "poster": "/assets/works/v-short-03-autopilot-poster.jpg",
+          "alt": "MAKING #03 夜に自走する autopilot を Claude Code で作る（26 秒・縦型・画面はサンプル表示の UI 図）",
+          "frame": "phone"
+        },
+        {
+          "type": "mock",
+          "kind": "storyboard",
+          "title": "絵コンテ（#01 紹介 HP・6 カット・26 秒）",
+          "frames": [
+            {
+              "src": "/assets/works/v-short-01-sb-1.jpg",
+              "time": "00:03",
+              "label": "フック（実物）",
+              "note": "公開中の紹介 HP の実画面（PC ブラウザ枠＋スマホ枠）が下と右からスライドインし、等速で軽くスクロール。字幕『紹介 HP を、Claude Code で作った。』",
+              "alt": "フック: 紹介 HP の実画面がブラウザ枠とスマホ枠で表示され『紹介 HP を、Claude Code で作った。』"
+            },
+            {
+              "src": "/assets/works/v-short-01-sb-2.jpg",
+              "time": "00:08",
+              "label": "指示（日本語）",
+              "note": "端末風パネルに日本語の指示が 1 文字ずつ打たれる（琥珀のカーソル）。打ち終わると Enter →『Claude Code が作業中…』。字幕『まず、日本語で頼む』",
+              "alt": "端末に日本語の指示『自己紹介サイトを作り直したい…』が打ち込まれ『まず、日本語で頼む』"
+            },
+            {
+              "src": "/assets/works/v-short-01-sb-3.jpg",
+              "time": "00:13",
+              "label": "生成（JSON→19 ページ）",
+              "note": "content.json のカードから build 矢印を経て、ページのミニカードが 19 枚ポップして並ぶ。最後に琥珀チップ『19 ページ』。字幕『文言は JSON 1 つ。19 ページを自動生成』",
+              "alt": "content.json 1 つから 19 枚のページカードが生成される図と『文言は JSON 1 つ。19 ページを自動生成』"
+            },
+            {
+              "src": "/assets/works/v-short-01-sb-4.jpg",
+              "time": "00:17",
+              "label": "確認（テスト＋別 AI）",
+              "note": "受入テスト（禁止語・リンク切れ・画像・到達性）が順に緑のチェックへ。別系統 AI（GPT）の視覚レビュー 1 回も通過 →『公開へ』チップ。字幕『テストと別 AI のレビューで確認』",
+              "alt": "受入テスト 4 項目が OK になり、別系統 AI の視覚レビューも通過『テストと別 AI のレビューで確認』"
+            },
+            {
+              "src": "/assets/works/v-short-01-sb-5.jpg",
+              "time": "00:22",
+              "label": "公開＋結果",
+              "note": "URL ピル kenji6836.github.io の下でスマホ枠が実画面を等速で縦スクロール。実数チップ『10 分野・17 作品』『19 ページ』『決定 → 公開 約 2 時間 15 分』。字幕『決定から約 2 時間で公開』",
+              "alt": "スマホ枠で紹介 HP をスクロールし『10 分野・17 作品』『19 ページ』『約 2 時間 15 分』のチップ"
+            },
+            {
+              "src": "/assets/works/v-short-01-sb-6.jpg",
+              "time": "00:25",
+              "label": "アウトロ",
+              "note": "青のサークルワイプで転換し、ブランド共通アウトロ（マーク・Kenji Ido・@idk0723ai・『作った実物は HP で』・URL）",
+              "alt": "アウトロ: マークと Kenji Ido @idk0723ai『作った実物は HP で』kenji6836.github.io"
+            }
+          ],
+          "note": "3 本とも同じ 5 ビート構成。#02 #03 の絵コンテも同様に制作"
+        },
+        {
+          "type": "mock",
+          "kind": "pipeline",
+          "title": "1 本あたりの流れ",
+          "steps": [
+            {
+              "icon": "file",
+              "label": "事実シート",
+              "sub": "出せる実数と出典を先に固める"
+            },
+            {
+              "icon": "list",
+              "label": "5 ビート構成",
+              "sub": "実物→指示→生成→確認→公開"
+            },
+            {
+              "icon": "code",
+              "label": "モーション制作",
+              "sub": "実画面＋UI 図＋字幕"
+            },
+            {
+              "icon": "box",
+              "label": "書き出し",
+              "sub": "mp4 / webm・BGM・絵コンテ"
             }
           ]
         }
@@ -1719,6 +2538,175 @@
               "icon": "box",
               "label": "サイズ展開",
               "sub": "媒体ごとの規定に合わせる"
+            },
+            {
+              "icon": "sheet",
+              "label": "入稿・計測",
+              "sub": "A/B の結果で改善"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "mitsumori-ads",
+      "title": "広告セット（見積トリアージ・訴求 2 案 × 7 サイズ）",
+      "kicker": "広告制作",
+      "categories": [
+        "ad",
+        "design",
+        "marketing"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "自作の建設向け Web アプリ「見積トリアージ」を題材に、SNS・ディスプレイ広告の 7 サイズを同じ世界観で展開。時間訴求と安心訴求の 2 案、実写風写真と製品の実画面を組み合わせ、A/B テストにそのまま使える構成。",
+      "role": "コンセプト・コピー・写真ディレクション・ビジュアル制作・サイズ展開",
+      "points": [
+        "1 つのキービジュアルから 7 サイズ（1080×1080 / 1080×1920 / 1200×628 / 1600×900 / 300×250 / 728×90）へ展開",
+        "訴求軸を「時間」「安心」の 2 案に分け、レイアウト骨格は共通にして比較しやすく",
+        "実写風写真をブランド色の面に溶かし、製品の実画面をスマホ枠で載せて「動く実物がある」ことを伝える"
+      ],
+      "stack": [
+        "HTML / CSS / SVG",
+        "Google Fonts",
+        "headless Chrome レンダリング",
+        "実写風写真（自作生成）"
+      ],
+      "tools": [
+        {
+          "icon": "ad",
+          "label": "広告 7 サイズ"
+        },
+        {
+          "icon": "image",
+          "label": "実写風写真"
+        },
+        {
+          "icon": "palette",
+          "label": "訴求 2 案"
+        }
+      ],
+      "links": [
+        {
+          "label": "7 サイズと A/B の比較ページ",
+          "url": "https://kenji6836.github.io/ads/mitsumori/"
+        },
+        {
+          "label": "題材のアプリ（見積トリアージ）",
+          "url": "https://kenji6836.github.io/app/mitsumori/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "mock",
+          "kind": "adset",
+          "title": "7 サイズ × 訴求 2 案（抜粋 5 点）",
+          "items": [
+            {
+              "src": "/assets/works/v-ad-square-a.jpg",
+              "alt": "「見積依頼の仕分け、60 秒。」を掲げた正方形バナー（A 時間訴求）。青地に現場監督の写真と受信箱画面のスマホ",
+              "slot": "square-a",
+              "label": "Instagram フィード",
+              "size": "1080×1080",
+              "variant": "A 時間訴求"
+            },
+            {
+              "src": "/assets/works/v-ad-square-b.jpg",
+              "alt": "「急ぎの依頼、埋もれない。」を掲げた正方形バナー（B 安心訴求）。事務所で依頼を確認する事務員の写真",
+              "slot": "square-b",
+              "label": "Instagram フィード",
+              "size": "1080×1080",
+              "variant": "B 安心訴求"
+            },
+            {
+              "src": "/assets/works/v-ad-story.jpg",
+              "alt": "縦長ストーリーズ用バナー。職人のポートレートと見出し、下部に受信箱画面のスマホ",
+              "slot": "story",
+              "label": "ストーリーズ / リール",
+              "size": "1080×1920",
+              "variant": "A 時間訴求"
+            },
+            {
+              "src": "/assets/works/v-ad-landscape.jpg",
+              "alt": "横長リンク広告用バナー。左に見出しと CTA、右に写真とスマホ",
+              "slot": "landscape",
+              "label": "Facebook リンク広告",
+              "size": "1200×628",
+              "variant": "A 時間訴求"
+            },
+            {
+              "src": "/assets/works/v-ad-rect.jpg",
+              "alt": "300×250 ディスプレイ広告用の小型バナー。見出しと CTA だけに絞った構成",
+              "slot": "rect",
+              "label": "Google ディスプレイ",
+              "size": "300×250",
+              "variant": "A 時間訴求"
+            }
+          ],
+          "note": "題材は自作アプリ・広告は自主制作のサンプル（未出稿）。「60 秒」は設計上の目安"
+        },
+        {
+          "type": "mock",
+          "kind": "insight",
+          "title": "A/B テストの見方",
+          "kpis": [
+            {
+              "label": "A 時間訴求 CTR",
+              "value": "—",
+              "sub": "未出稿（出稿後に実測）"
+            },
+            {
+              "label": "B 安心訴求 CTR",
+              "value": "—",
+              "sub": "未出稿（出稿後に実測）"
+            },
+            {
+              "label": "判定",
+              "value": "1 週間",
+              "sub": "同予算で比較して継続案を決める"
+            }
+          ],
+          "bars": {
+            "label": "サイズ別の配信比率（サンプル）",
+            "items": [
+              {
+                "label": "フィード",
+                "value": 45,
+                "display": "45%"
+              },
+              {
+                "label": "ストーリーズ",
+                "value": 30,
+                "display": "30%"
+              },
+              {
+                "label": "ディスプレイ",
+                "value": 25,
+                "display": "25%"
+              }
+            ]
+          },
+          "note": "数値はサンプル"
+        },
+        {
+          "type": "mock",
+          "kind": "pipeline",
+          "title": "ヒアリングから入稿まで",
+          "steps": [
+            {
+              "icon": "mail",
+              "label": "ヒアリング",
+              "sub": "強み・対象・予算"
+            },
+            {
+              "icon": "file",
+              "label": "訴求軸 2 案",
+              "sub": "コピーと骨格"
+            },
+            {
+              "icon": "box",
+              "label": "写真＋サイズ展開",
+              "sub": "媒体の規定に合わせる"
             },
             {
               "icon": "sheet",
@@ -1922,508 +2910,6 @@
       ]
     },
     {
-      "slug": "aso",
-      "title": "App Store 掲載の文章と画像を実数で改善",
-      "kicker": "マーケティング",
-      "categories": [
-        "marketing"
-      ],
-      "label": "public",
-      "year": "2026",
-      "summary": "自分のアプリ 4 本のストア文言・画像・審査対応をまとめて実施。公開後は週ごとのダウンロード数と表示回数を自動で集計。広告を出すかの判断基準を実数つきで公開。",
-      "role": "掲載文設計・多言語ローカライズ・審査対応・計測設計",
-      "points": [
-        "直近 8 週の初回ダウンロード 44 件（4 本合計）・9/7〜9/13 週のストア表示 1,614 回（App Store Connect API 取得・2026-09-19）を、小さくてもそのまま掲載",
-        "率には必ず分母を添える。広告は「効果を測れる 3 条件」を満たしてから（現時点は見送りと判定）",
-        "却下理由（更新内容の具体性・広告の申告）を次の版の基準に反映"
-      ],
-      "stack": [
-        "App Store Connect",
-        "AdMob",
-        "Apple Ads"
-      ],
-      "tools": [
-        {
-          "icon": "store",
-          "label": "App Store 掲載"
-        },
-        {
-          "icon": "text",
-          "label": "文章と画像の改善"
-        },
-        {
-          "icon": "data",
-          "label": "週ごとの実数集計"
-        }
-      ],
-      "links": [
-        {
-          "label": "実数と判断基準を見る",
-          "url": "/cases/aso/"
-        },
-        {
-          "label": "Sweepfield のストアページ",
-          "url": "https://apps.apple.com/jp/app/id6799108644"
-        }
-      ],
-      "visuals": [
-        {
-          "type": "image",
-          "src": "/assets/works/store-listing-1.jpg",
-          "alt": "Sweepfield の App Store 掲載ページ",
-          "frame": "browser"
-        },
-        {
-          "type": "image",
-          "src": "/assets/works/aso-2.jpg",
-          "alt": "ASO 事例ページ（週次ダウンロードと表示回数の実数）",
-          "frame": "browser"
-        }
-      ]
-    },
-    {
-      "slug": "viz-housing",
-      "title": "家は、どこに建っているのか。",
-      "kicker": "データストーリー（公共統計の可視化）",
-      "categories": [
-        "data",
-        "web"
-      ],
-      "label": "self",
-      "year": "2026",
-      "summary": "国土交通省の住宅着工統計 75 年と総務省の人口推計 25 年から、47 都道府県の「家が建つ場所」をたどる自主制作のスクロール連動ビジュアライゼーション。1 粒 ＝ 1,000 戸の粒子が段を跨いで並び替わり、触れる地図で自分の県を読める。",
-      "role": "題材選定・データ取得と整形（e-Stat／総務省の公開ファイル）・設計・実装（Canvas 2D と SVG を自前で描画）・検証",
-      "points": [
-        "依存ライブラリなし。粒子・地図・散布図・ドットプロットをすべて自前で描画し、スクロールに同期",
-        "ライト／ダーク・スマホ幅・動きを減らす設定・JavaScript 無効の 4 条件で内容が読める",
-        "出典と取得日を明記し、本文の数字はビルド時にデータから再計算（手書きしない）"
-      ],
-      "stack": [
-        "HTML / CSS / JavaScript",
-        "Canvas 2D",
-        "SVG",
-        "Python（データ整形・静的生成）"
-      ],
-      "tools": [
-        {
-          "icon": "data",
-          "label": "公共統計の図解"
-        },
-        {
-          "icon": "pin",
-          "label": "触れる地図"
-        },
-        "web"
-      ],
-      "links": [
-        {
-          "label": "作品を見る",
-          "url": "/viz/"
-        }
-      ],
-      "visuals": [
-        {
-          "type": "image",
-          "src": "/assets/works/viz-1.jpg",
-          "alt": "「家は、どこに建っているのか。」の導入画面（75 年の棒グラフと 39%）",
-          "frame": "browser"
-        },
-        {
-          "type": "image",
-          "src": "/assets/works/viz-2.jpg",
-          "alt": "人口 1,000 人あたりの新設住宅着工で塗り分けた都道府県地図",
-          "frame": "browser"
-        },
-        {
-          "type": "image",
-          "src": "/assets/works/viz-3.jpg",
-          "alt": "スマホ幅での地図の場面",
-          "frame": "phone"
-        }
-      ]
-    },
-    {
-      "slug": "mitsumori-triage",
-      "title": "見積依頼の自動仕分けアプリ「見積トリアージ」",
-      "kicker": "業務アプリ（工務店・リフォーム会社向け）",
-      "categories": [
-        "app",
-        "automation",
-        "design"
-      ],
-      "label": "self",
-      "year": "2026",
-      "summary": "届いた見積依頼を工種・緊急度で自動仕分け。返信の下書きまで用意。金額は人が決める。架空の依頼 30 件で動くデモをブラウザで試せます。",
-      "role": "企画・UI/UX 設計・実装（依存ゼロの PWA）・仕分けルール設計・テスト",
-      "points": [
-        "ホームは「至急 5 件・未対応 12 件」と今日の依頼だけ。文字より色とアイコンで状態が分かる設計",
-        "概算帯はレンジバーに依頼者の予算を重ねて表示 — 帯の中か外かが一目で分かる",
-        "返信案は人が編集してコピー・メール送信。送信と金額の判断はアプリに持たせない",
-        "オフラインでも動く PWA（ホーム画面に追加可）・キーボード操作（j/k/Enter/Esc/c/d）・ダークモード・スクリーンリーダー対応",
-        "本番構成（Claude API はサーバ側で接続・キーは端末に置かない）を設定画面に明示。デモは固定ルールと事前生成文で動作"
-      ],
-      "stack": [
-        "HTML",
-        "CSS",
-        "JavaScript (ES Modules)",
-        "PWA (Service Worker)",
-        "Node.js test"
-      ],
-      "tools": [
-        {
-          "icon": "invoice",
-          "label": "見積依頼"
-        },
-        "filter",
-        {
-          "icon": "mail",
-          "label": "返信の下書き"
-        },
-        {
-          "icon": "phone",
-          "label": "スマホ・オフライン対応"
-        }
-      ],
-      "links": [
-        {
-          "label": "デモを開く",
-          "url": "/app/mitsumori/"
-        }
-      ],
-      "visuals": [
-        {
-          "type": "image",
-          "src": "/assets/works/mitsumori-1.jpg",
-          "alt": "見積トリアージのホーム画面（今日やること）と依頼の詳細パネル",
-          "frame": "browser"
-        },
-        {
-          "type": "image",
-          "src": "/assets/works/mitsumori-2.jpg",
-          "alt": "見積トリアージの集計画面（日別件数・工種別の内訳）",
-          "frame": "browser"
-        },
-        {
-          "type": "image",
-          "src": "/assets/works/mitsumori-3.jpg",
-          "alt": "見積トリアージのスマホ表示（依頼の詳細と返信案）",
-          "frame": "phone"
-        }
-      ]
-    },
-    {
-      "slug": "making-shorts",
-      "title": "縦型ショート動画シリーズ「MAKING」（3 本）",
-      "kicker": "動画制作",
-      "categories": [
-        "video",
-        "sns",
-        "marketing"
-      ],
-      "label": "self",
-      "year": "2026",
-      "summary": "Claude Code で作った実物（紹介 HP・Web アプリ・夜間の自律ランナー）の制作過程を、各 26 秒の縦型ショートに。YouTube Shorts・Reels・TikTok に同じ素材で投稿できる字幕焼き込み・無音でも伝わる構成。BGM は自作合成。",
-      "role": "企画・構成・モーション制作・字幕設計・BGM 合成・書き出し",
-      "points": [
-        "「実物 → 日本語で頼む → 生成 → 確認 → 公開」の 5 ビートを 3 本で共通化し、シリーズとして続けられる型に",
-        "数字は実物の台帳から引いた実数のみ（19 ページ生成・自動テスト 235 項目・1 日 7 回の実行枠 など）",
-        "共通のイントロ 2 秒／アウトロ 3 秒をブランド素材として分離し、次回以降は本編だけ作れば済む"
-      ],
-      "stack": [
-        "HTML / CSS アニメーション",
-        "headless Chrome フレーム書き出し",
-        "ffmpeg（H.264 / VP9・AAC / Opus）",
-        "Python（BGM 合成）"
-      ],
-      "tools": [
-        {
-          "icon": "video",
-          "label": "26 秒の縦型 3 本"
-        },
-        {
-          "icon": "text",
-          "label": "字幕焼き込み"
-        },
-        {
-          "icon": "sns",
-          "label": "Shorts・Reels・TikTok"
-        }
-      ],
-      "links": [],
-      "visuals": [
-        {
-          "type": "video",
-          "mp4": "/assets/works/v-short-01-portfolio.mp4",
-          "webm": "/assets/works/v-short-01-portfolio.webm",
-          "poster": "/assets/works/v-short-01-portfolio-poster.jpg",
-          "alt": "MAKING #01 紹介 HP を Claude Code で作る（26 秒・縦型・無音でも伝わる字幕つき）",
-          "frame": "phone"
-        },
-        {
-          "type": "video",
-          "mp4": "/assets/works/v-short-02-reachlab.mp4",
-          "webm": "/assets/works/v-short-02-reachlab.webm",
-          "poster": "/assets/works/v-short-02-reachlab-poster.jpg",
-          "alt": "MAKING #02 ブラウザで動く演出シミュレーターを Claude Code で作る（26 秒・縦型）",
-          "frame": "phone"
-        },
-        {
-          "type": "video",
-          "mp4": "/assets/works/v-short-03-autopilot.mp4",
-          "webm": "/assets/works/v-short-03-autopilot.webm",
-          "poster": "/assets/works/v-short-03-autopilot-poster.jpg",
-          "alt": "MAKING #03 夜に自走する autopilot を Claude Code で作る（26 秒・縦型・画面はサンプル表示の UI 図）",
-          "frame": "phone"
-        },
-        {
-          "type": "mock",
-          "kind": "storyboard",
-          "title": "絵コンテ（#01 紹介 HP・6 カット・26 秒）",
-          "frames": [
-            {
-              "src": "/assets/works/v-short-01-sb-1.jpg",
-              "time": "00:03",
-              "label": "フック（実物）",
-              "note": "公開中の紹介 HP の実画面（PC ブラウザ枠＋スマホ枠）が下と右からスライドインし、等速で軽くスクロール。字幕『紹介 HP を、Claude Code で作った。』",
-              "alt": "フック: 紹介 HP の実画面がブラウザ枠とスマホ枠で表示され『紹介 HP を、Claude Code で作った。』"
-            },
-            {
-              "src": "/assets/works/v-short-01-sb-2.jpg",
-              "time": "00:08",
-              "label": "指示（日本語）",
-              "note": "端末風パネルに日本語の指示が 1 文字ずつ打たれる（琥珀のカーソル）。打ち終わると Enter →『Claude Code が作業中…』。字幕『まず、日本語で頼む』",
-              "alt": "端末に日本語の指示『自己紹介サイトを作り直したい…』が打ち込まれ『まず、日本語で頼む』"
-            },
-            {
-              "src": "/assets/works/v-short-01-sb-3.jpg",
-              "time": "00:13",
-              "label": "生成（JSON→19 ページ）",
-              "note": "content.json のカードから build 矢印を経て、ページのミニカードが 19 枚ポップして並ぶ。最後に琥珀チップ『19 ページ』。字幕『文言は JSON 1 つ。19 ページを自動生成』",
-              "alt": "content.json 1 つから 19 枚のページカードが生成される図と『文言は JSON 1 つ。19 ページを自動生成』"
-            },
-            {
-              "src": "/assets/works/v-short-01-sb-4.jpg",
-              "time": "00:17",
-              "label": "確認（テスト＋別 AI）",
-              "note": "受入テスト（禁止語・リンク切れ・画像・到達性）が順に緑のチェックへ。別系統 AI（GPT）の視覚レビュー 1 回も通過 →『公開へ』チップ。字幕『テストと別 AI のレビューで確認』",
-              "alt": "受入テスト 4 項目が OK になり、別系統 AI の視覚レビューも通過『テストと別 AI のレビューで確認』"
-            },
-            {
-              "src": "/assets/works/v-short-01-sb-5.jpg",
-              "time": "00:22",
-              "label": "公開＋結果",
-              "note": "URL ピル kenji6836.github.io の下でスマホ枠が実画面を等速で縦スクロール。実数チップ『10 分野・17 作品』『19 ページ』『決定 → 公開 約 2 時間 15 分』。字幕『決定から約 2 時間で公開』",
-              "alt": "スマホ枠で紹介 HP をスクロールし『10 分野・17 作品』『19 ページ』『約 2 時間 15 分』のチップ"
-            },
-            {
-              "src": "/assets/works/v-short-01-sb-6.jpg",
-              "time": "00:25",
-              "label": "アウトロ",
-              "note": "青のサークルワイプで転換し、ブランド共通アウトロ（マーク・Kenji Ido・@idk0723ai・『作った実物は HP で』・URL）",
-              "alt": "アウトロ: マークと Kenji Ido @idk0723ai『作った実物は HP で』kenji6836.github.io"
-            }
-          ],
-          "note": "3 本とも同じ 5 ビート構成。#02 #03 の絵コンテも同様に制作"
-        },
-        {
-          "type": "mock",
-          "kind": "pipeline",
-          "title": "1 本あたりの流れ",
-          "steps": [
-            {
-              "icon": "file",
-              "label": "事実シート",
-              "sub": "出せる実数と出典を先に固める"
-            },
-            {
-              "icon": "list",
-              "label": "5 ビート構成",
-              "sub": "実物→指示→生成→確認→公開"
-            },
-            {
-              "icon": "code",
-              "label": "モーション制作",
-              "sub": "実画面＋UI 図＋字幕"
-            },
-            {
-              "icon": "box",
-              "label": "書き出し",
-              "sub": "mp4 / webm・BGM・絵コンテ"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "slug": "mitsumori-ads",
-      "title": "広告セット（見積トリアージ・訴求 2 案 × 7 サイズ）",
-      "kicker": "広告制作",
-      "categories": [
-        "ad",
-        "design",
-        "marketing"
-      ],
-      "label": "self",
-      "year": "2026",
-      "summary": "自作の建設向け Web アプリ「見積トリアージ」を題材に、SNS・ディスプレイ広告の 7 サイズを同じ世界観で展開。時間訴求と安心訴求の 2 案、実写風写真と製品の実画面を組み合わせ、A/B テストにそのまま使える構成。",
-      "role": "コンセプト・コピー・写真ディレクション・ビジュアル制作・サイズ展開",
-      "points": [
-        "1 つのキービジュアルから 7 サイズ（1080×1080 / 1080×1920 / 1200×628 / 1600×900 / 300×250 / 728×90）へ展開",
-        "訴求軸を「時間」「安心」の 2 案に分け、レイアウト骨格は共通にして比較しやすく",
-        "実写風写真をブランド色の面に溶かし、製品の実画面をスマホ枠で載せて「動く実物がある」ことを伝える"
-      ],
-      "stack": [
-        "HTML / CSS / SVG",
-        "Google Fonts",
-        "headless Chrome レンダリング",
-        "実写風写真（自作生成）"
-      ],
-      "tools": [
-        {
-          "icon": "ad",
-          "label": "広告 7 サイズ"
-        },
-        {
-          "icon": "image",
-          "label": "実写風写真"
-        },
-        {
-          "icon": "palette",
-          "label": "訴求 2 案"
-        }
-      ],
-      "links": [
-        {
-          "label": "7 サイズと A/B の比較ページ",
-          "url": "https://kenji6836.github.io/ads/mitsumori/"
-        },
-        {
-          "label": "題材のアプリ（見積トリアージ）",
-          "url": "https://kenji6836.github.io/app/mitsumori/"
-        }
-      ],
-      "visuals": [
-        {
-          "type": "mock",
-          "kind": "adset",
-          "title": "7 サイズ × 訴求 2 案（抜粋 5 点）",
-          "items": [
-            {
-              "src": "/assets/works/v-ad-square-a.jpg",
-              "alt": "「見積依頼の仕分け、60 秒。」を掲げた正方形バナー（A 時間訴求）。青地に現場監督の写真と受信箱画面のスマホ",
-              "slot": "square-a",
-              "label": "Instagram フィード",
-              "size": "1080×1080",
-              "variant": "A 時間訴求"
-            },
-            {
-              "src": "/assets/works/v-ad-square-b.jpg",
-              "alt": "「急ぎの依頼、埋もれない。」を掲げた正方形バナー（B 安心訴求）。事務所で依頼を確認する事務員の写真",
-              "slot": "square-b",
-              "label": "Instagram フィード",
-              "size": "1080×1080",
-              "variant": "B 安心訴求"
-            },
-            {
-              "src": "/assets/works/v-ad-story.jpg",
-              "alt": "縦長ストーリーズ用バナー。職人のポートレートと見出し、下部に受信箱画面のスマホ",
-              "slot": "story",
-              "label": "ストーリーズ / リール",
-              "size": "1080×1920",
-              "variant": "A 時間訴求"
-            },
-            {
-              "src": "/assets/works/v-ad-landscape.jpg",
-              "alt": "横長リンク広告用バナー。左に見出しと CTA、右に写真とスマホ",
-              "slot": "landscape",
-              "label": "Facebook リンク広告",
-              "size": "1200×628",
-              "variant": "A 時間訴求"
-            },
-            {
-              "src": "/assets/works/v-ad-rect.jpg",
-              "alt": "300×250 ディスプレイ広告用の小型バナー。見出しと CTA だけに絞った構成",
-              "slot": "rect",
-              "label": "Google ディスプレイ",
-              "size": "300×250",
-              "variant": "A 時間訴求"
-            }
-          ],
-          "note": "題材は自作アプリ・広告は自主制作のサンプル（未出稿）。「60 秒」は設計上の目安"
-        },
-        {
-          "type": "mock",
-          "kind": "insight",
-          "title": "A/B テストの見方",
-          "kpis": [
-            {
-              "label": "A 時間訴求 CTR",
-              "value": "—",
-              "sub": "未出稿（出稿後に実測）"
-            },
-            {
-              "label": "B 安心訴求 CTR",
-              "value": "—",
-              "sub": "未出稿（出稿後に実測）"
-            },
-            {
-              "label": "判定",
-              "value": "1 週間",
-              "sub": "同予算で比較して継続案を決める"
-            }
-          ],
-          "bars": {
-            "label": "サイズ別の配信比率（サンプル）",
-            "items": [
-              {
-                "label": "フィード",
-                "value": 45,
-                "display": "45%"
-              },
-              {
-                "label": "ストーリーズ",
-                "value": 30,
-                "display": "30%"
-              },
-              {
-                "label": "ディスプレイ",
-                "value": 25,
-                "display": "25%"
-              }
-            ]
-          },
-          "note": "数値はサンプル"
-        },
-        {
-          "type": "mock",
-          "kind": "pipeline",
-          "title": "ヒアリングから入稿まで",
-          "steps": [
-            {
-              "icon": "mail",
-              "label": "ヒアリング",
-              "sub": "強み・対象・予算"
-            },
-            {
-              "icon": "file",
-              "label": "訴求軸 2 案",
-              "sub": "コピーと骨格"
-            },
-            {
-              "icon": "box",
-              "label": "写真＋サイズ展開",
-              "sub": "媒体の規定に合わせる"
-            },
-            {
-              "icon": "sheet",
-              "label": "入稿・計測",
-              "sub": "A/B の結果で改善"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "slug": "channel-brand",
       "title": "4 つの SNS 共通のブランド一式（同じ顔・同じ色）",
       "kicker": "デザイン制作",
@@ -2508,489 +2994,6 @@
           "type": "image",
           "src": "/assets/works/v-brand-post-1.jpg",
           "alt": "正方形の投稿テンプレ 1080×1080",
-          "frame": "browser"
-        }
-      ]
-    },
-    {
-      "slug": "mitsumori-design-system",
-      "title": "業務アプリの色・文字・部品のルールブック（1 ページ）",
-      "kicker": "デザイン制作",
-      "categories": [
-        "design",
-        "web",
-        "app"
-      ],
-      "label": "self",
-      "year": "2026",
-      "summary": "自作の業務アプリ「見積トリアージ」の色・文字・余白・ボタンなどの決まりを 1 ページに。色の見やすさは測った数値を掲載。明るい画面・暗い画面・スマホ幅で確認できる。",
-      "role": "トークン設計・部品設計・アクセシビリティ基準・ドキュメント制作",
-      "points": [
-        "色はライト/ダークとも WCAG のコントラスト比を実測して表に（基準未満は隠さず表示）",
-        "緊急度・状態は色だけに頼らず形とアイコンで区別（至急＝赤＋アイコン）",
-        "3 ペインの業務画面をスマホでタブ切替にする型まで定義"
-      ],
-      "stack": [
-        "HTML / CSS",
-        "Google Fonts",
-        "WCAG 2.x コントラスト計算"
-      ],
-      "tools": [
-        {
-          "icon": "palette",
-          "label": "色・文字・部品のルール"
-        },
-        {
-          "icon": "web",
-          "label": "1 ページで確認"
-        },
-        "sun"
-      ],
-      "links": [
-        {
-          "label": "デザインシステム（1 ページ）",
-          "url": "https://kenji6836.github.io/design/mitsumori/"
-        },
-        {
-          "label": "対象のアプリ（見積トリアージ）",
-          "url": "https://kenji6836.github.io/app/mitsumori/"
-        }
-      ],
-      "visuals": [
-        {
-          "type": "image",
-          "src": "/assets/works/v-ds-1.jpg",
-          "alt": "デザインシステムのページ（ライト）: 色トークンとコントラスト比、部品の実物",
-          "frame": "browser"
-        },
-        {
-          "type": "image",
-          "src": "/assets/works/v-ds-2.jpg",
-          "alt": "デザインシステムのページ（ダーク）",
-          "frame": "browser"
-        }
-      ]
-    },
-    {
-      "slug": "giin-intro",
-      "title": "市議会議員の紹介サイト（架空の人物によるデモ）",
-      "kicker": "Web 制作 · 政治活動用サイト",
-      "categories": [
-        "web",
-        "design"
-      ],
-      "label": "self",
-      "year": "2026",
-      "summary": "人物と政策を知ってもらう 1 ページの議員サイト。プロフィール→政策→活動報告→お問い合わせの順で、文章と写真を差し替えるだけで本番に。人物・自治体は架空。配色 3 案を切り替えて比べられる。",
-      "role": "構成設計・コピー・実装・テンプレート化・受入チェック",
-      "points": [
-        "content.json を書き換えるだけで人物・政策・連絡先が差し替わる（build.py で生成・--check で差分検査）",
-        "公職選挙法を踏まえ、政治活動用サイトの範囲で設計。連絡先の明記・投票依頼表現の不使用を受入チェックで確認",
-        "外部リソース 0（フォント・JS 読み込みなし）・390px 対応・ライト／ダーク対応・3 テーマ切替・18 項目の自動受入チェック"
-      ],
-      "stack": [
-        "HTML/CSS（自己完結）",
-        "SVG",
-        "Python（生成・検査）"
-      ],
-      "tools": [
-        {
-          "icon": "web",
-          "label": "1 ページのサイト"
-        },
-        {
-          "icon": "users",
-          "label": "プロフィール・政策"
-        },
-        {
-          "icon": "mail",
-          "label": "お問い合わせ"
-        },
-        {
-          "icon": "palette",
-          "label": "配色 3 案"
-        }
-      ],
-      "links": [
-        {
-          "label": "デモを見る（架空の人物）",
-          "url": "/demos/giin-intro/"
-        }
-      ],
-      "visuals": [
-        {
-          "type": "image",
-          "src": "/assets/works/giin-intro-shot.jpg",
-          "alt": "市議会議員 紹介サイトのデモの PC 表示（ヒーロー・架空の人物）",
-          "frame": "browser"
-        },
-        {
-          "type": "image",
-          "src": "/assets/works/giin-intro-shot-m.jpg",
-          "alt": "同デモのスマホ表示",
-          "frame": "phone"
-        }
-      ]
-    },
-    {
-      "slug": "kensetsu-lp",
-      "title": "工務店向け サービス紹介 LP（見積依頼の AI 仕分け）",
-      "kicker": "LP 制作",
-      "categories": [
-        "web",
-        "marketing"
-      ],
-      "label": "public",
-      "year": "2026",
-      "summary": "見積依頼を AI が仕分け、返信の下書きまで用意するサービスの紹介ページ。料金と進め方を 1 ページで。問い合わせと実物デモへ 1 クリックで届く導線。",
-      "role": "構成設計・コピー・実装・計測設計",
-      "points": [
-        "ヒーローに製品の入出力をそのまま見せ、「AI は金額を決めない」を先に明示",
-        "料金は最小構成・PoC・月額の 3 段。納品後の責任範囲（検収・修正・保守・データ）を表で公開",
-        "Lighthouse 100/100/100/100（モバイル・デスクトップ・制作時計測）・390px 対応・ダーク／reduced-motion 対応（自前検査 2026-09-14）"
-      ],
-      "stack": [
-        "HTML/CSS（自己完結）",
-        "SVG",
-        "Lighthouse",
-        "CDP 検査"
-      ],
-      "tools": [
-        {
-          "icon": "web",
-          "label": "サービス紹介 LP"
-        },
-        {
-          "icon": "invoice",
-          "label": "見積依頼の仕分け"
-        },
-        {
-          "icon": "sparkle",
-          "label": "AI が下書き"
-        },
-        {
-          "icon": "mail",
-          "label": "問い合わせ導線"
-        }
-      ],
-      "links": [
-        {
-          "label": "LP を見る",
-          "url": "/lp/kensetsu-mitsumori/"
-        }
-      ],
-      "visuals": [
-        {
-          "type": "image",
-          "src": "/assets/works/kensetsu-lp-1.jpg",
-          "alt": "見積依頼 AI 仕分けの LP の PC 表示",
-          "frame": "browser"
-        },
-        {
-          "type": "image",
-          "src": "/assets/works/kensetsu-lp-2.jpg",
-          "alt": "同 LP のスマホ表示",
-          "frame": "phone"
-        }
-      ]
-    },
-    {
-      "slug": "beauty-salon",
-      "title": "美容院向け LP＋デモ（クチコミ返信・再来店フォロー）",
-      "kicker": "LP 制作 · 業務デモ（美容院・ヘアサロン向け）",
-      "categories": [
-        "web",
-        "automation",
-        "marketing"
-      ],
-      "label": "self",
-      "year": "2026",
-      "summary": "クチコミ返信の下書き。来店が空いたお客様に LINE で案内。ブラウザでそのまま試せるデモ。サロン名・クチコミ・お客様はすべて架空です。",
-      "role": "構成設計・コピー・LP 実装・デモ実装（依存ゼロ・通信なし）・受入チェック",
-      "points": [
-        "課題→できること→仕組み→デモ→進め方→料金→FAQ の順で、問い合わせと実物デモへ 1 クリックで到達できる導線",
-        "クチコミを「好意的／改善要望／クレーム」に分けて返信を下書き。送信は人が確認してから（自動送信なし）",
-        "最終来店からの日数で「30 日以内／31〜60 日／61 日以上」に分け、公式 LINE への案内文をコピーして使える一覧",
-        "390px 対応・ライト／ダーク対応・外部 JS なし・登録不要のデモ"
-      ],
-      "stack": [
-        "HTML/CSS（自己完結）",
-        "JavaScript",
-        "SVG"
-      ],
-      "tools": [
-        {
-          "icon": "star",
-          "label": "クチコミ返信の下書き"
-        },
-        {
-          "icon": "message",
-          "label": "LINE で再来店の案内"
-        },
-        {
-          "icon": "web",
-          "label": "ブラウザで試せるデモ"
-        },
-        {
-          "icon": "shield",
-          "label": "送信は人が確認"
-        }
-      ],
-      "links": [
-        {
-          "label": "LP を見る",
-          "url": "/lp/beauty-salon/"
-        },
-        {
-          "label": "デモを開く（架空データ）",
-          "url": "/app/beauty-salon/"
-        }
-      ],
-      "visuals": [
-        {
-          "type": "image",
-          "src": "/assets/beauty-salon/lp-1.jpg",
-          "alt": "美容院向け LP の PC 表示（ヒーロー）",
-          "frame": "browser"
-        },
-        {
-          "type": "image",
-          "src": "/assets/beauty-salon/demo-1.jpg",
-          "alt": "同デモのスマホ表示（クチコミ返信の下書き）",
-          "frame": "phone"
-        }
-      ]
-    },
-    {
-      "slug": "beauty-salon-hp",
-      "title": "美容院のホームページ（5 ページ・架空店）",
-      "kicker": "ホームページ制作（美容院・ヘアサロン向け）",
-      "categories": [
-        "web",
-        "marketing"
-      ],
-      "label": "self",
-      "year": "2026",
-      "summary": "世田谷の住宅街にある席数 4 席の架空サロン「hair salon nagi」のホームページ。トップ・メニュー・スタッフ・ギャラリー・アクセスの 5 ページで、予約はホットペッパービューティーへの導線をそのまま使います。写真とスタッフはすべて架空です。",
-      "role": "構成・文章・写真の用意・実装（スマホ優先）・表示確認",
-      "points": [
-        "実在するサロンのサイトの型（HOME・CONCEPT・MENU・STAFF・GALLERY・ACCESS）に合わせた構成",
-        "メニューは税込価格と「シャンプー・ブロー込み」の一言まで、スタッフは経歴とひとことまで、そのまま使える粒度",
-        "スマホ下部に予約ボタンを固定。ホットペッパーの予約ページへ 1 タップ",
-        "外部の部品を使わない軽い作りで、写真の差し替えだけで実店舗に使えます"
-      ],
-      "stack": [
-        "HTML/CSS（自己完結）",
-        "JavaScript"
-      ],
-      "tools": [
-        {
-          "icon": "web",
-          "label": "5 ページのホームページ"
-        },
-        {
-          "icon": "image",
-          "label": "写真・ギャラリー"
-        },
-        {
-          "icon": "calendar",
-          "label": "予約ボタン（ホットペッパーへ）"
-        },
-        {
-          "icon": "pin",
-          "label": "アクセスページ"
-        }
-      ],
-      "links": [
-        {
-          "label": "ホームページを見る",
-          "url": "/hp/beauty-salon/"
-        }
-      ],
-      "visuals": [
-        {
-          "type": "image",
-          "src": "/assets/beauty-salon/hp/interior-1-1600.jpg",
-          "alt": "hair salon nagi のトップページ（店内写真のヒーロー）",
-          "frame": "browser"
-        },
-        {
-          "type": "image",
-          "src": "/assets/beauty-salon/hp/staff-1-1600.jpg",
-          "alt": "スタッフ紹介ページのスタイリスト写真",
-          "frame": "phone"
-        }
-      ]
-    },
-    {
-      "slug": "tsume",
-      "title": "毎日詰将棋（1手詰・3手詰）",
-      "kicker": "Web 制作 · 詰将棋の出題サイト",
-      "categories": [
-        "web"
-      ],
-      "label": "public",
-      "year": "2026",
-      "summary": "毎日 1 問、1手詰と3手詰の詰将棋を出題するサイト。盤と持ち駒を見ながら考え、答えは指し手の形で確認できます。過去の問題にも戻れます。公開予定の iOS アプリ『ツメトレ』と問題を共有する計画です。",
-      "role": "企画・出題データ作成・実装・公開",
-      "points": [
-        "日付ごとに新しい問題へ自動で切り替わり、過去 30 日分の問題にも戻れる",
-        "盤面と持ち駒だけで考えられるシンプルな画面。答えは指し手の形式で確認できる",
-        "ライト／ダーク表示に対応し、外部の部品を使わない軽い作り",
-        "公開予定の iOS アプリ『ツメトレ』と問題を共有する計画"
-      ],
-      "stack": [
-        "HTML/CSS（自己完結）",
-        "JavaScript"
-      ],
-      "tools": [
-        {
-          "icon": "game",
-          "label": "詰将棋を毎日出題"
-        },
-        {
-          "icon": "clock",
-          "label": "日替わりで自動更新"
-        },
-        {
-          "icon": "web",
-          "label": "ブラウザで見られる"
-        },
-        {
-          "icon": "phone",
-          "label": "iOS アプリと問題を共有予定"
-        }
-      ],
-      "links": [
-        {
-          "label": "毎日詰将棋を見る",
-          "url": "/tsume/"
-        }
-      ],
-      "visuals": [
-        {
-          "type": "image",
-          "src": "/assets/works/tsume-1.jpg",
-          "alt": "毎日詰将棋のトップ画面（盤面と持ち駒、PC 表示）",
-          "frame": "browser"
-        },
-        {
-          "type": "image",
-          "src": "/assets/works/tsume-2.jpg",
-          "alt": "同サイトのスマホ表示",
-          "frame": "phone"
-        }
-      ]
-    },
-    {
-      "slug": "invoice-demo",
-      "title": "請求・入金管理の見本デモ",
-      "kicker": "業務デモ（請求・入金管理向け）",
-      "categories": [
-        "web",
-        "data"
-      ],
-      "label": "self",
-      "year": "2026",
-      "summary": "請求書の状況を一目で把握できる業務画面の見本です。件数・金額の集計タイル、月別のグラフ、状態ごとの色分けを備え、「入金消込」を押すとその場で未回収額が減ります。会社名・金額はすべて架空の 20 件です。",
-      "role": "構成設計・画面実装・受入チェック",
-      "points": [
-        "件数・金額の集計タイルと月別グラフで、請求全体の状況がひと目でわかる",
-        "未回収・入金済みなど状態を色分けし、架空データ 20 件で一覧表示",
-        "「入金消込」ボタンを押すとその場で未回収額とグラフが更新される体験版",
-        "登録不要・ブラウザでそのまま試せる、外部通信のないデモ"
-      ],
-      "stack": [
-        "HTML/CSS（自己完結）",
-        "JavaScript",
-        "SVG"
-      ],
-      "tools": [
-        {
-          "icon": "invoice",
-          "label": "請求・入金の一覧"
-        },
-        {
-          "icon": "data",
-          "label": "集計タイル・月別グラフ"
-        },
-        {
-          "icon": "check",
-          "label": "入金消込で即時反映"
-        },
-        {
-          "icon": "web",
-          "label": "ブラウザで試せるデモ"
-        }
-      ],
-      "links": [
-        {
-          "label": "デモを開く（架空データ）",
-          "url": "/demo/invoice/"
-        }
-      ],
-      "visuals": [
-        {
-          "type": "image",
-          "src": "/assets/works/invoice-demo-1.jpg",
-          "alt": "請求・入金管理デモの一覧画面（PC 表示）",
-          "frame": "browser"
-        },
-        {
-          "type": "image",
-          "src": "/assets/works/invoice-demo-2.jpg",
-          "alt": "同デモのスマホ表示",
-          "frame": "phone"
-        }
-      ]
-    },
-    {
-      "slug": "portfolio-site",
-      "title": "この紹介サイトも自作",
-      "kicker": "サービスサイト",
-      "categories": [
-        "web"
-      ],
-      "label": "public",
-      "year": "2026",
-      "summary": "いま見ているこのサイトも制作物です。文言と作品を 1 つのファイルにまとめ、全ページを自動で生成。公開前にリンク切れや文字のはみ出しを自動で検査。",
-      "role": "設計・実装・運用",
-      "points": [
-        "JSON 1 つが正典。作品追加は 1 エントリ＋画像＋再生成だけ",
-        "公開前に自動検査（リンク・alt・キャッシュ対策・禁止語・ページ容量）",
-        "スクリーンショットとはみ出し検査を headless ブラウザで自動化"
-      ],
-      "stack": [
-        "Python（標準ライブラリ）",
-        "HTML/CSS",
-        "GitHub Pages",
-        "CDP"
-      ],
-      "tools": [
-        {
-          "icon": "web",
-          "label": "このサイト"
-        },
-        {
-          "icon": "code",
-          "label": "全ページを自動生成"
-        },
-        {
-          "icon": "check",
-          "label": "公開前の自動検査"
-        }
-      ],
-      "links": [
-        {
-          "label": "ソースコード（GitHub）",
-          "url": "https://github.com/kenji6836/kenji6836.github.io"
-        }
-      ],
-      "visuals": [
-        {
-          "type": "image",
-          "src": "/assets/works/portfolio-site-shot.jpg",
-          "alt": "紹介サイトのトップページ",
           "frame": "browser"
         }
       ]

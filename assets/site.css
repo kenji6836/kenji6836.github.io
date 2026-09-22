@@ -679,3 +679,20 @@ main:focus { outline: none; }
   .reveal, .reveal-pending { opacity: 1; transform: none; }
 }
 
+
+/* 得意 3 分野（2026-09-23）: 一言つきの大きい札＋残りはチップ */
+.cat-grid-primary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.cat.cat-lead { flex-direction: column; align-items: flex-start; gap: 12px; padding: 18px; }
+.cat-lead strong { font-size: 16px; }
+.cat-lead small { color: var(--text-2); font-size: 13px; }
+.cat-lead .cat-count { margin-top: 8px; color: var(--text-3); font-size: 12px; }
+.cat-more-label { margin: 22px 0 10px; color: var(--text-3); font-size: 13px; }
+.cat-more { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.cat-more .chip { gap: 6px; min-height: 36px; }
+.cat-more .chip span { color: var(--text-3); font-size: 12px; }
+@media (max-width: 899px) {
+  .cat-grid-primary { grid-template-columns: 1fr; }
+  .cat.cat-lead { flex-direction: row; align-items: flex-start; gap: 12px; padding: 14px; }
+  .cat-lead strong { font-size: 15px; }
+  .cat-lead small { font-size: 12.5px; }
+}
