@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f5f0e6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#161412" media="(prefers-color-scheme: dark)">
+<title>毎日詰将棋 — 毎日 1 問、1手詰・3手詰</title>
+<meta name="description" content="日付ごとに 1 問、1手詰・3手詰の詰将棋を出題する無料サイト。盤と持ち駒を見て考え、答えは棋譜形式（▲7二銀打 など）で確認できます。過去 30 日分の問題にも戻れます。">
+<!-- OGP / Twitter カード。og:url と og:image は公開先が決まったら絶対 URL に差し替える -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="毎日詰将棋">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="毎日詰将棋 — 毎日 1 問、1手詰・3手詰">
+<meta property="og:description" content="日付ごとに 1 問、1手詰・3手詰の詰将棋を出題。答えは棋譜形式で確認、過去 30 日分にも戻れます。">
+<meta property="og:url" content="https://kenji6836.github.io/tsume/">
+<meta property="og:image" content="https://kenji6836.github.io/tsume/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="毎日詰将棋 — 将棋盤と題字">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="毎日詰将棋 — 毎日 1 問、1手詰・3手詰">
+<meta name="twitter:description" content="日付ごとに 1 問、1手詰・3手詰の詰将棋を出題。答えは棋譜形式で確認、過去 30 日分にも戻れます。">
+<meta name="twitter:image" content="og.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2.5 26 8.5 24.5 29.5H7.5L6 8.5Z' fill='%23eccf92' stroke='%237a5a2e' stroke-width='1.5' stroke-linejoin='round'/%3E%3Ctext x='16' y='24' font-size='15' font-weight='700' text-anchor='middle' font-family='Hiragino Mincho ProN,serif' fill='%232a2521'%3E詰%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#f5f0e6;--bg2:#ece5d6;--fg:#2a2521;--muted:#7b7267;
+  --card:#fcfaf5;--bd:#dcd2c0;--btn:#fffdf8;
+  --cell:#f0d59d;--cell-line:#8b6a3b;--piece:#1c150c;
+  --accent:#9b3a33;--accent-fg:#fff;--ok:#3d6b4f;--ok-bg:#e2ebe3;
+  --shadow:0 1px 2px rgba(60,40,20,.06);
+  --serif:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho",YuMincho,"Noto Serif JP","Noto Serif CJK JP",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",YuGothic,"Noto Sans JP","Noto Sans CJK JP",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#161412;--bg2:#221f1b;--fg:#ebe4d7;--muted:#a59c8e;
+  --card:#201d19;--bd:#3b352d;--btn:#2a2622;
+  --cell:#c2985c;--cell-line:#3a2913;--piece:#1a1208;
+  --accent:#c96a60;--accent-fg:#fff;--ok:#8fbf9c;--ok-bg:#243128;
+  --shadow:none;
+}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);line-height:1.6;font-size:16px}
+main{max-width:460px;margin:0 auto;padding:12px 16px 4px}
+header{text-align:center;padding:10px 0 14px;margin-bottom:16px;border-bottom:1px solid var(--bd)}
+h1{font-family:var(--serif);font-weight:600;font-size:26px;letter-spacing:.18em;margin:0;line-height:1.3}
+.tagline{margin:4px 0 0;font-size:12.5px;color:var(--muted);letter-spacing:.06em}
+button{font:inherit;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--btn);color:var(--fg);cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:disabled{opacity:.4;cursor:default}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+nav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 6px}
+nav button{flex:0 0 auto;padding:7px 10px;font-size:14px;white-space:nowrap}
+#date{flex:1 1 auto;min-width:0;text-align:center;font-family:var(--serif);font-weight:600;font-size:18px;letter-spacing:.04em;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#meta{text-align:center;color:var(--muted);margin:0 0 12px;font-size:13px}
+.tag{display:inline-block;padding:1px 9px;margin-right:6px;border-radius:999px;background:var(--accent);color:var(--accent-fg);font-size:11.5px;font-weight:600;vertical-align:1px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;box-shadow:var(--shadow)}
+#boardwrap{padding:12px 12px 10px}
+#board{display:grid;grid-template-columns:1fr 1.3em;font-size:clamp(15px,5.6vw,24px);user-select:none;-webkit-user-select:none}
+.files{display:grid;grid-template-columns:repeat(9,1fr)}
+.grid{display:grid;grid-template-columns:repeat(9,1fr);gap:1px;background:var(--cell-line);border:2px solid var(--cell-line);border-radius:2px}
+.ranks{display:grid;grid-template-rows:repeat(9,1fr)}
+.fl,.rl{display:flex;align-items:center;justify-content:center;font-size:.55em;color:var(--muted)}
+.sq{aspect-ratio:1;background:var(--cell);display:flex;align-items:center;justify-content:center}
+.p{display:block;line-height:1;color:var(--piece);font-family:var(--serif);font-weight:600}
+.w{transform:rotate(180deg)}
+#hand{margin:10px 0 0;text-align:center;font-size:15px}
+#hand b{font-weight:600;margin-right:.5em}
+#show{display:block;width:100%;margin-top:14px;padding:12px;font-size:16px;font-weight:600;letter-spacing:.08em;background:var(--accent);color:var(--accent-fg);border-color:var(--accent);border-radius:10px}
+#answer{margin-top:12px;padding:12px 16px}
+#answer p{margin:4px 0}
+#answer .first{font-size:18px;font-weight:600;font-family:var(--serif)}
+#answer .v{color:var(--muted);font-size:14px}
+#past{margin-top:22px}
+#past summary{cursor:pointer;padding:12px 16px;font-weight:600;font-size:15px;list-style:none;display:flex;align-items:center;gap:8px}
+#past summary::-webkit-details-marker{display:none}
+#past summary .cnt{margin-left:auto;font-weight:400;font-size:13px;color:var(--muted)}
+#past summary::after{content:"▾";color:var(--muted);font-size:13px}
+#past[open] summary::after{content:"▴"}
+#past ol{list-style:none;margin:0;padding:6px 8px 8px;border-top:1px solid var(--bd)}
+#past li+li{border-top:1px solid var(--bd)}
+#past li button{display:flex;width:100%;align-items:center;gap:10px;padding:9px 8px;background:none;border:0;border-radius:8px;text-align:left;font-size:14.5px;line-height:1.4}
+#past li button[aria-current="true"]{background:var(--bg2)}
+.pd{flex:1 1 auto;min-width:0;font-variant-numeric:tabular-nums}
+.today{font-size:11px;color:var(--accent);margin-left:4px}
+.pt{flex:0 0 auto;color:var(--muted);font-size:13px}
+.ps{flex:0 0 auto;font-size:12px;padding:2px 8px;border-radius:999px;border:1px solid var(--bd);color:var(--muted);min-width:4.6em;text-align:center}
+.ps.ok{background:var(--ok-bg);border-color:transparent;color:var(--ok)}
+footer{text-align:center;font-size:12.5px;color:var(--muted);padding:24px 16px 32px}
+footer a{color:inherit}
+@media (min-width:520px){main{padding-top:28px}h1{font-size:30px}}
+</style>
+</head>
+<body>
+<main>
+<header>
+<h1>毎日詰将棋</h1>
+<p class="tagline">毎日 1 問、1手詰・3手詰</p>
+</header>
+<nav aria-label="日付の移動"><button id="prev" type="button">◀ 前日</button><time id="date"></time><button id="next" type="button">翌日 ▶</button></nav>
+<p id="meta"></p>
+<div id="boardwrap" class="card">
+<div id="board" aria-label="将棋盤"></div>
+<p id="hand"></p>
+</div>
+<button id="show" type="button" aria-controls="answer" aria-expanded="false">答えを見る</button>
+<div id="answer" class="card" hidden></div>
+<details id="past" class="card">
+<summary>過去の問題<span class="cnt" id="past-count"></span></summary>
+<ol id="past-list"></ol>
+</details>
+</main>
+<footer><a href="#">iOS アプリ『ツメトレ』（近日公開）</a></footer>
+<script id="data" type="application/json">[{"id":"1te-001","plies":1,"sfen":"2k6/9/2+S6/9/9/9/9/9/9 b S2r2b4g2s4n4l18p 1","solution":"S*7b","replies":[]},{"id":"1te-002","plies":1,"sfen":"7k1/9/7G1/9/9/9/9/9/9 b S2r2b3g3s4n4l18p 1","solution":"S*2b","replies":[]},{"id":"1te-003","plies":1,"sfen":"8k/5R3/9/9/9/9/9/9/9 b Sr2b4g3s4n4l18p 1","solution":"S*1b","replies":[]},{"id":"1te-004","plies":1,"sfen":"6+sk1/9/7+L1/8R/9/9/9/9/9 b r2b4g3s4n3l18p 1","solution":"1d1b+","replies":[]},{"id":"1te-005","plies":1,"sfen":"2kB5/9/9/9/9/9/9/9/9 b G2rb3g4s4n4l18p 1","solution":"G*7b","replies":[]},{"id":"1te-006","plies":1,"sfen":"7k1/9/7G1/9/9/9/9/9/9 b G2r2b2g4s4n4l18p 1","solution":"G*2b","replies":[]},{"id":"1te-007","plies":1,"sfen":"1kB6/9/9/9/9/9/9/9/9 b G2rb3g4s4n4l18p 1","solution":"G*8b","replies":[]},{"id":"1te-008","plies":1,"sfen":"7ks/9/5+L1+B1/9/9/9/9/9/9 b 2rb4g3s4n3l18p 1","solution":"4c3b","replies":[]},{"id":"1te-009","plies":1,"sfen":"8B/9/8k/8N/8+P/9/9/9/9 b 2rb4g4s3n4l17p 1","solution":"1a2b+","replies":[]},{"id":"1te-010","plies":1,"sfen":"6k2/3+R5/9/9/9/9/9/9/9 b Gr2b3g4s4n4l18p 1","solution":"G*3b","replies":[]},{"id":"1te-011","plies":1,"sfen":"8k/9/7+nS/9/9/9/9/9/9 b S2r2b4g2s3n4l18p 1","solution":"S*1b","replies":[]},{"id":"1te-012","plies":1,"sfen":"8k/9/6s+S1/9/9/9/9/9/9 b S2r2b4gs4n4l18p 1","solution":"S*1b","replies":[]},{"id":"1te-013","plies":1,"sfen":"1Bk6/9/9/9/9/9/9/9/9 b G2rb3g4s4n4l18p 1","solution":"G*7b","replies":[]},{"id":"1te-014","plies":1,"sfen":"1k7/9/1+P7/9/9/9/9/9/9 b S2r2b4g3s4n4l17p 1","solution":"S*8b","replies":[]},{"id":"1te-015","plies":1,"sfen":"1k7/9/9/3B5/9/9/9/9/9 b G2rb3g4s4n4l18p 1","solution":"G*8b","replies":[]},{"id":"1te-016","plies":1,"sfen":"1R7/k1+N6/9/9/9/9/9/9/9 b r2b4g4s3n4l18p 1","solution":"8a8b+","replies":[]},{"id":"1te-017","plies":1,"sfen":"k8/9/1L7/9/9/9/9/9/9 b G2r2b3g4s4n3l18p 1","solution":"G*8b","replies":[]},{"id":"1te-018","plies":1,"sfen":"9/6G2/8k/6+R2/8+S/9/9/9/9 b r2b3g3s4n4l18p 1","solution":"3d1d","replies":[]},{"id":"1te-019","plies":1,"sfen":"6k2/9/6+N2/9/9/9/9/9/9 b G2r2b3g4s3n4l18p 1","solution":"G*3b","replies":[]},{"id":"1te-020","plies":1,"sfen":"9/9/k1+B6/2+N6/9/9/9/9/9 b 2rb4g4s3n4l18p 1","solution":"7c8c","replies":[]},{"id":"1te-021","plies":1,"sfen":"3gp4/4k4/5R3/9/9/9/9/9/9 b R2b3g4s4n4l17p 1","solution":"R*4b","replies":[]},{"id":"1te-022","plies":1,"sfen":"k8/9/g+L7/9/9/9/9/9/9 b S2r2b3g3s4n3l18p 1","solution":"S*8b","replies":[]},{"id":"1te-023","plies":1,"sfen":"1k7/2b6/+Bs7/9/9/9/9/9/9 b S2r4g2s4n4l18p 1","solution":"S*8b","replies":[]},{"id":"1te-024","plies":1,"sfen":"4k4/3R5/9/9/9/9/9/9/9 b R2b4g4s4n4l18p 1","solution":"R*6a","replies":[]},{"id":"1te-025","plies":1,"sfen":"1k7/9/1S7/R8/9/9/9/9/9 b R2b4g3s4n4l18p 1","solution":"R*9a","replies":[]},{"id":"1te-026","plies":1,"sfen":"9/6R2/6+B1k/8g/9/9/9/9/9 b rb3g4s4n4l18p 1","solution":"3b2b+","replies":[]},{"id":"1te-027","plies":1,"sfen":"9/3kS4/1+B4R2/9/9/9/9/9/9 b rb4g3s4n4l18p 1","solution":"8c6a","replies":[]},{"id":"1te-028","plies":1,"sfen":"5k3/3+SR1P2/9/9/9/9/9/9/9 b r2b4g3s4n4l17p 1","solution":"6b5a","replies":[]},{"id":"1te-029","plies":1,"sfen":"9/8l/8k/7Lg/9/9/9/9/9 b Rr2b3g4s4n2l18p 1","solution":"R*2c","replies":[]},{"id":"1te-030","plies":1,"sfen":"1GB6/k8/9/9/9/9/9/9/9 b 2rb3g4s4n4l18p 1","solution":"7a8b+","replies":[]},{"id":"3te-001","plies":3,"sfen":"1B7/9/k8/9/B+L7/9/9/9/9 b G2r3g4s4n3l18p 1","solution":"G*9b","replies":[{"move":"9c8c","answer":"8e8d"}]},{"id":"3te-002","plies":3,"sfen":"9/5B3/9/8k/9/9/9/9/9 b RGrb3g4s4n4l18p 1","solution":"R*2d","replies":[{"move":"1d1e","answer":"G*2f"},{"move":"1d1c","answer":"G*2c"}]},{"id":"3te-003","plies":3,"sfen":"9/7Pk/6+b2/8+P/9/9/9/9/9 b 2S2rb4g2s4n4l16p 1","solution":"S*1c","replies":[{"move":"1b1a","answer":"S*1b"}]},{"id":"3te-004","plies":3,"sfen":"k1l6/9/1+P7/9/9/9/9/9/9 b NP2r2b4g4s3n3l16p 1","solution":"P*9b","replies":[{"move":"9a8a","answer":"N*9c"}]},{"id":"3te-005","plies":3,"sfen":"9/8G/7b1/7k1/9/5R1NL/9/9/9 b 2Grbg4s3n3l18p 1","solution":"G*1e","replies":[{"move":"2d3e","answer":"G*3f"},{"move":"2d3c","answer":"G*4c"}]},{"id":"3te-006","plies":3,"sfen":"k8/2G6/9/9/9/9/9/9/9 b Rr2b3g4s4n4l18p 1","solution":"R*8a","replies":[{"move":"9a9b","answer":"8a8b+"}]},{"id":"3te-007","plies":3,"sfen":"3k5/6+R2/2L6/9/9/9/9/9/9 b r2b4g4s4n3l18p 1","solution":"7c7b+","replies":[{"move":"6a5a","answer":"7b6b"}]},{"id":"3te-008","plies":3,"sfen":"9/9/5R3/6k2/7R1/9/9/9/9 b S2b4g3s4n4l18p 1","solution":"4c2c+","replies":[{"move":"3d4d","answer":"S*5e"}]},{"id":"3te-009","plies":3,"sfen":"9/9/9/k8/1L7/3B5/B8/9/9 b GS2r3g3s4n3l18p 1","solution":"S*8c","replies":[{"move":"9d9e","answer":"G*8f"},{"move":"9d8e","answer":"G*8f"}]},{"id":"3te-010","plies":3,"sfen":"3k5/2P6/R8/9/9/9/9/9/9 b Gr2b3g4s4n4l17p 1","solution":"9c6c+","replies":[{"move":"6a5a","answer":"G*5b"},{"move":"P*6b","answer":"G*5b"},{"move":"L*6b","answer":"G*5b"},{"move":"N*6b","answer":"G*5b"},{"move":"S*6b","answer":"G*5b"},{"move":"G*6b","answer":"G*5b"},{"move":"B*6b","answer":"G*5b"},{"move":"R*6b","answer":"G*5b"}]},{"id":"3te-011","plies":3,"sfen":"k1S6/1L7/9/9/9/9/9/9/9 b RGr2b3g3s4n3l18p 1","solution":"R*9c","replies":[{"move":"P*9b","answer":"G*8a"},{"move":"L*9b","answer":"G*8a"},{"move":"N*9b","answer":"G*8a"},{"move":"S*9b","answer":"G*8a"},{"move":"G*9b","answer":"G*8a"},{"move":"B*9b","answer":"G*8a"},{"move":"R*9b","answer":"G*8a"}]},{"id":"3te-012","plies":3,"sfen":"8k/6G2/9/9/9/9/9/9/9 b Rr2b3g4s4n4l18p 1","solution":"R*2a","replies":[{"move":"1a1b","answer":"2a2b+"}]},{"id":"3te-013","plies":3,"sfen":"kg7/nP7/9/3+B5/9/9/9/9/9 b 2rb3g4s3n4l17p 1","solution":"8b8a+","replies":[{"move":"9a8a","answer":"G*8b"}]},{"id":"3te-014","plies":3,"sfen":"9/9/1R7/k8/9/9/9/9/9 b 2Gr2b2g4s4n4l18p 1","solution":"G*9c","replies":[{"move":"9d9e","answer":"G*8f"}]},{"id":"3te-015","plies":3,"sfen":"3kn4/9/G3S4/9/9/9/9/9/9 b Rr2b3g3s3n4l18p 1","solution":"R*6b","replies":[{"move":"6a7a","answer":"9c8b"}]},{"id":"3te-016","plies":3,"sfen":"9/8k/9/5B2p/9/9/9/9/9 b 2G2rb2g4s4n4l17p 1","solution":"G*2b","replies":[{"move":"1b1c","answer":"G*2c"}]},{"id":"3te-017","plies":3,"sfen":"9/1k7/9/9/1N7/9/9/9/9 b 2G2r2b2g4s3n4l18p 1","solution":"G*7c","replies":[{"move":"8b9b","answer":"G*8b"},{"move":"8b8a","answer":"G*8b"},{"move":"8b9a","answer":"G*8b"},{"move":"8b7a","answer":"G*7b"}]},{"id":"3te-018","plies":3,"sfen":"5+L1k1/5+B2r/8R/9/9/9/9/9/9 b Sb4g3s4n3l18p 1","solution":"4b3a","replies":[{"move":"2a1a","answer":"S*2b"}]},{"id":"3te-019","plies":3,"sfen":"9/3k5/R8/5S3/9/9/9/9/9 b GSr2b3g2s4n4l18p 1","solution":"S*6c","replies":[{"move":"6b6a","answer":"G*6b"},{"move":"6b7a","answer":"G*7b"},{"move":"6b5a","answer":"G*5b"}]},{"id":"3te-020","plies":3,"sfen":"4S2R1/6k2/9/4R4/9/9/9/9/9 b GS2b3g2s4n4l18p 1","solution":"S*2c","replies":[{"move":"3b3c","answer":"G*3d"},{"move":"3b4c","answer":"G*4d"},{"move":"3b2a","answer":"G*2b"}]}]</script>
+<script>
+/*core-start*/
+const KANJI={K:'玉',R:'飛',B:'角',G:'金',S:'銀',N:'桂',L:'香',P:'歩'};
+const PROMO={R:'竜',B:'馬',S:'全',N:'圭',L:'杏',P:'と'};
+const HAND_ORDER=['R','B','G','S','N','L','P'];
+const ZEN='0123456789';
+const KAN='一二三四五六七八九';
+// SFEN -> {board[9][9] (row0=一, col0=9筋; 'K','+S','k'...), hands{b,w}, turn}
+function parseSfen(sfen){
+  const parts=sfen.trim().split(/\s+/);
+  const board=parts[0].split('/').map(row=>{
+    const cells=[];let promo=false;
+    for(const ch of row){
+      if(ch==='+'){promo=true;continue;}
+      if(ch>='1'&&ch<='9'){for(let i=0;i<+ch;i++)cells.push(null);}
+      else{cells.push((promo?'+':'')+ch);promo=false;}
+    }
+    return cells;
+  });
+  const hands={b:{},w:{}};
+  const h=parts[2]||'-';
+  if(h!=='-'){for(const m of h.matchAll(/(\d*)([A-Za-z])/g)){const side=m[2]===m[2].toUpperCase()?'b':'w';const k=m[2].toUpperCase();hands[side][k]=(hands[side][k]||0)+(m[1]?+m[1]:1);}}
+  return {board,hands,turn:parts[1]||'b'};
+}
+function pieceKanji(p){const promo=p[0]==='+';const k=p.replace('+','').toUpperCase();return promo?(PROMO[k]||KANJI[k]):KANJI[k];}
+function isBlack(p){const k=p.replace('+','');return k===k.toUpperCase();}
+function usiSq(s){return {r:s.charCodeAt(1)-97,c:9-+s[0]};}
+function moveTo(usi){return usi.replace('+','').slice(2,4);}
+function sqJa(sq){return ZEN[+sq[0]]+KAN[sq.charCodeAt(1)-97];}
+// USI -> 日本語棋譜 (side 'b'=▲ / 'w'=△, prevTo: 直前の着手先 -> 同)
+function usiToJa(usi,board,side,prevTo){
+  const mark=side==='b'?'▲':'△';
+  let name,suffix='';const to=moveTo(usi);
+  if(usi[1]==='*'){name=KANJI[usi[0].toUpperCase()];suffix='打';}
+  else{const f=usiSq(usi.slice(0,2));const p=board[f.r][f.c];name=p?pieceKanji(p):'？';if(usi.endsWith('+'))suffix='成';}
+  return mark+(prevTo===to?'同':sqJa(to))+name+suffix;
+}
+function applyMove(board,usi,side){
+  const nb=board.map(r=>r.slice());const to=usiSq(moveTo(usi));let piece;
+  if(usi[1]==='*'){piece=side==='b'?usi[0].toUpperCase():usi[0].toLowerCase();}
+  else{const f=usiSq(usi.slice(0,2));piece=nb[f.r][f.c];nb[f.r][f.c]=null;if(usi.endsWith('+')&&piece&&piece[0]!=='+')piece='+'+piece;}
+  nb[to.r][to.c]=piece;return nb;
+}
+// 問題 -> {first:'▲7二銀打', vars:['△1五玉 ▲2六金打',...]}
+function solutionJa(pz){
+  const {board}=parseSfen(pz.sfen);
+  const first=usiToJa(pz.solution,board,'b',null);
+  const b1=applyMove(board,pz.solution,'b');const t1=moveTo(pz.solution);
+  const vars=(pz.replies||[]).map(rp=>{
+    const g=usiToJa(rp.move,b1,'w',t1);
+    if(!rp.answer)return g;
+    const b2=applyMove(b1,rp.move,'w');
+    return g+' '+usiToJa(rp.answer,b2,'b',moveTo(rp.move));
+  });
+  return {first,vars};
+}
+function handJa(h){return HAND_ORDER.filter(k=>h[k]).map(k=>KANJI[k]+(h[k]>1?h[k]:'')).join(' ')||'なし';}
+function hashStr(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)>>>0;}return h;}
+function jstToday(){return new Date(Date.now()+9*3600e3).toISOString().slice(0,10);}
+function shiftDate(d,n){const t=new Date(d+'T00:00:00Z');t.setUTCDate(t.getUTCDate()+n);return t.toISOString().slice(0,10);}
+function isValidDate(d){if(!/^\d{4}-\d{2}-\d{2}$/.test(d))return false;const t=Date.parse(d+'T00:00:00Z');return !isNaN(t)&&new Date(t).toISOString().slice(0,10)===d;}
+function pickIndex(d,n){return hashStr(d)%n;}
+/*core-end*/
+(function(){
+  const $=id=>document.getElementById(id);
+  const today=jstToday();let puzzles=null,cur=null;
+  const STORE_NAME='tsume-daily.solved.v1',DAYS=30,WD='日月火水木金土';
+  // 解答済みの日付 {'YYYY-MM-DD':true}。localStorage が無くても壊れないよう読み書きは try/catch
+  let solved=loadSolved();
+  function loadSolved(){try{const v=JSON.parse(localStorage.getItem(STORE_NAME)||'{}');return v&&typeof v==='object'&&!Array.isArray(v)?v:{};}catch(e){return {};}}
+  function saveSolved(){try{localStorage.setItem(STORE_NAME,JSON.stringify(solved));}catch(e){}}
+  function dateJa(d){const t=new Date(d+'T00:00:00Z');return (t.getUTCMonth()+1)+'月'+t.getUTCDate()+'日（'+WD[t.getUTCDay()]+'）';}
+  function fromParam(){const m=location.search.match(/[?&]d=(\d{4}-\d{2}-\d{2})/);return m&&isValidDate(m[1])?m[1]:null;}
+  function setUrl(d){try{history.replaceState(null,'',location.pathname+'?d='+d);}catch(e){}}
+  function renderBoard(board){
+    const files=[9,8,7,6,5,4,3,2,1].map(f=>'<div class="fl">'+f+'</div>').join('');
+    let cells='';
+    for(const row of board)for(const p of row)cells+='<div class="sq">'+(p?'<span class="p'+(isBlack(p)?'':' w')+'">'+pieceKanji(p)+'</span>':'')+'</div>';
+    const ranks=[...KAN].map(k=>'<div class="rl">'+k+'</div>').join('');
+    $('board').innerHTML='<div class="files">'+files+'</div><div></div><div class="grid">'+cells+'</div><div class="ranks">'+ranks+'</div>';
+  }
+  function puzzleFor(d){return puzzles[pickIndex(d,puzzles.length)];}
+  function current(){return puzzleFor(cur);}
+  function renderPast(){
+    let html='',n=0;
+    for(let i=0;i<DAYS;i++){
+      const d=shiftDate(today,-i),pz=puzzleFor(d),ok=!!solved[d];if(ok)n++;
+      html+='<li><button type="button" data-d="'+d+'"'+(d===cur?' aria-current="true"':'')+'><span class="pd">'+dateJa(d)+(i===0?'<span class="today">今日</span>':'')+'</span><span class="pt">'+pz.plies+'手詰</span><span class="ps'+(ok?' ok':'')+'">'+(ok?'解いた':'未解答')+'</span></button></li>';
+    }
+    $('past-list').innerHTML=html;
+    $('past-count').textContent='解いた '+n+' / '+DAYS;
+  }
+  function show(d){
+    cur=d;const pz=current();const {board,hands}=parseSfen(pz.sfen);
+    $('date').textContent=dateJa(d);$('date').setAttribute('datetime',d);
+    $('meta').innerHTML=(d===today?'<span class="tag">今日の問題</span>':'')+d.slice(0,4)+'年 ・ '+pz.plies+'手詰 ・ 先手番 ・ No.'+pz.id;
+    renderBoard(board);
+    $('hand').innerHTML='<b>先手の持ち駒</b>'+handJa(hands.b);
+    $('answer').hidden=true;$('show').textContent='答えを見る';$('show').setAttribute('aria-expanded','false');
+    $('next').disabled=d>=today;
+    setUrl(d);renderPast();
+  }
+  $('prev').onclick=()=>show(shiftDate(cur,-1));
+  $('next').onclick=()=>{if(cur<today)show(shiftDate(cur,1));};
+  $('show').onclick=()=>{
+    const a=$('answer');
+    if(!a.hidden){a.hidden=true;$('show').textContent='答えを見る';$('show').setAttribute('aria-expanded','false');return;}
+    const pz=current();const s=solutionJa(pz);
+    a.innerHTML='<p class="first">'+s.first+'</p>'+s.vars.map(v=>'<p class="v">'+v+'</p>').join('')+'<p class="v">まで'+pz.plies+'手詰</p>';
+    a.hidden=false;$('show').textContent='答えを隠す';$('show').setAttribute('aria-expanded','true');
+    if(!solved[cur]){solved[cur]=true;saveSolved();renderPast();}
+  };
+  $('past-list').addEventListener('click',e=>{
+    const b=e.target.closest('button[data-d]');if(!b||!puzzles)return;
+    show(b.getAttribute('data-d'));window.scrollTo(0,0);
+  });
+  function start(list){puzzles=list;let d=fromParam()||today;if(d>today)d=today;show(d);}
+  const inline=JSON.parse($('data').textContent);
+  if(location.protocol==='file:'){start(inline);}
+  else{
+    Promise.all(['puzzles/puzzles-1te.json','puzzles/puzzles-3te.json'].map(u=>fetch(u).then(r=>{if(!r.ok)throw new Error(r.status);return r.json();})))
+      .then(([a,b])=>start(a.concat(b))).catch(()=>start(inline));
+  }
+})();
+</script>
+</body>
+</html>

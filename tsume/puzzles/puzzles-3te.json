@@ -1,0 +1,483 @@
+[
+  {
+    "checkingMoveCount" : 8,
+    "id" : "3te-001",
+    "plies" : 3,
+    "replies" : [
+      {
+        "answer" : "8e8d",
+        "move" : "9c8c",
+        "replies" : [
+
+        ]
+      }
+    ],
+    "sfen" : "1B7/9/k8/9/B+L7/9/9/9/9 b G2r3g4s4n3l18p 1",
+    "solution" : "G*9b"
+  },
+  {
+    "checkingMoveCount" : 22,
+    "id" : "3te-002",
+    "plies" : 3,
+    "replies" : [
+      {
+        "answer" : "G*2f",
+        "move" : "1d1e",
+        "replies" : [
+
+        ]
+      },
+      {
+        "answer" : "G*2c",
+        "move" : "1d1c",
+        "replies" : [
+
+        ]
+      }
+    ],
+    "sfen" : "9/5B3/9/8k/9/9/9/9/9 b RGrb3g4s4n4l18p 1",
+    "solution" : "R*2d"
+  },
+  {
+    "checkingMoveCount" : 5,
+    "id" : "3te-003",
+    "plies" : 3,
+    "replies" : [
+      {
+        "answer" : "S*1b",
+        "move" : "1b1a",
+        "replies" : [
+
+        ]
+      }
+    ],
+    "sfen" : "9/7Pk/6+b2/8+P/9/9/9/9/9 b 2S2rb4g2s4n4l16p 1",
+    "solution" : "S*1c"
+  },
+  {
+    "checkingMoveCount" : 3,
+    "id" : "3te-004",
+    "plies" : 3,
+    "replies" : [
+      {
+        "answer" : "N*9c",
+        "move" : "9a8a",
+        "replies" : [
+
+        ]
+      }
+    ],
+    "sfen" : "k1l6/9/1+P7/9/9/9/9/9/9 b NP2r2b4g4s3n3l16p 1",
+    "solution" : "P*9b"
+  },
+  {
+    "checkingMoveCount" : 6,
+    "id" : "3te-005",
+    "plies" : 3,
+    "replies" : [
+      {
+        "answer" : "G*3f",
+        "move" : "2d3e",
+        "replies" : [
+
+        ]
+      },
+      {
+        "answer" : "G*4c",
+        "move" : "2d3c",
+        "replies" : [
+
+        ]
+      }
+    ],
+    "sfen" : "9/8G/7b1/7k1/9/5R1NL/9/9/9 b 2Grbg4s3n3l18p 1",
+    "solution" : "G*1e"
+  },
+  {
+    "checkingMoveCount" : 18,
+    "id" : "3te-006",
+    "plies" : 3,
+    "replies" : [
+      {
+        "answer" : "8a8b+",
+        "move" : "9a9b",
+        "replies" : [
+
+        ]
+      }
+    ],
+    "sfen" : "k8/2G6/9/9/9/9/9/9/9 b Rr2b3g4s4n4l18p 1",
+    "solution" : "R*8a"
+  },
+  {
+    "checkingMoveCount" : 8,
+    "id" : "3te-007",
+    "plies" : 3,
+    "replies" : [
+      {
+        "answer" : "7b6b",
+        "move" : "6a5a",
+        "replies" : [
+
+        ]
+      }
+    ],
+    "sfen" : "3k5/6+R2/2L6/9/9/9/9/9/9 b r2b4g4s4n3l18p 1",
+    "solution" : "7c7b+"
+  },
+  {
+    "checkingMoveCount" : 12,
+    "id" : "3te-008",
+    "plies" : 3,
+    "replies" : [
+      {
+        "answer" : "S*5e",
+        "move" : "3d4d",
+        "replies" : [
+
+        ]
+      }
+    ],
+    "sfen" : "9/9/5R3/6k2/7R1/9/9/9/9 b S2b4g3s4n4l18p 1",
+    "solution" : "4c2c+"
+  },
+  {
+    "checkingMoveCount" : 6,
+    "id" : "3te-009",
+    "plies" : 3,
+    "replies" : [
+      {
+        "answer" : "G*8f",
+        "move" : "9d9e",
+        "replies" : [
+
+        ]
+      },
+      {
+        "answer" : "G*8f",
+        "move" : "9d8e",
+        "replies" : [
+
+        ]
+      }
+    ],
+    "sfen" : "9/9/9/k8/1L7/3B5/B8/9/9 b GS2r3g3s4n3l18p 1",
+    "solution" : "S*8c"
+  },
+  {
+    "checkingMoveCount" : 9,
+    "id" : "3te-010",
+    "plies" : 3,
+    "replies" : [
+      {
+        "answer" : "G*5b",
+        "move" : "6a5a",
+        "replies" : [
+
+        ]
+      },
+      {
+        "answer" : "G*5b",
+        "move" : "P*6b",
+        "replies" : [
+
+        ]
+      },
+      {
+        "answer" : "G*5b",
+        "move" : "L*6b",
+        "replies" : [
+
+        ]
+      },
+      {
+        "answer" : "G*5b",
+        "move" : "N*6b",
+        "replies" : [
+
+        ]
+      },
+      {
+        "answer" : "G*5b",
+        "move" : "S*6b",
+        "replies" : [
+
+        ]
+      },
+      {
+        "answer" : "G*5b",
+        "move" : "G*6b",
+        "replies" : [
+
+        ]
+      },
+      {
+        "answer" : "G*5b",
+        "move" : "B*6b",
+        "replies" : [
+
+        ]
+      },
+      {
+        "answer" : "G*5b",
+        "move" : "R*6b",
+        "replies" : [
+
+        ]
+      }
+    ],
+    "sfen" : "3k5/2P6/R8/9/9/9/9/9/9 b Gr2b3g4s4n4l17p 1",
+    "solution" : "9c6c+"
+  },
+  {
+    "checkingMoveCount" : 12,
+    "id" : "3te-011",
+    "plies" : 3,
+    "replies" : [
+      {
+        "answer" : "G*8a",
+        "move" : "P*9b",
+        "replies" : [
+
+        ]
+      },
+      {
+        "answer" : "G*8a",
+        "move" : "L*9b",
+        "replies" : [
+
+        ]
+      },
+      {
+        "answer" : "G*8a",
+        "move" : "N*9b",
+        "replies" : [
+
+        ]
+      },
+      {
+        "answer" : "G*8a",
+        "move" : "S*9b",
+        "replies" : [
+
+        ]
+      },
+      {
+        "answer" : "G*8a",
+        "move" : "G*9b",
+        "replies" : [
+
+        ]
+      },
+      {
+        "answer" : "G*8a",
+        "move" : "B*9b",
+        "replies" : [
+
+        ]
+      },
+      {
+        "answer" : "G*8a",
+        "move" : "R*9b",
+        "replies" : [
+
+        ]
+      }
+    ],
+    "sfen" : "k1S6/1L7/9/9/9/9/9/9/9 b RGr2b3g3s4n3l18p 1",
+    "solution" : "R*9c"
+  },
+  {
+    "checkingMoveCount" : 18,
+    "id" : "3te-012",
+    "plies" : 3,
+    "replies" : [
+      {
+        "answer" : "2a2b+",
+        "move" : "1a1b",
+        "replies" : [
+
+        ]
+      }
+    ],
+    "sfen" : "8k/6G2/9/9/9/9/9/9/9 b Rr2b3g4s4n4l18p 1",
+    "solution" : "R*2a"
+  },
+  {
+    "checkingMoveCount" : 1,
+    "id" : "3te-013",
+    "plies" : 3,
+    "replies" : [
+      {
+        "answer" : "G*8b",
+        "move" : "9a8a",
+        "replies" : [
+
+        ]
+      }
+    ],
+    "sfen" : "kg7/nP7/9/3+B5/9/9/9/9/9 b 2rb3g4s3n4l17p 1",
+    "solution" : "8b8a+"
+  },
+  {
+    "checkingMoveCount" : 9,
+    "id" : "3te-014",
+    "plies" : 3,
+    "replies" : [
+      {
+        "answer" : "G*8f",
+        "move" : "9d9e",
+        "replies" : [
+
+        ]
+      }
+    ],
+    "sfen" : "9/9/1R7/k8/9/9/9/9/9 b 2Gr2b2g4s4n4l18p 1",
+    "solution" : "G*9c"
+  },
+  {
+    "checkingMoveCount" : 15,
+    "id" : "3te-015",
+    "plies" : 3,
+    "replies" : [
+      {
+        "answer" : "9c8b",
+        "move" : "6a7a",
+        "replies" : [
+
+        ]
+      }
+    ],
+    "sfen" : "3kn4/9/G3S4/9/9/9/9/9/9 b Rr2b3g3s3n4l18p 1",
+    "solution" : "R*6b"
+  },
+  {
+    "checkingMoveCount" : 6,
+    "id" : "3te-016",
+    "plies" : 3,
+    "replies" : [
+      {
+        "answer" : "G*2c",
+        "move" : "1b1c",
+        "replies" : [
+
+        ]
+      }
+    ],
+    "sfen" : "9/8k/9/5B2p/9/9/9/9/9 b 2G2rb2g4s4n4l17p 1",
+    "solution" : "G*2b"
+  },
+  {
+    "checkingMoveCount" : 8,
+    "id" : "3te-017",
+    "plies" : 3,
+    "replies" : [
+      {
+        "answer" : "G*8b",
+        "move" : "8b9b",
+        "replies" : [
+
+        ]
+      },
+      {
+        "answer" : "G*8b",
+        "move" : "8b8a",
+        "replies" : [
+
+        ]
+      },
+      {
+        "answer" : "G*8b",
+        "move" : "8b9a",
+        "replies" : [
+
+        ]
+      },
+      {
+        "answer" : "G*7b",
+        "move" : "8b7a",
+        "replies" : [
+
+        ]
+      }
+    ],
+    "sfen" : "9/1k7/9/9/1N7/9/9/9/9 b 2G2r2b2g4s3n4l18p 1",
+    "solution" : "G*7c"
+  },
+  {
+    "checkingMoveCount" : 9,
+    "id" : "3te-018",
+    "plies" : 3,
+    "replies" : [
+      {
+        "answer" : "S*2b",
+        "move" : "2a1a",
+        "replies" : [
+
+        ]
+      }
+    ],
+    "sfen" : "5+L1k1/5+B2r/8R/9/9/9/9/9/9 b Sb4g3s4n3l18p 1",
+    "solution" : "4b3a"
+  },
+  {
+    "checkingMoveCount" : 19,
+    "id" : "3te-019",
+    "plies" : 3,
+    "replies" : [
+      {
+        "answer" : "G*6b",
+        "move" : "6b6a",
+        "replies" : [
+
+        ]
+      },
+      {
+        "answer" : "G*7b",
+        "move" : "6b7a",
+        "replies" : [
+
+        ]
+      },
+      {
+        "answer" : "G*5b",
+        "move" : "6b5a",
+        "replies" : [
+
+        ]
+      }
+    ],
+    "sfen" : "9/3k5/R8/5S3/9/9/9/9/9 b GSr2b3g2s4n4l18p 1",
+    "solution" : "S*6c"
+  },
+  {
+    "checkingMoveCount" : 20,
+    "id" : "3te-020",
+    "plies" : 3,
+    "replies" : [
+      {
+        "answer" : "G*3d",
+        "move" : "3b3c",
+        "replies" : [
+
+        ]
+      },
+      {
+        "answer" : "G*4d",
+        "move" : "3b4c",
+        "replies" : [
+
+        ]
+      },
+      {
+        "answer" : "G*2b",
+        "move" : "3b2a",
+        "replies" : [
+
+        ]
+      }
+    ],
+    "sfen" : "4S2R1/6k2/9/4R4/9/9/9/9/9 b GS2b3g2s4n4l18p 1",
+    "solution" : "S*2c"
+  }
+]
