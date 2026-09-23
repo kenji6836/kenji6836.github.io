@@ -592,6 +592,17 @@ class Site:
             self.section_heading(pricing["kicker"], pricing["heading"], pricing.get("lead", "")),
             "".join(cards), esc(pricing["note"]))
 
+    def cta_band(self):
+        """本文の途中に置く相談への誘い。スマホでは問い合わせ欄が先頭から約 9,000px 下にあり、
+        固定ヘッダの小さなボタンしか手がかりが無かったので、費用の目安の直後に 1 つだけ置く。"""
+        band = self.content["cta_band"]
+        return (
+            '<section class="section cta-band-section"><div class="container">'
+            '<aside class="contact-band reveal"><div class="contact-band-copy"><h2>{}</h2><p>{}</p></div>{}</aside>'
+            '</div></section>'
+        ).format(esc(band["heading"]), esc(band["lead"]),
+                 self.button(band["button"], "/#contact", True))
+
     def process(self):
         process = self.content["process"]
         steps = "".join('<li class="step reveal"><span class="step-num">{}</span><span class="step-glyph">{}</span><strong>{}</strong></li>'.format(
@@ -692,7 +703,7 @@ class Site:
 
     def home(self):
         return self.page("/", self.site["title"], self.site["description"],
-                         self.hero() + self.entry() + self.featured() + self.services() + self.pricing() + self.process() + self.about() + self.faq() + self.contact())
+                         self.hero() + self.entry() + self.featured() + self.services() + self.pricing() + self.cta_band() + self.process() + self.about() + self.faq() + self.contact())
 
     def breadcrumb(self, work=None):
         crumbs = '<li><a href="/">トップ</a></li>'
