@@ -15,7 +15,9 @@
   <meta name="theme-color" content="$theme_color">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+  <!-- 書体の指定書き（gzip 約 119KB）は最初の描画をせき止めない。届くまでは端末の既定書体で出て、届いた時点で Noto Sans JP に入れ替わる（display=swap と同じ挙動） -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&amp;display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&amp;display=swap"></noscript>
   <link rel="stylesheet" href="/assets/site.css">
   <script src="/assets/site.js" defer></script>
 </head>
