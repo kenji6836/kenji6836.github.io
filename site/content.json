@@ -674,6 +674,7 @@
       "summary": "問い合わせメールを要約・分類し、返信の下書きを AI で作成する支援ツール。建設業向けの分類プロファイル（見積依頼／施工中の連絡／その他）付き。",
       "role": "設計・実装・テスト・業種プロファイル作成",
       "points": [
+        "ブラウザで試せるデモ: 12 件のサンプルを仕分けて、返信の下書きまでその場で作れる",
         "受信メールを「見積依頼」「施工中の連絡」などに自動分類",
         "返信の下書きは人が確認してから送る前提の設計",
         "分類カテゴリは設定ファイルで業種ごとに差し替え可能"
@@ -695,15 +696,35 @@
           "icon": "filter",
           "label": "自動分類"
         },
+        {
+          "icon": "web",
+          "label": "ブラウザで試せるデモ"
+        },
         "shield"
       ],
       "links": [
+        {
+          "label": "デモを開く（架空データ）",
+          "url": "/demo/inquiry/"
+        },
         {
           "label": "GitHub で見る",
           "url": "https://github.com/kenji6836/automation-demos/tree/main/inquiry-reply-assistant"
         }
       ],
       "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/works/inquiry-demo-1.jpg",
+          "alt": "問い合わせの仕分けと返信下書きデモの一覧画面（PC 表示）",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/works/inquiry-demo-2.jpg",
+          "alt": "同デモのスマホ表示",
+          "frame": "phone"
+        },
         {
           "type": "mock",
           "kind": "email",

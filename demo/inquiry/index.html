@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f4f5f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1115" media="(prefers-color-scheme: dark)">
+<title>問い合わせの仕分けと返信下書き（デモ）</title>
+<meta name="description" content="届いた問い合わせを内容で仕分けて、返信の下書きまで用意する業務画面のデモ。架空のサンプル 12 件で、その場で試せます。">
+<style>
+:root{
+  color-scheme: light;
+  --bg:#f4f5f8; --surface:#ffffff; --surface-2:#f7f8fa; --text:#14161a; --text-2:#4b5260; --muted:#7a8190;
+  --line:#e3e6eb; --line-strong:#c9cdd5;
+  --accent:#2a78d6; --accent-ink:#ffffff; --accent-bg:rgba(42,120,214,.10); --accent-text:#1c5cab;
+  --good:#0ca30c; --good-bg:rgba(12,163,12,.12); --good-ink:#0a6b0a;
+  --warn:#fab219; --warn-bg:rgba(250,178,25,.18); --warn-ink:#7a5200;
+  --crit:#d03b3b; --crit-bg:rgba(208,59,59,.12); --crit-ink:#a22a2a;
+  --shadow:0 1px 2px rgba(20,22,26,.05), 0 8px 24px rgba(20,22,26,.06);
+  --radius:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --bg:#0f1115; --surface:#181b21; --surface-2:#1f232a; --text:#f2f3f5; --text-2:#c3c6cc; --muted:#8a8f99;
+    --line:#2b2f37; --line-strong:#3a3f49;
+    --accent:#3987e5; --accent-ink:#ffffff; --accent-bg:rgba(57,135,229,.18); --accent-text:#7fb3f0;
+    --good-bg:rgba(12,163,12,.22); --good-ink:#5fd35f;
+    --warn-bg:rgba(250,178,25,.22); --warn-ink:#ffd166;
+    --crit-bg:rgba(208,59,59,.24); --crit-ink:#ff8a8a;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --bg:#0f1115; --surface:#181b21; --surface-2:#1f232a; --text:#f2f3f5; --text-2:#c3c6cc; --muted:#8a8f99;
+  --line:#2b2f37; --line-strong:#3a3f49;
+  --accent:#3987e5; --accent-ink:#ffffff; --accent-bg:rgba(57,135,229,.18); --accent-text:#7fb3f0;
+  --good-bg:rgba(12,163,12,.22); --good-ink:#5fd35f;
+  --warn-bg:rgba(250,178,25,.22); --warn-ink:#ffd166;
+  --crit-bg:rgba(208,59,59,.24); --crit-ink:#ff8a8a;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:system-ui,-apple-system,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic UI",Meiryo,sans-serif;
+  font-size:15px; line-height:1.6; overflow-x:hidden;
+}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+svg.i{width:1em;height:1em;vertical-align:-.15em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.num{font-variant-numeric:tabular-nums}
+
+.banner{background:var(--accent-bg);color:var(--accent-text);border-bottom:1px solid var(--line);font-size:12.5px}
+.banner span{display:block;max-width:1120px;margin:0 auto;padding:8px 16px}
+
+header.top{max-width:1120px;margin:0 auto;padding:18px 16px 10px;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;justify-content:space-between}
+.brand{display:flex;gap:12px;align-items:center;min-width:0}
+.logo{flex:0 0 auto;width:40px;height:40px;border-radius:11px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-size:20px}
+header h1{margin:0;font-size:21px;line-height:1.25;letter-spacing:.01em}
+header p{margin:2px 0 0;font-size:13px;color:var(--text-2)}
+.meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+
+main{max-width:1120px;margin:0 auto;padding:6px 16px 24px;display:grid;gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.card>*{padding:0 16px}
+.card>*:first-child{padding-top:15px}
+.card>*:last-child{padding-bottom:15px}
+h2{margin:0;font-size:15.5px;letter-spacing:.01em}
+.lead{margin:6px 0 0;font-size:13.5px;color:var(--text-2)}
+
+.btn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line-strong);background:var(--surface);
+  border-radius:10px;padding:8px 13px;font-size:13.5px;font-weight:600;color:var(--text)}
+.btn:hover{border-color:var(--accent);color:var(--accent-text)}
+.btn.small{padding:6px 10px;font-size:12.5px;font-weight:500}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{color:var(--accent-ink);filter:brightness(1.07)}
+.btn.big{padding:13px 20px;font-size:15.5px;border-radius:12px;width:100%;justify-content:center}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+
+/* ---- はじめに ---- */
+.steps{list-style:none;display:flex;flex-wrap:wrap;align-items:stretch;gap:8px;margin:12px 0 0;padding-left:0}
+.steps>li{flex:1 1 150px;display:flex;gap:9px;align-items:flex-start;background:var(--surface-2);border:1px solid var(--line);border-radius:11px;padding:10px 11px}
+.steps>li.arw{flex:0 0 auto;background:none;border:none;align-items:center;padding:0 2px;color:var(--muted)}
+.steps .n{flex:0 0 auto;width:21px;height:21px;border-radius:50%;background:var(--accent);color:var(--accent-ink);
+  display:grid;place-items:center;font-size:12px;font-weight:700}
+.steps .t{display:block;font-size:13.5px;font-weight:700}
+.steps .d{display:block;font-size:12.5px;color:var(--text-2);line-height:1.45}
+.try{margin-top:14px;display:grid;gap:7px;justify-items:center}
+.try .hint{font-size:12.5px;color:var(--muted);text-align:center}
+
+.ba{margin-top:13px;border:1px solid var(--accent);background:var(--accent-bg);border-radius:12px;padding:12px 13px}
+.ba h3{margin:0 0 9px;font-size:13.5px;color:var(--accent-text)}
+.pairs{display:grid;gap:8px}
+.pair{display:flex;flex-wrap:wrap;gap:4px 10px;justify-content:space-between;align-items:baseline;font-size:13.5px}
+.pair .lbl{color:var(--text-2);font-size:12.5px}
+.pair .ln{display:inline-flex;gap:7px;align-items:baseline;flex-wrap:wrap}
+.pair .was{color:var(--muted);text-decoration:line-through}
+.pair .now{font-weight:700}
+.pair .dl{font-size:12px;font-weight:700;color:var(--good-ink);background:var(--good-bg);border-radius:6px;padding:1px 6px}
+.ba .foot{margin-top:11px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--text-2)}
+
+/* ---- 集計 ---- */
+.tiles{display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:760px){.tiles{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.tile{padding:13px 14px}
+.tile .lbl{font-size:12px;color:var(--text-2);display:flex;gap:5px;align-items:center}
+.tile .val{font-size:23px;font-weight:700;line-height:1.2;margin-top:3px}
+.tile .sub{font-size:12px;color:var(--muted);margin-top:2px}
+.tile.crit .val{color:var(--crit-ink)} .tile.warn .val{color:var(--warn-ink)} .tile.good .val{color:var(--good-ink)}
+
+/* ---- 一覧と中身 ---- */
+.split{display:grid;gap:14px}
+@media (min-width:980px){.split{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);align-items:start}}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line-strong);background:var(--surface);border-radius:999px;padding:5px 11px;font-size:12.5px}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.rows{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}
+.row{width:100%;text-align:left;border:1px solid var(--line);background:var(--surface-2);border-radius:11px;padding:10px 11px;display:grid;gap:4px}
+.row:hover{border-color:var(--accent)}
+.row[aria-current="true"]{border-color:var(--accent);background:var(--accent-bg)}
+.row .r1{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.row .who{font-weight:700;font-size:13.5px}
+.row .ago{margin-left:auto;font-size:12px;color:var(--muted)}
+.row .sub{font-size:13px;color:var(--text-2);overflow-wrap:anywhere}
+.row .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px}
+.tag{font-size:11.5px;font-weight:700;border-radius:6px;padding:1px 7px;border:1px solid transparent}
+.tag.quote{background:var(--accent-bg);color:var(--accent-text)}
+.tag.onsite{background:var(--warn-bg);color:var(--warn-ink)}
+.tag.other{background:var(--surface);color:var(--text-2);border-color:var(--line-strong)}
+.tag.new{background:var(--crit-bg);color:var(--crit-ink)}
+.tag.draft{background:var(--good-bg);color:var(--good-ink)}
+.tag.sent{background:var(--surface);color:var(--muted);border-color:var(--line-strong)}
+.empty{font-size:13px;color:var(--muted);padding:14px 0 2px}
+
+.mail{font-size:13.5px;color:var(--text-2);white-space:pre-wrap;overflow-wrap:anywhere;background:var(--surface-2);
+  border:1px solid var(--line);border-radius:11px;padding:11px 12px;margin:9px 0 0}
+.why{margin:10px 0 0;font-size:12.5px;color:var(--text-2);background:var(--surface-2);border:1px dashed var(--line-strong);
+  border-radius:11px;padding:10px 12px}
+.why b{color:var(--text)}
+.why mark{background:var(--warn-bg);color:var(--warn-ink);border-radius:4px;padding:0 3px;font-weight:700}
+.why ul{margin:6px 0 0;padding-left:1.1em}
+.why li{margin-top:3px}
+.replybox{width:100%;min-height:200px;border:1px solid var(--line-strong);border-radius:11px;padding:11px 12px;
+  background:var(--surface-2);font-size:13.5px;line-height:1.7;resize:vertical;margin-top:9px}
+.acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.note{font-size:12px;color:var(--muted);margin-top:8px}
+.sec-h{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.sec-h .k{font-size:12px;color:var(--muted)}
+
+footer{max-width:1120px;margin:0 auto;padding:0 16px 30px;font-size:12px;color:var(--muted)}
+footer a{color:var(--accent-text)}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="banner" role="note">
+  <span><b>デモモード</b>　架空のサンプル 12 件・操作はブラウザ内だけで完結（保存されません）</span>
+</div>
+
+<header class="top">
+  <div class="brand">
+    <div class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div>
+    <div>
+      <h1>問い合わせの仕分けと返信下書き</h1>
+      <p>届いた問い合わせを内容で仕分けて、返信の下書きまで用意します</p>
+    </div>
+  </div>
+  <div class="meta">
+    <span>基準日 <b class="num" id="today"></b></span>
+    <button class="btn small" id="btnReset" type="button"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>サンプルを戻す</button>
+  </div>
+</header>
+
+<main>
+  <section class="card guide" aria-labelledby="guideH">
+    <h2 id="guideH">この画面でできること</h2>
+    <p class="lead">やることは 3 つだけです。下のボタンひとつで、①〜③がその場で起きます。</p>
+    <ol class="steps">
+      <li><span class="n">1</span><span><span class="t">届いた用件を見る</span><span class="d">まだ返していない問い合わせを確認</span></span></li>
+      <li class="arw" aria-hidden="true"><svg class="i" viewBox="0 0 24 24" style="width:20px;height:20px"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></li>
+      <li><span class="n">2</span><span><span class="t">中身で仕分ける</span><span class="d">お見積り・工事中の連絡・その他へ</span></span></li>
+      <li class="arw" aria-hidden="true"><svg class="i" viewBox="0 0 24 24" style="width:20px;height:20px"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></li>
+      <li><span class="n">3</span><span><span class="t">返信の下書きができる</span><span class="d">直して送るだけの文面に</span></span></li>
+    </ol>
+    <div class="try">
+      <button class="btn primary big" id="btnTry" type="button"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>サンプル 1 件を仕分けて下書きを作る</button>
+      <span class="hint">いちばん長く待たせている 1 件を処理します</span>
+      <button class="btn small" id="btnAll" type="button">残り全部をまとめて仕分ける</button>
+    </div>
+    <div class="ba" id="baBox" hidden>
+      <h3 id="baHead"></h3>
+      <div class="pairs">
+        <div class="pair">
+          <span class="lbl">まだ手をつけていない件数</span>
+          <span class="ln"><span class="was num" id="baOpenWas"></span><span aria-hidden="true">→</span><span class="now num" id="baOpenNow"></span><span class="dl" id="baOpenDelta"></span></span>
+        </div>
+        <div class="pair">
+          <span class="lbl">手つかずのうち、いちばん長い待ち</span>
+          <span class="ln"><span class="was num" id="baWaitWas"></span><span aria-hidden="true">→</span><span class="now num" id="baWaitNow"></span><span class="dl" id="baWaitDelta"></span></span>
+        </div>
+      </div>
+      <div class="foot">
+        <span id="baNote"></span>
+        <button class="btn small" id="btnTryUndo" type="button">元に戻す</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="tiles" aria-label="集計">
+    <div class="card tile crit">
+      <div class="lbl"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4m0 4h.01M10.3 3.9 2.5 17.5A2 2 0 0 0 4.2 20.5h15.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>まだ返していない</div>
+      <div class="val num" data-v="openCount">0</div>
+      <div class="sub" data-v="openSub"></div>
+    </div>
+    <div class="card tile warn">
+      <div class="lbl"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>手つかずの最長の待ち</div>
+      <div class="val num" data-v="waitMax">0</div>
+      <div class="sub" data-v="waitSub"></div>
+    </div>
+    <div class="card tile good">
+      <div class="lbl"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>下書きができた</div>
+      <div class="val num" data-v="draftCount">0</div>
+      <div class="sub" data-v="draftSub"></div>
+    </div>
+    <div class="card tile">
+      <div class="lbl"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 3 18 9-18 9 4-9z"/></svg>返信ずみ</div>
+      <div class="val num" data-v="sentCount">0</div>
+      <div class="sub" data-v="sentSub"></div>
+    </div>
+  </section>
+
+  <div class="split">
+    <section class="card" aria-labelledby="listH">
+      <div class="sec-h"><h2 id="listH">届いた問い合わせ</h2><span class="k" id="listCount"></span></div>
+      <div style="padding-top:10px">
+        <div class="chips" id="chips" role="group" aria-label="種類で絞り込み"></div>
+        <ul class="rows" id="rows"></ul>
+        <p class="empty" id="listEmpty" hidden>この条件に当てはまる問い合わせはありません。</p>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="detailH" id="detail">
+      <div class="sec-h"><h2 id="detailH">中身と返信の下書き</h2><span class="k" id="detailKey"></span></div>
+      <div id="detailBody" style="padding-top:2px"></div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  架空の会社・氏名・案件によるデモです。入力した内容はこの画面の中だけで扱われ、どこにも送られません。
+  <a href="/">制作者のページへ戻る</a>
+</footer>
+
+<script>
+/* ===== サンプル（架空） =====
+   h: 受け取ってから何時間たったか（基準日からの相対） */
+const SEED = [
+  { id:'Q-1041', who:'田中 建設 株式会社 / 田中 誠', mail:'tanaka@example.co.jp', h:31,
+    subject:'倉庫の外壁塗装について', body:'はじめまして。所有している倉庫（鉄骨 2 階建て・延床 480 ㎡）の外壁塗装をお願いしたく連絡しました。\n年内の着工を希望しています。お見積りをいただけますでしょうか。予算は 300 万円ほどを考えています。\n現地は江東区で、平日でしたらいつでも立ち会えます。' },
+  { id:'Q-1042', who:'佐藤 里奈', mail:'sato.rina@example.com', h:26,
+    subject:'工事中の駐車場所のご相談', body:'先週から自宅の外構工事をお願いしている佐藤です。\n作業車の駐車場所ですが、月曜から向かいの月極が使えなくなりました。別の場所をご相談したいです。\n現場の担当の方にもお伝えしていますが、念のためこちらにも連絡しています。' },
+  { id:'Q-1043', who:'株式会社 みどり不動産 / 山本', mail:'yamamoto@example.co.jp', h:22,
+    subject:'アパート共用部の改修費用の目安', body:'管理しているアパート（8 戸）の共用廊下と階段の改修について、概算の費用を知りたいです。\n鉄部の錆が目立ってきたため、塗装と一部の手すりの交換を想定しています。\nまずは金額の目安だけでもいただけると助かります。' },
+  { id:'Q-1044', who:'匿名希望', mail:'noreply@example.net', h:19,
+    subject:'求人について', body:'採用は行っていますか。現場監督の経験が 5 年あります。\n募集要項があれば送ってください。' },
+  { id:'Q-1045', who:'小林 工務店 / 小林 健一', mail:'kobayashi@example.co.jp', h:14,
+    subject:'【至急】水漏れの応急対応をお願いしたい', body:'施工いただいた店舗の 2 階トイレ付近で水漏れが出ています。営業中のため至急みていただきたいです。\n本日中に来ていただくことは可能でしょうか。電話 090-0000-0000 にご連絡ください。' },
+  { id:'Q-1046', who:'株式会社 ひかり商会 / 鈴木 洋子', mail:'suzuki@example.co.jp', h:11,
+    subject:'事務所の間仕切り工事の見積依頼', body:'事務所（約 60 ㎡）にガラスの間仕切りを 2 か所つくりたいと考えています。\n来月中の完了を希望します。図面はありませんが、簡単な手書きの案はあります。\n見積をお願いできますか。' },
+  { id:'Q-1047', who:'渡辺 明', mail:'watanabe@example.com', h:8,
+    subject:'先日の工事のお礼', body:'先月お願いした浴室の改修、家族にも好評です。ありがとうございました。\nまた何かあればよろしくお願いします。' },
+  { id:'Q-1048', who:'中村 商事 株式会社 / 中村 大輔', mail:'nakamura@example.co.jp', h:6,
+    subject:'工程の変更についてのご連絡', body:'現在お願いしている倉庫の内装ですが、こちらの都合で 11 月 10 日の搬入が 1 週間後ろになりそうです。\n工程に影響が出るか教えてください。' },
+  { id:'Q-1049', who:'高橋 由美', mail:'takahashi@example.com', h:4,
+    subject:'キッチンの入れ替えの費用', body:'築 25 年の戸建てで、キッチンの入れ替えを検討しています。\n本体と工事をあわせて、いくらくらいかかるものでしょうか。予算は 150 万円までです。\n来週末に現地を見ていただくことはできますか。' },
+  { id:'Q-1050', who:'伊藤 総業 / 伊藤', mail:'ito@example.co.jp', h:3,
+    subject:'請求書の宛名の変更', body:'先日いただいた請求書ですが、宛名を「伊藤総業株式会社」に直していただけますか。\n金額と内容はそのままで問題ありません。' },
+  { id:'Q-1051', who:'株式会社 あおぞら / 松本', mail:'matsumoto@example.co.jp', h:2,
+    subject:'防水工事の相場を教えてください', body:'屋上の防水工事を考えています。面積は 200 ㎡ほどです。\n相場感と、御社にお願いした場合のお見積りをお願いします。急ぎではありません。' },
+  { id:'Q-1052', who:'営業のご案内', mail:'info@example-ad.net', h:1,
+    subject:'集客支援サービスのご提案', body:'貴社の集客を支援するサービスのご案内です。初期費用無料でお試しいただけます。\nご興味があればご返信ください。' },
+];
+
+/* ===== 仕分けの規則（見える形で持つ） ===== */
+const KINDS = {
+  quote:  { label:'お見積りのご依頼', cls:'quote',  words:['お見積り','見積','相場','概算','いくら','ご予算','予算は','目安'] },
+  onsite: { label:'工事中のご連絡',   cls:'onsite', words:['工事中','現場','工程','搬入','水漏れ','施工いただ','お願いしている','作業車','営業中'] },
+  other:  { label:'その他',           cls:'other',  words:[] },
+};
+/* 「費用」「金額」という言葉だけで見積の依頼と決めないための除外 */
+const STOP = [
+  { w:'請求書',   why:'すでにお出しした請求書についてのご連絡のため' },
+  { w:'求人',     why:'採用についてのお問い合わせのため' },
+  { w:'採用',     why:'採用についてのお問い合わせのため' },
+  { w:'ご提案',   why:'こちらへの営業のご案内のため' },
+  { w:'ご案内です', why:'こちらへの営業のご案内のため' },
+];
+const URGENT = ['至急','本日中','急ぎ','営業中','水漏れ'];
+const NOT_URGENT = ['急ぎではありません'];
+
+function classify(q){
+  const t = q.subject + '\n' + q.body;
+  const stop = STOP.find(s => t.includes(s.w));
+  const hits = {};
+  for (const k of ['quote','onsite']) hits[k] = KINDS[k].words.filter(w => t.includes(w));
+  let kind = 'other';
+  if (!stop){
+    if (hits.quote.length && hits.quote.length >= hits.onsite.length) kind = 'quote';
+    else if (hits.onsite.length) kind = 'onsite';
+  }
+  const notU = NOT_URGENT.filter(w => t.includes(w));
+  const urg = notU.length ? [] : URGENT.filter(w => t.includes(w));
+  return { kind, hits: kind === 'other' ? [] : hits[kind], stop: stop || null, urgent: urg.length > 0, urgentWords: urg, notUrgent: notU };
+}
+
+/* ===== 返信の下書き ===== */
+const person = who => {
+  const p = who.split('/').map(s => s.trim());
+  const name = p.length > 1 ? p[1] : p[0];
+  return (p.length > 1 ? p[0] + '\n' + name + ' 様' : name + ' 様');
+};
+function pick(body, re){ const m = body.match(re); return m ? m[0] : null; }
+
+function draftFor(q, c){
+  const head = person(q.who) + '\n\nお世話になっております。〇〇工務店の△△でございます。\nこのたびはお問い合わせをいただき、ありがとうございます。\n\n';
+  const foot = '\n\n何かご不明な点がございましたら、このメールにご返信ください。\nどうぞよろしくお願いいたします。\n\n――――――――――――\n〇〇工務店　△△ △△\n電話 03-0000-0000（平日 9:00〜18:00）\n――――――――――――';
+  const money = pick(q.body, /[0-9０-９]+\s*万円/);
+  const area  = pick(q.body, /[0-9０-９]+\s*(?:㎡|平米)/);
+  if (c.kind === 'quote'){
+    let s = '「' + q.subject + '」の件、お見積りのご依頼として承りました。\n\n';
+    s += '下記の内容で進めさせていただきます。\n';
+    s += '・概算のお見積り：3 営業日以内にお送りします\n';
+    s += '・正式なお見積り：現地を確認のうえ、1 週間以内にお出しします\n';
+    if (area)  s += '・いただいた面積（' + area + '）をもとに試算いたします\n';
+    if (money) s += '・ご予算（' + money + '）は承知しました。おさまる形をご提案します\n';
+    s += '\nつきましては、現地を見せていただく日時をご希望の候補で 2 つほどお知らせいただけますでしょうか。';
+    return head + s + foot;
+  }
+  if (c.kind === 'onsite'){
+    let s = '「' + q.subject + '」の件、承知いたしました。\n\n';
+    if (c.urgent){
+      s += 'お急ぎの内容と受け取りましたので、担当者が本日中にお電話いたします。\n';
+      s += 'それまでの応急の対応として、水まわりであれば元栓をお閉めいただけますと被害が広がりません。\n';
+    } else {
+      s += '現場の担当者に共有し、本日中に折り返しご連絡いたします。\n';
+      s += '工程に影響が出る場合は、あわせて修正後の予定表をお送りします。\n';
+    }
+    return head + s + foot;
+  }
+  let s = '「' + q.subject + '」の件、確かに拝受いたしました。\n\n';
+  s += '担当者が内容を確認のうえ、2 営業日以内にあらためてご連絡いたします。\n';
+  return head + s + foot;
+}
+
+/* ===== 状態 ===== */
+const $  = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const NOW = new Date('2026-09-23T10:00:00+09:00');
+
+let items = [], filter = 'all', selected = null, lastTry = null;
+
+function reset(){
+  items = SEED.map(q => ({ ...q, status:'new', cls:null, draft:null }));
+  filter = 'all'; lastTry = null;
+  selected = [...items].sort((a, b) => b.h - a.h)[0].id;  /* 右側が空のままにならないよう、いちばん古い 1 件を開いておく */
+  $('#baBox').hidden = true;
+  render();
+}
+const openItems  = () => items.filter(q => q.status !== 'sent');
+const untouched  = () => items.filter(q => q.status === 'new');
+const waitMaxH   = () => untouched().reduce((m, q) => Math.max(m, q.h), 0);
+const hLabel     = h => h >= 24 ? (Math.floor(h / 24) + ' 日 ' + (h % 24) + ' 時間') : (h + ' 時間');
+const agoLabel   = h => h >= 24 ? (Math.floor(h / 24) + ' 日前') : (h + ' 時間前');
+
+/* ===== 1 件を処理する（大きいボタン） ===== */
+function triage(q){
+  const c = classify(q);
+  q.cls = c;
+  q.draft = draftFor(q, c);
+  q.status = 'drafted';
+  return c;
+}
+
+$('#btnTry').addEventListener('click', () => {
+  const pool = untouched().sort((a, b) => b.h - a.h);
+  if (!pool.length) return;
+  const q = pool[0];
+  const before = { open: untouched().length, wait: waitMaxH(), drafts: items.filter(x => x.status === 'drafted').length };
+  triage(q);
+  const after = { open: untouched().length, wait: waitMaxH(), drafts: items.filter(x => x.status === 'drafted').length };
+  lastTry = { ids:[q.id], before, after };
+  selected = q.id;
+  showBA(q, before, after);
+  render();
+  $('#detail').scrollIntoView({ behavior:'smooth', block:'start' });
+});
+
+function showBA(q, before, after){
+  $('#baHead').textContent = q.id + '「' + q.subject + '」を ' + KINDS[q.cls.kind].label + ' に仕分けて、下書きを用意しました';
+  $('#baOpenWas').textContent = before.open + ' 件';
+  $('#baOpenNow').textContent = after.open + ' 件';
+  $('#baOpenDelta').textContent = '下書き ' + after.drafts + ' 件';
+  $('#baWaitWas').textContent = hLabel(before.wait);
+  $('#baWaitNow').textContent = hLabel(after.wait);
+  const d = before.wait - after.wait;
+  $('#baWaitDelta').textContent = d > 0 ? ('−' + hLabel(d)) : '変化なし';
+  $('#baNote').textContent = '下の「中身と返信の下書き」に文面が出ています。直してそのまま送れます。';
+  $('#baBox').hidden = false;
+}
+
+$('#btnTryUndo').addEventListener('click', () => {
+  if (!lastTry) return;
+  for (const id of lastTry.ids){
+    const q = items.find(x => x.id === id);
+    if (q){ q.status = 'new'; q.cls = null; q.draft = null; }
+  }
+  lastTry = null;
+  $('#baBox').hidden = true;
+  render();
+});
+$('#btnAll').addEventListener('click', () => {
+  const pool = untouched();
+  if (!pool.length) return;
+  const before = { open: untouched().length, wait: waitMaxH(), drafts: items.filter(x => x.status === 'drafted').length };
+  pool.forEach(triage);
+  const after = { open: untouched().length, wait: waitMaxH(), drafts: items.filter(x => x.status === 'drafted').length };
+  lastTry = { ids: pool.map(q => q.id), before, after };
+  $('#baHead').textContent = pool.length + ' 件をまとめて仕分けて、返信の下書きを用意しました';
+  $('#baOpenWas').textContent = before.open + ' 件';
+  $('#baOpenNow').textContent = after.open + ' 件';
+  $('#baOpenDelta').textContent = '下書き ' + after.drafts + ' 件';
+  $('#baWaitWas').textContent = hLabel(before.wait);
+  $('#baWaitNow').textContent = after.open ? hLabel(after.wait) : '手つかずなし';
+  $('#baWaitDelta').textContent = '−' + hLabel(before.wait - after.wait);
+  $('#baNote').textContent = '一覧の「お見積り」「工事中の連絡」で絞り込めます。1 件ずつ中身を見て、直して送れます。';
+  $('#baBox').hidden = false;
+  render();
+});
+$('#btnReset').addEventListener('click', reset);
+
+/* ===== 絞り込み ===== */
+const FILTERS = [
+  { id:'all',    label:'すべて',           f: () => true },
+  { id:'new',    label:'手つかず',         f: q => q.status === 'new' },
+  { id:'quote',  label:'お見積り',         f: q => q.cls && q.cls.kind === 'quote' },
+  { id:'onsite', label:'工事中の連絡',     f: q => q.cls && q.cls.kind === 'onsite' },
+  { id:'draft',  label:'下書きあり',       f: q => q.status === 'drafted' },
+  { id:'sent',   label:'返信ずみ',         f: q => q.status === 'sent' },
+];
+
+/* ===== 描画 ===== */
+function render(){
+  $('#today').textContent = '2026/09/23';
+  const open = openItems(), drafts = items.filter(q => q.status === 'drafted'), sent = items.filter(q => q.status === 'sent');
+  const newOnes = untouched();
+  const set = (k, v) => { const el = $('[data-v="' + k + '"]'); if (el) el.textContent = v; };
+  set('openCount', open.length + ' 件');
+  set('openSub', '未着手 ' + newOnes.length + ' 件 ・ 下書きずみ ' + drafts.length + ' 件');
+  set('waitMax', newOnes.length ? hLabel(waitMaxH()) : '—');
+  set('waitSub', newOnes.length ? 'まだ手をつけていないものの最長の待ち' : '手つかずはありません');
+  set('draftCount', drafts.length + ' 件');
+  set('draftSub', drafts.length ? '確認して送るだけの状態です' : '上のボタンで作れます');
+  set('sentCount', sent.length + ' 件');
+  set('sentSub', sent.length ? 'この画面から返信したもの' : 'まだありません');
+
+  const chips = $('#chips');
+  chips.innerHTML = FILTERS.map(f => {
+    const n = items.filter(f.f).length;
+    return '<button class="chip" type="button" data-f="' + f.id + '" aria-pressed="' + (filter === f.id) + '">' + esc(f.label) + ' <span class="num">' + n + '</span></button>';
+  }).join('');
+  $$('.chip', chips).forEach(b => b.addEventListener('click', () => { filter = b.dataset.f; selected = null; render(); }));
+
+  const flt = FILTERS.find(f => f.id === filter);
+  const list = items.filter(flt.f).sort((a, b) => b.h - a.h);
+  $('#listCount').textContent = list.length + ' 件を表示';
+  $('#listEmpty').hidden = list.length > 0;
+  $('#rows').innerHTML = list.map(q => {
+    const tags = [];
+    if (q.cls) tags.push('<span class="tag ' + KINDS[q.cls.kind].cls + '">' + KINDS[q.cls.kind].label + '</span>');
+    if (q.cls && q.cls.urgent) tags.push('<span class="tag new">お急ぎ</span>');
+    if (q.status === 'new')     tags.push('<span class="tag new">未着手</span>');
+    if (q.status === 'drafted') tags.push('<span class="tag draft">下書きあり</span>');
+    if (q.status === 'sent')    tags.push('<span class="tag sent">返信ずみ</span>');
+    return '<li><button class="row" type="button" data-id="' + q.id + '" aria-current="' + (selected === q.id) + '">' +
+      '<span class="r1"><span class="who">' + esc(q.who) + '</span><span class="ago num">' + (q.status === 'sent' ? '返信ずみ' : agoLabel(q.h)) + '</span></span>' +
+      '<span class="sub">' + esc(q.subject) + '</span>' +
+      '<span class="tags">' + tags.join('') + '</span></button></li>';
+  }).join('');
+  $$('.row').forEach(b => b.addEventListener('click', () => { selected = b.dataset.id; render(); }));
+
+  renderDetail();
+}
+
+function renderDetail(){
+  const body = $('#detailBody'), key = $('#detailKey');
+  const q = items.find(x => x.id === selected);
+  if (!q){
+    key.textContent = '';
+    body.innerHTML = '<p class="empty">上の大きなボタンを押すか、一覧から 1 件選んでください。選んだ問い合わせの中身と、返信の下書きがここに出ます。</p>';
+    return;
+  }
+  key.textContent = q.id;
+  const c = q.cls;
+  let html = '<p class="note">' + esc(q.who) + '　&lt;' + esc(q.mail) + '&gt;　' + (q.status === 'sent' ? '返信ずみ' : agoLabel(q.h) + 'に受信') + '</p>';
+  html += '<div class="mail"><b>' + esc(q.subject) + '</b>\n\n' + esc(q.body) + '</div>';
+
+  if (!c){
+    html += '<div class="acts"><button class="btn primary" type="button" id="btnOne">この 1 件を仕分けて下書きを作る</button></div>';
+    body.innerHTML = html;
+    $('#btnOne').addEventListener('click', () => {
+      const before = { open: untouched().length, wait: waitMaxH(), drafts: items.filter(x => x.status === 'drafted').length };
+      triage(q);
+      const after = { open: untouched().length, wait: waitMaxH(), drafts: items.filter(x => x.status === 'drafted').length };
+      lastTry = { ids:[q.id], before, after };
+      showBA(q, before, after); render();
+    });
+    return;
+  }
+
+  html += '<div class="why"><b>' + esc(KINDS[c.kind].label) + '</b> に仕分けた理由';
+  if (c.hits.length){
+    html += '<ul><li>本文にこの言葉がありました：' + c.hits.map(w => '<mark>' + esc(w) + '</mark>').join('　') + '</li>';
+  } else if (c.stop){
+    html += '<ul><li><mark>' + esc(c.stop.w) + '</mark> という言葉があり、' + esc(c.stop.why) + '、お見積りの依頼から外しました</li>';
+  } else {
+    html += '<ul><li>お見積りにも工事中の連絡にも当てはまる言葉がありませんでした</li>';
+  }
+  if (c.urgent)         html += '<li>お急ぎと判断：' + c.urgentWords.map(w => '<mark>' + esc(w) + '</mark>').join('　') + '</li>';
+  else if (c.notUrgent.length) html += '<li>ご本人が「' + esc(c.notUrgent[0]) + '」と書かれているため、急ぎの扱いにしていません</li>';
+  html += '</ul><span style="color:var(--muted)">仕分けの言葉は業種ごとに差し替えられます（この例は工務店向け）。</span></div>';
+
+  html += '<label class="sr" for="draftBox">返信の下書き</label>';
+  html += '<textarea class="replybox" id="draftBox"' + (q.status === 'sent' ? ' readonly' : '') + '>' + esc(q.draft) + '</textarea>';
+  html += '<div class="acts">';
+  if (q.status === 'sent'){
+    html += '<span class="note" style="margin:0">この問い合わせは返信ずみです。</span>' +
+            '<button class="btn small" type="button" id="btnUnsend">返信ずみを取り消す</button>';
+  } else {
+    html += '<button class="btn primary" type="button" id="btnSend">この内容で返信する</button>' +
+            '<button class="btn" type="button" id="btnCopy">文面をコピー</button>' +
+            '<button class="btn small" type="button" id="btnRedo">下書きを作り直す</button>';
+  }
+  html += '</div><p class="note" id="actNote">送信はしません。デモなので、押しても画面の中だけが変わります。</p>';
+  body.innerHTML = html;
+
+  const ta = $('#draftBox');
+  if (ta) ta.addEventListener('input', () => { q.draft = ta.value; });
+  const sendBtn = $('#btnSend');
+  if (sendBtn) sendBtn.addEventListener('click', () => { q.status = 'sent'; $('#baBox').hidden = true; render(); });
+  const unsend = $('#btnUnsend');
+  if (unsend) unsend.addEventListener('click', () => { q.status = 'drafted'; render(); });
+  const redo = $('#btnRedo');
+  if (redo) redo.addEventListener('click', () => { q.draft = draftFor(q, q.cls); render(); });
+  const copy = $('#btnCopy');
+  if (copy) copy.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(q.draft); $('#actNote').textContent = '文面をコピーしました。メールソフトに貼り付けてお使いください。'; }
+    catch { $('#actNote').textContent = 'この環境ではコピーできませんでした。文面を選んでコピーしてください。'; }
+  });
+}
+
+reset();
+</script>
+</body>
+</html>
