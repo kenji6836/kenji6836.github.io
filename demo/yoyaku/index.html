@@ -1,0 +1,811 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f4f5f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1115" media="(prefers-color-scheme: dark)">
+<title>予約の受け付けと枠入れ（デモ）</title>
+<meta name="description" content="LINE・メール・電話メモで届いた予約希望を読み取り、空いている枠に入れて確認の返信まで用意する業務画面のデモ。架空のサンプル 12 件で、その場で試せます。二重予約は作りません。">
+<style>
+:root{
+  color-scheme: light;
+  --bg:#f4f5f8; --surface:#ffffff; --surface-2:#f7f8fa; --text:#14161a; --text-2:#4b5260; --muted:#7a8190;
+  --line:#e3e6eb; --line-strong:#c9cdd5;
+  --accent:#2a78d6; --accent-ink:#ffffff; --accent-bg:rgba(42,120,214,.10); --accent-text:#1c5cab;
+  --good:#0ca30c; --good-bg:rgba(12,163,12,.12); --good-ink:#0a6b0a;
+  --warn:#fab219; --warn-bg:rgba(250,178,25,.18); --warn-ink:#7a5200;
+  --crit:#d03b3b; --crit-bg:rgba(208,59,59,.12); --crit-ink:#a22a2a;
+  --shadow:0 1px 2px rgba(20,22,26,.05), 0 8px 24px rgba(20,22,26,.06);
+  --radius:14px;
+  --ppm:0.9;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --bg:#0f1115; --surface:#181b21; --surface-2:#1f232a; --text:#f2f3f5; --text-2:#c3c6cc; --muted:#8a8f99;
+    --line:#2b2f37; --line-strong:#3a3f49;
+    --accent:#3987e5; --accent-ink:#ffffff; --accent-bg:rgba(57,135,229,.18); --accent-text:#7fb3f0;
+    --good-bg:rgba(12,163,12,.22); --good-ink:#5fd35f;
+    --warn-bg:rgba(250,178,25,.22); --warn-ink:#ffd166;
+    --crit-bg:rgba(208,59,59,.24); --crit-ink:#ff8a8a;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --bg:#0f1115; --surface:#181b21; --surface-2:#1f232a; --text:#f2f3f5; --text-2:#c3c6cc; --muted:#8a8f99;
+  --line:#2b2f37; --line-strong:#3a3f49;
+  --accent:#3987e5; --accent-ink:#ffffff; --accent-bg:rgba(57,135,229,.18); --accent-text:#7fb3f0;
+  --good-bg:rgba(12,163,12,.22); --good-ink:#5fd35f;
+  --warn-bg:rgba(250,178,25,.22); --warn-ink:#ffd166;
+  --crit-bg:rgba(208,59,59,.24); --crit-ink:#ff8a8a;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:system-ui,-apple-system,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic UI",Meiryo,sans-serif;
+  font-size:15px; line-height:1.6; overflow-x:hidden;
+}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+svg.i{width:1em;height:1em;vertical-align:-.15em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.num{font-variant-numeric:tabular-nums}
+
+.banner{background:var(--accent-bg);color:var(--accent-text);border-bottom:1px solid var(--line);font-size:12.5px}
+.banner span{display:block;max-width:1120px;margin:0 auto;padding:8px 16px}
+
+header.top{max-width:1120px;margin:0 auto;padding:18px 16px 10px;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;justify-content:space-between}
+.brand{display:flex;gap:12px;align-items:center;min-width:0}
+.logo{flex:0 0 auto;width:40px;height:40px;border-radius:11px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-size:20px}
+header h1{margin:0;font-size:21px;line-height:1.25;letter-spacing:.01em}
+header p{margin:2px 0 0;font-size:13px;color:var(--text-2)}
+.meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+
+main{max-width:1120px;margin:0 auto;padding:6px 16px 24px;display:grid;gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.card>*{padding:0 16px}
+.card>*:first-child{padding-top:15px}
+.card>*:last-child{padding-bottom:15px}
+h2{margin:0;font-size:15.5px;letter-spacing:.01em}
+.lead{margin:6px 0 0;font-size:13.5px;color:var(--text-2)}
+
+.btn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line-strong);background:var(--surface);
+  border-radius:10px;padding:8px 13px;font-size:13.5px;font-weight:600;color:var(--text)}
+.btn:hover{border-color:var(--accent);color:var(--accent-text)}
+.btn.small{padding:6px 10px;font-size:12.5px;font-weight:500}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{color:var(--accent-ink);filter:brightness(1.07)}
+.btn.big{padding:13px 20px;font-size:15.5px;border-radius:12px;width:100%;justify-content:center}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+
+/* ---- はじめに ---- */
+.steps{list-style:none;display:flex;flex-wrap:wrap;align-items:stretch;gap:8px;margin:12px 0 0;padding-left:0}
+.steps>li{flex:1 1 150px;display:flex;gap:9px;align-items:flex-start;background:var(--surface-2);border:1px solid var(--line);border-radius:11px;padding:10px 11px}
+.steps>li.arw{flex:0 0 auto;background:none;border:none;align-items:center;padding:0 2px;color:var(--muted)}
+.steps .n{flex:0 0 auto;width:21px;height:21px;border-radius:50%;background:var(--accent);color:var(--accent-ink);
+  display:grid;place-items:center;font-size:12px;font-weight:700}
+.steps .t{display:block;font-size:13.5px;font-weight:700}
+.steps .d{display:block;font-size:12.5px;color:var(--text-2);line-height:1.45}
+.try{margin-top:14px;display:grid;gap:7px;justify-items:center}
+.try .hint{font-size:12.5px;color:var(--muted);text-align:center}
+
+.ba{margin-top:13px;border:1px solid var(--accent);background:var(--accent-bg);border-radius:12px;padding:12px 13px}
+.ba h3{margin:0 0 9px;font-size:13.5px;color:var(--accent-text)}
+.pairs{display:grid;gap:8px}
+.pair{display:flex;flex-wrap:wrap;gap:4px 10px;justify-content:space-between;align-items:baseline;font-size:13.5px}
+.pair .lbl{color:var(--text-2);font-size:12.5px}
+.pair .ln{display:inline-flex;gap:7px;align-items:baseline;flex-wrap:wrap}
+.pair .was{color:var(--muted);text-decoration:line-through}
+.pair .now{font-weight:700}
+.pair .dl{font-size:12px;font-weight:700;color:var(--good-ink);background:var(--good-bg);border-radius:6px;padding:1px 6px}
+.ba .foot{margin-top:11px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--text-2)}
+
+/* ---- 集計 ---- */
+.tiles{display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:760px){.tiles{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.tile{padding:13px 14px}
+.tile .lbl{font-size:12px;color:var(--text-2);display:flex;gap:5px;align-items:center}
+.tile .val{font-size:23px;font-weight:700;line-height:1.2;margin-top:3px}
+.tile .sub{font-size:12px;color:var(--muted);margin-top:2px}
+.tile.crit .val{color:var(--crit-ink)} .tile.warn .val{color:var(--warn-ink)} .tile.good .val{color:var(--good-ink)}
+
+/* ---- 予定表 ---- */
+.days{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.cal{margin-top:11px;display:grid;grid-template-columns:38px minmax(0,1fr) minmax(0,1fr);gap:0 8px}
+.cal .chd{font-size:12px;font-weight:700;color:var(--text-2);padding-bottom:5px;text-align:center}
+.cal .chd .free{display:block;font-size:12px;font-weight:500;color:var(--muted)}
+.gut{position:relative;height:calc(540px * var(--ppm))}
+.gut span{position:absolute;right:0;transform:translateY(-50%);font-size:12px;color:var(--muted);line-height:1}
+.colw{position:relative;height:calc(540px * var(--ppm));border:1px solid var(--line);border-radius:10px;background:var(--surface-2);overflow:hidden}
+.hr{position:absolute;left:0;right:0;border-top:1px solid var(--line);pointer-events:none}
+.blk{position:absolute;left:3px;right:3px;border-radius:7px;padding:2px 5px;font-size:12px;line-height:1.25;overflow:hidden;
+  border:1px solid var(--line-strong);background:var(--surface);color:var(--text-2)}
+.blk b{display:block;font-size:12px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.blk.rest{background:repeating-linear-gradient(45deg,var(--surface-2),var(--surface-2) 5px,var(--line) 5px,var(--line) 6px);color:var(--muted)}
+.blk.newb{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.blk.newb b{color:var(--accent-ink)}
+.blk.pick{outline:2px solid var(--crit);outline-offset:1px}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:9px;font-size:12px;color:var(--text-2)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:-1px;margin-right:4px;border:1px solid var(--line-strong)}
+.legend i.a{background:var(--accent);border-color:var(--accent)}
+.legend i.b{background:var(--surface)}
+.legend i.c{background:repeating-linear-gradient(45deg,var(--surface-2),var(--surface-2) 4px,var(--line) 4px,var(--line) 5px)}
+
+/* ---- 一覧と中身 ---- */
+.split{display:grid;gap:14px}
+@media (min-width:980px){.split{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);align-items:start}}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line-strong);background:var(--surface);border-radius:999px;padding:5px 11px;font-size:12.5px}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.rows{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}
+.row{width:100%;text-align:left;border:1px solid var(--line);background:var(--surface-2);border-radius:11px;padding:10px 11px;display:grid;gap:4px}
+.row:hover{border-color:var(--accent)}
+.row[aria-current="true"]{border-color:var(--accent);background:var(--accent-bg)}
+.row .r1{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.row .who{font-weight:700;font-size:13.5px}
+.row .ago{margin-left:auto;font-size:12px;color:var(--muted)}
+.row .sub{font-size:13px;color:var(--text-2);overflow-wrap:anywhere}
+.row .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px}
+.tag{font-size:12px;font-weight:700;border-radius:6px;padding:1px 7px;border:1px solid transparent}
+.tag.ok{background:var(--good-bg);color:var(--good-ink)}
+.tag.check{background:var(--warn-bg);color:var(--warn-ink)}
+.tag.other{background:var(--surface);color:var(--text-2);border-color:var(--line-strong)}
+.tag.new{background:var(--crit-bg);color:var(--crit-ink)}
+.tag.via{background:var(--accent-bg);color:var(--accent-text)}
+.empty{font-size:13px;color:var(--muted);padding:14px 0 2px}
+
+.mail{font-size:13.5px;color:var(--text-2);white-space:pre-wrap;overflow-wrap:anywhere;background:var(--surface-2);
+  border:1px solid var(--line);border-radius:11px;padding:11px 12px;margin:9px 0 0}
+.mail mark{background:var(--warn-bg);color:var(--warn-ink);border-radius:4px;padding:0 3px;font-weight:700}
+.read{margin:9px 0 0;display:grid;gap:6px;font-size:13px;background:var(--surface-2);border:1px solid var(--line);border-radius:11px;padding:10px 12px}
+.read .r{display:flex;gap:6px 10px;flex-wrap:wrap;justify-content:space-between}
+.read .k{color:var(--muted);font-size:12.5px}
+.read .v{font-weight:700}
+.slot{margin:10px 0 0;border-radius:11px;padding:11px 12px;border:1px solid var(--accent);background:var(--accent-bg)}
+.slot.check{border-color:var(--warn);background:var(--warn-bg)}
+.slot.other{border-color:var(--line-strong);background:var(--surface-2)}
+.slot .h{font-size:12.5px;color:var(--text-2)}
+.slot .big{font-size:17px;font-weight:700;margin-top:2px;line-height:1.35}
+.cands{display:grid;gap:7px;margin-top:9px}
+.cand{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--surface);
+  border:1px solid var(--line-strong);border-radius:10px;padding:8px 10px;font-size:13px}
+.why{margin:10px 0 0;font-size:12.5px;color:var(--text-2);background:var(--surface-2);border:1px dashed var(--line-strong);
+  border-radius:11px;padding:10px 12px}
+.why b{color:var(--text)}
+.why mark{background:var(--warn-bg);color:var(--warn-ink);border-radius:4px;padding:0 3px;font-weight:700}
+.why ul{margin:6px 0 0;padding-left:1.1em}
+.why li{margin-top:3px}
+.replybox{width:100%;min-height:190px;border:1px solid var(--line-strong);border-radius:11px;padding:11px 12px;
+  background:var(--surface-2);font-size:13.5px;line-height:1.7;resize:vertical;margin-top:9px}
+.acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.note{font-size:12px;color:var(--muted);margin-top:8px}
+.sec-h{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.sec-h .k{font-size:12px;color:var(--muted)}
+
+footer{max-width:1120px;margin:0 auto;padding:0 16px 30px;font-size:12px;color:var(--muted)}
+footer a{color:var(--accent-text)}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="banner" role="note">
+  <span><b>デモモード</b>　架空のサンプル 12 件・操作はブラウザ内だけで完結（保存されません）。<b>二重予約は作りません</b>。日時があいまいな依頼は決めつけず、候補を出して人に確認します。</span>
+</div>
+
+<header class="top">
+  <div class="brand">
+    <div class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div>
+    <div>
+      <h1>予約の受け付けと枠入れ</h1>
+      <p>LINE・メール・電話メモで届いた予約希望を読み取って、空いている枠に入れ、確認の返信を用意します</p>
+    </div>
+  </div>
+  <div class="meta">
+    <span>基準日 <b class="num" id="today">2026-09-23</b></span>
+    <button class="btn small" id="btnReset" type="button"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>サンプルを戻す</button>
+  </div>
+</header>
+
+<main>
+  <section class="card guide" aria-labelledby="guideH">
+    <h2 id="guideH">この画面でできること</h2>
+    <p class="lead">やることは 3 つだけです。下のボタンひとつで、①〜③がその場で起きます。</p>
+    <ol class="steps">
+      <li><span class="n">1</span><span><span class="t">届いた予約希望を見る</span><span class="d">LINE・メール・電話のメモ</span></span></li>
+      <li class="arw" aria-hidden="true"><svg class="i" viewBox="0 0 24 24" style="width:20px;height:20px"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></li>
+      <li><span class="n">2</span><span><span class="t">空いている枠に入れる</span><span class="d">メニューの所要時間ぶん続けて空いた所だけ</span></span></li>
+      <li class="arw" aria-hidden="true"><svg class="i" viewBox="0 0 24 24" style="width:20px;height:20px"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></li>
+      <li><span class="n">3</span><span><span class="t">確認の返信が下書きされる</span><span class="d">送るかどうかは人が決める</span></span></li>
+    </ol>
+    <div class="try">
+      <button class="btn primary big" id="btnTry" type="button"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>いちばんお待たせしている 1 件を枠に入れる</button>
+      <span class="hint">いちばん長く返事を待っている 1 件を処理します</span>
+      <button class="btn small" id="btnAll" type="button">残り全部をまとめて枠に入れる</button>
+    </div>
+    <div class="ba" id="baBox" hidden>
+      <h3 id="baHead"></h3>
+      <div class="pairs">
+        <div class="pair">
+          <span class="lbl">まだ枠が決まっていない件数</span>
+          <span class="ln"><span class="was num" id="baOpenWas"></span><span aria-hidden="true">→</span><span class="now num" id="baOpenNow"></span><span class="dl" id="baOpenDelta"></span></span>
+        </div>
+        <div class="pair">
+          <span class="lbl">枠が決まった件数</span>
+          <span class="ln"><span class="was num" id="baBookWas"></span><span aria-hidden="true">→</span><span class="now num" id="baBookNow"></span><span class="dl" id="baBookDelta"></span></span>
+        </div>
+        <div class="pair">
+          <span class="lbl">確認の下書きができた件数</span>
+          <span class="ln"><span class="was num" id="baDraftWas"></span><span aria-hidden="true">→</span><span class="now num" id="baDraftNow"></span><span class="dl" id="baDraftDelta"></span></span>
+        </div>
+      </div>
+      <div class="foot">
+        <span id="baNote"></span>
+        <button class="btn small" id="btnTryUndo" type="button">元に戻す</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="tiles" aria-label="集計">
+    <div class="card tile crit">
+      <div class="lbl"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4m0 4h.01M10.3 3.9 2.5 17.5A2 2 0 0 0 4.2 20.5h15.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>まだ枠が決まっていない</div>
+      <div class="val num" data-v="openCount">0</div>
+      <div class="sub" data-v="openSub"></div>
+    </div>
+    <div class="card tile warn">
+      <div class="lbl"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5m0 3h.01"/></svg>日時があいまい（要確認）</div>
+      <div class="val num" data-v="checkCount">0</div>
+      <div class="sub" data-v="checkSub"></div>
+    </div>
+    <div class="card tile good">
+      <div class="lbl"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/></svg>枠が決まった</div>
+      <div class="val num" data-v="bookCount">0</div>
+      <div class="sub" data-v="bookSub"></div>
+    </div>
+    <div class="card tile">
+      <div class="lbl"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4.5 8-10V5l-8-3-8 3v7c0 5.5 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>二重予約</div>
+      <div class="val num" data-v="dupCount">0</div>
+      <div class="sub" data-v="dupSub"></div>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="calH">
+    <div class="sec-h"><h2 id="calH">予定表（空いている所だけに入れます）</h2><span class="k" id="calKey"></span></div>
+    <div>
+      <p class="lead">担当ごとに、所要時間ぶん<b>続けて</b>空いている所を探します。30 分しか空いていない所に 60 分の施術は入りません。</p>
+      <div class="days" id="days" role="group" aria-label="日を選ぶ"></div>
+      <div class="cal" id="cal" aria-label="1 日の予定"></div>
+      <div class="legend">
+        <span><i class="b"></i>もとからの予約</span>
+        <span><i class="c"></i>休憩</span>
+        <span><i class="a"></i>この画面で入れた予約</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="split">
+    <section class="card" aria-labelledby="listH">
+      <div class="sec-h"><h2 id="listH">届いた予約希望</h2><span class="k" id="listCount"></span></div>
+      <div style="padding-top:10px">
+        <div class="chips" id="chips" role="group" aria-label="絞り込み"></div>
+        <ul class="rows" id="rows"></ul>
+        <p class="empty" id="listEmpty" hidden>この条件に当てはまる依頼はありません。</p>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="detailH" id="detail">
+      <div class="sec-h"><h2 id="detailH">中身・入れた枠・返信の下書き</h2><span class="k" id="detailKey"></span></div>
+      <div id="detailBody" style="padding-top:2px"></div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  架空の店舗・氏名・依頼によるデモです。枠の空き判定は、この画面の中だけで動く決まった手順（担当ごとに、所要時間ぶん続けて空いている最も早い時刻を探す）で出しています。入力した内容はどこにも送られません。
+  <a href="/">制作者のページへ戻る</a>
+</footer>
+<script>
+/* ===== 店の設定（架空） ===== */
+const OPEN = 600, CLOSE = 1140;               /* 10:00 - 19:00（分） */
+const STAFF = [{id:'sano', name:'佐野'}, {id:'azuma', name:'東'}];
+const DAYS = [
+  {d:'09/24', w:'木'}, {d:'09/25', w:'金'}, {d:'09/26', w:'土'}, {d:'09/27', w:'日'}
+];
+/* もとから入っている予約と休憩（すべて架空） */
+const BASE = [
+  /* 木 */
+  {day:0, staff:'sano',  s:600, e:660,  t:'全身整体',   who:'既存のお客さま'},
+  {day:0, staff:'sano',  s:780, e:840,  t:'休憩',       rest:true},
+  {day:0, staff:'sano',  s:960, e:1020, t:'全身整体',   who:'既存のお客さま'},
+  {day:0, staff:'azuma', s:660, e:730,  t:'初回（70分）', who:'既存のお客さま'},
+  {day:0, staff:'azuma', s:780, e:840,  t:'休憩',       rest:true},
+  {day:0, staff:'azuma', s:840, e:870,  t:'肩・首',     who:'既存のお客さま'},
+  /* 金 */
+  {day:1, staff:'sano',  s:630, e:690,  t:'全身整体',   who:'既存のお客さま'},
+  {day:1, staff:'sano',  s:780, e:840,  t:'休憩',       rest:true},
+  {day:1, staff:'sano',  s:900, e:960,  t:'全身整体',   who:'既存のお客さま'},
+  {day:1, staff:'azuma', s:600, e:670,  t:'初回（70分）', who:'既存のお客さま'},
+  {day:1, staff:'azuma', s:780, e:840,  t:'休憩',       rest:true},
+  {day:1, staff:'azuma', s:840, e:900,  t:'全身整体',   who:'既存のお客さま'},
+  {day:1, staff:'azuma', s:1020,e:1060, t:'骨盤矯正',   who:'既存のお客さま'},
+  /* 土 */
+  {day:2, staff:'sano',  s:600, e:660,  t:'全身整体',   who:'既存のお客さま'},
+  {day:2, staff:'sano',  s:660, e:720,  t:'骨盤矯正',   who:'既存のお客さま'},
+  {day:2, staff:'sano',  s:720, e:780,  t:'全身整体',   who:'既存のお客さま'},
+  {day:2, staff:'sano',  s:780, e:840,  t:'休憩',       rest:true},
+  {day:2, staff:'sano',  s:840, e:900,  t:'全身整体',   who:'既存のお客さま'},
+  {day:2, staff:'sano',  s:960, e:1020, t:'全身整体',   who:'既存のお客さま'},
+  {day:2, staff:'azuma', s:600, e:670,  t:'初回（70分）', who:'既存のお客さま'},
+  {day:2, staff:'azuma', s:670, e:730,  t:'全身整体',   who:'既存のお客さま'},
+  {day:2, staff:'azuma', s:780, e:840,  t:'休憩',       rest:true},
+  {day:2, staff:'azuma', s:840, e:920,  t:'産後骨盤',   who:'既存のお客さま'},
+  {day:2, staff:'azuma', s:930, e:990,  t:'全身整体',   who:'既存のお客さま'},
+  {day:2, staff:'azuma', s:1020,e:1080, t:'全身整体',   who:'既存のお客さま'},
+  /* 日 */
+  {day:3, staff:'sano',  s:660, e:720,  t:'全身整体',   who:'既存のお客さま'},
+  {day:3, staff:'sano',  s:780, e:840,  t:'休憩',       rest:true},
+  {day:3, staff:'sano',  s:840, e:900,  t:'骨盤矯正',   who:'既存のお客さま'},
+  {day:3, staff:'azuma', s:630, e:700,  t:'初回（70分）', who:'既存のお客さま'},
+  {day:3, staff:'azuma', s:780, e:840,  t:'休憩',       rest:true},
+  {day:3, staff:'azuma', s:960, e:1020, t:'全身整体',   who:'既存のお客さま'}
+];
+
+/* ===== 届いた予約希望（すべて架空） =====
+   h: 受け取ってから何時間たったか
+   want: 読み取った希望（days=候補日のならび, from/to=開始時刻の幅, dur=所要分, staff=指名）
+   marks: 本文から拾った言葉（画面で目立たせる）
+   kind: 'book'（枠に入れる）/ 'ask'（日時があいまい・そのままでは入らない）/ 'skip'（予約以外） */
+const SAMPLE = [
+  { id:'Y-2071', who:'藤井 まり 様', via:'LINE', h:20, kind:'book',
+    body:'いつもありがとうございます。金曜の 15 時ごろ、肩まわりを 30 分でお願いします。',
+    marks:['金曜','15 時ごろ','肩まわり','30 分'],
+    want:{ days:[1], from:870, to:930, dur:30, staff:null, menu:'肩・首まわり', wlabel:'15 時ごろ（14:30〜15:30）' } },
+
+  { id:'Y-2072', who:'小林 さち 様', via:'メール', h:11, kind:'book',
+    body:'土曜の夕方、全身整体を 1 時間お願いします。担当はどなたでも大丈夫です。',
+    marks:['土曜','夕方','全身整体','1 時間','どなたでも'],
+    want:{ days:[2], from:960, to:1140, dur:60, staff:null, menu:'全身整体', wlabel:'夕方（16:00 以降）' } },
+
+  { id:'Y-2073', who:'西野 あゆみ 様', via:'メール', h:6, kind:'book',
+    body:'産後の骨盤ケアをお願いしたいです。初めてなので、説明も含めてお願いできますか。金曜の午前中だと助かります。赤ちゃん連れです。',
+    marks:['産後の骨盤ケア','初めて','金曜','午前中'],
+    want:{ days:[1], from:600, to:720, dur:80, staff:null, menu:'産後骨盤ケア（初回・80分）', wlabel:'午前（10:00〜12:00 の開始）' } },
+
+  { id:'Y-2074', who:'岡本 拓也 様', via:'メール', h:4, kind:'book',
+    body:'初めて伺います。デスクワークの腰痛がつらいです。木曜の 10 時か 11 時でお願いできますか。',
+    marks:['初めて','木曜','10 時','11 時'],
+    want:{ days:[0], from:600, to:720, dur:70, staff:null, menu:'初回カウンセリング＋施術（70分）', wlabel:'10:00〜12:00 の開始' } },
+
+  { id:'Y-2075', who:'前田 みゆき 様', via:'LINE', h:3, kind:'book',
+    body:'肩こりがひどくて…今週の木曜の午後、できれば早めの時間でお願いしたいです。全身をみてもらいたいです。',
+    marks:['木曜','午後','早めの時間','全身'],
+    want:{ days:[0], from:720, to:1140, dur:60, staff:null, menu:'全身整体', wlabel:'午後（12:00 以降）・早い順' } },
+
+  { id:'Y-2076', who:'大野 健司 様', via:'電話メモ', h:1, kind:'book',
+    body:'土曜に佐野さんでお願いしたい、とのこと。全身整体。時間は午後でも夕方でも大丈夫。',
+    marks:['土曜','佐野さん','全身整体','午後','夕方'],
+    want:{ days:[2], from:720, to:1140, dur:60, staff:'sano', menu:'全身整体', wlabel:'午後〜夕方（12:00 以降）' } },
+
+  { id:'Y-2077', who:'高橋 直人 様', via:'LINE', h:0.5, kind:'book',
+    body:'日曜、東さんで肩と首を 30 分だけお願いできますか。午前中希望です。',
+    marks:['日曜','東さん','肩と首','30 分','午前中'],
+    want:{ days:[3], from:600, to:720, dur:30, staff:'azuma', menu:'肩・首まわり', wlabel:'午前（10:00〜12:00 の開始）' } },
+
+  { id:'Y-2078', who:'斉藤 ひろし 様', via:'メール', h:26, kind:'ask',
+    body:'来週あたり、夕方に全身をお願いできればと思います。土日が休みなので土日でも。',
+    marks:['来週あたり','夕方','全身','土日'],
+    want:{ days:[2,3], from:960, to:1140, dur:60, staff:null, menu:'全身整体', wlabel:'夕方（16:00 以降）' },
+    ask:'日付が「来週あたり」としか書かれていません。こちらで決めずに、空いている枠を 2 つ出してお伺いします。' },
+
+  { id:'Y-2079', who:'村田 恵子 様', via:'LINE', h:8, kind:'ask',
+    body:'できるだけ早めにお願いしたいです。骨盤矯正で。',
+    marks:['できるだけ早め','骨盤矯正'],
+    want:{ days:[0,1,2,3], from:600, to:1140, dur:40, staff:null, menu:'骨盤矯正', wlabel:'指定なし' },
+    ask:'日にちも時間帯も書かれていません。「早め」を勝手に今日や明日と決めず、いちばん早い枠を 2 つ出してお伺いします。' },
+
+  { id:'Y-2080', who:'森田 香織 様', via:'電話メモ', h:5, kind:'ask',
+    body:'日曜の 10 時ちょうどから、佐野さんで産後の骨盤（初回 80 分）をご希望とのこと。',
+    marks:['日曜','10 時ちょうど','佐野さん','産後の骨盤','80 分'],
+    want:{ days:[3], from:600, to:600, dur:80, staff:'sano', menu:'産後骨盤ケア（初回・80分）', wlabel:'10:00 ちょうど' },
+    ask:'ご希望の 10:00 からは、佐野さんが 11:00 に次の予約が入っていて 60 分しか空いていません。80 分は入らないので、埋めずに代わりの枠を 2 つ出します。',
+    alt:{ days:[3], from:600, to:1140, staff:null } },
+
+  { id:'Y-2081', who:'ホワイトニング商材のご案内', via:'メール', h:9, kind:'skip',
+    body:'【ご提案】サロン向け新商材のご案内です。導入いただくと客単価が 20% 上がった事例があります。一度 30 分ほどお打ち合わせのお時間をいただけないでしょうか。',
+    marks:['ご提案','ご案内','お打ち合わせ'],
+    skipWhy:'「ご提案」「ご案内」「お打ち合わせ」は営業の連絡でよく使われる言い方です。お客さまの予約と混ぜません。' },
+
+  { id:'Y-2082', who:'佐々木 様', via:'LINE', h:14, kind:'skip',
+    body:'先日はありがとうございました。施術のあと、タオルを忘れてしまったみたいです。届いていませんか？',
+    marks:['ありがとうございました','忘れて','届いていませんか'],
+    skipWhy:'日時の希望もメニューの指定もなく、忘れ物のお問い合わせです。予約の山に混ぜず、問い合わせとして分けます。' }
+];
+
+/* ===== 状態 ===== */
+const $ = s => document.querySelector(s);
+const clone = o => JSON.parse(JSON.stringify(o));
+let items = [], booked = [], sel = null, filter = 'all', snap = null, day = 0;
+
+function reset(){
+  items = SAMPLE.map(s => ({ ...clone(s), status:'new', slot:null, cands:null, reply:'' }));
+  booked = []; sel = items[0].id; filter = 'all'; snap = null; day = 0;
+  $('#baBox').hidden = true;
+  render();
+}
+
+/* ===== 空き枠さがし ===== */
+function blocksOf(dayIdx, staffId){
+  const a = BASE.filter(b => b.day===dayIdx && b.staff===staffId).map(b => ({s:b.s, e:b.e}));
+  booked.forEach(b => { if(b.day===dayIdx && b.staff===staffId) a.push({s:b.s, e:b.e}); });
+  return a.sort((x,y)=>x.s-y.s);
+}
+function fits(dayIdx, staffId, start, dur){
+  if(start < OPEN || start + dur > CLOSE) return false;
+  return blocksOf(dayIdx, staffId).every(b => start + dur <= b.s || start >= b.e);
+}
+/* want に合う枠を n 件まで返す（10 分きざみ）。
+   候補が「同じ日の同じ時刻で担当だけ違う」にならないよう、日 → 時刻 → 担当 の順に散らす */
+function findSlots(want, n){
+  const staffIds = want.staff ? [want.staff] : STAFF.map(s=>s.id);
+  const all = [];
+  for(const d of want.days){
+    for(let t = Math.max(OPEN, want.from); t <= Math.min(CLOSE - want.dur, want.to); t += 10){
+      for(const sid of staffIds){
+        if(fits(d, sid, t, want.dur)) all.push({ day:d, staff:sid, s:t, e:t+want.dur });
+      }
+    }
+  }
+  all.sort((a,b) => a.day - b.day || a.s - b.s || staffIds.indexOf(a.staff) - staffIds.indexOf(b.staff));
+  const out = [];
+  const tooClose = x => out.some(o => o.day===x.day && Math.abs(o.s - x.s) < 60);
+  /* 1 周目: 希望の日ごとに、いちばん早い 1 つ */
+  for(const d of want.days){
+    const f = all.find(x => x.day===d);
+    if(f) out.push(f);
+    if(out.length >= n) return out.slice(0, n);
+  }
+  /* 2 周目: 時刻が 1 時間以上離れていて、担当も重ならない物 */
+  for(const x of all){
+    if(out.length >= n) break;
+    if(tooClose(x) || out.some(o => o.staff===x.staff)) continue;
+    out.push(x);
+  }
+  /* 3 周目: 時刻が離れていればよい */
+  for(const x of all){
+    if(out.length >= n) break;
+    if(tooClose(x)) continue;
+    out.push(x);
+  }
+  return out.slice(0, n);
+}
+
+/* ===== 1 件を処理する ===== */
+function handle(it){
+  if(it.status !== 'new') return;
+  if(it.kind === 'skip'){
+    it.status = 'skip';
+    it.reply = '';
+    return;
+  }
+  if(it.kind === 'ask'){
+    const w = it.alt ? { ...it.want, ...it.alt } : it.want;
+    it.cands = findSlots(w, 2);
+    it.status = 'check';
+    it.reply = askReply(it);
+    return;
+  }
+  const got = findSlots(it.want, 1)[0];
+  if(!got){
+    it.cands = findSlots({ ...it.want, from:OPEN, to:CLOSE }, 2);
+    it.status = 'check';
+    it.ask = it.ask || 'ご希望の時間帯には、所要時間ぶん続けて空いている所がありませんでした。埋めずに、近い枠を 2 つ出します。';
+    it.reply = askReply(it);
+    return;
+  }
+  const rec = { id:it.id, who:it.who, day:got.day, staff:got.staff, s:got.s, e:got.e, t:it.want.menu };
+  booked.push(rec);
+  it.slot = rec;
+  it.status = 'booked';
+  it.reply = bookReply(it);
+}
+
+/* 要確認の候補は、ほかの予約が入るたびに取り直す（埋まった枠を候補に出さないため） */
+function refreshChecks(){
+  items.filter(i => i.status==='check').forEach(it => {
+    const w = it.alt ? { ...it.want, ...it.alt } : it.want;
+    it.cands = findSlots(w, 2);
+    it.reply = askReply(it);
+  });
+}
+
+/* ===== 文面 ===== */
+const hhmm = m => String(Math.floor(m/60)).padStart(2,'0') + ':' + String(m%60).padStart(2,'0');
+const sname = id => (STAFF.find(s=>s.id===id)||{}).name || '';
+const dlabel = d => DAYS[d].d.replace('/','月') + '日（' + DAYS[d].w + '）';
+const slotText = x => dlabel(x.day) + ' ' + hhmm(x.s) + '〜' + hhmm(x.e) + '／' + sname(x.staff) + '担当';
+
+function bookReply(it){
+  const x = it.slot;
+  return it.who + '\n\nいつもありがとうございます。からだ整体院です。\nご希望をうかがい、下記でお取りしました。\n\n　日　時：' + dlabel(x.day) + ' ' + hhmm(x.s) + '〜' + hhmm(x.e) + '\n　担　当：' + sname(x.staff) + '\n　メニュー：' + it.want.menu + '\n\nご都合が合わない場合は、このままご返信ください。近い時間でお取り直しいたします。\nお気をつけてお越しください。\n\nからだ整体院';
+}
+function askReply(it){
+  const c = it.cands || [];
+  const lines = c.map((x,i) => '　' + ['①','②'][i] + '　' + dlabel(x.day) + ' ' + hhmm(x.s) + '〜' + hhmm(x.e) + '（' + sname(x.staff) + '担当）').join('\n');
+  return it.who + '\n\nいつもありがとうございます。からだ整体院です。\nご希望の日時をこちらで決めてしまわないよう、空いている枠をお出しします。\n\n' + (lines || '　（空いている枠が見つかりませんでした。改めてご連絡いたします）') + '\n\n　メニュー：' + it.want.menu + '\n\nご都合のよい番号を、このままご返信ください。ほかの日時のご希望もうかがいます。\n\nからだ整体院';
+}
+
+/* ===== なぜこの枠か ===== */
+function whyBook(it){
+  const x = it.slot, list = [];
+  list.push('拾った言葉：' + it.marks.map(m => '<mark>' + esc(m) + '</mark>').join('　'));
+  list.push('必要な長さ：<b>' + it.want.dur + ' 分</b>（' + esc(it.want.menu) + '）／さがした幅：' + esc(it.want.wlabel) +
+            (it.want.staff ? '／指名：<b>' + sname(it.want.staff) + 'さん</b>のみ' : '／指名なし（2 名の空きを見て早い方）'));
+  const bl = blocksOf(x.day, x.staff).filter(b => !(b.s===x.s && b.e===x.e));
+  const before = bl.filter(b => b.e <= x.s).pop();
+  const after  = bl.find(b => b.s >= x.e);
+  list.push(sname(x.staff) + 'さんの前後：' +
+    (before ? '直前は ' + hhmm(before.e) + ' まで' : 'この時間より前はあき') + '／' +
+    (after  ? '直後は ' + hhmm(after.s) + ' から' : 'この時間より後はあき'));
+  const skipped = gapsBefore(it, x);
+  if(skipped) list.push('飛ばした所：' + skipped);
+  return list;
+}
+/* 希望の幅の中で「短すぎて入らなかった空き」を説明する */
+function gapsBefore(it, x){
+  const staffIds = it.want.staff ? [it.want.staff] : STAFF.map(s=>s.id);
+  const msgs = [];
+  for(const sid of staffIds){
+    const bl = blocksOf(x.day, sid).filter(b => !(b.s===x.s && b.e===x.e && sid===x.staff));
+    let cur = Math.max(OPEN, it.want.from);
+    for(const b of bl.concat([{s:CLOSE, e:CLOSE}])){
+      if(b.s > cur){
+        const len = Math.min(b.s, CLOSE) - cur;
+        const isBefore = cur < x.s || sid !== x.staff;
+        if(isBefore && len > 0 && len < it.want.dur && cur <= it.want.to){
+          msgs.push(sname(sid) + 'さんの ' + hhmm(cur) + '〜' + hhmm(Math.min(b.s, CLOSE)) + ' は ' + len + ' 分しかあかず、' + it.want.dur + ' 分が入りません');
+        }
+      }
+      cur = Math.max(cur, b.e);
+    }
+  }
+  return msgs.slice(0,2).join('／');
+}
+
+/* ===== 描画 ===== */
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function markBody(it){
+  let h = esc(it.body);
+  (it.marks||[]).forEach(m => { h = h.split(esc(m)).join('<mark>' + esc(m) + '</mark>'); });
+  return h;
+}
+function counts(){
+  return {
+    open:  items.filter(i => i.status==='new').length,
+    check: items.filter(i => i.status==='check').length,
+    book:  items.filter(i => i.status==='booked').length,
+    skip:  items.filter(i => i.status==='skip').length,
+    draft: items.filter(i => i.reply).length
+  };
+}
+function dupCount(){
+  let n = 0;
+  DAYS.forEach((_, d) => STAFF.forEach(st => {
+    const b = blocksOf(d, st.id);
+    for(let i=1;i<b.length;i++) if(b[i].s < b[i-1].e) n++;
+  }));
+  return n;
+}
+
+function render(){
+  const c = counts();
+  $('[data-v="openCount"]').textContent = c.open;
+  $('[data-v="openSub"]').textContent = c.open ? 'まだ手をつけていません' : 'すべて手をつけました';
+  $('[data-v="checkCount"]').textContent = c.check;
+  $('[data-v="checkSub"]').textContent = c.check ? '候補を出して確認します' : '確認待ちはありません';
+  $('[data-v="bookCount"]').textContent = c.book;
+  $('[data-v="bookSub"]').textContent = c.book ? '返信の下書きも用意ずみ' : 'まだありません';
+  const dup = dupCount();
+  $('[data-v="dupCount"]').textContent = dup;
+  $('[data-v="dupSub"]').textContent = '4 日 × 2 名を毎回数え直し';
+  $('#btnTry').disabled = c.open === 0;
+  $('#btnAll').disabled = c.open === 0;
+  renderDays(); renderCal(); renderChips(); renderRows(); renderDetail();
+}
+
+function renderDays(){
+  $('#days').innerHTML = DAYS.map((d,i) =>
+    '<button class="chip" type="button" data-day="' + i + '" aria-pressed="' + (i===day) + '">' +
+    d.d + '（' + d.w + '）</button>').join('');
+  const mine = booked.filter(b => b.day===day).length;
+  $('#calKey').textContent = dlabel(day) + '　この画面で入れた予約 ' + mine + ' 件';
+}
+function renderCal(){
+  const ppm = 0.9, H = (CLOSE - OPEN) * ppm;
+  let gut = '<div class="gut">';
+  for(let t = OPEN; t <= CLOSE; t += 60) gut += '<span style="top:' + ((t-OPEN)*ppm) + 'px">' + hhmm(t) + '</span>';
+  gut += '</div>';
+  const cols = STAFF.map(st => {
+    const bl = BASE.filter(b => b.day===day && b.staff===st.id)
+      .map(b => ({ ...b, mine:false }))
+      .concat(booked.filter(b => b.day===day && b.staff===st.id).map(b => ({ ...b, mine:true })));
+    let h = '<div class="colw">';
+    for(let t = OPEN + 60; t < CLOSE; t += 60) h += '<div class="hr" style="top:' + ((t-OPEN)*ppm) + 'px"></div>';
+    bl.forEach(b => {
+      const cls = b.rest ? 'blk rest' : (b.mine ? 'blk newb' : 'blk');
+      const pickCls = (b.mine && sel && b.id===sel) ? ' pick' : '';
+      const label = b.mine ? b.who.replace(' 様','') : (b.rest ? '休憩' : b.t);
+      const sub = (b.rest || b.e - b.s < 45) ? '' : '<span>' + hhmm(b.s) + '〜' + hhmm(b.e) + '</span>';
+      h += '<div class="' + cls + pickCls + '" style="top:' + ((b.s-OPEN)*ppm) + 'px;height:' + ((b.e-b.s)*ppm - 2) + 'px">' +
+           '<b>' + esc(label) + '</b>' + sub + '</div>';
+    });
+    return h + '</div>';
+  }).join('');
+  const free = STAFF.map(st => {
+    let f = 0, cur = OPEN;
+    blocksOf(day, st.id).forEach(b => { if(b.s > cur) f += b.s - cur; cur = Math.max(cur, b.e); });
+    if(cur < CLOSE) f += CLOSE - cur;
+    return '<div class="chd">' + st.name + '<span class="free">あき ' + Math.round(f/60*10)/10 + ' 時間</span></div>';
+  }).join('');
+  $('#cal').innerHTML = '<div></div>' + free + gut + cols;
+  $('#cal').style.setProperty('--h', H + 'px');
+}
+function renderChips(){
+  const c = counts();
+  const defs = [['all','すべて',items.length], ['new','未処理',c.open], ['booked','枠が決まった',c.book],
+                ['check','要確認',c.check], ['skip','予約以外',c.skip]];
+  $('#chips').innerHTML = defs.map(([k,l,n]) =>
+    '<button class="chip" type="button" data-f="' + k + '" aria-pressed="' + (filter===k) + '">' + l + ' ' + n + '</button>').join('');
+}
+function visible(){ return filter==='all' ? items : items.filter(i => i.status===filter); }
+function renderRows(){
+  const v = visible();
+  $('#listCount').textContent = v.length + ' 件';
+  $('#listEmpty').hidden = v.length > 0;
+  $('#rows').innerHTML = v.map(i => {
+    const tag = i.status==='booked' ? '<span class="tag ok">枠が決まった</span>'
+              : i.status==='check'  ? '<span class="tag check">要確認</span>'
+              : i.status==='skip'   ? '<span class="tag other">予約以外</span>'
+              : '<span class="tag new">未処理</span>';
+    const when = i.status==='booked' ? '<span class="tag ok">' + esc(hhmm(i.slot.s)) + ' ' + esc(sname(i.slot.staff)) + '</span>' : '';
+    const ago = i.h < 1 ? '30 分前' : Math.round(i.h) + ' 時間前';
+    return '<li><button class="row" type="button" data-id="' + i.id + '" aria-current="' + (sel===i.id) + '">' +
+      '<span class="r1"><span class="who">' + esc(i.who) + '</span><span class="ago">' + ago + '</span></span>' +
+      '<span class="sub">' + esc(i.body.slice(0, 44)) + (i.body.length > 44 ? '…' : '') + '</span>' +
+      '<span class="tags"><span class="tag via">' + esc(i.via) + '</span>' + tag + when + '</span>' +
+      '</button></li>';
+  }).join('');
+}
+function renderDetail(){
+  const it = items.find(i => i.id===sel);
+  if(!it){ $('#detailBody').innerHTML = '<p class="empty">左の一覧から 1 件えらんでください。</p>'; $('#detailKey').textContent=''; return; }
+  $('#detailKey').textContent = it.id + '　' + it.via;
+  let h = '<div class="mail">' + markBody(it) + '</div>';
+
+  if(it.kind !== 'skip'){
+    h += '<div class="read">' +
+      '<div class="r"><span class="k">メニューと所要時間</span><span class="v">' + esc(it.want.menu) + '（' + it.want.dur + ' 分）</span></div>' +
+      '<div class="r"><span class="k">希望の日</span><span class="v">' + it.want.days.map(d => DAYS[d].d + '（' + DAYS[d].w + '）').join('・') + '</span></div>' +
+      '<div class="r"><span class="k">希望の時間帯</span><span class="v">' + esc(it.want.wlabel) + '</span></div>' +
+      '<div class="r"><span class="k">担当の指名</span><span class="v">' + (it.want.staff ? sname(it.want.staff) + 'さん' : 'なし') + '</span></div>' +
+    '</div>';
+  }
+
+  if(it.status === 'new'){
+    h += '<div class="slot other"><div class="h">まだ枠を取っていません</div><div class="big">未処理</div></div>' +
+         '<div class="acts"><button class="btn primary" type="button" data-one="' + it.id + '">この 1 件を枠に入れる</button></div>';
+  } else if(it.status === 'booked'){
+    h += '<div class="slot"><div class="h">取った枠（二重予約にならない所だけ）</div><div class="big">' + esc(slotText(it.slot)) + '</div></div>';
+    h += '<div class="why"><b>なぜこの枠か</b><ul>' + whyBook(it).map(x => '<li>' + x + '</li>').join('') + '</ul></div>';
+  } else if(it.status === 'check'){
+    h += '<div class="slot check"><div class="h">こちらでは決めていません</div><div class="big">人に確認します</div>' +
+         '<div class="cands">' + (it.cands||[]).map((x,i) =>
+           '<div class="cand"><span>' + ['①','②'][i] + '　' + esc(slotText(x)) + '</span>' +
+           '<button class="btn small" type="button" data-pick="' + it.id + '" data-i="' + i + '">この枠で確定</button></div>').join('') +
+         ((it.cands||[]).length ? '' : '<div class="cand"><span>空いている枠が見つかりませんでした</span></div>') +
+         '</div></div>';
+    h += '<div class="why"><b>なぜ決めなかったか</b><ul><li>' + esc(it.ask) + '</li>' +
+         '<li>拾った言葉：' + it.marks.map(m => '<mark>' + esc(m) + '</mark>').join('　') + '</li></ul></div>';
+  } else if(it.status === 'skip'){
+    h += '<div class="slot other"><div class="h">予約の山に混ぜていません</div><div class="big">予約以外の連絡</div></div>';
+    h += '<div class="why"><b>なぜそう分けたか</b><ul><li>' + esc(it.skipWhy) + '</li>' +
+         '<li>拾った言葉：' + it.marks.map(m => '<mark>' + esc(m) + '</mark>').join('　') + '</li></ul></div>';
+  }
+
+  if(it.reply){
+    h += '<label class="sr" for="rep">返信の下書き</label>' +
+         '<textarea class="replybox" id="rep">' + esc(it.reply) + '</textarea>' +
+         '<div class="acts"><button class="btn" type="button" id="btnCopy">下書きをコピー</button>' +
+         '<span class="note" id="copyNote"></span></div>' +
+         '<p class="note">送るかどうかは人が決めます。このデモではどこにも送信しません。</p>';
+  }
+  $('#detailBody').innerHTML = h;
+}
+
+/* ===== 操作 ===== */
+function takeSnap(){ snap = { items: clone(items), booked: clone(booked), sel, filter, day }; }
+function showBA(head, was, note){
+  const now = counts();
+  $('#baHead').textContent = head;
+  const set = (k, w, n) => {
+    $('#ba' + k + 'Was').textContent = w;
+    $('#ba' + k + 'Now').textContent = n;
+    const d = n - w, el = $('#ba' + k + 'Delta');
+    el.textContent = d === 0 ? '±0' : (d > 0 ? '+' + d : String(d));
+    el.style.display = '';
+  };
+  set('Open', was.open, now.open);
+  set('Book', was.book, now.book);
+  set('Draft', was.draft, now.draft);
+  $('#baNote').textContent = note;
+  $('#baBox').hidden = false;
+}
+function runOne(){
+  const next = items.filter(i => i.status==='new').sort((a,b) => b.h - a.h)[0];
+  if(!next) return;
+  const was = counts(); takeSnap();
+  handle(next); refreshChecks(); sel = next.id;
+  if(next.slot) day = next.slot.day;
+  render();
+  showBA('「' + next.who + '」を処理しました', was, '二重予約は ' + dupCount() + ' 件のままです。');
+}
+function runAll(){
+  const was = counts(); takeSnap();
+  const rest = items.filter(i => i.status==='new').sort((a,b) => b.h - a.h);
+  rest.forEach(handle); refreshChecks();
+  render();
+  showBA('残り ' + rest.length + ' 件をまとめて処理しました', was, '二重予約は ' + dupCount() + ' 件のままです。');
+}
+function undo(){
+  if(!snap) return;
+  items = clone(snap.items); booked = clone(snap.booked); sel = snap.sel; filter = snap.filter; day = snap.day;
+  snap = null; $('#baBox').hidden = true; render();
+}
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('button');
+  if(!b) return;
+  if(b.id === 'btnTry') return runOne();
+  if(b.id === 'btnAll') return runAll();
+  if(b.id === 'btnTryUndo') return undo();
+  if(b.id === 'btnReset') return reset();
+  if(b.dataset.day !== undefined){ day = +b.dataset.day; return render(); }
+  if(b.dataset.f){ filter = b.dataset.f; return render(); }
+  if(b.dataset.id){ sel = b.dataset.id; const it = items.find(i=>i.id===sel); if(it && it.slot) day = it.slot.day; return render(); }
+  if(b.dataset.one){
+    const it = items.find(i => i.id===b.dataset.one);
+    const was = counts(); takeSnap();
+    handle(it); refreshChecks(); if(it.slot) day = it.slot.day;
+    render(); showBA('「' + it.who + '」を処理しました', was, '二重予約は ' + dupCount() + ' 件のままです。');
+    return;
+  }
+  if(b.dataset.pick){
+    const it = items.find(i => i.id===b.dataset.pick);
+    const x = it.cands[+b.dataset.i];
+    if(!x || !fits(x.day, x.staff, x.s, it.want.dur)) return;
+    const was = counts(); takeSnap();
+    const rec = { id:it.id, who:it.who, day:x.day, staff:x.staff, s:x.s, e:x.e, t:it.want.menu };
+    booked.push(rec); it.slot = rec; it.status = 'booked'; it.reply = bookReply(it); it.cands = null;
+    refreshChecks();
+    day = x.day; render();
+    showBA('「' + it.who + '」の枠を確定しました', was, '二重予約は ' + dupCount() + ' 件のままです。');
+    return;
+  }
+  if(b.id === 'btnCopy'){
+    const t = $('#rep');
+    t.select();
+    navigator.clipboard ? navigator.clipboard.writeText(t.value).then(ok, ng) : ng();
+    function ok(){ $('#copyNote').textContent = 'コピーしました'; }
+    function ng(){ try{ document.execCommand('copy'); ok(); }catch(_){ $('#copyNote').textContent = '選択しました（手でコピーしてください）'; } }
+    return;
+  }
+});
+
+reset();
+</script>
+</body>
+</html>
