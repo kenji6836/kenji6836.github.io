@@ -2712,7 +2712,11 @@
             }
           ]
         }
-      ]
+      ],
+      "card_visual": {
+        "visual": 0,
+        "item": "square-a"
+      }
     },
     {
       "slug": "mitsumori-ads",
@@ -2881,7 +2885,11 @@
             }
           ]
         }
-      ]
+      ],
+      "card_visual": {
+        "visual": 0,
+        "item": "square-a"
+      }
     },
     {
       "slug": "sns-4-platform-kit",

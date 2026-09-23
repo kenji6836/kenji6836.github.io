@@ -506,9 +506,15 @@ class Site:
 
     def card_visual(self, work):
         """カード用: 先頭が icon なら連続する icon（最大 3）を 1 行で見せる。それ以外は先頭ビジュアル 1 つ。
-        work["card_visual"]（添字）で別のビジュアルを指定できる（詳細ページの主役が動く実演で、カードには実画面を使いたい時）"""
+        work["card_visual"] で別のビジュアルを指定できる（詳細ページの主役が動く実演で、カードには実画面を使いたい時）。
+        添字のほか {"visual": 添字, "item": スロット} でまとめ役ビジュアル（adset）の中の 1 枚も指せる"""
         visuals = work["visuals"]
-        first = visuals[work.get("card_visual", 0)]
+        ref = work.get("card_visual", 0)
+        if isinstance(ref, dict):
+            # adset など、まとめ役のビジュアルの中の 1 枚をカードに使う（例 {"visual": 0, "item": "square-a"}）
+            visual = dict(self.pick_visual(work, ref), type="image")
+            return visual_markup(card_visual_src(visual), True)
+        first = visuals[ref]
         if first["type"] == "image" and first.get("frame") == "icon":
             icons = []
             for visual in visuals:
