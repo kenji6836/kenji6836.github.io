@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>限定公開のページ</title>
+<style>body{margin:0;font:15px/1.8 system-ui,"Hiragino Sans",Meiryo,sans-serif;background:#f7f7f5;color:#1b1b1a;
+display:flex;min-height:100vh;align-items:center;justify-content:center;padding:24px}
+.m{max-width:26em;text-align:center}h1{font-size:17px;margin:0 0 10px}p{margin:0;color:#5b5b57;font-size:14px}</style>
+</head><body>
+<div class="m" id="m"><h1>読み込んでいます</h1><p>少々お待ちください。</p></div>
+<script>
+(async () => {
+  const say = (t, s) => document.getElementById('m').innerHTML =
+    '<h1>' + t + '</h1><p>' + s + '</p>';
+  const raw = (location.hash || '').replace(/^#k=/, '');
+  if (!raw) return say('鍵がありません',
+    'このページは、お渡ししたリンク全体（# の後ろを含む）からだけ開けます。');
+  try {
+    const b64u = s => Uint8Array.from(atob(s.replace(/-/g,'+').replace(/_/g,'/')), c => c.charCodeAt(0));
+    const key = await crypto.subtle.importKey('raw', b64u(raw), 'AES-GCM', false, ['decrypt']);
+    const buf = new Uint8Array(await (await fetch('payload.bin', {cache:'no-store'})).arrayBuffer());
+    const html = new TextDecoder().decode(
+      await crypto.subtle.decrypt({name:'AES-GCM', iv: buf.slice(0,12)}, key, buf.slice(12)));
+    document.open(); document.write(html); document.close();
+  } catch (e) {
+    say('開けませんでした',
+      'リンクが途中で切れているか、古いリンクの可能性があります。');
+  }
+})();
+</script>
+</body></html>
