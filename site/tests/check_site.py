@@ -203,6 +203,11 @@ if not os.path.exists(".nojekyll"): fail(".nojekyll missing")
 if os.path.exists("style.css"): fail("old root style.css still present")
 ok("css/js checks")
 
+# 4b. 帯の画像が「表示に足りる大きさの写し」になっているか（原寸のままだとスマホの初回表示が重い）
+r = subprocess.run([sys.executable, "site/tools/make_band_thumbs.py", "--check"], capture_output=True, text=True)
+if r.returncode != 0: fail(f"band thumbs stale: {r.stdout.strip()[:300]} {r.stderr.strip()[:200]}")
+else: ok("band thumbs up to date")
+
 # 5. 既存サブページ不変（git 管理下のみ）
 r = subprocess.run(["git", "status", "--porcelain", "--", "blockwise", "apps", "mission-control", "baccarat", "app-ads.txt"], capture_output=True, text=True)
 if r.stdout.strip(): fail(f"protected paths modified: {r.stdout.strip()[:200]}")

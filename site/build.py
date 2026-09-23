@@ -89,6 +89,23 @@ def image_size(src):
     raise ValueError("Unsupported image: " + src)
 
 
+BAND_THUMB_HEIGHT = 640  # 帯の表示は最大 320px（.band-solo）なので、その 2 倍あれば足りる
+
+
+def band_thumb(src):
+    """帯用の小さい写し（/assets/band/…）が最新ならそれを、無ければ元の画像を返す。
+    写しを作るのは site/tools/make_band_thumbs.py（Pillow が要る）。build.py は標準ライブラリだけで動く。"""
+    name = src.lstrip("/")
+    if not name.startswith("assets/"):
+        return src
+    thumb_name = name[len("assets/"):].replace("/", "-").rsplit(".", 1)[0] + ".jpg"
+    thumb = ROOT / "assets/band" / thumb_name
+    original = ROOT / name
+    if thumb.is_file() and original.is_file() and thumb.stat().st_mtime >= original.stat().st_mtime:
+        return "/assets/band/" + thumb_name
+    return src
+
+
 def image(visual, eager=False, priority=None):
     """priority=None なら eager と同じ（先読み画像は fetchpriority=high）。False で eager だけ付ける"""
     width, height = image_size(visual["src"])
@@ -482,6 +499,7 @@ class Site:
         """帯の 1 枚。hidden は継ぎ目なしループ用の 2 周目（読み上げ・タブ移動の対象外）"""
         work = self.work_by_slug[ref["work"]]
         visual = self.pick_visual(work, ref if "visual" in ref else None)
+        visual = dict(visual, src=band_thumb(visual["src"]))
         if hidden:
             visual = dict(visual, alt="")
         return '<li{}{}><a href="/works/{}/"{}>{}</a></li>'.format(
