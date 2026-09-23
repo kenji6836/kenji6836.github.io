@@ -50,7 +50,7 @@
         "label": "公開ツール・デモ"
       },
       {
-        "value": "17",
+        "value": "18",
         "unit": "件",
         "label": "自主制作サンプル"
       }
@@ -376,6 +376,10 @@
         },
         {
           "work": "beauty-salon-hp",
+          "visual": 0
+        },
+        {
+          "work": "seitai-hp",
           "visual": 0
         },
         {
@@ -1428,6 +1432,67 @@
           "type": "image",
           "src": "/assets/beauty-salon/hp/staff-1-1600.jpg",
           "alt": "スタッフ紹介ページのスタイリスト写真",
+          "frame": "phone"
+        }
+      ]
+    },
+    {
+      "slug": "seitai-hp",
+      "title": "整体院のホームページ（5 ページ・架空院）",
+      "kicker": "ホームページ制作（整体院・治療院向け）",
+      "categories": [
+        "web",
+        "marketing"
+      ],
+      "label": "self",
+      "year": "2026",
+      "summary": "中野の駅近くにある施術ベッド 2 台の架空の整体院「整体ルーム はる」のホームページ。トップ・料金・施術者・院内・アクセスの 5 ページで、予約は LINE と電話へつなぎます。写真と施術者はすべて架空です。同じ型を業種に合わせて組み替えた 2 例目です。",
+      "role": "構成・文章・写真の用意・実装（スマホ優先）・表示確認",
+      "points": [
+        "業種ごとに変わるのは中身だけ。同じ型で、美容院とは配色・写真・言葉づかいを入れ替えました",
+        "料金は税込と所要時間まで、施術者は経歴とひとことまで、そのまま使える粒度",
+        "予約は LINE と電話の 2 本。スマホ下部にボタンを固定して、どのページからでも 1 タップ",
+        "広告として問題になりやすい「治る」「治療」の言い方を避け、医業類似行為であることを明記しています"
+      ],
+      "stack": [
+        "HTML/CSS（自己完結）",
+        "JavaScript"
+      ],
+      "tools": [
+        {
+          "icon": "web",
+          "label": "5 ページのホームページ"
+        },
+        {
+          "icon": "image",
+          "label": "写真・院内ギャラリー"
+        },
+        {
+          "icon": "calendar",
+          "label": "予約ボタン（LINE・電話）"
+        },
+        {
+          "icon": "pin",
+          "label": "アクセスページ"
+        }
+      ],
+      "links": [
+        {
+          "label": "ホームページを見る",
+          "url": "/hp/seitai/"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "src": "/assets/seitai/hp/room-1-1600.jpg",
+          "alt": "整体ルーム はる のトップページ（施術室の写真のヒーロー）",
+          "frame": "browser"
+        },
+        {
+          "type": "image",
+          "src": "/assets/seitai/hp/staff-1-1600.jpg",
+          "alt": "施術者紹介ページの写真",
           "frame": "phone"
         }
       ]
