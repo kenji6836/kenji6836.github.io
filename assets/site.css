@@ -241,6 +241,15 @@ main:focus { outline: none; }
 .form-field input, .form-field select { height: 44px; }
 .form-field textarea { resize: vertical; }
 .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--brand); }
+/* 任意の項目は畳んでおく（初見のフィールドを 7 → 4 に減らす）。開閉は details なので JS 不要 */
+.form-optional { margin-bottom: 20px; border: 1px dashed var(--line); border-radius: 10px; background: var(--bg); }
+.form-optional summary { display: flex; align-items: center; gap: 10px; padding: 12px 14px; font-size: 13px; font-weight: 700; color: var(--text-2); cursor: pointer; list-style: none; }
+.form-optional summary::-webkit-details-marker { display: none; }
+.form-optional summary span { flex: 1; }
+.form-optional summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 10px; }
+.form-optional[open] .faq-mark { transform: rotate(180deg); }
+.form-optional-body { padding: 4px 14px 0; }
+.form-optional-body .form-field:last-child { margin-bottom: 16px; }
 .submit-button { width: 100%; }
 .form-fallback { margin: 14px 0 0; font-size: 12px; color: var(--text-3); text-align: center; }
 .form-fallback a { color: var(--brand); text-decoration: underline; text-underline-offset: 2px; }

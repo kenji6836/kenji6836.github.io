@@ -638,6 +638,7 @@ class Site:
     def contact(self):
         contact = self.content["contact"]
         fields = []
+        optional_fields = []
         autocomplete = {"name": "name", "company": "organization", "email": "email"}
         for field in contact["form_fields"]:
             field_id = "contact-" + field["name"]
@@ -646,14 +647,29 @@ class Site:
             if field["type"] == "textarea":
                 control = '<textarea {} rows="6"></textarea>'.format(attrs)
             elif field["type"] == "select":
-                options = "".join('<option value="{}">{}</option>'.format(esc(value), esc(value)) for value in field["options"])
+                # 選択肢は "文字列" か {"value","label"}。value は送信先（Google フォーム）の選択肢と一致させ、
+                # label だけを入力者に分かりやすい言い方にできる（例: 先頭を「まだ決まっていない」にして必須を実質 0 手にする）
+                options = "".join(
+                    '<option value="{}">{}</option>'.format(
+                        esc(option["value"] if isinstance(option, dict) else option),
+                        esc(option["label"] if isinstance(option, dict) else option))
+                    for option in field["options"])
                 if not field["required"]:  # 任意の select は未選択を既定にする（先頭の選択肢が黙って送られないように）
                     options = '<option value="">選択してください</option>' + options
                 control = '<select {}>{}</select>'.format(attrs, options)
             else:
                 control = '<input {} type="{}"{}>'.format(attrs, esc(field["type"]),
                     ' autocomplete="{}"'.format(autocomplete[field["name"]]) if field["name"] in autocomplete else "")
-            fields.append('<div class="form-field"><label for="{}">{}</label>{}</div>'.format(esc(field_id), esc(field["label"]), control))
+            markup = '<div class="form-field"><label for="{}">{}</label>{}</div>'.format(esc(field_id), esc(field["label"]), control)
+            # 任意の項目は最初は畳んでおく（初見のフィールドを減らす）。details なので JS 無しで開き、
+            # 畳んだままでも form の中にあるので FormData にも通常 POST にも乗る
+            (optional_fields if not field["required"] else fields).append(markup)
+        if optional_fields:
+            fields.append(
+                '<details class="form-optional"><summary><span>{}</span>{}</summary>'
+                '<div class="form-optional-body">{}</div></details>'.format(
+                    esc(contact.get("optional_label", "任意の項目を開く")), icon("down", "faq-mark"),
+                    "".join(optional_fields)))
         platforms = "".join(self.button(platform["label"], platform["url"], external=True)
                             for platform in contact["platforms"] if platform["url"])
         action = contact["form_action"].strip()

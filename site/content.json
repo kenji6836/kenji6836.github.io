@@ -3112,7 +3112,7 @@
   },
   "contact": {
     "heading": "まずは\n「こんなことできますか？」から",
-    "lead": "ご相談・お見積りは無料です。通常 2 日以内にご返信します。",
+    "lead": "ご相談・お見積りは無料です。入力は 3 つだけ、通常 2 日以内にご返信します。",
     "form_action": "https://docs.google.com/forms/d/e/1FAIpQLSdEO4OlTFAzCBUlT5Z_Er_97bobn4GTpQhqchuxh-yCV1rnZg/formResponse",
     "form_fields": [
       {
@@ -3124,7 +3124,7 @@
       },
       {
         "name": "company",
-        "label": "会社名・屋号（任意）",
+        "label": "会社名・屋号",
         "type": "text",
         "required": false,
         "entry": "entry.887612675"
@@ -3143,6 +3143,10 @@
         "required": true,
         "entry": "entry.1401378533",
         "options": [
+          {
+            "value": "その他",
+            "label": "まだ決まっていない"
+          },
           "Web制作",
           "アプリ・システム開発",
           "AI活用・自動化",
@@ -3153,12 +3157,15 @@
           "動画制作",
           "広告制作",
           "SNS運用",
-          "その他"
+          {
+            "value": "その他",
+            "label": "その他"
+          }
         ]
       },
       {
         "name": "budget",
-        "label": "ご予算感（任意）",
+        "label": "ご予算感",
         "type": "select",
         "required": false,
         "entry": "entry.459491663",
@@ -3171,7 +3178,7 @@
       },
       {
         "name": "reference",
-        "label": "参考にしたいサイト・アプリ（任意）",
+        "label": "参考にしたいサイト・アプリ",
         "type": "text",
         "required": false,
         "entry": "entry.552739232"
@@ -3196,7 +3203,8 @@
         "url": ""
       }
     ],
-    "note": "ご入力いただいた情報はご返信以外には使用しません。"
+    "note": "ご入力いただいた情報はご返信以外には使用しません。",
+    "optional_label": "任意の項目（なくても送れます）"
   },
   "pricing": {
     "kicker": "PRICING",
