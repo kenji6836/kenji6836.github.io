@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f4f5f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1115" media="(prefers-color-scheme: dark)">
+<title>見積依頼の仕分けと概算（デモ）</title>
+<meta name="description" content="届いた見積依頼を工種と急ぎ度で仕分けて、概算の幅と返信の下書きまで用意する業務画面のデモ。架空のサンプル 12 件で、その場で試せます。金額は人が決めます。">
+<style>
+:root{
+  color-scheme: light;
+  --bg:#f4f5f8; --surface:#ffffff; --surface-2:#f7f8fa; --text:#14161a; --text-2:#4b5260; --muted:#7a8190;
+  --line:#e3e6eb; --line-strong:#c9cdd5;
+  --accent:#2a78d6; --accent-ink:#ffffff; --accent-bg:rgba(42,120,214,.10); --accent-text:#1c5cab;
+  --good:#0ca30c; --good-bg:rgba(12,163,12,.12); --good-ink:#0a6b0a;
+  --warn:#fab219; --warn-bg:rgba(250,178,25,.18); --warn-ink:#7a5200;
+  --crit:#d03b3b; --crit-bg:rgba(208,59,59,.12); --crit-ink:#a22a2a;
+  --shadow:0 1px 2px rgba(20,22,26,.05), 0 8px 24px rgba(20,22,26,.06);
+  --radius:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --bg:#0f1115; --surface:#181b21; --surface-2:#1f232a; --text:#f2f3f5; --text-2:#c3c6cc; --muted:#8a8f99;
+    --line:#2b2f37; --line-strong:#3a3f49;
+    --accent:#3987e5; --accent-ink:#ffffff; --accent-bg:rgba(57,135,229,.18); --accent-text:#7fb3f0;
+    --good-bg:rgba(12,163,12,.22); --good-ink:#5fd35f;
+    --warn-bg:rgba(250,178,25,.22); --warn-ink:#ffd166;
+    --crit-bg:rgba(208,59,59,.24); --crit-ink:#ff8a8a;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --bg:#0f1115; --surface:#181b21; --surface-2:#1f232a; --text:#f2f3f5; --text-2:#c3c6cc; --muted:#8a8f99;
+  --line:#2b2f37; --line-strong:#3a3f49;
+  --accent:#3987e5; --accent-ink:#ffffff; --accent-bg:rgba(57,135,229,.18); --accent-text:#7fb3f0;
+  --good-bg:rgba(12,163,12,.22); --good-ink:#5fd35f;
+  --warn-bg:rgba(250,178,25,.22); --warn-ink:#ffd166;
+  --crit-bg:rgba(208,59,59,.24); --crit-ink:#ff8a8a;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:system-ui,-apple-system,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic UI",Meiryo,sans-serif;
+  font-size:15px; line-height:1.6; overflow-x:hidden;
+}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+svg.i{width:1em;height:1em;vertical-align:-.15em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.num{font-variant-numeric:tabular-nums}
+
+.banner{background:var(--accent-bg);color:var(--accent-text);border-bottom:1px solid var(--line);font-size:12.5px}
+.banner span{display:block;max-width:1120px;margin:0 auto;padding:8px 16px}
+
+header.top{max-width:1120px;margin:0 auto;padding:18px 16px 10px;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;justify-content:space-between}
+.brand{display:flex;gap:12px;align-items:center;min-width:0}
+.logo{flex:0 0 auto;width:40px;height:40px;border-radius:11px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-size:20px}
+header h1{margin:0;font-size:21px;line-height:1.25;letter-spacing:.01em}
+header p{margin:2px 0 0;font-size:13px;color:var(--text-2)}
+.meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+
+main{max-width:1120px;margin:0 auto;padding:6px 16px 24px;display:grid;gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.card>*{padding:0 16px}
+.card>*:first-child{padding-top:15px}
+.card>*:last-child{padding-bottom:15px}
+h2{margin:0;font-size:15.5px;letter-spacing:.01em}
+.lead{margin:6px 0 0;font-size:13.5px;color:var(--text-2)}
+
+.btn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line-strong);background:var(--surface);
+  border-radius:10px;padding:8px 13px;font-size:13.5px;font-weight:600;color:var(--text)}
+.btn:hover{border-color:var(--accent);color:var(--accent-text)}
+.btn.small{padding:6px 10px;font-size:12.5px;font-weight:500}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{color:var(--accent-ink);filter:brightness(1.07)}
+.btn.big{padding:13px 20px;font-size:15.5px;border-radius:12px;width:100%;justify-content:center}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+
+/* ---- はじめに ---- */
+.steps{list-style:none;display:flex;flex-wrap:wrap;align-items:stretch;gap:8px;margin:12px 0 0;padding-left:0}
+.steps>li{flex:1 1 150px;display:flex;gap:9px;align-items:flex-start;background:var(--surface-2);border:1px solid var(--line);border-radius:11px;padding:10px 11px}
+.steps>li.arw{flex:0 0 auto;background:none;border:none;align-items:center;padding:0 2px;color:var(--muted)}
+.steps .n{flex:0 0 auto;width:21px;height:21px;border-radius:50%;background:var(--accent);color:var(--accent-ink);
+  display:grid;place-items:center;font-size:12px;font-weight:700}
+.steps .t{display:block;font-size:13.5px;font-weight:700}
+.steps .d{display:block;font-size:12.5px;color:var(--text-2);line-height:1.45}
+.try{margin-top:14px;display:grid;gap:7px;justify-items:center}
+.try .hint{font-size:12.5px;color:var(--muted);text-align:center}
+
+.ba{margin-top:13px;border:1px solid var(--accent);background:var(--accent-bg);border-radius:12px;padding:12px 13px}
+.ba h3{margin:0 0 9px;font-size:13.5px;color:var(--accent-text)}
+.pairs{display:grid;gap:8px}
+.pair{display:flex;flex-wrap:wrap;gap:4px 10px;justify-content:space-between;align-items:baseline;font-size:13.5px}
+.pair .lbl{color:var(--text-2);font-size:12.5px}
+.pair .ln{display:inline-flex;gap:7px;align-items:baseline;flex-wrap:wrap}
+.pair .was{color:var(--muted);text-decoration:line-through}
+.pair .now{font-weight:700}
+.pair .dl{font-size:12px;font-weight:700;color:var(--good-ink);background:var(--good-bg);border-radius:6px;padding:1px 6px}
+.ba .foot{margin-top:11px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--text-2)}
+
+/* ---- 集計 ---- */
+.tiles{display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:760px){.tiles{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.tile{padding:13px 14px}
+.tile .lbl{font-size:12px;color:var(--text-2);display:flex;gap:5px;align-items:center}
+.tile .val{font-size:23px;font-weight:700;line-height:1.2;margin-top:3px}
+.tile .sub{font-size:12px;color:var(--muted);margin-top:2px}
+.tile.crit .val{color:var(--crit-ink)} .tile.warn .val{color:var(--warn-ink)} .tile.good .val{color:var(--good-ink)}
+
+/* ---- 一覧と中身 ---- */
+.split{display:grid;gap:14px}
+@media (min-width:980px){.split{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);align-items:start}}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line-strong);background:var(--surface);border-radius:999px;padding:5px 11px;font-size:12.5px}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.rows{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}
+.row{width:100%;text-align:left;border:1px solid var(--line);background:var(--surface-2);border-radius:11px;padding:10px 11px;display:grid;gap:4px}
+.row:hover{border-color:var(--accent)}
+.row[aria-current="true"]{border-color:var(--accent);background:var(--accent-bg)}
+.row .r1{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.row .who{font-weight:700;font-size:13.5px}
+.row .ago{margin-left:auto;font-size:12px;color:var(--muted)}
+.row .sub{font-size:13px;color:var(--text-2);overflow-wrap:anywhere}
+.row .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px}
+.tag{font-size:11.5px;font-weight:700;border-radius:6px;padding:1px 7px;border:1px solid transparent}
+.tag.quote{background:var(--accent-bg);color:var(--accent-text)}
+.tag.onsite{background:var(--warn-bg);color:var(--warn-ink)}
+.tag.other{background:var(--surface);color:var(--text-2);border-color:var(--line-strong)}
+.tag.new{background:var(--crit-bg);color:var(--crit-ink)}
+.tag.draft{background:var(--good-bg);color:var(--good-ink)}
+.tag.sent{background:var(--surface);color:var(--muted);border-color:var(--line-strong)}
+.empty{font-size:13px;color:var(--muted);padding:14px 0 2px}
+
+.mail{font-size:13.5px;color:var(--text-2);white-space:pre-wrap;overflow-wrap:anywhere;background:var(--surface-2);
+  border:1px solid var(--line);border-radius:11px;padding:11px 12px;margin:9px 0 0}
+.why{margin:10px 0 0;font-size:12.5px;color:var(--text-2);background:var(--surface-2);border:1px dashed var(--line-strong);
+  border-radius:11px;padding:10px 12px}
+.why b{color:var(--text)}
+.why mark{background:var(--warn-bg);color:var(--warn-ink);border-radius:4px;padding:0 3px;font-weight:700}
+.why ul{margin:6px 0 0;padding-left:1.1em}
+.why li{margin-top:3px}
+.replybox{width:100%;min-height:200px;border:1px solid var(--line-strong);border-radius:11px;padding:11px 12px;
+  background:var(--surface-2);font-size:13.5px;line-height:1.7;resize:vertical;margin-top:9px}
+.acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.note{font-size:12px;color:var(--muted);margin-top:8px}
+.sec-h{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.sec-h .k{font-size:12px;color:var(--muted)}
+
+footer{max-width:1120px;margin:0 auto;padding:0 16px 30px;font-size:12px;color:var(--muted)}
+footer a{color:var(--accent-text)}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+/* ---- この画面だけの追加 ---- */
+.tag.k-gaiheki{background:var(--accent-bg);color:var(--accent-text)}
+.tag.k-mizu{background:var(--good-bg);color:var(--good-ink)}
+.tag.k-naiso{background:var(--warn-bg);color:var(--warn-ink)}
+.tag.k-gaikou{background:rgba(124,92,214,.14);color:#6244b8}
+:root[data-theme="dark"] .tag.k-gaikou,
+:root:not([data-theme="light"]) .tag.k-gaikou{color:#b7a3f0}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tag.k-gaikou{background:rgba(124,92,214,.26);color:#b7a3f0}}
+.tag.k-other{background:var(--surface);color:var(--text-2);border-color:var(--line-strong)}
+.tag.urg{background:var(--crit-bg);color:var(--crit-ink)}
+
+.range{margin:11px 0 0;background:var(--surface-2);border:1px solid var(--line);border-radius:11px;padding:11px 12px}
+.range .rh{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;justify-content:space-between;font-size:13px}
+.range .rh b{font-size:14.5px}
+.range .rh .verdict{font-size:12px;font-weight:700;border-radius:6px;padding:1px 7px}
+.range .rh .verdict.in{background:var(--good-bg);color:var(--good-ink)}
+.range .rh .verdict.over{background:var(--crit-bg);color:var(--crit-ink)}
+.range .rh .verdict.under{background:var(--warn-bg);color:var(--warn-ink)}
+.bar{position:relative;height:30px;margin-top:9px;border-radius:8px;background:var(--surface);border:1px solid var(--line)}
+.bar .band{position:absolute;top:0;bottom:0;background:var(--accent-bg);border-left:2px solid var(--accent);border-right:2px solid var(--accent);border-radius:4px}
+.bar .mk{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--crit);border-radius:2px}
+.bar .mk::after{content:attr(data-l);position:absolute;bottom:-17px;left:50%;transform:translateX(-50%);white-space:nowrap;
+  font-size:11px;font-weight:700;color:var(--crit-ink)}
+.range .scale{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-top:21px}
+.range .rn{margin:9px 0 0;font-size:12.5px;color:var(--text-2)}
+.range .rn b{color:var(--text)}
+</style>
+</head>
+<body>
+<div class="banner" role="note">
+  <span><b>デモモード</b>　架空のサンプル 12 件・操作はブラウザ内だけで完結（保存されません）。<b>金額は決めません</b>。出すのは概算の幅までです。</span>
+</div>
+
+<header class="top">
+  <div class="brand">
+    <div class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></div>
+    <div>
+      <h1>見積依頼の仕分けと概算</h1>
+      <p>届いた見積依頼を工種と急ぎ度で仕分けて、概算の幅と返信の下書きを用意します</p>
+    </div>
+  </div>
+  <div class="meta">
+    <span>基準日 <b class="num" id="today">2026-09-23</b></span>
+    <button class="btn small" id="btnReset" type="button"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>サンプルを戻す</button>
+  </div>
+</header>
+
+<main>
+  <section class="card guide" aria-labelledby="guideH">
+    <h2 id="guideH">この画面でできること</h2>
+    <p class="lead">やることは 3 つだけです。下のボタンひとつで、①〜③がその場で起きます。</p>
+    <ol class="steps">
+      <li><span class="n">1</span><span><span class="t">届いた依頼を見る</span><span class="d">まだ返事をしていない見積依頼</span></span></li>
+      <li class="arw" aria-hidden="true"><svg class="i" viewBox="0 0 24 24" style="width:20px;height:20px"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></li>
+      <li><span class="n">2</span><span><span class="t">工種と急ぎ度で仕分ける</span><span class="d">外壁・屋根／水まわり／内装／外構へ</span></span></li>
+      <li class="arw" aria-hidden="true"><svg class="i" viewBox="0 0 24 24" style="width:20px;height:20px"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></li>
+      <li><span class="n">3</span><span><span class="t">概算の幅と下書きが出る</span><span class="d">金額を決めるのは人のまま</span></span></li>
+    </ol>
+    <div class="try">
+      <button class="btn primary big" id="btnTry" type="button"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>急ぎの 1 件を仕分けて概算を出す</button>
+      <span class="hint">いちばん急ぎの 1 件を処理します</span>
+      <button class="btn small" id="btnAll" type="button">残り全部をまとめて仕分ける</button>
+    </div>
+    <div class="ba" id="baBox" hidden>
+      <h3 id="baHead"></h3>
+      <div class="pairs">
+        <div class="pair">
+          <span class="lbl">まだ手をつけていない件数</span>
+          <span class="ln"><span class="was num" id="baOpenWas"></span><span aria-hidden="true">→</span><span class="now num" id="baOpenNow"></span><span class="dl" id="baOpenDelta"></span></span>
+        </div>
+        <div class="pair">
+          <span class="lbl">今日中に返事が要ると分かった件数</span>
+          <span class="ln"><span class="was num" id="baUrgWas"></span><span aria-hidden="true">→</span><span class="now num" id="baUrgNow"></span><span class="dl" id="baUrgDelta"></span></span>
+        </div>
+        <div class="pair">
+          <span class="lbl">概算の幅まで分かった件数</span>
+          <span class="ln"><span class="was num" id="baEstWas"></span><span aria-hidden="true">→</span><span class="now num" id="baEstNow"></span><span class="dl" id="baEstDelta"></span></span>
+        </div>
+      </div>
+      <div class="foot">
+        <span id="baNote"></span>
+        <button class="btn small" id="btnTryUndo" type="button">元に戻す</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="tiles" aria-label="集計">
+    <div class="card tile crit">
+      <div class="lbl"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4m0 4h.01M10.3 3.9 2.5 17.5A2 2 0 0 0 4.2 20.5h15.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>まだ返事をしていない</div>
+      <div class="val num" data-v="openCount">0</div>
+      <div class="sub" data-v="openSub"></div>
+    </div>
+    <div class="card tile warn">
+      <div class="lbl"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>今日中に返事が要る</div>
+      <div class="val num" data-v="urgCount">0</div>
+      <div class="sub" data-v="urgSub"></div>
+    </div>
+    <div class="card tile good">
+      <div class="lbl"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17V7m4 10V11m4 6V5m4 12V9m4 8V13"/></svg>概算の幅が出た</div>
+      <div class="val num" data-v="estCount">0</div>
+      <div class="sub" data-v="estSub"></div>
+    </div>
+    <div class="card tile">
+      <div class="lbl"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 3 18 9-18 9 4-9z"/></svg>返事ずみ</div>
+      <div class="val num" data-v="sentCount">0</div>
+      <div class="sub" data-v="sentSub"></div>
+    </div>
+  </section>
+
+  <div class="split">
+    <section class="card" aria-labelledby="listH">
+      <div class="sec-h"><h2 id="listH">届いた見積依頼</h2><span class="k" id="listCount"></span></div>
+      <div style="padding-top:10px">
+        <div class="chips" id="chips" role="group" aria-label="絞り込み"></div>
+        <ul class="rows" id="rows"></ul>
+        <p class="empty" id="listEmpty" hidden>この条件に当てはまる依頼はありません。</p>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="detailH" id="detail">
+      <div class="sec-h"><h2 id="detailH">中身・概算・返信の下書き</h2><span class="k" id="detailKey"></span></div>
+      <div id="detailBody" style="padding-top:2px"></div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  架空の会社・氏名・案件によるデモです。概算の幅は、この画面の中だけで動く決まった目安表から出しています。入力した内容はどこにも送られません。
+  <a href="/">制作者のページへ戻る</a>
+</footer>
+<script>
+/* ===== サンプル（すべて架空） =====
+   h: 受け取ってから何時間たったか（基準日からの相対）
+   budget: 依頼者が書いた予算（万円）／ est: 目安表から引く行 */
+const SAMPLE = [
+  { id:'A-1041', who:'田島 里美 様', subj:'外壁の塗り替えのお見積りをお願いします', h:51, budget:100,
+    body:'はじめまして。築 18 年のモルタル外壁です。北面にひび割れが数本出てきたので、そろそろ塗り替えを考えています。2 階建て・延べ 32 坪です。予算は 100 万円くらいで考えていますが、妥当でしょうか。',
+    est:{ lo:90, hi:140, basis:'外壁の塗り替え（モルタル・2 階建て・足場と下地補修を含む）' } },
+
+  { id:'A-1042', who:'有限会社 松尾工業 ご担当者様', subj:'屋根から雨漏り、至急みてほしい', h:20, budget:null,
+    body:'昨日の雨で 2 階の天井にシミが出ました。事務所として使っているので、今週中に一度見にきてもらえないでしょうか。至急でお願いします。',
+    est:{ lo:15, hi:60, basis:'屋根の部分補修（雨水の入り口を特定して止める工事）' } },
+
+  { id:'A-1043', who:'川口 誠 様', subj:'浴室をユニットバスに替えたい', h:73, budget:null,
+    body:'在来工法のタイル張りの浴室です。冬にタイルが冷たく、母が使いづらそうにしています。ユニットバスへの入れ替えを検討中です。1 坪くらいの広さです。',
+    est:{ lo:80, hi:150, basis:'浴室の入れ替え（在来工法 → ユニットバス 1 坪・解体と配管を含む）' } },
+
+  { id:'A-1044', who:'佐久間 あかり 様', subj:'キッチン交換の概算を知りたい', h:8, budget:150,
+    body:'I 型 2550 のキッチンを、食洗機つきのものに交換したいです。配置は今のままで構いません。予算は 150 万円まで見ています。',
+    est:{ lo:110, hi:190, basis:'キッチンの入れ替え（I 型 2550・食洗機つき・同じ配置）' } },
+
+  { id:'A-1045', who:'株式会社トラストリンク 営業部', subj:'【ご提案】施工管理システムのご案内', h:30, budget:null,
+    body:'突然のご連絡失礼いたします。工務店様向けの施工管理システムのご提案です。導入費用の資料をお送りできますので、ご興味があればご返信ください。', est:null },
+
+  { id:'A-1046', who:'大西 浩二 様', subj:'トイレの水が止まりません。今日中にお願いします', h:3, budget:null,
+    body:'今朝からトイレのタンクの水が止まらない状態です。止水栓は閉めました。今日中に来ていただけると助かります。',
+    est:{ lo:5, hi:20, basis:'トイレまわりの修理（部品交換〜便器の入れ替えまで）' } },
+
+  { id:'A-1047', who:'宮下 千尋 様', subj:'2 階洋室の壁紙を張り替えたい', h:96, budget:null,
+    body:'6 畳の洋室です。ペットがひっかいた跡が目立ってきました。今週中にとは考えていません、お急ぎではありませんので、ご都合のよいときで結構です。',
+    est:{ lo:8, hi:18, basis:'壁紙の張り替え（洋室 6 畳・量産品クロス）' } },
+
+  { id:'A-1048', who:'（求人応募）中村 様', subj:'求人のお問い合わせ（施工管理職）', h:44, budget:null,
+    body:'求人サイトで採用情報を拝見しました。施工管理職に応募したいのですが、資格取得の費用の補助はありますでしょうか。', est:null },
+
+  { id:'A-1049', who:'三浦 早紀 様', subj:'駐車場をコンクリートにしたい', h:64, budget:null,
+    body:'今は砂利敷きで、雨の日にぬかるみます。車 2 台分をコンクリートの土間にしたいです。',
+    est:{ lo:35, hi:60, basis:'駐車場の土間コンクリート（車 2 台分・約 30 ㎡・下地と水勾配を含む）' } },
+
+  { id:'A-1050', who:'久我 正明 様', subj:'カーポートの柱が傾いています', h:15, budget:null,
+    body:'先日の風のあと、カーポートの柱が傾いてしまいました。車の上に落ちてきそうで危ないので、早めに見ていただきたいです。',
+    est:{ lo:10, hi:35, basis:'カーポートの修理（柱の建て直し〜本体の入れ替えまで）' } },
+
+  { id:'A-1051', who:'野々村 佳奈 様', subj:'LDK の床の張り替えと建具の調整', h:120, budget:80,
+    body:'20 畳の LDK です。無垢のフローリングに張り替えたいのと、建具の建て付けが悪くなっているので調整もお願いしたいです。予算は 80 万円で考えています。',
+    est:{ lo:95, hi:160, basis:'床の張り替え（LDK 20 畳・無垢フローリング・下地調整と建具の調整を含む）' } },
+
+  { id:'A-1052', who:'藤堂建材 株式会社 経理', subj:'9 月分のご請求書送付の件', h:27, budget:null,
+    body:'いつもお世話になっております。9 月分の請求書を本日郵送いたしました。金額のご確認をお願いいたします。', est:null }
+];
+
+/* ===== 仕分けの決まり（この画面の中だけで動く固定ルール） ===== */
+const KINDS = {
+  gaiheki:{ label:'外壁・屋根', words:['外壁','屋根','塗り替え','塗装','雨漏り','サイディング','コーキング'] },
+  mizu:   { label:'水まわり',   words:['浴室','ユニットバス','キッチン','トイレ','洗面','給湯','配管','水が止まら'] },
+  naiso:  { label:'内装',       words:['壁紙','クロス','フローリング','床','建具','内装','張り替え'] },
+  gaikou: { label:'外構',       words:['駐車場','カーポート','外構','フェンス','土間','コンクリート','砂利'] }
+};
+const EXCL = ['ご請求','請求書','求人','採用','ご提案','ご案内'];
+const URG  = ['至急','今日中','今週中','早めに','危ない','雨漏り','止まらな'];
+const URG_NEG = ['急ぎではありません','お急ぎではありません'];
+
+function analyze(q){
+  const t = q.subj + '\n' + q.body;
+  const excl = EXCL.filter(w => t.includes(w));
+  const neg  = URG_NEG.filter(w => t.includes(w));
+  const urgHits = URG.filter(w => t.includes(w));
+  if (excl.length) return { cls:'other', hits:[], excl, urgHits:[], neg, urgent:false };
+  let best = null, bestHits = [];
+  for (const k of Object.keys(KINDS)){
+    const hits = KINDS[k].words.filter(w => t.includes(w));
+    if (hits.length > bestHits.length){ best = k; bestHits = hits; }
+  }
+  if (!best) return { cls:'other', hits:[], excl:[], urgHits:[], neg, urgent:false };
+  return { cls:best, hits:bestHits, excl:[], urgHits, neg, urgent: urgHits.length > 0 && neg.length === 0 };
+}
+
+/* ===== 状態 ===== */
+let Q = [], selected = null, filter = 'all', snapshot = null;
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function reset(){
+  Q = SAMPLE.map(s => ({ ...s, status:'new', cls:null, urgent:false, hits:[], excl:[], urgHits:[], neg:[], draft:'' }));
+  selected = Q[0].id; filter = 'all'; snapshot = null;
+  $('#baBox').hidden = true;
+  render();
+}
+
+function sortOne(q){
+  const a = analyze(q);
+  q.cls = a.cls; q.urgent = a.urgent; q.hits = a.hits; q.excl = a.excl; q.urgHits = a.urgHits; q.neg = a.neg;
+  q.status = 'sorted';
+  q.draft = draftFor(q);
+}
+
+function ago(h){
+  if (h < 24) return h + ' 時間';
+  const d = Math.floor(h / 24), r = h % 24;
+  return d + ' 日' + (r ? ' ' + r + ' 時間' : '');
+}
+
+function draftFor(q){
+  const name = q.who.replace(/（.*?）/g, '');
+  if (q.cls === 'other'){
+    return name + '\n\nご連絡ありがとうございます。内容を確認いたしました。\n見積のご依頼ではありませんので、担当の者へお回しいたします。折り返しが必要な場合は、担当より改めてご連絡いたします。\n\n〇〇工務店';
+  }
+  const e = q.est;
+  let budgetLine = '';
+  if (q.budget != null){
+    if (q.budget < e.lo) budgetLine = '\nご予算 ' + q.budget + ' 万円とのことですが、上記の目安より下になります。仕様を調整してご予算に近づける案も、あわせてお出しいたします。';
+    else if (q.budget > e.hi) budgetLine = '\nご予算 ' + q.budget + ' 万円の範囲で十分お受けできる見込みです。';
+    else budgetLine = '\nご予算 ' + q.budget + ' 万円は、この目安の中に収まっています。';
+  }
+  const head = q.urgent
+    ? 'ご連絡ありがとうございます。' + q.subj.replace(/[。、]?$/, '') + 'の件、急ぎの案件として承りました。\n本日中に折り返しのお電話を差し上げ、最短の日程で現地の確認に伺えるよう調整いたします。'
+    : 'お問い合わせありがとうございます。' + q.subj.replace(/[。、]?$/, '') + 'の件、承りました。';
+  const tail = q.urgent
+    ? '\nお電話のつながりやすい時間帯をお知らせいただけますと助かります。'
+    : '\n現地の確認に 1 時間ほどいただけますと、正確なお見積りをお出しできます。今週後半から来週で、ご都合のよい日を 2〜3 候補お知らせください。';
+  return name + '\n\n' + head + '\n\n同じような工事では、おおよそ ' + e.lo + '〜' + e.hi + ' 万円の範囲でお受けしています（' + e.basis + '）。最終の金額は、現地を確認したうえで確定いたします。' + budgetLine + '\n' + tail + '\n\n〇〇工務店　見積担当';
+}
+
+/* ===== 集計 ===== */
+function stats(){
+  const open = Q.filter(q => q.status === 'new').length;
+  const urg  = Q.filter(q => q.status !== 'new' && q.urgent).length;
+  const est  = Q.filter(q => q.status !== 'new' && q.est).length;
+  const sent = Q.filter(q => q.status === 'sent').length;
+  return { open, urg, est, sent };
+}
+
+/* ===== 描画 ===== */
+const FILTERS = [
+  { id:'all',    label:'すべて' },
+  { id:'new',    label:'未仕分け' },
+  { id:'urgent', label:'今日中' },
+  { id:'gaiheki',label:'外壁・屋根' },
+  { id:'mizu',   label:'水まわり' },
+  { id:'naiso',  label:'内装' },
+  { id:'gaikou', label:'外構' },
+  { id:'other',  label:'見積以外' }
+];
+function inFilter(q, f){
+  if (f === 'all') return true;
+  if (f === 'new') return q.status === 'new';
+  if (f === 'urgent') return q.status !== 'new' && q.urgent;
+  return q.cls === f;
+}
+function countFor(f){ return Q.filter(q => inFilter(q, f)).length; }
+
+function render(){
+  const s = stats();
+  const set = (k, v) => { const el = document.querySelector('[data-v="' + k + '"]'); if (el) el.textContent = v; };
+  set('openCount', s.open); set('openSub', s.open ? '仕分けるとここが減ります' : 'すべて仕分けました');
+  set('urgCount', s.urg);   set('urgSub', '仕分けた分だけ数えます');
+  set('estCount', s.est);   set('estSub', '金額は人が決めます');
+  set('sentCount', s.sent); set('sentSub', '送信はしません（デモ）');
+
+  $('#chips').innerHTML = FILTERS.map(f =>
+    '<button class="chip" type="button" data-f="' + f.id + '" aria-pressed="' + (filter === f.id) + '">' +
+    esc(f.label) + ' <span class="num">' + countFor(f.id) + '</span></button>').join('');
+  $('#chips').querySelectorAll('.chip').forEach(b =>
+    b.addEventListener('click', () => { filter = b.dataset.f; render(); }));
+
+  const list = Q.filter(q => inFilter(q, filter));
+  $('#listCount').textContent = list.length + ' / ' + Q.length + ' 件';
+  $('#listEmpty').hidden = list.length > 0;
+  $('#rows').innerHTML = list.map(q => {
+    let tags = '';
+    if (q.status === 'new') tags += '<span class="tag new">未仕分け</span>';
+    else {
+      tags += '<span class="tag k-' + q.cls + '">' + esc(q.cls === 'other' ? '見積以外' : KINDS[q.cls].label) + '</span>';
+      if (q.urgent) tags += '<span class="tag urg">今日中</span>';
+      if (q.est) tags += '<span class="tag draft">概算 ' + q.est.lo + '〜' + q.est.hi + ' 万</span>';
+    }
+    if (q.status === 'sent') tags += '<span class="tag sent">返事ずみ</span>';
+    return '<li><button class="row" type="button" data-id="' + q.id + '" aria-current="' + (selected === q.id) + '">' +
+      '<span class="r1"><span class="who">' + esc(q.who) + '</span><span class="ago">' + ago(q.h) + '前</span></span>' +
+      '<span class="sub">' + esc(q.subj) + '</span>' +
+      '<span class="tags">' + tags + '</span></button></li>';
+  }).join('');
+  $('#rows').querySelectorAll('.row').forEach(b =>
+    b.addEventListener('click', () => { selected = b.dataset.id; render(); }));
+
+  const q = Q.find(x => x.id === selected);
+  $('#btnTry').disabled = s.open === 0;
+  $('#btnAll').disabled = s.open === 0;
+  renderDetail(q);
+}
+
+function bar(est, budget){
+  let max = est.hi * 1.3;
+  if (budget != null) max = Math.max(max, budget * 1.15);
+  const pc = v => (v / max * 100).toFixed(1) + '%';
+  let v = '', vl = '';
+  if (budget != null){
+    if (budget < est.lo){ v = 'under'; vl = '予算は目安より下'; }
+    else if (budget > est.hi){ v = 'over'; vl = '予算は目安より上'; }
+    else { v = 'in'; vl = '予算は目安の中'; }
+  }
+  return '<div class="range">' +
+    '<div class="rh"><span>概算の幅（目安）</span><b class="num">' + est.lo + '〜' + est.hi + ' 万円</b>' +
+      (budget != null ? '<span class="verdict ' + v + '">' + vl + '</span>' : '') + '</div>' +
+    '<div class="bar" role="img" aria-label="概算の幅 ' + est.lo + ' 万円から ' + est.hi + ' 万円' +
+      (budget != null ? '、依頼者のご予算 ' + budget + ' 万円' : '') + '">' +
+      '<span class="band" style="left:' + pc(est.lo) + ';width:' + pc(est.hi - est.lo) + '"></span>' +
+      (budget != null ? '<span class="mk" style="left:' + pc(budget) + '" data-l="ご予算 ' + budget + ' 万"></span>' : '') +
+    '</div>' +
+    '<div class="scale"><span>0</span><span class="num">' + Math.round(max) + ' 万円</span></div>' +
+    '<p class="rn">目安表の行: <b>' + esc(est.basis) + '</b>。現地を見ていないので、ここで金額は決めません。</p>' +
+  '</div>';
+}
+
+function why(q){
+  const mk = ws => ws.map(w => '<mark>' + esc(w) + '</mark>').join('、');
+  let items = '';
+  if (q.excl.length){
+    items += '<li>' + mk(q.excl) + ' があるので、<b>見積の依頼ではない</b>と判断しました（請求・求人・営業の連絡を見積に混ぜないための除外語です）。</li>';
+  } else {
+    items += '<li>' + mk(q.hits) + ' から、工種は <b>' + esc(KINDS[q.cls].label) + '</b> と判断しました。</li>';
+    if (q.neg.length) items += '<li>' + mk(q.urgHits) + ' はありますが、' + mk(q.neg) + ' で打ち消されるので <b>通常</b> 扱いにしました。</li>';
+    else if (q.urgHits.length) items += '<li>' + mk(q.urgHits) + ' があるので <b>今日中</b> に返事が要る依頼にしました。</li>';
+    else items += '<li>急ぎを示す言葉がないので <b>通常</b> 扱いです。</li>';
+  }
+  return '<div class="why"><b>なぜこの仕分けになったか</b><ul>' + items + '</ul></div>';
+}
+
+function renderDetail(q){
+  const body = $('#detailBody');
+  if (!q){ $('#detailKey').textContent = ''; body.innerHTML = '<p class="empty">左の一覧から 1 件選んでください。</p>'; return; }
+  $('#detailKey').textContent = q.id + '・' + ago(q.h) + '前';
+  let html = '<p class="lead" style="margin-top:8px"><b>' + esc(q.who) + '</b>　' + esc(q.subj) + '</p>';
+  html += '<div class="mail">' + esc(q.body) + '</div>';
+
+  if (q.status === 'new'){
+    html += '<div class="acts"><button class="btn primary" type="button" id="btnOne">この 1 件を仕分けて概算を出す</button></div>' +
+            '<p class="note">押すと、工種・急ぎ度・概算の幅・返信の下書きがその場で出ます。</p>';
+    body.innerHTML = html;
+    const one = $('#btnOne');
+    if (one) one.addEventListener('click', () => { sortOne(q); snapshot = null; $('#baBox').hidden = true; render(); });
+    return;
+  }
+
+  html += why(q);
+  if (q.est) html += bar(q.est, q.budget);
+  html += '<textarea class="replybox" id="draftBox"' + (q.status === 'sent' ? ' readonly' : '') + '>' + esc(q.draft) + '</textarea>';
+  html += '<div class="acts">';
+  if (q.status === 'sent'){
+    html += '<span class="note" style="margin:0">この依頼は返事ずみです。</span>' +
+            '<button class="btn small" type="button" id="btnUnsend">返事ずみを取り消す</button>';
+  } else {
+    html += '<button class="btn primary" type="button" id="btnSend">この内容で返事する</button>' +
+            '<button class="btn" type="button" id="btnCopy">文面をコピー</button>' +
+            '<button class="btn small" type="button" id="btnRedo">下書きを作り直す</button>';
+  }
+  html += '</div><p class="note" id="actNote">送信はしません。デモなので、押しても画面の中だけが変わります。</p>';
+  body.innerHTML = html;
+
+  const ta = $('#draftBox');
+  if (ta) ta.addEventListener('input', () => { q.draft = ta.value; });
+  const sendBtn = $('#btnSend');
+  if (sendBtn) sendBtn.addEventListener('click', () => { q.status = 'sent'; snapshot = null; $('#baBox').hidden = true; render(); });
+  const unsend = $('#btnUnsend');
+  if (unsend) unsend.addEventListener('click', () => { q.status = 'sorted'; render(); });
+  const redo = $('#btnRedo');
+  if (redo) redo.addEventListener('click', () => { q.draft = draftFor(q); render(); });
+  const copy = $('#btnCopy');
+  if (copy) copy.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(q.draft); $('#actNote').textContent = '文面をコピーしました。メールソフトに貼り付けてお使いください。'; }
+    catch { $('#actNote').textContent = 'この環境ではコピーできませんでした。文面を選んでコピーしてください。'; }
+  });
+}
+
+/* ===== 前後の比較 ===== */
+function showBA(before, head, note){
+  const a = stats();
+  const put = (k, w, n, better) => {
+    $('#ba' + k + 'Was').textContent = w + ' 件';
+    $('#ba' + k + 'Now').textContent = n + ' 件';
+    const d = n - w;
+    const el = $('#ba' + k + 'Delta');
+    el.textContent = d === 0 ? '変わらず' : (d > 0 ? '+' + d : String(d)) + ' 件';
+    el.style.visibility = (d === 0) ? 'hidden' : '';
+  };
+  put('Open', before.open, a.open);
+  put('Urg',  before.urg,  a.urg);
+  put('Est',  before.est,  a.est);
+  $('#baHead').textContent = head;
+  $('#baNote').textContent = note;
+  $('#baBox').hidden = false;
+}
+
+$('#btnTry').addEventListener('click', () => {
+  const before = stats();
+  const pending = Q.filter(q => q.status === 'new');
+  if (!pending.length) return;
+  const urgent = pending.filter(q => analyze(q).urgent);
+  const pool = urgent.length ? urgent : pending;
+  const pick = pool.slice().sort((a, b) => b.h - a.h)[0];
+  snapshot = { ids:[pick.id], before };
+  sortOne(pick);
+  selected = pick.id;
+  filter = 'all';
+  render();
+  showBA(before, '1 件を仕分けました（' + pick.id + '）',
+    urgent.length ? '急ぎの言葉があった依頼を先に処理しました。' : '長く待たせている依頼から処理しました。');
+  $('#detail').scrollIntoView({ behavior:'smooth', block:'start' });
+});
+
+$('#btnAll').addEventListener('click', () => {
+  const before = stats();
+  const pending = Q.filter(q => q.status === 'new');
+  if (!pending.length) return;
+  snapshot = { ids: pending.map(q => q.id), before };
+  pending.forEach(sortOne);
+  filter = 'all';
+  render();
+  showBA(before, '残り ' + pending.length + ' 件をまとめて仕分けました',
+    '工種・急ぎ度・概算の幅・下書きまで一度に出しました。');
+});
+
+$('#btnTryUndo').addEventListener('click', () => {
+  if (!snapshot) { $('#baBox').hidden = true; return; }
+  snapshot.ids.forEach(id => {
+    const q = Q.find(x => x.id === id);
+    if (q){ q.status = 'new'; q.cls = null; q.urgent = false; q.hits = []; q.excl = []; q.urgHits = []; q.neg = []; q.draft = ''; }
+  });
+  snapshot = null;
+  $('#baBox').hidden = true;
+  render();
+});
+
+$('#btnReset').addEventListener('click', reset);
+
+reset();
+</script>
+</body>
+</html>
