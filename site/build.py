@@ -106,6 +106,34 @@ def band_thumb(src):
     return src
 
 
+CARD_THUMB_WIDTH = 800  # カード（5 分類タイル・つくったもの・一覧）の表示は最大 362px なので、その 2 倍で足りる
+
+
+CARD_THUMB_SOURCES = {}  # 写しが要る元画像（make_card_thumbs.py がビルドを 1 回回して読む。値は使わない）
+
+
+def card_thumb(src):
+    """カード用の小さい写し（/assets/card/…）が最新ならそれを、無ければ元の画像を返す。
+    写しを作るのは site/tools/make_card_thumbs.py（Pillow が要る）。build.py は標準ライブラリだけで動く。"""
+    name = src.lstrip("/")
+    if not name.startswith("assets/"):
+        return src
+    CARD_THUMB_SOURCES[src] = None
+    thumb_name = name[len("assets/"):].replace("/", "-").rsplit(".", 1)[0] + ".jpg"
+    thumb = ROOT / "assets/card" / thumb_name
+    original = ROOT / name
+    if thumb.is_file() and original.is_file() and thumb.stat().st_mtime >= original.stat().st_mtime:
+        return "/assets/card/" + thumb_name
+    return src
+
+
+def card_visual_src(visual):
+    """画像ビジュアルの src をカード用の写しに差し替えた写像を返す（画像以外はそのまま）。"""
+    if visual.get("type", "image") != "image":
+        return visual
+    return dict(visual, src=card_thumb(visual["src"]))
+
+
 def image(visual, eager=False, priority=None):
     """priority=None なら eager と同じ（先読み画像は fetchpriority=high）。False で eager だけ付ける"""
     width, height = image_size(visual["src"])
@@ -354,7 +382,7 @@ def visual_markup(visual, compact=False):
         return mock(visual, compact)
     if visual["type"] == "video":
         if compact:
-            return device({"src": visual["poster"], "alt": visual["alt"], "frame": "phone"})
+            return device({"src": card_thumb(visual["poster"]), "alt": visual["alt"], "frame": "phone"})
         return video(visual)
     raise ValueError("Unknown visual type: " + visual["type"])
 
@@ -471,7 +499,7 @@ class Site:
                 else:
                     break
             return '<div class="card-icon-row">{}</div>'.format("".join(icons))
-        return visual_markup(first, True)
+        return visual_markup(card_visual_src(first), True)
 
     def section_heading(self, kicker, heading, lead=""):
         heading_html = "<br>".join(esc(line) for line in heading.split("\n"))
@@ -538,7 +566,7 @@ class Site:
         tiles = "".join(
             '<li class="reveal"><a class="tile" href="{}"><div class="tile-visual">{}<span class="tile-icon">{}</span></div>'
             '<div class="tile-body"><h3>{}</h3>{}</div></a></li>'.format(
-                esc(item["href"]), image(self.pick_visual(self.work_by_slug[item["image"]["work"]], item["image"])),
+                esc(item["href"]), image(card_visual_src(self.pick_visual(self.work_by_slug[item["image"]["work"]], item["image"]))),
                 icon(item["icon"]), soft_break(item["title"]), icon("arrow"))
             for item in entry["items"])
         return '<section id="entry" class="section section-alt"><div class="container">{}<ul class="tile-grid stagger-grid">{}</ul></div></section>'.format(
@@ -548,7 +576,7 @@ class Site:
         """作品の大サムネ 1 枚（題名＋種別札だけ）。表示上書きは featured_cards[slug]（title・visual・kind）"""
         work = self.work_by_slug[slug]
         opts = self.content.get("featured_cards", {}).get(slug, {})
-        visual = self.pick_visual(work, opts.get("visual"))
+        visual = card_visual_src(self.pick_visual(work, opts.get("visual")))
         frame = visual.get("frame")
         if visual.get("type") == "mock":
             markup = mock(visual, compact=True)

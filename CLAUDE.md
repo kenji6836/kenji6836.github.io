@@ -13,6 +13,8 @@ python3 site/build.py && python3 site/tests/check_site.py
 ```
 帯（トップと一覧の流れる画面）に画像を足したら `python3 site/tools/make_band_thumbs.py`（Pillow が要る）。
 帯は最大 320px でしか表示しないので、原寸のまま載せるとスマホの初回表示が重くなる。写しが古いと受入テストが落ちる。
+カード（5 分類タイル・つくったもの・作品一覧）の画像を足し替えたら `python3 site/tools/make_card_thumbs.py`。
+カードの表示は最大 362px なので、写し（/assets/card/、幅 800px）を使う。こちらも写しが古いと受入テストが落ちる。
 表示の確認（Node 24+・Chrome）: `node site/tools/cdp-shot.mjs <url> 390 out.png` ／ 横はみ出し: `node site/tools/cdp-eval.mjs <url> 390 844`。
 ローカルの表示確認はサーバが要る（`python3 -m http.server 8765`）。サーバを立てられない時は、絶対パスを相対に直した写しを一時ディレクトリに作り、`file://` を上の道具で撮る。
 

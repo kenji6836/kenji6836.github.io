@@ -208,6 +208,10 @@ r = subprocess.run([sys.executable, "site/tools/make_band_thumbs.py", "--check"]
 if r.returncode != 0: fail(f"band thumbs stale: {r.stdout.strip()[:300]} {r.stderr.strip()[:200]}")
 else: ok("band thumbs up to date")
 
+r = subprocess.run([sys.executable, "site/tools/make_card_thumbs.py", "--check"], capture_output=True, text=True)
+if r.returncode != 0: fail(f"card thumbs stale: {r.stdout.strip()[:300]} {r.stderr.strip()[:200]}")
+else: ok("card thumbs up to date")
+
 # 5. 既存サブページ不変（git 管理下のみ）
 r = subprocess.run(["git", "status", "--porcelain", "--", "blockwise", "apps", "mission-control", "baccarat", "app-ads.txt"], capture_output=True, text=True)
 if r.stdout.strip(): fail(f"protected paths modified: {r.stdout.strip()[:200]}")
