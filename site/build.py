@@ -619,6 +619,22 @@ class Site:
             '<p class="tagline">{}</p><dl class="stats">{}</dl><ul class="skill-list">{}</ul></div></div></section>'
         ).format(' aria-hidden="true"' if not person["photo"] else "", avatar, esc(person["name"]), esc(person["tagline"]), stats, skills)
 
+    def faq(self):
+        """お問い合わせの一歩手前: よくある質問を開閉式で。JS 無しで開ける details を使う"""
+        faq = self.content["faq"]
+        items = []
+        for index, item in enumerate(faq["items"]):
+            link = item.get("link")
+            link_html = '<p class="faq-link">{}</p>'.format(self.button(link["label"], link["href"])) if link else ""
+            items.append(
+                '<li class="reveal"><details class="faq-item"{}><summary>'
+                '<span class="faq-q">{}</span>{}</summary>'
+                '<div class="faq-body"><p>{}</p>{}</div></details></li>'.format(
+                    " open" if index == 0 else "", esc(item["q"]),
+                    icon("down", "faq-mark"), esc(item["a"]), link_html))
+        return '<section id="faq" class="section"><div class="container">{}<ul class="faq-list stagger-grid">{}</ul></div></section>'.format(
+            self.section_heading(faq["kicker"], faq["heading"], faq.get("lead", "")), "".join(items))
+
     def contact(self):
         contact = self.content["contact"]
         fields = []
@@ -660,7 +676,7 @@ class Site:
 
     def home(self):
         return self.page("/", self.site["title"], self.site["description"],
-                         self.hero() + self.entry() + self.featured() + self.services() + self.pricing() + self.process() + self.about() + self.contact())
+                         self.hero() + self.entry() + self.featured() + self.services() + self.pricing() + self.process() + self.about() + self.faq() + self.contact())
 
     def breadcrumb(self, work=None):
         crumbs = '<li><a href="/">トップ</a></li>'

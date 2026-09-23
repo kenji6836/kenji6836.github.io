@@ -536,7 +536,6 @@ main:focus { outline: none; }
 .feed-profile-text p { margin: 6px 0 0; font-size: 12px; color: var(--text-2); }
 .feed-stats { display: flex; gap: 18px; margin-top: 6px; font-size: 12px; color: var(--text-3); }
 .feed-stats strong { margin-right: 4px; font-size: 13px; color: var(--text); font-variant-numeric: tabular-nums; }
-.mock-feed .mock-ui { max-width: 720px; margin-inline: auto; }
 .feed-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
 .feed-post img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
 .feed-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 16px; font-size: 12px; color: var(--text-2); }
@@ -576,7 +575,7 @@ main:focus { outline: none; }
   .kpi strong { font-size: 20px; }
 }
 @media (max-width: 639px) {
-  .mock-feed .mock-ui, .mock-adset .mock-ui, .mock-storyboard .mock-ui { padding: 14px; }
+  .mock-adset .mock-ui, .mock-storyboard .mock-ui { padding: 14px; }
   .storyboard { grid-template-columns: 1fr; gap: 14px; }
   .sb-frame { display: grid; grid-template-columns: 44% minmax(0, 1fr); grid-template-rows: auto 1fr; column-gap: 14px; align-items: start; }
   .sb-frame img { grid-row: 1 / 3; }
@@ -744,4 +743,23 @@ main:focus { outline: none; }
   .flowcase-grid { grid-template-columns: 1fr; gap: 12px; }
   .flowcase > a { padding: 16px; gap: 12px; }
   .flowcase-arrow { display: none; }
+}
+
+/* ---- よくある質問: お問い合わせの一歩手前。開閉は details（JS 不要） ---- */
+.faq-list { display: grid; gap: 12px; max-width: 52em; margin: 0; padding: 0; list-style: none; }
+.faq-item { border: 1px solid var(--line); border-radius: 16px; background: var(--surface); box-shadow: var(--shadow); }
+.faq-item summary { display: flex; align-items: flex-start; gap: 14px; padding: 18px 20px; font-size: 15px; font-weight: 700; line-height: 1.65; cursor: pointer; list-style: none; }
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 16px; }
+.faq-q { flex: 1; min-width: 0; word-break: keep-all; overflow-wrap: anywhere; }
+.faq-mark { flex-shrink: 0; width: 19px; height: 19px; margin-top: 4px; color: var(--brand); transition: transform .2s; }
+.faq-item[open] .faq-mark { transform: rotate(180deg); }
+.faq-body { padding: 0 20px 20px; color: var(--text-2); font-size: 14px; line-height: 1.9; }
+.faq-body p { margin: 0; }
+.faq-link { margin-top: 14px; }
+@media (hover: hover) { .faq-item:hover { border-color: var(--brand-line); } }
+@media (max-width: 639px) {
+  .faq-item summary { gap: 12px; padding: 16px; font-size: 14px; }
+  .faq-body { padding: 0 16px 16px; font-size: 13.5px; }
+  .faq-link .button { width: 100%; justify-content: center; }
 }

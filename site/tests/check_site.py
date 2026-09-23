@@ -186,7 +186,8 @@ js = open("assets/site.js", encoding="utf-8").read() if os.path.exists("assets/s
 if not css: fail("assets/site.css missing")
 for need in ("prefers-reduced-motion", "prefers-color-scheme: dark", "focus-visible"):
     if need not in css: fail(f"site.css lacks {need}")
-if len(css.encode()) > 60_000: fail("site.css > 60KB")
+# 上限は「際限なく増やさない」ための目安。節ごとに 1KB 前後増えるため 2026-09-23 に 60KB→64KB（配信時は gzip で 1/5 程度）
+if len(css.encode()) > 64_000: fail("site.css > 64KB")
 if len(js.encode()) > 12_000: fail("site.js > 12KB")
 for need in ("prefers-reduced-motion", ".device-video", "IntersectionObserver"):
     if need not in js: fail(f"site.js lacks {need}")
