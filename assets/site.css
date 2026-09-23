@@ -177,6 +177,11 @@ main:focus { outline: none; }
 .label-public, .status-pill { color: var(--ok); background: var(--ok-soft); }
 .label-public::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--ok); }
 .label-self { color: var(--brand); background: var(--brand-soft); }
+.card-labels { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; min-width: 0; }
+.label-try { gap: 5px; color: var(--text-2); border: 1px solid var(--line); background: var(--bg-alt); }
+.label-try .icon { width: 14px; height: 14px; }
+.chip-try { gap: 6px; }
+.chip-try .icon { width: 15px; height: 15px; }
 .card-arrow { display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 50%; color: var(--brand); }
 .card-arrow .icon { width: 16px; height: 16px; }
 /* 一覧カード: 扱うもの（アイコン列）と先頭アイコンのバッジ。動きは hover/reveal/絞り込みの 3 つだけ（reduced-motion では全て止まる） */

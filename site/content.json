@@ -455,7 +455,8 @@
       "links": [
         {
           "label": "触って試せる見本を開く",
-          "url": "/demos/gas-sales-report/"
+          "url": "/demos/gas-sales-report/",
+          "try": true
         },
         {
           "label": "公開している仕組みを見る",
@@ -644,7 +645,8 @@
       "links": [
         {
           "label": "デモを開く（架空データ）",
-          "url": "/demo/invoice/"
+          "url": "/demo/invoice/",
+          "try": true
         }
       ],
       "visuals": [
@@ -705,7 +707,8 @@
       "links": [
         {
           "label": "デモを開く（架空データ）",
-          "url": "/demo/inquiry/"
+          "url": "/demo/inquiry/",
+          "try": true
         },
         {
           "label": "GitHub で見る",
@@ -794,11 +797,13 @@
       "links": [
         {
           "label": "1 分で試せる見本（架空データ）",
-          "url": "/demo/mitsumori/"
+          "url": "/demo/mitsumori/",
+          "try": true
         },
         {
           "label": "アプリの実物を開く",
-          "url": "/app/mitsumori/"
+          "url": "/app/mitsumori/",
+          "try": true
         }
       ],
       "visuals": [
@@ -866,7 +871,8 @@
       "links": [
         {
           "label": "1 分で試せる見本（架空データ）",
-          "url": "/demo/yoyaku/"
+          "url": "/demo/yoyaku/",
+          "try": true
         }
       ],
       "visuals": [
@@ -1195,7 +1201,8 @@
       "links": [
         {
           "label": "事例ページ＋計算ツール",
-          "url": "/cases/m0-gate/"
+          "url": "/cases/m0-gate/",
+          "try": true
         }
       ],
       "visuals": [
@@ -1345,7 +1352,8 @@
         },
         {
           "label": "デモを開く（架空データ）",
-          "url": "/app/beauty-salon/"
+          "url": "/app/beauty-salon/",
+          "try": true
         }
       ],
       "visuals": [
@@ -1522,7 +1530,8 @@
       "links": [
         {
           "label": "作品を見る",
-          "url": "/viz/"
+          "url": "/viz/",
+          "try": true
         }
       ],
       "visuals": [
@@ -1639,7 +1648,8 @@
       "links": [
         {
           "label": "毎日詰将棋を見る",
-          "url": "/tsume/"
+          "url": "/tsume/",
+          "try": true
         }
       ],
       "visuals": [

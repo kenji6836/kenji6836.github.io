@@ -473,18 +473,36 @@ class Site:
             result.append({"icon": item["icon"], "label": item.get("label") or self.tool_legend[item["icon"]]})
         return result
 
+    TRY_LABEL = "触って試せる"
+
+    def try_link(self, work):
+        """登録不要でその場で触れる見本・実物への入口。無ければ None。
+        「触れる」かは URL から推せない（同じ /demos/ でも、眺めるだけの物と操作できる物がある）ので、
+        content.json のリンクに "try": true を書いて指定する"""
+        for link in work.get("links", []):
+            if link.get("try"):
+                return link
+        return None
+
     def card(self, work):
         tools = self.tools(work)
         tool_items = "".join('<li><span class="tool-icon">{}</span><span>{}</span></li>'.format(
             icon(tool["icon"]), soft_break(tool["label"])) for tool in tools)
+        cats = list(work["categories"])
+        try_pill = ""
+        if self.try_link(work):
+            cats.append("try")  # 一覧の絞り込み用の擬似分類（filters の data-cat="try" と対）
+            try_pill = '<span class="work-label label-try">{}{}</span>'.format(icon("tap"), esc(self.TRY_LABEL))
         return (
             '<article class="card reveal" data-cats="{}"><a class="card-link" href="/works/{}/">'
             '<div class="card-visual">{}<span class="card-badge" aria-hidden="true">{}</span></div>'
             '<div class="card-body"><p class="work-kicker">{}</p>'
-            '<h3>{}</h3><ul class="card-tools" aria-label="扱うもの">{}</ul><div class="card-categories">{}</div><div class="card-bottom">{}'
+            '<h3>{}</h3><ul class="card-tools" aria-label="扱うもの">{}</ul><div class="card-categories">{}</div><div class="card-bottom">'
+            '<div class="card-labels">{}{}</div>'
             '<span class="card-arrow">{}</span></div></div></a></article>'
-        ).format(esc(" ".join(work["categories"])), esc(work["slug"]), self.card_visual(work), icon(tools[0]["icon"]),
-                 esc(work["kicker"]), esc(work["title"]), tool_items, self.category_chips(work), self.label(work), icon("arrow"))
+        ).format(esc(" ".join(cats)), esc(work["slug"]), self.card_visual(work), icon(tools[0]["icon"]),
+                 esc(work["kicker"]), esc(work["title"]), tool_items, self.category_chips(work),
+                 self.label(work), try_pill, icon("arrow"))
 
     def card_visual(self, work):
         """カード用: 先頭が icon なら連続する icon（最大 3）を 1 行で見せる。それ以外は先頭ビジュアル 1 つ。
@@ -761,6 +779,11 @@ class Site:
 
     def listing(self):
         filters = '<button class="chip is-selected" type="button" data-cat="all" aria-pressed="true">すべて ({})</button>'.format(len(self.works))
+        # 登録不要でその場で触れる見本・実物を持つ作品だけを出す絞り込み（一番の証拠なので分類より前に置く）
+        try_count = sum(1 for work in self.works if self.try_link(work))
+        if try_count:
+            filters += '<button class="chip chip-try" type="button" data-cat="try" aria-pressed="false">{}{} ({})</button>'.format(
+                icon("tap"), esc(self.TRY_LABEL), try_count)
         filters += "".join('<button class="chip" type="button" data-cat="{}" aria-pressed="false">{} ({})</button>'.format(
             esc(cat["id"]), esc(cat["name"]), self.counts[cat["id"]]) for cat in self.categories)
         heading = '{}<header class="page-heading"><h1>制作実績</h1><p>{}</p></header>'.format(self.breadcrumb(), esc(self.site["footer_note"]))
