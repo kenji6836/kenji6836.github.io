@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>年齢計算・年齢早見表（和暦・干支・入学年つき）｜すぐツール</title>
+<meta name="description" content="生年月日を入れるだけで満年齢・数え年・和暦・干支・次の誕生日までの日数・小学校から大学までの入学年と卒業年が分かる無料ツール。今年の年齢早見表つき。">
+<link rel="canonical" href="https://kenji6836.github.io/free/nenrei/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="年齢計算・年齢早見表｜すぐツール">
+<meta property="og:description" content="満年齢・和暦・干支・入学年と卒業年がすぐ分かる。">
+<meta property="og:url" content="https://kenji6836.github.io/free/nenrei/">
+<link rel="stylesheet" href="../common.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"年齢計算・年齢早見表","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"url":"https://kenji6836.github.io/free/nenrei/"}</script>
+<style>
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+  th, td { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: left; }
+  th { position: sticky; top: 0; background: var(--surface); }
+  tr.hit td { background: var(--brand-soft); font-weight: 700; }
+  .scroll { max-height: 420px; overflow: auto; }
+  .school td:last-child { text-align: right; }
+</style>
+</head>
+<body>
+<header class="bar"><div class="wrap"><a class="logo" href="../">すぐ<span>ツール</span></a><nav><a href="../#tools">ツール</a><a href="../#games">ゲーム</a></nav></div></header>
+<main class="wrap">
+  <h1>年齢計算・年齢早見表</h1>
+  <p class="lead">生年月日を入れると、満年齢・和暦・干支・入学と卒業の年がまとめて分かります。</p>
+  <div class="card">
+    <div class="grid2">
+      <div><label for="birth">生年月日</label><input type="date" id="birth" min="1900-01-01"></div>
+      <div><label for="base">基準日（ふつうは今日）</label><input type="date" id="base"></div>
+    </div>
+    <div class="stats" aria-live="polite">
+      <div class="stat"><b id="age">—</b><small>満年齢</small></div>
+      <div class="stat"><b id="kazoe">—</b><small>数え年</small></div>
+      <div class="stat"><b id="wareki">—</b><small>生まれ年（和暦）</small></div>
+      <div class="stat"><b id="eto">—</b><small>干支</small></div>
+      <div class="stat"><b id="next">—</b><small>次の誕生日まで</small></div>
+      <div class="stat"><b id="days">—</b><small>生まれてからの日数</small></div>
+    </div>
+    <table class="school" id="school" style="margin-top:14px" hidden>
+      <thead><tr><th>学校</th><th>入学</th><th>卒業</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div class="ad" aria-hidden="true"></div>
+
+  <h2 id="hyo-title">年齢早見表</h2>
+  <p class="lead" style="margin:0 0 8px">今年の誕生日を迎えたあとの年齢です。誕生日の前なら 1 を引いてください。</p>
+  <div class="card scroll"><table id="hyo"><thead><tr><th>生まれ年</th><th>和暦</th><th>干支</th><th>年齢</th></tr></thead><tbody></tbody></table></div>
+
+  <h2>よくある質問</h2>
+  <dl class="faq">
+    <dt>満年齢と数え年の違いは？</dt>
+    <dd>満年齢は生まれたときを 0 歳とし、誕生日ごとに 1 つ増えます。数え年は生まれたときを 1 歳とし、元日ごとに 1 つ増えます。</dd>
+    <dt>4 月 1 日生まれはなぜ学年が 1 つ上？</dt>
+    <dd>法律上、年齢は誕生日の前日に 1 つ増えるためです。4 月 1 日生まれは 3 月 31 日に歳をとるので、4 月 2 日以降の生まれより 1 つ上の学年になります。この計算もそれに合わせています。</dd>
+    <dt>元号が変わった年はどう表示されますか？</dt>
+    <dd>生年月日を入れた場合は、その日の元号で表示します（例: 2019 年 4 月 30 日は平成 31 年、5 月 1 日は令和元年）。早見表では両方を並べています。</dd>
+  </dl>
+
+  <h2>ほかのツールとゲーム</h2>
+  <div class="more" data-more="nenrei"></div>
+</main>
+<footer><div class="wrap">すぐツール — 無料で使えるツールとゲーム ｜ <a href="../">一覧へ</a></div></footer>
+<script src="../common.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const ERAS = [ // 元号の始まった日
+  ["令和", 2019, 5, 1], ["平成", 1989, 1, 8], ["昭和", 1926, 12, 25], ["大正", 1912, 7, 30], ["明治", 1868, 1, 25],
+];
+const ETO = ["子（ね）", "丑（うし）", "寅（とら）", "卯（う）", "辰（たつ）", "巳（み）", "午（うま）", "未（ひつじ）", "申（さる）", "酉（とり）", "戌（いぬ）", "亥（い）"];
+const eto = y => ETO[((y - 4) % 12 + 12) % 12];
+const nen = n => n === 1 ? "元年" : n + "年";
+function warekiOf(y, m, d) {
+  for (const [name, ey, em, ed] of ERAS) {
+    if (y > ey || (y === ey && (m > em || (m === em && d >= ed)))) return name + nen(y - ey + 1);
+  }
+  return "";
+}
+function warekiYear(y) { // その年に使われた元号（改元の年は 2 つ）
+  const list = [];
+  for (const [name, ey] of ERAS) {
+    if (y >= ey) { list.push(name + nen(y - ey + 1)); if (y !== ey) break; }
+  }
+  return list.reverse().join("・");
+}
+const pad = n => String(n).padStart(2, "0");
+const iso = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const parse = s => { const [y, m, d] = s.split("-").map(Number); return { y, m, d, date: new Date(y, m - 1, d) }; };
+const DAY = 86400000;
+
+const today = new Date();
+$("base").value = iso(today);
+try { const saved = localStorage.getItem("free-nenrei"); if (saved) $("birth").value = saved; } catch (e) {}
+
+function update() {
+  if (!$("birth").value || !$("base").value) { renderTable(); return; }
+  const b = parse($("birth").value), t = parse($("base").value);
+  if (b.date > t.date) { ["age","kazoe","wareki","eto","next","days"].forEach(k => $(k).textContent = "—"); $("school").hidden = true; return; }
+  let age = t.y - b.y;
+  if (t.m < b.m || (t.m === b.m && t.d < b.d)) age--;
+  $("age").textContent = age + "歳";
+  $("kazoe").textContent = (t.y - b.y + 1) + "歳";
+  $("wareki").textContent = warekiOf(b.y, b.m, b.d);
+  $("eto").textContent = eto(b.y);
+  let nb = new Date(t.y, b.m - 1, b.d);
+  if (nb.getMonth() !== b.m - 1) nb = new Date(t.y, 2, 1); // 2/29 生まれはうるう年以外 3/1 扱い
+  if (nb < t.date) { nb = new Date(t.y + 1, b.m - 1, b.d); if (nb.getMonth() !== b.m - 1) nb = new Date(t.y + 1, 2, 1); }
+  const left = Math.round((nb - t.date) / DAY);
+  $("next").textContent = left === 0 ? "今日！🎉" : "あと" + left + "日";
+  $("days").textContent = Math.round((t.date - b.date) / DAY).toLocaleString() + "日";
+  // 学年: 4/2〜翌 4/1 生まれが同じ学年
+  const fy = (b.m > 4 || (b.m === 4 && b.d >= 2)) ? b.y : b.y - 1;
+  const rows = [["小学校", 7, 13], ["中学校", 13, 16], ["高校", 16, 19], ["大学（4年制）", 19, 23]];
+  $("school").querySelector("tbody").innerHTML = rows.map(([n, a, g]) =>
+    `<tr><td>${n}</td><td>${fy + a}年4月（${warekiOf(fy + a, 4, 1)}）</td><td>${fy + g}年3月</td></tr>`).join("");
+  $("school").hidden = false;
+  try { localStorage.setItem("free-nenrei", $("birth").value); } catch (e) {}
+  renderTable(b.y);
+}
+
+function renderTable(hit) {
+  const y0 = parse($("base").value || iso(today)).y;
+  $("hyo-title").textContent = `年齢早見表（${y0}年・${warekiYear(y0)}）`;
+  let html = "";
+  for (let y = y0; y >= 1926; y--) {
+    html += `<tr${y === hit ? ' class="hit"' : ""}><td>${y}年</td><td>${warekiYear(y)}</td><td>${eto(y)}</td><td>${y0 - y}歳</td></tr>`;
+  }
+  $("hyo").querySelector("tbody").innerHTML = html;
+}
+
+$("birth").addEventListener("input", update);
+$("base").addEventListener("input", update);
+update();
+</script>
+</body>
+</html>

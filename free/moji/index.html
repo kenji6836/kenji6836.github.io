@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>文字数カウント（空白・改行なしも同時に数える）｜すぐツール</title>
+<meta name="description" content="貼り付けるだけで文字数を数える無料ツール。空白・改行を除いた数、行数、原稿用紙の枚数、読む時間まで同時に表示。入力した文章はどこにも送信しません。">
+<link rel="canonical" href="https://kenji6836.github.io/free/moji/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="文字数カウント｜すぐツール">
+<meta property="og:description" content="貼り付けるだけ。空白・改行なし・行数・原稿用紙の枚数も同時に。">
+<meta property="og:url" content="https://kenji6836.github.io/free/moji/">
+<link rel="stylesheet" href="../common.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"文字数カウント","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"url":"https://kenji6836.github.io/free/moji/"}</script>
+</head>
+<body>
+<header class="bar"><div class="wrap"><a class="logo" href="../">すぐ<span>ツール</span></a><nav><a href="../#tools">ツール</a><a href="../#games">ゲーム</a></nav></div></header>
+<main class="wrap">
+  <h1>文字数カウント</h1>
+  <p class="lead">文章を貼り付けると、その場で数えます。入力した文章はこの端末の中だけで処理し、どこにも送りません。</p>
+  <div class="card">
+    <label for="t">文章</label>
+    <textarea id="t" rows="9" placeholder="ここに文章を貼り付けるか入力してください"></textarea>
+    <div class="stats" aria-live="polite">
+      <div class="stat"><b id="all">0</b><small>文字数（すべて）</small></div>
+      <div class="stat"><b id="nosp">0</b><small>空白・改行を除く</small></div>
+      <div class="stat"><b id="lines">0</b><small>行数</small></div>
+      <div class="stat"><b id="paper">0</b><small>原稿用紙（400字）枚</small></div>
+      <div class="stat"><b id="bytes">0</b><small>バイト数（UTF-8）</small></div>
+      <div class="stat"><b id="read">0秒</b><small>読む時間の目安</small></div>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <button class="sub" id="copy" type="button">文章をコピー</button>
+      <button class="sub" id="clear" type="button">消す</button>
+      <span class="copied" id="msg" role="status"></span>
+    </div>
+  </div>
+  <div class="ad" aria-hidden="true"></div>
+
+  <h2>数え方</h2>
+  <dl class="faq">
+    <dt>絵文字や「𠮷」は 1 文字ですか？</dt>
+    <dd>はい。見た目の 1 文字を 1 と数えます（家族の絵文字のような組み合わせ絵文字も 1 文字）。</dd>
+    <dt>原稿用紙の枚数はどう出していますか？</dt>
+    <dd>空白・改行を除いた文字数を 400 で割り、切り上げています。改行による空きマスは含まない目安です。</dd>
+    <dt>読む時間は？</dt>
+    <dd>日本語の平均的な黙読の速さ（1 分に約 500 字）で計算した目安です。</dd>
+  </dl>
+
+  <h2>ほかのツールとゲーム</h2>
+  <div class="more" data-more="moji"></div>
+</main>
+<footer><div class="wrap">すぐツール — 無料で使えるツールとゲーム ｜ <a href="../">一覧へ</a></div></footer>
+<script src="../common.js"></script>
+<script>
+const t = document.getElementById("t");
+const seg = "Segmenter" in Intl ? new Intl.Segmenter("ja", { granularity: "grapheme" }) : null;
+const count = s => seg ? [...seg.segment(s)].length : [...s].length;
+const $ = id => document.getElementById(id);
+function update() {
+  const s = t.value;
+  const all = count(s.replace(/\r\n/g, "\n"));
+  const nosp = count(s.replace(/\s/g, ""));
+  $("all").textContent = all.toLocaleString();
+  $("nosp").textContent = nosp.toLocaleString();
+  $("lines").textContent = s ? s.split(/\r?\n/).length : 0;
+  $("paper").textContent = Math.ceil(nosp / 400);
+  $("bytes").textContent = new TextEncoder().encode(s).length.toLocaleString();
+  const sec = Math.round(nosp / 500 * 60);
+  $("read").textContent = sec < 60 ? sec + "秒" : Math.floor(sec / 60) + "分" + (sec % 60 ? sec % 60 + "秒" : "");
+  try { localStorage.setItem("free-moji", s); } catch (e) {}
+}
+t.addEventListener("input", update);
+try { t.value = localStorage.getItem("free-moji") || ""; } catch (e) {}
+update();
+$("copy").onclick = () => navigator.clipboard.writeText(t.value).then(() => flash("コピーしました"));
+$("clear").onclick = () => { t.value = ""; update(); t.focus(); };
+function flash(m) { $("msg").textContent = m; setTimeout(() => $("msg").textContent = "", 1800); }
+</script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+/* /free/ 共通: 無料ツールとゲーム。外部読み込みなし・1 ページ完結 */
+:root {
+  color-scheme: light dark;
+  --bg: #f6f8fb;
+  --surface: #ffffff;
+  --text: #14171f;
+  --text-2: #4a5361;
+  --line: #e5e9f0;
+  --brand: #2457e6;
+  --brand-soft: #e9efff;
+  --game: #d9480f;
+  --game-soft: #fff0e6;
+  --ok: #1a7f4b;
+  --shadow: 0 1px 2px rgba(16, 24, 40, .05), 0 8px 24px rgba(16, 24, 40, .06);
+  --radius: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1218;
+    --surface: #181c24;
+    --text: #eef1f6;
+    --text-2: #a9b2c0;
+    --line: #2a303b;
+    --brand: #7b9dff;
+    --brand-soft: #1c2640;
+    --game: #ff8a50;
+    --game-soft: #33200f;
+    --ok: #4fc98a;
+    --shadow: none;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.7 system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif;
+}
+a { color: var(--brand); }
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+header.bar { background: var(--surface); border-bottom: 1px solid var(--line); }
+header.bar .wrap { display: flex; align-items: center; justify-content: space-between; height: 52px; }
+.logo { font-weight: 800; color: var(--text); text-decoration: none; letter-spacing: .02em; }
+.logo span { color: var(--brand); }
+header.bar nav a { font-size: 14px; color: var(--text-2); text-decoration: none; margin-left: 14px; }
+main { padding: 20px 0 40px; }
+h1 { font-size: clamp(22px, 5vw, 30px); line-height: 1.35; margin: 8px 0 4px; }
+.lead { color: var(--text-2); margin: 0 0 18px; }
+h2 { font-size: 19px; margin: 32px 0 8px; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+}
+label { font-weight: 600; font-size: 14px; }
+textarea, input, select {
+  font: inherit;
+  color: inherit;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  width: 100%;
+}
+textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); outline-offset: 1px; }
+button {
+  font: inherit;
+  font-weight: 700;
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 16px;
+  background: var(--brand);
+  color: #fff;
+  cursor: pointer;
+}
+button.sub { background: var(--brand-soft); color: var(--brand); }
+button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-top: 12px; }
+.stat { background: var(--bg); border-radius: 10px; padding: 10px 12px; }
+.stat b { display: block; font-size: 24px; font-variant-numeric: tabular-nums; }
+.stat small { color: var(--text-2); }
+.faq dt { font-weight: 700; margin-top: 12px; }
+.faq dd { margin: 2px 0 0; color: var(--text-2); }
+.more { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+.tile {
+  display: block;
+  text-decoration: none;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px;
+  box-shadow: var(--shadow);
+}
+.tile:hover { border-color: var(--brand); }
+.tile .ico { font-size: 28px; line-height: 1; }
+.tile b { display: block; margin-top: 8px; }
+.tile small { color: var(--text-2); display: block; line-height: 1.5; }
+.tag { display: inline-block; font-size: 12px; font-weight: 700; border-radius: 99px; padding: 1px 8px; margin-top: 6px; background: var(--brand-soft); color: var(--brand); }
+.tag.game { background: var(--game-soft); color: var(--game); }
+.ad { display: none; margin: 20px 0; min-height: 100px; } /* 広告を入れるまで出さない */
+footer { border-top: 1px solid var(--line); color: var(--text-2); font-size: 13px; padding: 20px 0 32px; }
+footer a { color: var(--text-2); }
+.copied { color: var(--ok); font-size: 14px; font-weight: 700; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }

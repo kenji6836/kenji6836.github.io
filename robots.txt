@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /mission-control/
+Disallow: /drafts/
+
+Sitemap: https://kenji6836.github.io/sitemap.xml
+Sitemap: https://kenji6836.github.io/free/sitemap.xml
