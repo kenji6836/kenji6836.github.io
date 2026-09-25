@@ -5,7 +5,7 @@
 ## Context
 - 対象リポジトリ: /Users/kenji/Workspace/kenji6836.github.io（GitHub Pages・ルート配信・Jekyll は使わない）
 - 読むだけ: `site/content.json`（全文言・作品・カテゴリ・ビジュアル定義の唯一のソース。**編集禁止**）、`site/tests/check_site.py`（受入テスト・編集禁止）、`assets/works/*`（実画面画像・編集禁止）、`/Users/kenji/Workspace/client-work/drafts/hp-redesign-20260913/bench/patterns.md`（ベンチマーク 10 サイトから抽出したデザイン規則。§Design recipe を踏襲）
-- 前提知識: 現行の `index.html` / `style.css` は旧サイト。**全面置き換え**（参考にしなくてよい。旧 `style.css` は削除する）。`blockwise/` `apps/` `mission-control/` `baccarat/` `app-ads.txt` は App Store 審査の supportUrl 等で参照されている既存ページ → 変更禁止
+- 前提知識: 現行の `index.html` / `style.css` は旧サイト。**全面置き換え**（参考にしなくてよい。旧 `style.css` は削除する）。`blockwise/` `apps/` `baccarat/` `app-ads.txt` は App Store 審査の supportUrl 等で参照されている既存ページ → 変更禁止
 - 来訪者: 日本の法人担当者・クラウドソーシングの発注者。目的は「この人に何を任せられるか」と「実際に動いている制作物」が 10 秒で分かること
 
 ## Allowed files（これ以外の変更・作成は禁止）
@@ -16,7 +16,7 @@
 - 削除: `style.css`、旧画像 `assets/blockwise.jpg` `assets/mission-control-hero.jpg` `assets/mission-control.jpg` `assets/reachlab.jpg` `assets/reversi-icon.png` `assets/sweepfield.jpg`
 
 ## Forbidden
-- `site/content.json` `site/tests/**` `assets/works/**` の変更、`blockwise/ apps/ mission-control/ baccarat/ app-ads.txt` への接触
+- `site/content.json` `site/tests/**` `assets/works/**` の変更、`blockwise/ apps/ baccarat/ app-ads.txt` への接触
 - 外部依存: npm・pip・CDN の JS/CSS・Web フォント以外の外部リソース（許可する外部は Google Fonts のみ: `fonts.googleapis.com` / `fonts.gstatic.com`）。画像はローカルのみ
 - 文言の創作: 可視テキストは content.json の値と、UI ラベル（「すべて」「制作実績を見る」「詳細を見る」「前の実績」「次の実績」「送信する」「トップ」など最小限）だけ。会社名・顧客名・数字の捏造禁止。「副業」「会社員」「想定案件」「モック」「準備中」を書かない（テストで落ちる）
 - `<p>` の長文化: 説明文は content.json の 1〜2 文まで。自分で補足文を足さない

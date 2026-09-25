@@ -1,8 +1,8 @@
 {
   "site": {
     "name": "Kenji Ido Portfolio",
-    "title": "Kenji Ido — iOS・Web・業務自動化の制作実績",
-    "description": "iOS アプリ・Web ツール・業務自動化を、企画から公開まで一人で制作。App Store 公開アプリ 4 本、公開 Web ツール、GitHub 公開デモなどの制作実績と、お問い合わせフォーム。",
+    "title": "Kenji Ido — ホームページ・iOS アプリ・動画の制作実績",
+    "description": "お店のホームページ・iOS アプリ・ショート動画を、企画から公開まで一人で制作。App Store 公開アプリ 4 本などの制作実績と、お問い合わせフォーム。",
     "url": "https://kenji6836.github.io/",
     "lang": "ja",
     "brand_color": "#2457e6",
@@ -31,9 +31,9 @@
     "footer_note": "掲載している制作物はすべて本人が企画・設計・実装・公開したものです。"
   },
   "hero": {
-    "catch": "請求・集計・返信。\nその手作業、自動化します。",
-    "catch_accent": "自動化します。",
-    "tagline": "ホームページ・スマホアプリの制作も。\n企画から公開まで、一人で。",
+    "catch": "お店のホームページも、\nアプリも、動画も。",
+    "catch_accent": "アプリも、動画も。",
+    "tagline": "美容院・整体院のホームページ、iOS アプリ、ショート動画。\n企画から公開まで、一人で。",
     "cta": {
       "label": "相談する（無料）",
       "href": "/#contact"
@@ -1430,7 +1430,7 @@
     "name_is_placeholder": false,
     "photo": "/assets/profile.jpg",
     "initial": "K",
-    "tagline": "iOS・Web・自動化を、企画から公開まで一人で。",
+    "tagline": "ホームページ・iOS アプリ・動画を、企画から公開まで一人で。",
     "facts": [
       "実務経験 5 年（2021 年〜）",
       "App Store 公開アプリ 4 本",
